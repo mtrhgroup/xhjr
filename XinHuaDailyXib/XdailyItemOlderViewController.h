@@ -1,0 +1,23 @@
+//
+//  XdailyItemOlderViewControllerViewController.h
+//  XinHuaNewsIOS
+//
+//  Created by apple on 12-6-15.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "NewsChannel.h"
+@interface XdailyItemOlderViewController : UIViewController<UIWebViewDelegate>
+@property (retain, nonatomic) UIWebView *webView;
+@property (retain,nonatomic)UIView *waitingView;
+@property (nonatomic,retain)UIView *emptyinfo_view;
+@property (retain,nonatomic)UIActivityIndicatorView *indicator;
+
+@property (retain,nonatomic)NSString *url;
+@property (retain,nonatomic)NSString *outURL;
+@property (retain,nonatomic)NSString *type;
+@property (retain,nonatomic)NSString *channel_title;
+@property (retain,nonatomic)NSString *channel_id;
+@property(retain,nonatomic)NewsChannel *channel;
+@end

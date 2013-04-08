@@ -1,0 +1,75 @@
+//
+//  XinHuaViewController.h
+//  XinHuaDailyXib
+//
+//  Created by zhang jun on 12-5-19.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+#import "FavorBoxViewController.h"
+#import "RegisterViewController.h"
+#import "XDAboutViewController.h"
+#import "ASIHTTPRequest.h"
+#import "NewsDownLoadZipWorkTask.h"
+#import "SubscribeViewController.h"
+#import "MyCell.h"
+#import "CommonMethod.h"
+#import "ExpressMarquee.h"
+#import "EGORefreshTableHeaderView.h"
+@interface XinHuaViewController : UIViewController<EGORefreshTableHeaderDelegate,UITableViewDelegate,UITableViewDataSource,NSFetchedResultsControllerDelegate,NewsDownloadFileFinishedCallBack,NewsUpdateView>
+{
+    
+    UINavigationBar* bar;
+    UIScrollView* scrollview;
+    UIPageControl *pagecontrol;
+    NSMutableArray* picArr;
+    UITableView* table;
+    NSMutableArray* channel_list;
+    UIView* tools_view;
+    UILabel* picTitleLabel;
+}
+
+@property (nonatomic,retain) UIPageControl* pagecontrol;
+@property (nonatomic,retain) UIScrollView* scrollview;
+@property (nonatomic,retain) UITableView* table;
+@property (retain, nonatomic) NSMutableArray *channel_list;
+@property (retain,nonatomic) UIView* tools_view;
+
+@property (retain, nonatomic) NSMutableArray *pictureviews;
+@property (retain,nonatomic) NSMutableArray *picturenews_array;
+@property (nonatomic,retain) UILabel* picTitleLabel;
+@property(retain,nonatomic)UIButton *toVipBtn;
+@property  int pic_index;
+@property(nonatomic,retain)EGORefreshTableHeaderView *refreshHeaderView;
+@property(nonatomic,retain)NewsDownLoadZipWorkTask         *downloadTasks;
+@property (nonatomic,retain)ExpressMarquee *expressMarquee;
+
+//弹出注册页面
+-(void) showRegisterController:(id) sender;
+
+//弹出收藏页面
+-(void) showFavorController:(id) sender;
+
+//关于页面
+-(void) showAbout:(id)sender;
+
+//pagecontrol页面改变
+-(void)changePage:(id)sender;
+
+//从数据库读取数据
+-(void)getDataFromDB;
+
+//从网络读取数据
+-(void)GetdatafromWebToDb;
+
+//通过栏目id获取数据
+-(void)GetXdailysFromWebToDb: (NSString *)channel_id;
+
+-(void)makeToolPannel;
+
+-(void)menu;
+-(void)update;
+-(void)updateWithWeb;
+@end

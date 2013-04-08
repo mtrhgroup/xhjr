@@ -1,0 +1,29 @@
+//
+//  NewsArticleViewController.h
+//  XinHuaNewsIOS
+//
+//  Created by apple on 12-6-4.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+@interface NewsArticleViewController : UIViewController<UIWebViewDelegate>
+@property (retain, atomic) UIWebView *previousWebView;
+@property (retain, atomic) UIWebView *nextWebView;
+@property (retain, atomic) UIWebView *topWebView;
+@property (retain,nonatomic)UIView *waitingView;
+@property (retain,nonatomic)UIAlertView *waitingAlert;
+@property (retain,nonatomic)UIView *bottonBar;
+@property (retain,nonatomic)UIActivityIndicatorView *indicator;
+
+@property (retain,nonatomic)NSMutableArray *siblings;
+@property (retain,nonatomic)NSString *baseURL;
+@property (retain,nonatomic)NSString *type;
+@property (retain,nonatomic)NSString *channel_title;
+@property (retain,nonatomic)NSString *item_title; 
+@property int index;
+- (void)swipeLeftAction:(id)sender;
+- (void)swipeRightAction:(id)sender;
+-(void)backAction:(id)sender;
+@end

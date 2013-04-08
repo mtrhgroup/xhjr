@@ -1,0 +1,17 @@
+//
+//  NewsXmlParser.h
+//  XinHuaNewsIOS
+//
+//  Created by 耀龙 马 on 12-4-25.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "XDailyItem.h"
+@interface NewsXmlParser : NSObject
+
++(NSArray*)ParseChannels:(NSString *) datastring;
++(NSArray*)ParseXDailyItems:(NSString *)datastring;
++(XDailyItem*)ParseXDailyItem:(NSString *)datastring;
+
+@end

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+    <dict><key>code</key><string>NMG_NMGDX</string><key>title</key><string>内蒙古大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGSFDX</string><key>title</key><string>内蒙古师范大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGGYDX</string><key>title</key><string>内蒙古工业大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGNYDX</string><key>title</key><string>内蒙古农业大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGMZDX</string><key>title</key><string>内蒙古民族大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGKJDX</string><key>title</key><string>内蒙古科技大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGKJDXBTYXY</string><key>title</key><string>内蒙古科技大学包头医学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGKJDXBTSFXY</string><key>title</key><string>内蒙古科技大学包头师范学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGYKDX</string><key>title</key><string>内蒙古医科大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGCJDX</string><key>title</key><string>内蒙古财经大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGDXYSXY</string><key>title</key><string>内蒙古大学艺术学院</string></dict>
+    <dict><key>code</key><string>NMG_HHHTMZXY</string><key>title</key><string>呼和浩特民族学院</string></dict>
+    <dict><key>code</key><string>NMG_JNSFXY</string><key>title</key><string>集宁师范学院</string></dict>
+    <dict><key>code</key><string>NMG_HLBEXY</string><key>title</key><string>呼伦贝尔学院</string></dict>
+    <dict><key>code</key><string>NMG_CFXY</string><key>title</key><string>赤峰学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGGBDSDX</string><key>title</key><string>内蒙古广播电视大学</string></dict>
+    <dict><key>code</key><string>NMG_NMGJZZYJSXY</string><key>title</key><string>内蒙古建筑职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGDZXXZYJSXY</string><key>title</key><string>内蒙古电子信息职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGSMZYXY</string><key>title</key><string>内蒙古商贸职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGHGZYXY</string><key>title</key><string>内蒙古化工职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGJDZYJSXY</string><key>title</key><string>内蒙古机电职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_HHHTZYXY</string><key>title</key><string>呼和浩特职业学院</string></dict>
+    <dict><key>code</key><string>NMG_XAZYJSXY</string><key>title</key><string>兴安职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_XLGLZYXY</string><key>title</key><string>锡林郭勒职业学院</string></dict>
+    <dict><key>code</key><string>NMG_WLCBZYXY</string><key>title</key><string>乌兰察布职业学院</string></dict>
+    <dict><key>code</key><string>NMG_TLZYXY</string><key>title</key><string>通辽职业学院</string></dict>
+    <dict><key>code</key><string>NMG_WHZYJSXY</string><key>title</key><string>乌海职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGJTZYJSXY</string><key>title</key><string>内蒙古交通职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_HTDX</string><key>title</key><string>河套大学</string></dict>
+    <dict><key>code</key><string>NMG_BTZYJSXY</string><key>title</key><string>包头职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_BTQGZYJSXY</string><key>title</key><string>包头轻工职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGTYZYXY</string><key>title</key><string>内蒙古体育职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGJCZYXY</string><key>title</key><string>内蒙古警察职业学院</string></dict>
+    <dict><key>code</key><string>NMG_KEQYSZYXY</string><key>title</key><string>科尔沁艺术职业学院</string></dict>
+    <dict><key>code</key><string>NMG_BTGTZYJSXY</string><key>title</key><string>包头钢铁职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_BTTDZYJSXY</string><key>title</key><string>包头铁道职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_EEDSZYXY</string><key>title</key><string>鄂尔多斯职业学院</string></dict>
+    <dict><key>code</key><string>NMG_WLCBYXGDZKXX</string><key>title</key><string>乌兰察布医学高等专科学校</string></dict>
+    <dict><key>code</key><string>NMG_HLBEZYJSXY</string><key>title</key><string>呼伦贝尔职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_MZLEYZYXY</string><key>title</key><string>满洲里俄语职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGBFZYJSXY</string><key>title</key><string>内蒙古北方职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGJMWYXY</string><key>title</key><string>内蒙古经贸外语学院</string></dict>
+    <dict><key>code</key><string>NMG_CFZYXY</string><key>title</key><string>赤峰职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGKJZYXY</string><key>title</key><string>内蒙古科技职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGFZZYXY</string><key>title</key><string>内蒙古丰州职业学院</string></dict>
+    <dict><key>code</key><string>NMG_NMGXYZYXY</string><key>title</key><string>内蒙古轩元职业学院</string></dict>
+    <dict><key>code</key><string>NMG_CFZYJSXY</string><key>title</key><string>赤峰职业技术学院</string></dict>
+    <dict><key>code</key><string>NMG_CFGYZYJSXY</string><key>title</key><string>赤峰工业职业技术学院</string></dict>
+    <dict><key>code</key><string>other</string><key>title</key><string>其他</string></dict>
+</array>
+</plist>
