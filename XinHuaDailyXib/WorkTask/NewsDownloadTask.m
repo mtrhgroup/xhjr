@@ -16,6 +16,8 @@
 @implementation NewsDownloadTask
 
 +(void)downloadXdaily:(XDailyItem *)xdaily{
+       if([AppDelegate.db IsNewsInDb:xdaily])
+           return; 
     NSString* url = [NSString stringWithFormat:@"%@%@",KXinhuaUrl,[xdaily.zipurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
     NSString* fileName = [url lastPathComponent];
     NSString* filePath = [CommonMethod fileWithDocumentsPath:fileName];    

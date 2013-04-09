@@ -100,10 +100,7 @@ BOOL                            _reloading;
     lab.backgroundColor = [UIColor clearColor];
     lab.textColor = [UIColor whiteColor];
     [bimgv addSubview:lab];
-    [lab release];
-    
-    
-    
+    [lab release];  
     UIButton* historyBut = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 43,43)];
     [historyBut setImage:[UIImage imageNamed:@"History.png"]  forState:UIControlStateNormal];
     [historyBut  addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
@@ -111,11 +108,7 @@ BOOL                            _reloading;
     [bimgv addSubview:historyBut];
     [historyBut release];
     [self.view addSubview:bimgv];
-    [bimgv release];
-    
-    
-    
-    
+    [bimgv release];   
     self.xdailyitem_list=[AppDelegate.db GetNewsByChannelID:self.channel_id];
     [self setExtraCellHidden:self.table];
     [self makeEmptyInfo];

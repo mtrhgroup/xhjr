@@ -1270,11 +1270,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "193"
-         endingLineNumber = "193"
+         startingLineNumber = "195"
+         endingLineNumber = "195"
          landmarkName = "+reportUIAllXdailyloaded"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1283,11 +1283,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "185"
-         endingLineNumber = "185"
+         startingLineNumber = "187"
+         endingLineNumber = "187"
          landmarkName = "+reportUIXdailyloaded:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1400,11 +1400,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "27"
-         endingLineNumber = "27"
+         startingLineNumber = "29"
+         endingLineNumber = "29"
          landmarkName = "+downloadXdaily:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1634,11 +1634,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "126"
-         endingLineNumber = "126"
+         startingLineNumber = "128"
+         endingLineNumber = "128"
          landmarkName = "+downloadChannelList"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1647,11 +1647,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "132"
-         endingLineNumber = "132"
+         startingLineNumber = "134"
+         endingLineNumber = "134"
          landmarkName = "+downloadChannelList"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1660,11 +1660,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "131"
-         endingLineNumber = "131"
+         startingLineNumber = "133"
+         endingLineNumber = "133"
          landmarkName = "+downloadChannelList"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1673,11 +1673,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "155"
-         endingLineNumber = "155"
+         startingLineNumber = "157"
+         endingLineNumber = "157"
          landmarkName = "+downloadChannelList"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1686,11 +1686,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "163"
-         endingLineNumber = "163"
+         startingLineNumber = "165"
+         endingLineNumber = "165"
          landmarkName = "+downloadChannelList"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1725,11 +1725,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/XdailyItemViewController.m"
-         timestampString = "384421596.642564"
+         timestampString = "387163584.69507"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "211"
-         endingLineNumber = "211"
+         startingLineNumber = "204"
+         endingLineNumber = "204"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1855,11 +1855,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386575308.41541"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "19"
-         endingLineNumber = "19"
+         startingLineNumber = "21"
+         endingLineNumber = "21"
          landmarkName = "+downloadXdaily:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1868,11 +1868,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "22"
-         endingLineNumber = "22"
+         startingLineNumber = "24"
+         endingLineNumber = "24"
          landmarkName = "+downloadXdaily:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1881,11 +1881,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "29"
-         endingLineNumber = "29"
+         startingLineNumber = "31"
+         endingLineNumber = "31"
          landmarkName = "+downloadXdaily:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1894,7 +1894,20 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "49"
+         endingLineNumber = "49"
+         landmarkName = "+downloadXdaily:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "47"
@@ -1907,24 +1920,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "45"
-         endingLineNumber = "45"
-         landmarkName = "+downloadXdaily:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386578134.08024"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "28"
-         endingLineNumber = "28"
+         startingLineNumber = "30"
+         endingLineNumber = "30"
          landmarkName = "+downloadXdaily:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1972,11 +1972,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.m"
-         timestampString = "386577583.112451"
+         timestampString = "387167207.451965"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "21"
-         endingLineNumber = "21"
+         startingLineNumber = "23"
+         endingLineNumber = "23"
          landmarkName = "+downloadXdaily:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2044,6 +2044,30 @@
          endingLineNumber = "99"
          landmarkName = "-applicationDidBecomeActive:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.h"
+         timestampString = "387166619.4835"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "9"
+         endingLineNumber = "9">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "XinHuaDailyXib/WorkTask/NewsDownloadTask.h"
+         timestampString = "387166625.007461"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "10"
+         endingLineNumber = "10"
+         landmarkName = "@interface NewsDownloadTask"
+         landmarkType = "2">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
