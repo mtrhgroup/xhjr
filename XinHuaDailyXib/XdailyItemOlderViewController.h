@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "NewsChannel.h"
 @interface XdailyItemOlderViewController : UIViewController<UIWebViewDelegate>
-@property (retain, nonatomic) UIWebView *webView;
-@property (retain,nonatomic)UIView *waitingView;
-@property (nonatomic,retain)UIView *emptyinfo_view;
-@property (retain,nonatomic)UIActivityIndicatorView *indicator;
+@property (strong, nonatomic) UIWebView *webView;
+@property (strong,nonatomic)UIView *waitingView;
+@property (nonatomic,strong)UIView *emptyinfo_view;
+@property (strong,nonatomic)UIActivityIndicatorView *indicator;
 
-@property (retain,nonatomic)NSString *url;
-@property (retain,nonatomic)NSString *outURL;
-@property (retain,nonatomic)NSString *type;
-@property (retain,nonatomic)NSString *channel_title;
-@property (retain,nonatomic)NSString *channel_id;
-@property(retain,nonatomic)NewsChannel *channel;
+@property (strong,nonatomic)NSString *url;
+@property (strong,nonatomic)NSString *outURL;
+@property (strong,nonatomic)NSString *type;
+@property (strong,nonatomic)NSString *channel_title;
+@property (strong,nonatomic)NSString *channel_id;
+@property(strong,nonatomic)NewsChannel *channel;
 @end

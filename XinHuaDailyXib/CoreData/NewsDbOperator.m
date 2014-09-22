@@ -14,76 +14,25 @@
 #import "XDailyItem.h"
 #import "DailyNews.h"
 #import "Favor.h"
-#define KSQLFile @"news.sqlite"
-static NewsDbOperator *instance=nil;
+#import "Colors.h"
 @implementation NewsDbOperator
-@synthesize databasepath;
-
-#pragma mark
-
-- (id)initWithFile:(NSString*)dbPath
-{
+@synthesize managedObjectContext=_managedObjectContext;
+-(id)initWithContext:(NSManagedObjectContext *)context{
     if ((self = [super init]))
-	{
-        lock  =[[NSLock alloc] init];
-		self.databasepath = dbPath;
-		// Override point for customization after app launch
-		NSManagedObjectContext *context = [self managedObjectContext];
-		
-		// We're not using undo. By setting it to nil we reduce the memory footprint of the app
-		[context setUndoManager:nil];
-		
-		if (!context){
-			Logger(@"Error initializing object model context");
-			exit(-1);
-		}
-		
-	}
-	return self;
-}
-+(NewsDbOperator *)sharedInstance{
-    if(instance==nil){
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *dcoumentpath = ([paths count] > 0)? [paths objectAtIndex:0] : nil;
-        NSString*  dbpath = [NSString stringWithFormat:@"%@/%@",dcoumentpath,KSQLFile];
-        instance=[[NewsDbOperator alloc]initWithFile:dbpath];
-    }
-    return instance;
-}
-- (void)dealloc {
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-	[databasepath release];
-    [lock release];
-	[super dealloc];
-}
-
-- (BOOL)SaveDb
-{    
-    if (![NSThread isMainThread])
     {
-        while (YES)
-        {
-            if ([lock tryLock])
-            {
-                break;
-            }
-            else
-            {
-                LoggerS(@"wait save");
-                [NSThread sleepForTimeInterval:0.1f];
-            }
-        }
+        self.managedObjectContext = context;
     }
-    
+    return self;
+}
+- (BOOL)SaveDb
+{
     BOOL result = NO;
     NSError *error;
-    if (managedObjectContext != nil)
+    if (_managedObjectContext != nil)
     {
-        if ([managedObjectContext hasChanges])
+        if ([_managedObjectContext hasChanges])
         {
-            result = [managedObjectContext save:&error];
+            result = [_managedObjectContext save:&error];
             if(!result)
             {
                 // Handle error
@@ -93,82 +42,11 @@ static NewsDbOperator *instance=nil;
             Logger(@"Youlu SQLLite Saved");
         }
     }
-    if (![NSThread isMainThread])
-    {
-        [lock unlock];
-    }
     return YES;
 }
 
-- (NSManagedObjectContext *)managedObjectContext
-{
-    if (managedObjectContext != nil)
-    {
-		return managedObjectContext;
-    }
-	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil)
-    {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
-    }
-    return managedObjectContext;
-}
-- (NSManagedObjectModel *)managedObjectModel
-{
-    
-	if (managedObjectModel != nil)
-    {
-        return managedObjectModel;
-    }
-    //#if (!TARGET_IPHONE_SIMULATOR)
-    //    managedObjectModel =  [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
-    //#else
-	NSString* name = [[self.databasepath lastPathComponent] stringByDeletingPathExtension];
-	Logger(@"DB name:%@",name);
-	NSString *modelPath = [[NSBundle mainBundle] pathForResource:name ofType:@"momd"];
-    NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
-    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    //#endif
-	return managedObjectModel;
-}
-
-
-/**
- Returns the persistent store coordinator for the application.
- If the coordinator doesn't already exist, it is created and the application's store added to it.
- */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-	if (persistentStoreCoordinator != nil)
-    {
-        return persistentStoreCoordinator;
-    }
-	NSURL *storeUrl = [NSURL fileURLWithPath: self.databasepath];
-    NSError *error = nil;
-	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-    
-	
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-	
-	
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
-    {
-        Logger(@"Error: %@",error);
-        Logger(@"Unresolved error %@, %@", error, [error userInfo]);
-        NSFileManager* fm = [NSFileManager defaultManager];
-        [fm removeItemAtPath:self.databasepath error:nil];
-		[persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:nil];
-    }
-    
-    return persistentStoreCoordinator;
-}
 -(void)addChannel:(NewsChannel *)item
-{
-    
+{    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"channelID = %@",item.channel_id];
     NSArray* result =  [self  getObjectsByName:LabelName predicate:p limited:1];
     Label *data;
@@ -178,7 +56,7 @@ static NewsDbOperator *instance=nil;
     }
     else
     {
-        data = [NSEntityDescription insertNewObjectForEntityForName:LabelName inManagedObjectContext: managedObjectContext];
+        data = [NSEntityDescription insertNewObjectForEntityForName:LabelName inManagedObjectContext: _managedObjectContext];
     }
     data.name = item.title;
     data.level =item.level;
@@ -188,28 +66,46 @@ static NewsDbOperator *instance=nil;
     data.generate = item.generate;
     data.sort = item.sort;
     data.imgPath = item.imgPath;
+    data.homenum=item.homenum;
 }
 -(NSMutableArray*)allChannels
 {
-    
-    NSArray* result = [self getObjectsByName:LabelName sortKey:@"sort" sortAscending:YES  limited:0];
-    NSMutableArray*  newArray = [[[NSMutableArray alloc] init] autorelease];
-    
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"generate <> %d",2];
+    NSArray* result = [self searchObjectsByName:LabelName predicate:p sortKey:@"sort" sortAscending:YES  limited:0];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];
+    Colors *colors=[[Colors alloc]init];
+    [colors reset];
     for(Label* label in result)
     {
         NewsChannel* channel = [NewsChannel  NewsChannelFromLabel:label];
+        channel.color=[colors getColor];
+        channel.imgArrow=[colors getImage];
+        [colors next];
         [newArray addObject:channel];
     }
     return newArray;
-    
-    
+}
+-(NSMutableArray*)allChannelsAndPicChannel
+{
+    NSArray* result = [self getObjectsByName:LabelName sortKey:@"sort" sortAscending:YES  limited:0];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];
+    Colors *colors=[[Colors alloc]init];
+    [colors reset];
+    for(Label* label in result)
+    {
+        NewsChannel* channel = [NewsChannel  NewsChannelFromLabel:label];
+        channel.color=[colors getColor];
+        channel.imgArrow=[colors getImage];
+        [colors next];
+        [newArray addObject:channel];
+    }
+    return newArray;
 }
 -(NSMutableArray*)ChannelsSubscrib
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"sub > 0"];
-    //NSArray* result = [self getObjectsByName:LabelName predicate:p limited:0];
     NSArray* result = [self searchObjectsByName:LabelName predicate:p sortKey:@"sort" sortAscending:YES limited:0];
-    NSMutableArray*  newArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];
     
     for(Label* label in result)
     {
@@ -233,7 +129,7 @@ static NewsDbOperator *instance=nil;
     }
     else
     {
-        data = [NSEntityDescription insertNewObjectForEntityForName:@"DailyNews" inManagedObjectContext: managedObjectContext];
+        data = [NSEntityDescription insertNewObjectForEntityForName:@"DailyNews" inManagedObjectContext: _managedObjectContext];
         data.date = [NSNumber numberWithInt:[date timeIntervalSince1970]];
         data.read =[NSNumber numberWithBool:item.isRead];
     }
@@ -246,8 +142,9 @@ static NewsDbOperator *instance=nil;
     data.channeltitle= item.channelTitle;
     data.item_id = item.item_id;
     data.attachments = item.attachments;
-    
-    
+    data.summary=item.summary;
+    data.thumbnail=item.thumbnail;
+    data.pn=item.pn;
 }
 
 - (DailyNews*)dailyNewsByDate:(NSTimeInterval)date
@@ -270,33 +167,34 @@ static NewsDbOperator *instance=nil;
 {
     
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:_managedObjectContext];
 	[request setEntity:entity];
 	if (limit > 0)
 	{
 		[request setFetchLimit:limit];
 	}
-	
-	// If a predicate was passed, pass it to the query
+
 	if(predicate != nil)
 	{
 		[request setPredicate:predicate];
 	}
-	
-	// If a sort key was passed, use it for sorting.
+
 	if(sortKey != nil)
 	{
+        if([sortKey isEqualToString:@"date"]){
 		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:sortAscending];
-		NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"item_id" ascending:sortAscending];
+		NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, sortDescriptor2,nil];
 		[request setSortDescriptors:sortDescriptors];
-		[sortDescriptors release];
-		[sortDescriptor release];
+        }else{
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:sortAscending];
+            NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+            [request setSortDescriptors:sortDescriptors];
+        }
 	}
 	
 	NSError *error;
-	
-	[request autorelease];
-    NSArray* result = [managedObjectContext executeFetchRequest:request error:&error];
+    NSArray* result = [_managedObjectContext executeFetchRequest:request error:&error];
     
 	return result;
 }
@@ -315,8 +213,8 @@ static NewsDbOperator *instance=nil;
 -(NSMutableArray*)GetNewsByChannelID:(NSString *) channelId
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"channelid = %@",channelId];
-    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"item_id" sortAscending:NO limited:0];
-    NSMutableArray*  newArray =[[[NSMutableArray alloc] init] autorelease];
+    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"date" sortAscending:NO limited:0];
+    NSMutableArray*  newArray =[[NSMutableArray alloc] init];
     for(DailyNews * daily in array)
     {
         XDailyItem * item = [XDailyItem XDailyItemFromDailyNews:daily];
@@ -324,126 +222,79 @@ static NewsDbOperator *instance=nil;
     }
     return newArray;
 }
--(NSMutableArray*) GetAllNews
+
+-(NSMutableArray*)GetNewsByChannelID:(NSString *) channelId topN:(NSNumber *)topN
 {
-    
-    
-    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"item_id" sortAscending:NO  limited:0];
-    NSMutableArray*  newArray = [[[NSMutableArray alloc] init] autorelease];
-    
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"channelid = %@",channelId];
+    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"date" sortAscending:NO limited:[topN intValue]];
+    NSMutableArray*  newArray =[[NSMutableArray alloc] init];
+    for(DailyNews * daily in array)
+    {
+        XDailyItem * item = [XDailyItem XDailyItemFromDailyNews:daily];
+        [newArray addObject:item];
+    }
+    return newArray;
+}
+
+-(NSMutableArray*) GetAllNews
+{  
+    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"date" sortAscending:NO  limited:0];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];    
     for(DailyNews* label in result)
     {
         XDailyItem* channel = [XDailyItem  XDailyItemFromDailyNews:label];
         [newArray addObject:channel];
         
     }
-    // [result release];
-    return newArray;
-    
+    return newArray;  
 }
 
 //获取所有Genertypy为0的新闻
 -(NSMutableArray*) GetAllNewsExceptImgAndKuaiXun
-{
-    
+{    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"generate <> %d",2];
     NSArray* channels= [self getObjectsByName: LabelName predicate:p   limited:0];
-    
-    //    if(channel.count==1)
-    //    {
-    //        Label* channlImg= [channel objectAtIndex:0];
-    //        NSString* channleid =  channlImg.channelID;
-    //        NSPredicate* p2 = [NSPredicate predicateWithFormat:@"channelid = %@",channleid];
-    //        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"item_id" sortAscending:NO limited:0];
-    //
-    //        for(DailyNews* news in newss)
-    //        {
-    //            XDailyItem* item = [XDailyItem XDailyItemFromDailyNews:news];
-    //            [result addObject:item];
-    //        }
-    //
-    //        return result;
-    //    }
-    //    return nil;
-    
-    
-    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"item_id" sortAscending:NO  limited:0];
-    NSMutableArray*  newArray = [[[NSMutableArray alloc] init] autorelease];
-    
+    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"date" sortAscending:NO  limited:0];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];    
     for(DailyNews* news in result)
-    {
-        
+    {        
         for(Label* label in channels)
         {
             if([news.channelid isEqualToString:label.channelID])
             {
                 XDailyItem* channel = [XDailyItem  XDailyItemFromDailyNews:news];
-                
                 [newArray addObject:channel];
                 break;
             }
-        }
-        
-        
+        }      
     }
-    // [result release];
     return newArray;
-    
 }
 
 //获取所有Genertypy为0的新闻
 -(NSMutableArray*) GetAllNewsSub
 {
-    
-    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"sub > 0 and generate <>2"];
     NSArray* channels= [self getObjectsByName: LabelName predicate:p   limited:0];
-    
-    //    if(channel.count==1)
-    //    {
-    //        Label* channlImg= [channel objectAtIndex:0];
-    //        NSString* channleid =  channlImg.channelID;
-    //        NSPredicate* p2 = [NSPredicate predicateWithFormat:@"channelid = %@",channleid];
-    //        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"item_id" sortAscending:NO limited:0];
-    //
-    //        for(DailyNews* news in newss)
-    //        {
-    //            XDailyItem* item = [XDailyItem XDailyItemFromDailyNews:news];
-    //            [result addObject:item];
-    //        }
-    //
-    //        return result;
-    //    }
-    //    return nil;
-    
-    
-    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"item_id" sortAscending:NO  limited:0];
-    NSMutableArray*  newArray = [[[NSMutableArray alloc] init] autorelease];
-    
+    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"date" sortAscending:NO  limited:0];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];
     for(DailyNews* news in result)
     {
-        
         for(Label* label in channels)
         {
             if([news.channelid isEqualToString:label.channelID])
             {
-                XDailyItem* channel = [XDailyItem  XDailyItemFromDailyNews:news];
-                
+                XDailyItem* channel = [XDailyItem  XDailyItemFromDailyNews:news];                
                 [newArray addObject:channel];
                 break;
             }
         }
-        
-        
     }
-    // [result release];
     return newArray;
-    
 }
 
 -(void)ModifyChannelSubscribe:(NSString*) channelid sub:(NSNumber*)sub
 {
-    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"channelID = %@", channelid];
     NSArray* result = [self getObjectsByName:@"Label" predicate:p limited:1];
     if(result.count==1)
@@ -451,46 +302,6 @@ static NewsDbOperator *instance=nil;
         Label* label = [result objectAtIndex:0];
         label.sub = sub;
     }
-    //
-    //      NSError *error = nil;
-    //
-    //    //This is your NSManagedObject subclass
-    //   // Books * aBook = nil;
-    //
-    //    //Set up to get the thing you want to update
-    //    Label* label = nil;
-    //    NSFetchRequest * request = [[NSFetchRequest alloc] init];
-    //   	NSEntityDescription *entity = [NSEntityDescription entityForName:LabelName inManagedObjectContext:managedObjectContext];
-    //    [request setEntity:entity];
-    //   // NSLog(@"channelID = %@",channelid);
-    //    //Ask for it
-    //    //aBook = [[context executeFetchRequest:request error:&error] lastObject];
-    //    label = [[managedObjectContext executeFetchRequest:request error:&error] lastObject];
-    //    [request release];
-    //
-    //    if (error) {
-    //
-    //        NSLog(@"err=%@",error.description);
-    //        //Handle any errors
-    //    }
-    //
-    //    if (!label) {
-    //        NSLog(@"未能update%@",@" 未能找到对应的channelid");
-    //        //Nothing there to update
-    //    }
-    //    label.sub =  [NSNumber numberWithBool:sub];
-    //    NSLog(@"%@",label.channelID);
-    //    NSLog(@"%d",label.sub.intValue);
-    //   // [managedObjectContext save:nil];
-    //    //Update the object
-    ////    aBook.Title = @"BarBar";
-    ////
-    ////    //Save it
-    ////    error = nil;
-    ////    if (![context save:&error]) {
-    ////        //Handle any error with the saving of the context
-    ////    }
-    //
 }
 
 //修改用户排列顺序
@@ -516,171 +327,63 @@ static NewsDbOperator *instance=nil;
     //daily.isRead=true;
     if (result.count == 1)
     {
-        DailyNews* data = [result objectAtIndex:0];
-        
+        DailyNews* data = [result objectAtIndex:0];  
         data.read =  [NSNumber numberWithBool: daily.isRead ];
-        
-        
         NSLog(@"title=%@,%@",data.key,data.read);
     }
 }
-//-(void)AddFavor:(NewsFavor*)favor
-//{
-//    NSPredicate* p = [NSPredicate predicateWithFormat:@"channelID = %@",favor.path];
-//    NSArray* result =  [self  getObjectsByName:LabelName predicate:p limited:1];
-//    Favor *data;
-//    if (result.count == 1)
-//    {
-//        data = [result objectAtIndex:0];
-//    }
-//    else
-//    {
-//        data = [NSEntityDescription insertNewObjectForEntityForName:LabelName inManagedObjectContext: managedObjectContext];
-//    }
-//    data.favortitle =  favor.favortitle;
-//    data.path = favor.path;
-//
-//
-//    //    data.name = item.title;
-//    //    data.level =item.level;
-//    //    data.des = item.description;
-//    //    data.sub = [NSNumber numberWithBool: item.subscribe];
-//    //    data.channelID = item.channel_id;
-//
-//}
-//删除多个收藏
-//-(void)DelAllFavor:(NSMutableArray*) array
-//{
-//
-//    for(NewsFavor* favor in array)
-//    {
-//        [self DelFavor:favor];
-//    }
-//
-//}
 
 -(void)DelAllNews
 {
-    //    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"newsDate" sortAscending:NO  limited:0];
-    //
-    //    for (id basket in result)
-    //        [managedObjectContext deleteObject:basket];
-    // [result release];
-    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"generate <> %d",2];
-    NSArray* channels= [self getObjectsByName: LabelName predicate:p   limited:0];
-    
-    //    if(channel.count==1)
-    //    {
-    //        Label* channlImg= [channel objectAtIndex:0];
-    //        NSString* channleid =  channlImg.channelID;
-    //        NSPredicate* p2 = [NSPredicate predicateWithFormat:@"channelid = %@",channleid];
-    //        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"item_id" sortAscending:NO limited:0];
-    //
-    //        for(DailyNews* news in newss)
-    //        {
-    //            XDailyItem* item = [XDailyItem XDailyItemFromDailyNews:news];
-    //            [result addObject:item];
-    //        }
-    //
-    //        return result;
-    //    }
-    //    return nil;
-    
-    
-    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"item_id" sortAscending:NO  limited:0];
-    // NSMutableArray*  newArray = [[NSMutableArray alloc] init];
-    
+    NSArray* channels= [self getObjectsByName: LabelName predicate:p   limited:0];  
+    NSArray* result = [self getObjectsByName: @"DailyNews" sortKey:@"date" sortAscending:NO  limited:0];
     for(DailyNews* news in result)
-    {
-        
+    {        
         for(Label* label in channels)
         {
             if([news.channelid isEqualToString:label.channelID])
             {
-                [managedObjectContext deleteObject:news];
+                [_managedObjectContext deleteObject:news];
             }
-        }
-        
-        
-    }
-    
-    
+        }  
+    }   
 }
-//删除单个收藏
-//-(void)DelFavor:(NewsFavor*) favor
-//{
-//    NSPredicate* p = [NSPredicate predicateWithFormat:@"path = %@",favor.path];
-//    NSArray* result = [self getObjectsByName:@"Favor" predicate:p limited:1];
-//    Favor* data  = nil;
-//    data = [result objectAtIndex:0];
-//    [managedObjectContext deleteObject:data];
-//
-//}
-//
-////获得所有收藏
-//-(NSArray*)AllFavor{
-//
-//    NSArray* result = [self getObjectsByName:@"Favor" predicate:nil limited:0];
-//    return result;}
-
 -(NSArray*)GetNewsByLastDaysNumber:(int) dayCount
 {
-    NSMutableArray*  newArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray*  newArray = [[NSMutableArray alloc] init];
     NSTimeInterval secondsPerDay = 24 * 60 * 60 * dayCount;
-    
-    
-    NSDate *dayago = [[NSDate alloc] initWithTimeIntervalSinceNow:-secondsPerDay];
-    
+    NSDate *dayago = [[NSDate alloc] initWithTimeIntervalSinceNow:-secondsPerDay];    
     NSNumber* number = [NSNumber numberWithInt:[dayago timeIntervalSince1970]];
-    [dayago release];
-    
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"newsDate < %@", number];
-    
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"date < %@", number];
     NSArray* result = [self getObjectsByName: @"DailyNews" predicate:p   limited:0];
     for(DailyNews* label in result)
     {
         XDailyItem* channel = [XDailyItem  XDailyItemFromDailyNews:label];
         [newArray addObject:channel];
-        
     }
     return newArray;
 }
 -(void)DelNewsByLastDaysNumber:(int) dayCount
 {
     NSTimeInterval secondsPerDay = 24 * 60 * 60 * dayCount;
-    
-    
     NSDate *dayago = [[NSDate alloc] initWithTimeIntervalSinceNow:-secondsPerDay];
-    
     NSNumber* number = [NSNumber numberWithInt:[dayago timeIntervalSince1970]];
-    [dayago release];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"newsDate < %@", number];
-    
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"date < %@", number];
     NSArray* result = [self getObjectsByName: @"DailyNews" predicate:p   limited:0];
     for (id basket in result)
-        [managedObjectContext deleteObject:basket];
-    
-    
+        [_managedObjectContext deleteObject:basket];
 }
 
 -(int)GetUnReadCountByChannelId:(NSString*) channelID
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"read = %d and channelid = %@",NO,channelID];
-    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"item_id" sortAscending:NO limited:0];
+    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"date" sortAscending:NO limited:0];
     return [array count];
-    
-    //    [array release ];
-    //    [p release ];
-    
-    
-    
 }
 -(int)GetUnReadCount
-{
-    
-    NSPredicate* p1 = [NSPredicate predicateWithFormat:@"sub > 0 and generate <> %d",2];
-    
+{ 
+    NSPredicate* p1 = [NSPredicate predicateWithFormat:@"sub > 0 and generate <> %d",2];  
     NSArray* channels= [self getObjectsByName: LabelName predicate:p1   limited:0];
     if (!channels ||[channels count]==0) {
         return 0;
@@ -691,34 +394,23 @@ static NewsDbOperator *instance=nil;
         result+=newsCountOfChannel;
     }
     return result;
-    
-    
-    //    NSPredicate* p2 = [NSPredicate predicateWithFormat:@"read = %d and channelid <> %@",NO,channel.channelID];
-    //    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"item_id" sortAscending:NO limited:0];
-    //    return [array count];
-    
 }
 -(NSMutableArray*)GetImgNews
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"generate = %d",2];
-    NSArray* channel= [self getObjectsByName: LabelName predicate:p   limited:1];
-    NSMutableArray* result =  [[[NSMutableArray alloc] init] autorelease];
-    if(channel.count==1)
-    {
-        Label* channlImg= [channel objectAtIndex:0];
-        NSString* channleid =  channlImg.channelID;
+    NSArray* channels= [self getObjectsByName: LabelName predicate:p   limited:0];
+    NSMutableArray* result =  [[NSMutableArray alloc] init];
+    for(Label *channel in channels){
+        NSString* channleid =  channel.channelID;
         NSPredicate* p2 = [NSPredicate predicateWithFormat:@"channelid = %@",channleid];
-        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"item_id" sortAscending:NO limited:5];
-        
+        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"date" sortAscending:NO limited:5];
         for(DailyNews* news in newss)
         {
             XDailyItem* item = [XDailyItem XDailyItemFromDailyNews:news];
             [result addObject:item];
-        }
-        
-        return result;
+        }     
     }
-    return nil;
+    return result;
 }
 
 -(NSMutableArray*)GetKuaiXun
@@ -726,12 +418,11 @@ static NewsDbOperator *instance=nil;
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"generate = %d",1];
     NSArray* channels= [self getObjectsByName: LabelName predicate:p   limited:0];
-    NSMutableArray* result =  [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray* result =  [[NSMutableArray alloc] init];
     for(Label *channel in channels){
         NSString* channleid =  channel.channelID;
         NSPredicate* p2 = [NSPredicate predicateWithFormat:@"channelid = %@",channleid];
-        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"item_id" sortAscending:NO limited:5];
-        
+        NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p2 sortKey:@"date" sortAscending:NO limited:5];
         for(DailyNews* news in newss)
         {
             XDailyItem* item = [XDailyItem XDailyItemFromDailyNews:news];
@@ -740,14 +431,28 @@ static NewsDbOperator *instance=nil;
     }
     return result;
 }
+-(NSMutableArray *)GetPushNews{
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"pn=1"];
+    NSArray* newss = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"date" sortAscending:NO limited:0];
+    NSMutableArray* result =  [[NSMutableArray alloc] init];
+    for(DailyNews* news in newss)
+    {
+        XDailyItem* item = [XDailyItem XDailyItemFromDailyNews:news];
+        [result addObject:item];
+    }
+    return result;
+}
 -(BOOL)IsNewsInDb:(XDailyItem*) news
 {
-    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"item_id = %d",news.item_id.intValue];
-    NSArray* result = [self  getObjectsByName:KDailyNewsData predicate:p   limited:1];
-    
+    NSArray* result = [self  getObjectsByName:KDailyNewsData predicate:p   limited:1];    
     if (result.count == 1)
     {
+        DailyNews* data = [result objectAtIndex:0];
+        NSDate* date = [NSDate dateFromString:news.dateString withFormat:@"yyyy－MM-dd"];
+        data.date = [NSNumber numberWithInt:[date timeIntervalSince1970]];
+        data.newsDate=news.dateString;
+        
         return true;
     }
     return false;
@@ -757,32 +462,49 @@ static NewsDbOperator *instance=nil;
     NSLog(@"GetXdailyByItemId %d",itemid.intValue);
     NSPredicate* p = [NSPredicate predicateWithFormat:@"item_id = %d", itemid.intValue];
     NSArray* result = [self  getObjectsByName:KDailyNewsData predicate:p   limited:1];
-    
     if (result.count == 1)
     {
         return [XDailyItem XDailyItemFromDailyNews: [result objectAtIndex:0]];
     }
     return nil;
-    
 }
 
+-(void)DelNewsWithItemId:(NSNumber*) itemid{
+    NSLog(@"DelNewsWithItemId %d",itemid.intValue);
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"item_id = %d", itemid.intValue];
+    NSArray* result = [self  getObjectsByName:KDailyNewsData predicate:p   limited:1];
+    if (result.count == 1)
+    {
+        return [_managedObjectContext deleteObject:[result objectAtIndex:0]];
+    }
+}
+-(void)ModifyNewsTime:(NSString *)timestr itemid:(NSNumber *)itemid{
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"item_id = %d", itemid.intValue];
+    NSArray* result = [self getObjectsByName:@"DailyNews" predicate:p limited:1];
+    if (result.count == 1)
+    {
+        DailyNews* data = [result objectAtIndex:0];
+        NSDate* date = [NSDate dateFromString:timestr withFormat:@"yyyy－MM-dd"];
+        data.date = [NSNumber numberWithInt:[date timeIntervalSince1970]];
+        data.newsDate=timestr;
+    }
+}
 -(void)DelChannelByChannelID:(NSString*) channelID
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"channelID = %@", channelID];
     NSArray* result = [self getObjectsByName:LabelName predicate:p limited:1];
     if(result.count==1)
     {
-        [managedObjectContext deleteObject:[result objectAtIndex:0] ];
+        [_managedObjectContext deleteObject:[result objectAtIndex:0] ];
     }
 }
 -(NSMutableArray*)DelNewsByRetainCount:(int) count
 {
     NSArray* array = [self allChannels];
-    NSMutableArray* itemsToDelete = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray* itemsToDelete = [[NSMutableArray alloc] init];
     if(!array||array.count==0) return nil;
     for (NewsChannel* channel in array)
-    {
-        
+    {    
         int countlocal =  [self GetCountByChannelId:channel.channel_id];
         if (countlocal<=count||countlocal==0)
         {
@@ -790,29 +512,24 @@ static NewsDbOperator *instance=nil;
         }
         else
         {
-            int delcount = countlocal - count;
-            
-            
+            int delcount = countlocal - count;        
             NSPredicate* p = [NSPredicate predicateWithFormat:@"channelid = %@",channel.channel_id];
-            NSArray*  newss = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"item_id" sortAscending:YES limited:0];
+            NSArray*  newss = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"date" sortAscending:YES limited:0];
             NSLog(@"%d",delcount);
             for (int i =0; i<delcount; i++)
             {
                 [itemsToDelete addObject: [XDailyItem XDailyItemFromDailyNews: [newss objectAtIndex:i]]];
-                [managedObjectContext deleteObject:[newss objectAtIndex:i]];
+                [_managedObjectContext deleteObject:[newss objectAtIndex:i]];
             }
         }
-        
-        
     }
-    return itemsToDelete;
-    
+    return itemsToDelete;  
 }
 
 -(int)GetCountByChannelId:(NSString*) channelID
 {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"channelid = %@",channelID];
-    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"item_id" sortAscending:NO limited:0];
+    NSArray*  array = [self searchObjectsByName:@"DailyNews" predicate:p sortKey:@"date" sortAscending:NO limited:0];
     return [array count];
 }
 

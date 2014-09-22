@@ -41,13 +41,16 @@ NSTimer *timer;
         NSString *textContent=[showText objectForKey:@"TEXT_CONTENT"];
         UIColor *textColor=[showText objectForKey:@"TEXT_COLOR"];
         UIFont *textFont=[showText objectForKey:@"TEXT_FONT"];
-        
+#if __IPHONE_OS_VERSION_MAX_ALLOWED>=70000
+        CGSize textContentSize=[textContent sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+#else
         CGSize textContentSize=[textContent sizeWithFont:textFont];
+#endif
         CGFloat textContentW=textContentSize.width;
         CGFloat textContentH=textContentSize.height;
-        self.labelText=[[[UILabel alloc]initWithFrame:CGRectMake(0, 0, textContentW, textContentH)] autorelease];
+        self.labelText=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, textContentW, textContentH)];
         [labelText setBackgroundColor:[UIColor clearColor]];
-        [labelText setTextAlignment:UITextAlignmentCenter];
+        [labelText setTextAlignment:NSTextAlignmentCenter];
         [labelText setFont:textFont];
         [labelText setTextColor:textColor];
         [labelText setText:textContent];
@@ -60,7 +63,7 @@ NSTimer *timer;
         animation.subtype = kCATransitionFromTop;
         [self.layer addAnimation:animation forKey:@"animation"];
         [self addSubview:labelText];
-        tempx+=textContentW+20; 
+        tempx+=textContentW+20;
         self.moveWidth=tempx;
         timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(update) userInfo:nil repeats:NO];
     }
@@ -91,10 +94,5 @@ NSTimer *timer;
 -(void)clickMarquee{
     NSLog(@"clickMarquee... ");
     // NSLog(@"clickMarquee... %d",((UILabel *)sender).tag);
-}
--(void)dealloc{
-    [super dealloc];
-    [showText release];
-    [labelText release];
 }
 @end

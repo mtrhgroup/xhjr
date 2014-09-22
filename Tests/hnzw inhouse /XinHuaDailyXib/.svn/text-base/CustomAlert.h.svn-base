@@ -1,0 +1,20 @@
+//
+//  CustomAlert.h
+//  XinHuaDailyXib
+//
+//  Created by apple on 12-6-27.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+@protocol CustomAlertDelegate<NSObject>
+@optional
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+@end
+@interface CustomAlert:UIAlertView
+@property(readwrite,retain)UIImage *backgroundImage;
+@property(readwrite,retain)UIImage *contentImage;
+@property(nonatomic,assign)id delegate;
+-(id)initWithImage:(UIImage *)image contentImage:(UIImage *)content;
+-(void)addButtonWithUIButton:(UIButton *)btn;
+@end

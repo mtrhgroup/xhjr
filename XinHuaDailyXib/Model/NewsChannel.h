@@ -18,23 +18,31 @@
 @class Label;
 @interface NewsChannel : NSObject
 //来自服务器的id
-@property(nonatomic,copy)NSString* channel_id;
+@property(nonatomic,strong)NSString* channel_id;
 //名字
-@property(nonatomic,copy)NSString* title;
+@property(nonatomic,strong)NSString* title;
 //描述
-@property(nonatomic,copy)NSString* description;
+@property(nonatomic,strong)NSString* description;
 //权限
-@property(nonatomic,copy)NSNumber* level;
+@property(nonatomic,strong)NSNumber* level;
 //是否订阅
-@property(nonatomic,copy)NSNumber *subscribe;
+@property(nonatomic,strong)NSNumber *subscribe;
 //客户顺序编码
-@property(nonatomic,copy)NSNumber*  custom_order;
+@property(nonatomic,strong)NSNumber*  custom_order;
 
-@property(nonatomic,copy)NSString* imgPath;
+@property(nonatomic,strong)NSString* imgPath;
 
-@property(nonatomic,copy)NSNumber* generate;
+@property(nonatomic,strong)NSNumber* generate;
 
-@property(nonatomic,copy)NSNumber* sort;
+@property(nonatomic,strong)NSNumber* sort;
+
+@property(nonatomic,strong)NSDate *timestamp;
+@property(nonatomic,strong)UIColor *color;
+@property(nonatomic,strong)UIImage *imgArrow;
+@property(nonatomic,strong)NSMutableArray *items;
+@property(nonatomic,strong)NSNumber *homenum;
+-(void)stampTime;
+-(BOOL)isOld;
 
 +(NewsChannel*)NewsChannelFromLabel:(Label*) label;
 @end

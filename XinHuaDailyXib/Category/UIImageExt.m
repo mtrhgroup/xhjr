@@ -149,11 +149,15 @@ typedef enum {
     return grayImage;
      */
 }
-
-- (UIImage*)imageUseMask:(UIImage*)mask 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED>__IPHONE_6_1
+#define  kCGImageAlphaPremultipliedLast (kCGBitmapByteOrderDefault|kCGImageAlphaPremultipliedLast)
+#else
+#define kCGImageAlphaPremultipliedLast kCGImageAlphaPremultipliedLast
+#endif
+- (UIImage*)imageUseMask:(UIImage*)mask
 {
-	CGFloat width = mask.size.width * [[UIScreen  mainScale] scale];
-	CGFloat height = mask.size.height * [[UIScreen  mainScale] scale];
+	CGFloat width = mask.size.width * [[UIScreen mainScreen] scale];
+	CGFloat height = mask.size.height * [[UIScreen  mainScreen] scale];
 	CGContextRef mainViewContentContext; 
 	CGColorSpaceRef colorSpace; 
 	colorSpace = CGColorSpaceCreateDeviceRGB(); 
@@ -176,7 +180,7 @@ typedef enum {
 	UIImage *theImage = nil;
 	if ([UIImage respondsToSelector:@selector(imageWithCGImage:scale:orientation:)])
 	{
-		theImage = [UIImage imageWithCGImage:mainViewContentBitmapContext scale:[[UIScreen  mainScale] scale] orientation:UIImageOrientationUp]; 
+		theImage = [UIImage imageWithCGImage:mainViewContentBitmapContext scale:[[UIScreen  mainScreen] scale] orientation:UIImageOrientationUp]; 
 	}
 	else
 	{

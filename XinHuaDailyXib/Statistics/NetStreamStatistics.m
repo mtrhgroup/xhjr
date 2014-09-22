@@ -16,12 +16,10 @@ static NetStreamStatistics *instance=nil;
         if([[NSUserDefaults standardUserDefaults]  dictionaryForKey:@"CELLBYTES"]==nil){
             NSDictionary *byteslostDic=[[NSDictionary alloc] initWithObjectsAndKeys:@"0",@"0",@"0",@"1",@"0",@"2",@"0",@"3",@"0",@"4",@"0",@"5",@"0",@"6",@"0",@"7",@"0",@"8",@"0",@"9",@"0",@"10",@"0",@"11",@"0",@"12",nil];
             [[NSUserDefaults standardUserDefaults] setObject:byteslostDic forKey:@"CELLBYTES"];
-            [byteslostDic release];
         }
         if([[NSUserDefaults standardUserDefaults]  dictionaryForKey:@"WIFIBYTES"]==nil){
             NSDictionary *byteslostDic=[[NSDictionary alloc] initWithObjectsAndKeys:@"0",@"0",@"0",@"1",@"0",@"2",@"0",@"3",@"0",@"4",@"0",@"5",@"0",@"6",@"0",@"7",@"0",@"8",@"0",@"9",@"0",@"10",@"0",@"11",@"0",@"12",nil];
             [[NSUserDefaults standardUserDefaults] setObject:byteslostDic forKey:@"WIFIBYTES"];
-            [byteslostDic release];
         }
     }    
     return self;    
@@ -58,7 +56,6 @@ static NetStreamStatistics *instance=nil;
     NSString *bytesLostStr=[NSString stringWithFormat:@"%d",bytesLostOfThisMonth];
     [byteslostDic  setValue:bytesLostStr forKey:thisMonthStr];
     [[NSUserDefaults  standardUserDefaults] setObject:byteslostDic forKey:@"CELLBYTES"];
-    [byteslostDic release];
 }
 -(void)appendBytesToWifiDictionary:(int)bytes{
     NSLog(@"appendBytesToDictionary %d",bytes);
@@ -78,7 +75,6 @@ static NetStreamStatistics *instance=nil;
     NSString *bytesLostStr=[NSString stringWithFormat:@"%d",bytesLostOfThisMonth];
     [byteslostDic  setValue:bytesLostStr forKey:thisMonthStr];
     [[NSUserDefaults  standardUserDefaults] setObject:byteslostDic forKey:@"WIFIBYTES"];
-    [byteslostDic release];
 }
 -(NSString *)thisMonthWifiBytesLost{
     NSDictionary *byteslostDicbyWifi= [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFIBYTES"];

@@ -9,15 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface NewsUserInfo : NSObject
-@property(nonatomic,copy)NSString *sn;
-@property(nonatomic,copy)NSString *description;
-@property(nonatomic,copy)NSString *name;
-@property(nonatomic,copy)NSString *sex;
-@property(nonatomic,copy)NSString *company;
-@property(nonatomic,copy)NSString *phone;
-@property(nonatomic,copy)NSString *email;
+@property(nonatomic,strong)NSString *sn;
+@property(nonatomic,strong)NSString *description;
+@property(nonatomic,strong)NSString *name;
+@property(nonatomic,strong)NSString *sex;
+@property(nonatomic,strong)NSString *company;
+@property(nonatomic,strong)NSString *phone;
+@property(nonatomic,strong)NSString *email;
 @property(nonatomic)BOOL enabled;
-@property(nonatomic,copy)NSString *enddate;
-@property(nonatomic,copy)NSString *gpID;
-@property(nonatomic,copy)NSString *updateTime;
+@property(nonatomic,strong)NSString *enddate;
+@property(nonatomic,strong)NSString *gpID;
+@property(nonatomic,strong)NSString *updateTime;
 @end

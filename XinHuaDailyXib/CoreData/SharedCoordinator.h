@@ -13,7 +13,7 @@
     NSManagedObjectModel *managedObjectModel;
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 }
-@property (nonatomic, retain)NSString*  databasepath;
+@property (nonatomic, strong)NSString*  databasepath;
 @property (nonatomic, readonly)NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readonly)NSPersistentStoreCoordinator *persistentStoreCoordinator;
 +(SharedCoordinator *)sharedInstance;

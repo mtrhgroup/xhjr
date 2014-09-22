@@ -1,0 +1,31 @@
+//
+//  XinHuaAppDelegate.h
+//  XinHuaDailyXib
+//
+//  Created by zhang jun on 12-5-19.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+#import "NewsDbOperator.h"
+#import "NewsDownLoadZipWorkTask.h"
+
+#import "XinHuaViewController.h"
+#import "NewsDbOperator.h"
+
+@interface XinHuaAppDelegate : UIResponder <UIApplicationDelegate,NewsDownloadFileFinishedCallBack>
+{
+    NewsDbOperator *_db;
+    NewsDownLoadZipWorkTask *_netWorkTask;
+}
+
+@property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) XinHuaViewController *viewController;
+
+@property (strong,nonatomic) NewsDbOperator* db;
+
+@property(retain,nonatomic)NewsDownLoadZipWorkTask *netWorkTask;
+
+@end

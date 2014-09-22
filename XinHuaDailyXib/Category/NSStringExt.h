@@ -32,4 +32,13 @@
 - (NSString*)unescapeHTML;
 
 - (NSString *)stringByTrimmingTrailingWhitespaceAndNewlineCharacters;
+
+//计算文本的size
+-(CGSize)boundingRectWithSize:(CGSize)size
+                 withTextFont:(UIFont *)font
+              withLineSpacing:(CGFloat)lineSpacing;
+//sting转AttributedString
+-(NSMutableAttributedString *)attributedStringFromStingWithFont:(UIFont *)font
+                                                withLineSpacing:(CGFloat)lineSpacing;
+
 @end

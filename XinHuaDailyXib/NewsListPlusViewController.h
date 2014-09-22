@@ -9,19 +9,19 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 @interface NewsListPlusViewController : UIViewController<UIWebViewDelegate>
-@property (retain, nonatomic) UIWebView *previousWebView;
-@property (retain, nonatomic) UIWebView *nextWebView;
-@property (retain, nonatomic) UIWebView *topWebView;
-@property (retain,nonatomic)UIView *waitingView;
-@property (retain,nonatomic)UIActivityIndicatorView *indicator;
+@property (strong, nonatomic) UIWebView *previousWebView;
+@property (strong, nonatomic) UIWebView *nextWebView;
+@property (strong, nonatomic) UIWebView *topWebView;
+@property (strong,nonatomic)UIView *waitingView;
+@property (strong,nonatomic)UIActivityIndicatorView *indicator;
 
 
-@property (retain,nonatomic)NSMutableArray *siblings;
-@property (retain,nonatomic)NSMutableArray *newslist;
-@property (retain,nonatomic)NSString *baseURL;
-@property (retain,nonatomic)NSString *type;
-@property (retain,nonatomic)NSString *channel_title;
-@property (retain,nonatomic)NSString *item_title;
+@property (strong,nonatomic)NSArray *siblings;
+@property (strong,nonatomic)NSMutableArray *newslist;
+@property (strong,nonatomic)NSString *baseURL;
+@property (strong,nonatomic)NSString *type;
+@property (strong,nonatomic)NSString *channel_title;
+@property (strong,nonatomic)NSString *item_title;
 @property int index;
 - (void)swipeLeftAction:(id)sender;
 - (void)swipeRightAction:(id)sender;

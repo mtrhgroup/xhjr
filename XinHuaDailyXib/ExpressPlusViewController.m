@@ -11,6 +11,9 @@
 #import "XinHuaAppDelegate.h"
 #import "NewsDbOperator.h"
 #import "NewsFavorManager.h"
+#import "FeedBackToAuthorViewController.h"
+#import "UserActions.h"
+#import <ShareSDK/ShareSDK.h>
 @interface ExpressPlusViewController ()
 
 @end
@@ -27,45 +30,59 @@
 @synthesize index;
 @synthesize channel_title;
 @synthesize newslist;
+@synthesize bottonBar;
 UIButton * favor_yes_btn;
 UIButton * favor_no_btn;
-
-- (void)viewDidUnload
+UIButton * menu_btn;
+UIControl * trs_ctrl;
+float mLastScale;
+float mCurrentScale;
+BOOL fontLarger;
+- (id)init
 {
-    [super viewDidUnload];
-    [previousWebView release];
-    [nextWebView release];
-    [topWebView release];
-    [waitingView release];
-    [indicator release];
-    [siblings release];
-    [baseURL release];
-    [type release];
-    [channel_title release];
-    [newslist release];
-    [favor_no_btn release];
-    [favor_yes_btn release];
-    // Release any retained subviews of the main view.
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDisplayMode) name:KDisplayMode object:nil];
+    }
+    return self;
 }
-
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
+}
+-(void)toggleDisplayMode{
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        [self toggleToDayMode];
+    }else{
+        [self toggleToNightMode];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    fontLarger=NO;
     self.navigationController.navigationBar.hidden = YES;
     UIView* booktopView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 832,640+(iPhone5?88:0))];
-    booktopView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bigtablebg.png"]];
+    booktopView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:booktopView];
-    [booktopView release];
     
     //UIwebView
     previousWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
     nextWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
     topWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
     
-    previousWebView.backgroundColor= [UIColor whiteColor]; 
-    nextWebView.backgroundColor= [UIColor whiteColor]; 
-    topWebView.backgroundColor= [UIColor whiteColor]; 
+
     
     for (UIView* sv in [self.previousWebView subviews])        
     {      
@@ -108,20 +125,17 @@ UIButton * favor_no_btn;
     [panGest setMaximumNumberOfTouches:1];
     [panGest setMinimumNumberOfTouches:1];
     [topWebView addGestureRecognizer:panGest];
-    [panGest release];
     
     
     UIPanGestureRecognizer* panGest1 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [panGest1 setMaximumNumberOfTouches:1];
     [panGest1 setMinimumNumberOfTouches:1];
     [previousWebView addGestureRecognizer:panGest1];
-    [panGest1 release];
     
     UIPanGestureRecognizer* panGest2 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [panGest2 setMaximumNumberOfTouches:1];
     [panGest2 setMinimumNumberOfTouches:1];
     [nextWebView addGestureRecognizer:panGest2];
-    [panGest2 release];
     
     [self.view addSubview:previousWebView];
     [self.view addSubview:nextWebView];
@@ -130,40 +144,29 @@ UIButton * favor_no_btn;
     
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = self.channel_title;
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
-    favor_no_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 33,33)];     
-    UIImage *favor_no_image=[UIImage imageNamed:@"favor_pressed.png"];
-    [favor_no_btn setImage:favor_no_image forState:UIControlStateNormal];
-    [favor_no_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
-    favor_no_btn.hidden=YES;
-    [bimgv addSubview:favor_no_btn];
-    
-    favor_yes_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 33,33)];     
-    UIImage *favor_yes_image=[UIImage imageNamed:@"favor_normal.png"];
-    [favor_yes_btn setImage:favor_yes_image forState:UIControlStateNormal];
-    [favor_yes_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
-    favor_yes_btn.hidden=YES;
-    [bimgv addSubview:favor_yes_btn];
+    menu_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 35,35)];
+    UIImage *menu_image=[UIImage imageNamed:@"ext_nav_columns.png"];
+    [menu_btn setImage:menu_image forState:UIControlStateNormal];
+    [menu_btn  addTarget:self action:@selector(toggleMenuBar) forControlEvents:UIControlEventTouchUpInside];
+    [bimgv addSubview:menu_btn];
     
     [self.view addSubview:bimgv];
-    [bimgv release];
     [self makeWaitingView];
     NSLog(@"subview___%@",self.view.subviews);
     [[self.view.subviews objectAtIndex:3] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_current_news]]]];
@@ -197,10 +200,12 @@ UIButton * favor_no_btn;
     UIImage *favor_image=[UIImage imageNamed:@"clip.png"];
     [favorBtn setImage:favor_image forState:UIControlStateNormal];
     [self.view addSubview:favorBtn];
-    [favorBtn release];
-    
+    [self makeMenuBar];
     [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateInbox
                                                         object: self];
+    [self toggleDisplayMode];
+    [self setItemHasRead];
+
 	// Do any additional setup after loading the view.
 }
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
@@ -217,20 +222,37 @@ UIButton * favor_no_btn;
         [recognizer setTranslation:CGPointZero inView:self.view];
     }
 }
-
+-(void)toggleToDayMode{
+    self.view.backgroundColor=[UIColor whiteColor];
+    previousWebView.backgroundColor= [UIColor whiteColor];
+    nextWebView.backgroundColor= [UIColor whiteColor];
+    topWebView.backgroundColor= [UIColor whiteColor];
+    waitingView.backgroundColor=[UIColor whiteColor];
+    
+}
+-(void)toggleToNightMode{
+//    self.view.backgroundColor=[UIColor blackColor];
+//    previousWebView.backgroundColor= [UIColor blackColor];
+//    previousWebView.opaque=NO;
+//    nextWebView.backgroundColor= [UIColor blackColor];
+//    nextWebView.opaque=NO;
+//    topWebView.backgroundColor= [UIColor blackColor];
+//    topWebView.opaque=NO;
+//    waitingView.backgroundColor=[UIColor blackColor];
+}
 -(void)backAction:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)makeWaitingView{
-    waitingView=[[UIView alloc] initWithFrame:CGRectMake(10, 60, 300, 390+(iPhone5?88:0))];
-    waitingView.backgroundColor=[UIColor colorWithWhite:1 alpha:1];
+    waitingView=[[UIView alloc] initWithFrame:CGRectMake(0, 40, 320, 420+(iPhone5?88:0))];
+    waitingView.backgroundColor=[UIColor clearColor];
     waitingView.hidden=true;
     indicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(150, 100, 32, 32)];
     [indicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(40, 150, 231, 65)];
-    imageView.image=[UIImage imageNamed:@"logo.png"];
+    imageView.image=[UIImage imageNamed:@"logo1.png"];
+    imageView.backgroundColor=[UIColor clearColor];
     [waitingView addSubview:imageView];
-    [imageView release];
     [waitingView addSubview:indicator];
     [self.view addSubview:waitingView];   
 }
@@ -256,13 +278,13 @@ UIButton * favor_no_btn;
     }
     return nil;
 }
--(NSString *)getPathURL{
-    XDailyItem *item=[self get_current_news];
-    NSString* path_url = [item.zipurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];   
-    NSString* dirName = [path_url lastPathComponent];
-    NSString* filePath =[[[CommonMethod fileWithDocumentsPath:dirName] stringByDeletingPathExtension] stringByAppendingString:@"/"];
-    return filePath;
-}
+//-(NSString *)getPathURL{
+//    XDailyItem *item=[self get_current_news];
+//    NSString* path_url = [item.zipurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];   
+//    NSString* dirName = [path_url lastPathComponent];
+//    NSString* filePath =[[[CommonMethod fileWithDocumentsPath:dirName] stringByDeletingPathExtension] stringByAppendingString:@"/"];
+//    return filePath;
+//}
 
 
 
@@ -272,13 +294,8 @@ UIButton * favor_no_btn;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc {
-    [previousWebView release];
-    [nextWebView release];
-    [topWebView release];
-    [super dealloc];
-}
 - (void)swipeLeftAction:(id)sender {
+    fontLarger=NO;
     NSLog(@"%@",@"swipeLeftAction");
     NSLog(@"%@",[[self.view.subviews objectAtIndex:2] stringByEvaluatingJavaScriptFromString:@"document.title"]);
     CATransition *animation = [CATransition animation];
@@ -297,19 +314,29 @@ UIButton * favor_no_btn;
         [self setFavorBtnStatus:false];
     }  
     [self moveDownIndex];
+    [self setItemHasRead];
+    [[self.view.subviews objectAtIndex:1] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_previous_news]]]];
+    [[self.view.subviews objectAtIndex:2] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_next_news]]]];
+}
+-(void)setItemHasRead{
     XDailyItem *item=[self get_current_news];
+    NSLog(@"#####%@",item.localPath);
+    NSString *article_id=[[item.localPath lastPathComponent] substringWithRange:NSMakeRange(0, 7)];
+    NSLog(@"$$$$$%@",article_id);
+    [[UserActions sharedInstance] enqueueAReadAction:[NSString stringWithFormat:@"%@",article_id]];
     if(!item.isRead){
         item.isRead  = YES;
         [AppDelegate.db ModifyDailyNews:item];
         [AppDelegate.db SaveDb];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory
                                                             object: self];
     }
-    [[self.view.subviews objectAtIndex:1] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_previous_news]]]];
-    [[self.view.subviews objectAtIndex:2] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_next_news]]]];
+
 }
 
 - (void)swipeRightAction:(id)sender {
+    fontLarger=NO;
     NSLog(@"%@",@"swipeRightAction");
     NSLog(@"%@",[[self.view.subviews objectAtIndex:2] stringByEvaluatingJavaScriptFromString:@"document.title"]);
     CATransition *animation = [CATransition animation];
@@ -328,14 +355,7 @@ UIButton * favor_no_btn;
         [self setFavorBtnStatus:false];
     }  
     [self moveUpIndex];
-    XDailyItem *item=[self get_current_news];
-    if(!item.isRead){
-        item.isRead  = YES;
-        [AppDelegate.db ModifyDailyNews:item];
-        [AppDelegate.db SaveDb];
-        [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory
-                                                            object: self];
-    }
+    [self setItemHasRead];
     [[self.view.subviews objectAtIndex:1] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_previous_news]]]];
     [[self.view.subviews objectAtIndex:2] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_next_news]]]];
 }
@@ -398,6 +418,18 @@ UIButton * favor_no_btn;
     }else if([strFontSize isEqualToString:@"小"]){
         [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '50%'"]; 
     }
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[0].style.background='#FFFFFF'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[0].style.color='#000000'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[39].style.color='#000000'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[7].style.color='#000000'"];
+    }else{
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[0].style.background='#1E1F20'"];
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[0].style.color='#888888'"];
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[39].style.color='#888888'"];
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[7].style.color='#888888'"];
+    }
 }
 -(int)getIndexOfNewslistWith:(NSString *)str{
     int ind=-1;
@@ -430,5 +462,198 @@ UIButton * favor_no_btn;
             favor_yes_btn.hidden=YES;
             favor_no_btn.hidden=NO;  
         }          
+}
+-(void)makeMenuBar{
+    
+    trs_ctrl = [[UIControl alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
+    [trs_ctrl  addTarget:self action:@selector(hideMenuBar) forControlEvents:UIControlEventTouchUpInside];
+    trs_ctrl.hidden=YES;
+    [self.view addSubview:trs_ctrl];
+    
+    
+    self.bottonBar = [[UIView alloc] initWithFrame:CGRectMake(205, 34, 114, 185)];
+    self.bottonBar.hidden=YES;
+    self.bottonBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"popbg.png"]];
+    [self.view addSubview:self.bottonBar];
+    
+    favor_no_btn = [[UIButton alloc] initWithFrame:CGRectMake(15, 8, 150,40)];
+    [favor_no_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
+    favor_no_btn.hidden=YES;
+    UIImageView *favor_no_pic=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"favor_pic.png"]];
+    favor_no_pic.frame=CGRectMake(0, 13, 18, 17);
+    [favor_no_btn addSubview:favor_no_pic];
+    UIImageView *favor_no_text=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"favor_txt.png"]];
+    favor_no_text.frame=CGRectMake(40, 15, 28, 14);
+    [favor_no_btn addSubview:favor_no_text];
+    favor_no_btn.showsTouchWhenHighlighted=YES;
+    [self.bottonBar addSubview:favor_no_btn];
+    
+    
+    
+    favor_yes_btn = [[UIButton alloc] initWithFrame:CGRectMake(15, 8, 150,40)];
+    [favor_yes_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
+    favor_yes_btn.hidden=YES;
+    UIImageView *favor_yes_pic=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"favor_yes_pic.png"]];
+    favor_yes_pic.frame=CGRectMake(0, 13, 18, 17);
+    [favor_yes_btn addSubview:favor_yes_pic];
+    UIImageView *favor_yes_text=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"favor_txt.png"]];
+    favor_yes_text.frame=CGRectMake(40, 15, 28, 14);
+    [favor_yes_btn addSubview:favor_yes_text];
+    favor_yes_btn.showsTouchWhenHighlighted=YES;
+    [self.bottonBar addSubview:favor_yes_btn];
+    
+    UIImageView *segline=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segline.png"]];
+    segline.frame=CGRectMake(5, 48, 103, 0.5);
+    [self.bottonBar addSubview:segline];
+    
+    UIButton* shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 49, 150,40)];
+    [shareBtn  addTarget:self action:@selector(showSMSPicker) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *share_pic=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_pic.png"]];
+    share_pic.frame=CGRectMake(0, 13, 19, 16);
+    [shareBtn addSubview:share_pic];
+    UIImageView *share_txt=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_txt.png"]];
+    share_txt.frame=CGRectMake(40, 15, 28, 14);
+    [shareBtn addSubview:share_txt];
+    shareBtn.showsTouchWhenHighlighted=YES;
+    [self.bottonBar addSubview:shareBtn];
+    
+    UIImageView *segline2=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segline.png"]];
+    segline2.frame=CGRectMake(5, 89, 103, 0.5);
+    [self.bottonBar addSubview:segline2];
+    
+    UIButton* opinionBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 90, 150,40)];
+    [opinionBtn  addTarget:self action:@selector(navToFeedback) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *opinion_pic=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"opinion_pic.png"]];
+    opinion_pic.frame=CGRectMake(0, 13, 20, 15);
+    [opinionBtn addSubview:opinion_pic];
+    UIImageView *opinion_txt=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"opinion_txt.png"]];
+    opinion_txt.frame=CGRectMake(28, 15, 56, 14);
+    [opinionBtn addSubview:opinion_txt];
+    opinionBtn.showsTouchWhenHighlighted=YES;
+    [self.bottonBar addSubview:opinionBtn];
+    
+    UIImageView *segline3=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segline.png"]];
+    segline3.frame=CGRectMake(5, 130, 103, 0.5);
+    [self.bottonBar addSubview:segline3];
+    
+    UIButton* fontBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 130, 150,40)];
+    [fontBtn  addTarget:self action:@selector(toggleFont) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *font_pic=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"font_pic.png"]];
+    font_pic.frame=CGRectMake(0, 13, 25, 17);
+    [fontBtn addSubview:font_pic];
+    UIImageView *font_txt=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"font_txt.png"]];
+    font_txt.frame=CGRectMake(28, 15, 56, 14);
+    [fontBtn addSubview:font_txt];
+    fontBtn.showsTouchWhenHighlighted=YES;
+    [self.bottonBar addSubview:fontBtn];
+}
+-(void)toggleFont{
+    [self hideMenuBar];
+    UIWebView *webView=[self.view.subviews objectAtIndex:3];
+    if(fontLarger){
+        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '100%'"];
+        fontLarger=NO;
+    }else{
+        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '150%'"];
+        fontLarger=YES;
+    }
+}
+-(void)navToFeedback{
+    [self hideMenuBar];
+    XDailyItem *item=[self get_current_news];
+    NSString* articleid=[item.localPath substringWithRange:NSMakeRange([item.localPath length]-11, 7)];
+    NSLog(@"fee ...%@ %@",item.localPath,articleid);
+    FeedBackToAuthorViewController* nbx = [[FeedBackToAuthorViewController alloc] init];
+    nbx.articleId=articleid;
+    UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:nbx];
+    nbx.mode=0;
+    [self presentViewController:unc animated:YES completion:nil];
+}
+-(void)toggleMenuBar{
+    
+    if(self.bottonBar.hidden){
+        [self showMenuBar];
+    }else{
+        [self hideMenuBar];
+    }
+}
+-(void)showMenuBar{
+    trs_ctrl.hidden=NO;
+    self.bottonBar.hidden=NO;
+}
+-(void)hideMenuBar{
+    trs_ctrl.hidden=YES;
+    self.bottonBar.hidden=YES;
+}
+-(void)handleSingleFingerEvent:(UITapGestureRecognizer *)sender
+{
+    NSLog(@"%@",@"handleSingleFingerEvent");
+    if(self.bottonBar.hidden==YES){
+        [self showMenuBar];
+    }else{
+        [self hideMenuBar];
+    }
+}
+-(void)showSMSPicker{
+    [self hideMenuBar];
+    [self share];
+}
+-(void)share{
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Icon@2x"  ofType:@"png"];
+    NSString *titleText=((XDailyItem *)[self get_current_news]).title;
+    NSString *pageurl=((XDailyItem *)[self get_current_news]).pageurl;
+    NSString *uri=[pageurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    NSString *redirect_url=[NSString stringWithFormat:@"http://mis.xinhuanet.com/SXTV2/mobile%@",uri];
+    NSLog(@"%@",redirect_url);
+    NSString *shareStr=[NSString stringWithFormat:@"%@\n%@",titleText,redirect_url];
+    //构造分享内容
+    id<ISSContent> publishContent = [ShareSDK content:shareStr
+                                       defaultContent:@"默认分享内容，没内容时显示"
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:titleText
+                                                  url:redirect_url
+                                          description:titleText
+                                            mediaType:SSPublishContentMediaTypeNews];
+    [ShareSDK showShareActionSheet:nil
+                         shareList:nil
+                           content:publishContent
+                     statusBarTips:YES
+                       authOptions:nil
+                      shareOptions: nil
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                if (state == SSResponseStateSuccess)
+                                {
+                                    NSLog(@"分享成功");
+                                }
+                                else if (state == SSResponseStateFail)
+                                {
+                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
+                                }
+                            }];
+}
+
+
+-(NSString *)htmlclear:(NSString *)htmlStr{
+    NSMutableString *outputStr=[NSMutableString stringWithString:htmlStr];
+    [outputStr replaceOccurrencesOfString:@"<script.*</script>" withString:@"" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<style.*</style>" withString:@"" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"'" withString:@"''" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"</div>" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<p><p><p>" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<p><p>" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<p>" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<br>" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<(/?p|br[^>]*)>" withString:@"" options:NSRegularExpressionSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"<[^<>]+>" withString:@" " options:NSRegularExpressionSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"\\[--([^-]+)--\\]" withString:@"<$1>" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"&nbsp;" withString:@" " options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"&ldquo;" withString:@"\"" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"&rdquo;" withString:@"\"" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"&middot;" withString:@"." options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"\n\n\n\n\n" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"\n\n\n\n" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"\n\n\n" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    [outputStr replaceOccurrencesOfString:@"\n\n" withString:@"\n" options:NSLiteralSearch  range:NSMakeRange(0, [outputStr length])];
+    return outputStr;
 }
 @end

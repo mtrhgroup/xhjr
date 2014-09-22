@@ -25,21 +25,27 @@ static NewsFeedBackTask *instance=nil;
     request.delegate=self;
     [request startAsynchronous];
 }
+-(void)feedbackArticleOpinion:(NSString *)authcode articelid:(NSString *)articelid contentStr:(NSString *)contentStr{
+    ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:KArticleFeedURL]];
+    [request setPostValue:[UIDevice customUdid] forKey:@"imei"];
+    [request setPostValue:authcode forKey:@"sn"];
+    [request setPostValue:articelid forKey:@"literid"];    
+    [request setPostValue:contentStr forKey:@"content"];
+    NSLog(@"feedback %@ ...imei=%@ sn=%@ literid=%@ content=%@",KArticleFeedURL,[UIDevice customUdid],authcode
+          ,articelid,contentStr);
+    request.delegate=self;
+    [request startAsynchronous];
+}
 -(void)requestStarted:(ASIHTTPRequest *)request{
 
 }
 -(void)requestFinished:(ASIHTTPRequest *)request{
+    NSString *response=[request responseString];
+    NSLog(@"%@",response);
     NSDictionary *d = [NSDictionary dictionaryWithObject:@"反馈意见提交成功！感谢您的支持！"
                                                   forKey:@"data"];
     [[NSNotificationCenter defaultCenter] postNotificationName: KShowToast
                                                         object: self userInfo:d];
-//    [self.view hideToastActivity];
-//    NSString *responseString = [request responseString];
-//    NSLog(@"OK = %@",responseString);
-//    [self.view makeToast:@"反馈意见提交成功！感谢您的支持！"
-//                duration:2.0
-//                position:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
-//    [request release];
 }
 -(void)requestFailed:(ASIHTTPRequest *)request{
     NSDictionary *d = [NSDictionary dictionaryWithObject:@"反馈意见提交失败！"

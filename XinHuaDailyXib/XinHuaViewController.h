@@ -37,36 +37,32 @@
     UILabel* picTitleLabel;
 }
 
-@property (nonatomic,retain) UIPageControl* pagecontrol;
-@property (nonatomic,retain) UIScrollView* scrollview;
-@property (nonatomic,retain) UITableView* table;
-@property (retain, atomic) NSMutableArray *channel_list;
-@property (retain, atomic) NSMutableArray *channel_read_list;
-@property (retain,nonatomic) UIView* tools_view;
+@property (nonatomic,strong) UIPageControl* pagecontrol;
+@property (nonatomic,strong) UIScrollView* scrollview;
+@property (nonatomic,strong) UITableView* table;
+@property (strong, atomic) NSMutableArray *channel_list;
+@property (strong, atomic) NSMutableArray *channel_read_list;
+@property (strong,nonatomic) UIView* tools_view;
 
-@property (retain,nonatomic) NSMutableArray *picturenews_array;
-@property (nonatomic,retain) UILabel* picTitleLabel;
-@property(retain,nonatomic)UIButton *toVipBtn;
+@property (strong,nonatomic) NSMutableArray *picturenews_array;
+@property (nonatomic,strong) UILabel* picTitleLabel;
+@property(strong,nonatomic)UIButton *toVipBtn;
 @property  int pic_index;
-@property(nonatomic,retain)EGORefreshTableHeaderView *refreshHeaderView;
-@property (nonatomic,retain)ExpressMarquee *expressMarquee;
-@property(nonatomic,retain)ExpressPlusViewController *expressPlusViewController;
-@property(nonatomic,retain)NewsListPlusViewController *newsListPlusViewController;
-@property(nonatomic,retain)XdailyItemViewController *xdailyItemViewController;
+@property(nonatomic,strong)EGORefreshTableHeaderView *refreshHeaderView;
+@property (nonatomic,strong)ExpressMarquee *expressMarquee;
+@property(nonatomic,strong)ExpressPlusViewController *expressPlusViewController;
+@property(nonatomic,strong)NewsListPlusViewController *newsListPlusViewController;
+@property(nonatomic,strong)XdailyItemViewController *xdailyItemViewController;
 
 
 
 //pagecontrol页面改变
 -(void)changePage:(id)sender;
 
-//从数据库读取数据
--(void)getDataFromDB;
 
 //从网络读取数据
 -(void)GetdatafromWebToDb;
 
-//通过栏目id获取数据
--(void)GetXdailysFromWebToDb: (NSString *)channel_id;
 
 -(void)makeToolPannel;
 

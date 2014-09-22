@@ -11,5 +11,6 @@
  * notification : KPictureOK           "动态启动图准备完毕"      userInfo:data  (NSString *) "动态启动图的路径"       
  */
 @interface NewsDownloadImgTask : NSObject
-+(void)execute;
++(NewsDownloadImgTask *)sharedInstance;
+-(void)execute;
 @end

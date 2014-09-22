@@ -13,4 +13,5 @@
 @interface NewsFeedBackTask : NSObject
 +(NewsFeedBackTask *)sharedInstance;
 -(void)execute:(NSString *)authcode emailStr:(NSString *)emailStr contentStr:(NSString *)contentStr;
+-(void)feedbackArticleOpinion:(NSString *)authcode articelid:(NSString *)articelid contentStr:(NSString *)contentStr;
 @end

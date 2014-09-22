@@ -7,13 +7,12 @@
 //
 
 #import "NewsBindingServerTask.h"
-#import "UserDefaultManager.h"
 #import "NewsDefine.h"
 #import "ASIHTTPRequest.h"
 @implementation NewsBindingServerTask
 
 +(void)execute{
-    NSString *bindphone_url=[NSString stringWithFormat:KBindlePhoneUrl,[UIDevice customUdid],[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
+    NSString *bindphone_url=[NSString stringWithFormat:KBindlePhoneUrl,[UIDevice customUdid],[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion],sxttype,sxtversion];
     bindphone_url=[bindphone_url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"%@",bindphone_url);
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:bindphone_url]];
@@ -25,17 +24,17 @@
     NSLog(@"%@",responseString);
     NSDictionary *d;
     NSRange range=[responseString rangeOfString:@"OLD"];
-    [[UserDefaultManager sharedInstance]  setString:@"imei" forKey:[UIDevice customUdid]];  
+    [[NSUserDefaults standardUserDefaults] setObject:@"imei" forKey:[UIDevice customUdid]];
     if(range.location!=NSNotFound){        
         if(responseString.length>3){
             NSString *snStr=[responseString substringFromIndex:4];
-           [[UserDefaultManager sharedInstance]  setString:snStr  forKey:KUserDefaultAuthCode];
+           [[NSUserDefaults standardUserDefaults]  setObject:snStr  forKey:KUserDefaultAuthCode];
             d = [NSDictionary dictionaryWithObject:@"old"  forKey:@"data"];
             [[NSNotificationCenter defaultCenter] postNotificationName: KBindlePhoneOK
                                                                 object: self userInfo:d];
         }else{
             d = [NSDictionary dictionaryWithObject:@"new"  forKey:@"data"];
-            [[UserDefaultManager sharedInstance]  setString:nil  forKey:KUserDefaultAuthCode];
+            [[NSUserDefaults standardUserDefaults]  setObject:nil  forKey:KUserDefaultAuthCode];
             [[NSNotificationCenter defaultCenter] postNotificationName: KBindlePhoneFailed
                                                                 object: self userInfo:d];
         }

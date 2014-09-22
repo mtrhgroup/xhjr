@@ -33,14 +33,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-	[databasepath release];
-    [lock release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark Core Data stack
@@ -213,13 +205,9 @@
 		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:sortAscending];
 		NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 		[request setSortDescriptors:sortDescriptors];
-		[sortDescriptors release];
-		[sortDescriptor release];
 	}
 	
 	NSError *error;
-	
-	[request autorelease];
     NSArray* result = [managedObjectContext executeFetchRequest:request error:&error];
 	if (![NSThread isMainThread])
     {
@@ -267,7 +255,6 @@
 	NSFetchedResultsController* fetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
 																							  managedObjectContext:[self managedObjectContext] 
 																								sectionNameKeyPath:sectionName cacheName:nil];
-	[fetchRequest release];
 	[fetchedResultController performFetch:nil];
     
     return fetchedResultController;

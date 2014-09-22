@@ -1,0 +1,125 @@
+//
+//  WelcomeViewController.m
+//  NewsLetter
+//
+//  Created by apple on 12-4-23.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//
+
+#import "WelcomeViewController.h"
+#import "XinHuaViewController.h"
+@interface WelcomeViewController ()
+
+@end
+
+@implementation WelcomeViewController
+@synthesize app;
+@synthesize subImg;
+@synthesize mainViewController;
+- (void)viewDidLoad
+{
+        self.navigationController.navigationBar.hidden=true;
+    [super viewDidLoad];
+
+    self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"Default.png"]];
+    UIImageView *bg=[[UIImageView alloc]initWithFrame:CGRectMake(0,0,320,480)];
+    bg.image=[UIImage imageNamed:@"Default.png"];
+    [self.view addSubview:bg];
+    NSLog(@"welcome");
+    [self downloadWelcomePicture];
+    [self performSelector:@selector(navigateToMainScene) withObject:nil afterDelay:2.0];
+
+	// Do any additional setup after loading the view.
+}
+-(void)navigateToMainScene{
+    UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:app.viewController];
+    unc.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
+//     app.window.rootViewController=viewController;
+    [self presentModalViewController:unc animated:YES];
+
+    NSLog(@"%@",app.window.rootViewController);
+}
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    [subImg release];
+    [mainViewController release];
+    [app release];
+    
+    // Release any retained subviews of the main view.
+}
+-(void)downloadWelcomePicture{
+    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
+    NSString* picURL = [NSString stringWithFormat:KWelcomePictureURL,authcode];
+    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:picURL]];
+    [request setCompletionBlock:^{        
+        NSData*   responseData = [request responseData];
+        NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        NSLog(@"welcome picture string = %@",responseString);
+        NSString*  url = [responseString stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]; 
+        NSString* filePath = [CommonMethod fileWithDocumentsPath:url];
+        if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){
+            [self addSubImgView:filePath];
+        }else{
+            [self GetImgFromWeb:url];
+        }
+
+        [responseString release];
+    }];
+    [request setFailedBlock:^{
+        NSLog(@"responseString = %@",[request.error localizedDescription]);
+    }];
+    [request startAsynchronous];
+}
+
+-(void)GetImgFromWeb:(NSString *)url
+{
+    NSString* filePath = [CommonMethod fileWithDocumentsPath:url];
+    NSString*  web_url = [NSString stringWithFormat:@"%@%@",KXinhuaUrl,url];
+    NSLog(@"filePath %@",filePath);
+    NSFileManager* fm = [NSFileManager defaultManager];   
+    if ( ![fm fileExistsAtPath:[[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent]] ) {
+        [fm createDirectoryAtPath:[[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] withIntermediateDirectories:NO attributes:nil error:nil];
+    }
+    if ( ![fm fileExistsAtPath:[filePath stringByDeletingLastPathComponent]] ) {
+        [fm createDirectoryAtPath:[filePath stringByDeletingLastPathComponent] withIntermediateDirectories:NO attributes:nil error:nil];
+    }
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        return;
+    }   
+    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:web_url]];
+    request.downloadDestinationPath = [NSString stringWithFormat:@"%@%@", filePath,@"tmp"];
+    [request setCompletionBlock:^{
+        [[NSFileManager  defaultManager] moveItemAtPath:[NSString stringWithFormat:@"%@%@", filePath,@"tmp"]  toPath:filePath error:nil];
+        [self addSubImgView:filePath];
+        //todo:通知界面更新   
+    }];
+    [request setFailedBlock:^{        
+        NSLog(@"err = %@",@"下载图片失败");
+    }];
+    [request startAsynchronous];
+}
+-(void)addSubImgView:(NSString *)pathImg{
+    NSLog(@"addSubImgView %@",pathImg);
+    self.subImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    self.subImg.image= [[UIImage alloc] initWithContentsOfFile:pathImg];
+    
+    CATransition *animation = [CATransition animation];
+    animation.duration = 0.5f;
+    animation.timingFunction = UIViewAnimationCurveEaseInOut;
+	animation.fillMode = kCAFillModeForwards;
+	animation.type = kCATransitionFade;
+	animation.subtype = kCATransitionReveal;	
+	[self.view.layer addAnimation:animation forKey:@"animation"];
+    [self.view addSubview:self.subImg];
+    [UIView commitAnimations];
+
+
+
+}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return false;
+}
+
+@end

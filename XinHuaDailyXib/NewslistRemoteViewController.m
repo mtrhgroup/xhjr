@@ -8,6 +8,7 @@
 
 #import "NewslistRemoteViewController.h"
 #import "NewsArticleViewController.h"
+#import "PeriodicalItem.h"
 @interface NewslistRemoteViewController ()
 
 @end
@@ -25,19 +26,19 @@
 @synthesize channel_title;
 @synthesize channel_id;
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [webView release];
-    [waitingView release];
-    [indicator release];
-    [url release];
-    [type release];
-    [newslist release];
-    [baseURL release];
-    [channel_id release];
-    [channel_title release];
-    // Release any retained subviews of the main view.
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
 - (void)viewDidLoad
 {
@@ -46,28 +47,25 @@
     self.navigationController.navigationBar.hidden = YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     NSLog(@"AAAAA");
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 240, 40)];
     [self.view addSubview:lab];
     lab.text = self.channel_title;
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
     
     [self.view addSubview:bimgv];
-    [bimgv release];
 
     
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416)];
@@ -113,7 +111,6 @@
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(40, 150, 231, 65)];
     imageView.image=[UIImage imageNamed:@"logo.png"];
     [waitingView addSubview:imageView];
-    [imageView release];
     [waitingView addSubview:indicator];
     [self.view addSubview:waitingView];
     
@@ -162,7 +159,6 @@
         aController.item_title=self.channel_title;
         
         [self.navigationController pushViewController: aController animated:YES];        
-        [aController release];
         return NO;
     }
     return NO;
@@ -176,18 +172,25 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [self hideWaitingView];
+    NSString *currentURL = [self.webView stringByEvaluatingJavaScriptFromString:@"document.location.href"];
+    if([[currentURL lastPathComponent] isEqualToString:@"index.htm"]){
         NSString *urls=[self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('li').length"];
         int urls_length=[urls intValue];
-        self.newslist=[[[NSMutableArray alloc] initWithCapacity:urls_length] autorelease];
+        self.newslist=[[NSMutableArray alloc] initWithCapacity:urls_length];
         for(int i=0;i<urls_length;i++){
-            [self.newslist addObject:[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].firstChild.getAttribute(\"href\")",i]]];
+            PeriodicalItem *item=[[PeriodicalItem alloc]init];
+            item.url=[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].firstChild.getAttribute(\"href\")",i]];
+            NSString *outHTML=[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].parentNode.previousSibling.firstChild.innerText",i]];
+            item.topic=outHTML;
+            [self.newslist addObject:item];
         }
+    }
 }
 
 -(int)getIndexOfNewslistWith:(NSString *)str{
     int ind=-1;
     for(int i=0;i<[self.newslist count];i++){
-        if([[self.newslist objectAtIndex:i] isEqualToString:str]){
+        if([((PeriodicalItem *)[self.newslist objectAtIndex:i]).url isEqualToString:str]){
             ind=i;
             break;
         }
@@ -202,8 +205,4 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc {
-    [webView release];
-    [super dealloc];
-}
 @end

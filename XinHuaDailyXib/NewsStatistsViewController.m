@@ -23,11 +23,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [self.table release];
-    [self.currentMonth3G release];
-    [self.currentMonthWifi release];
-    [self.lastMonth3G release];
-    [self.lastMonthWifi release];
+
     // Release any retained subviews of the main view.
 }
 
@@ -53,21 +49,18 @@
     [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"系统设置";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
     lab.textColor = [UIColor whiteColor];
     [bimgv addSubview:lab];
-    [lab release];
     [self.view addSubview:bimgv];
-    [bimgv release];
     
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416) style:UITableViewStyleGrouped];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0)) style:UITableViewStyleGrouped];
     table.delegate = self;
     table.dataSource = self;
     [self.view addSubview:table];
@@ -76,7 +69,7 @@
     NSDictionary *cellbytesDict= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
     NSDictionary *wifibytesDict= [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFIBYTES"];
     
-    self.currentMonth3G = [[[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)] autorelease];
+    self.currentMonth3G = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
     int cellOfThisMonth=((NSString *)[cellbytesDict objectForKey:[self currentMonth]]).intValue;
     if(cellOfThisMonth==0){
         currentMonth3G.text=@"无";
@@ -87,7 +80,7 @@
     currentMonth3G.font = [UIFont fontWithName:@"System" size:17];
     currentMonth3G.backgroundColor = [UIColor clearColor];
     
-    self.currentMonthWifi = [[[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)] autorelease];
+    self.currentMonthWifi = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
     int wifiOfThisMonth=((NSString *)[wifibytesDict objectForKey:[self currentMonth]]).intValue;
     if(wifiOfThisMonth==0){
         currentMonthWifi.text=@"无";
@@ -98,7 +91,7 @@
     currentMonthWifi.font = [UIFont fontWithName:@"System" size:17];
     currentMonthWifi.backgroundColor = [UIColor clearColor];
     
-    self.lastMonth3G = [[[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)] autorelease];
+    self.lastMonth3G = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
     int cellOflastMonth=((NSString *)[cellbytesDict objectForKey:[self lastMonth]]).intValue;
     if(cellOflastMonth==0){
         lastMonth3G.text=@"无";
@@ -109,7 +102,7 @@
     lastMonth3G.font = [UIFont fontWithName:@"System" size:17];
     lastMonth3G.backgroundColor = [UIColor clearColor];
     
-    self.lastMonthWifi= [[[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)] autorelease];
+    self.lastMonthWifi= [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
     int wifiOflastMonth=((NSString *)[wifibytesDict objectForKey:[self lastMonth]]).intValue;
     if(wifiOflastMonth==0){
         lastMonthWifi.text=@"无";
@@ -153,7 +146,7 @@
     UITableViewCell* cell = [table dequeueReusableCellWithIdentifier:str];
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         
     }
     cell.textLabel.textColor = [UIColor blackColor];
@@ -241,7 +234,8 @@
         lastMonthWifi.text=[self bytesFormater:bytesLostOflastMonthByWifi];
     }
     
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
+                                                        object: self];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -263,8 +257,6 @@
         [byteslostDicbyWifi  setValue:[NSString stringWithFormat:@"%d",0] forKey:thisMonthStr];
         [[NSUserDefaults  standardUserDefaults] setObject:byteslostDicby3G forKey:@"CELLBYTES"];
         [[NSUserDefaults  standardUserDefaults] setObject:byteslostDicbyWifi forKey:@"WIFIBYTES"];
-        [byteslostDicby3G release];
-        [byteslostDicbyWifi release];
         [self update];
     }
     

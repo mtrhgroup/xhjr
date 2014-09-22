@@ -11,6 +11,7 @@
 @class DailyNews;
 @interface XDailyItem : NSObject
 {
+    @package
     NSNumber*       _item_id;
     NSString*       _title;
     NSString*       _pageurl;
@@ -21,29 +22,37 @@
     NSString* _channelId;
     NSString*      _channelTitle;
     NSString* _attachments;
+    NSString* _summary;
+    NSString* _thumbnail;
+    NSString* _pn;
     
 }
-@property(nonatomic,copy)NSNumber*      item_id;
+@property(nonatomic,strong)NSNumber*      item_id;
 //名字
-@property(nonatomic,copy)NSString*      title;
+@property(nonatomic,strong)NSString*      title;
 //
-@property(nonatomic,copy)NSString*      pageurl;
+@property(nonatomic,strong)NSString*      pageurl;
 //
-@property(nonatomic,copy)NSString*      zipurl;
+@property(nonatomic,strong)NSString*      zipurl;
 //时间
-@property(nonatomic,copy)NSString*      dateString;
+@property(nonatomic,strong)NSString*      dateString;
 //
-@property(nonatomic,copy)NSString*      key;
+@property(nonatomic,strong)NSString*      key;
 //已读未读
 
 @property(nonatomic)BOOL           isRead;
 //所属频道id
-@property(nonatomic,copy)NSString*      channelId;
+@property(nonatomic,strong)NSString*      channelId;
 //所属频道名称
-@property(nonatomic,copy)NSString*      channelTitle;
+@property(nonatomic,strong)NSString*      channelTitle;
 
-@property(nonatomic,copy)NSString*      attachments;
+@property(nonatomic,strong)NSString*      attachments;
+@property(nonatomic,strong)NSString*      summary;
+@property(nonatomic,strong)NSString*      thumbnail;
+@property(nonatomic,strong)NSString*      homenum;
+@property(nonatomic,strong)NSString* pn;
 
 +(XDailyItem*)XDailyItemFromDailyNews:(DailyNews*) news;
+-(NSString *)localPath;
 
 @end

@@ -19,26 +19,20 @@
 @synthesize table;
 
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [uivaa release];
-    [uivbb release];
-    [uivcc release];
-    [table release];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
     }
-    return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,25 +42,22 @@
     
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"系统设置";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     [self.view addSubview:bimgv];
-    [bimgv release];
     
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0)) style:UITableViewStyleGrouped];
     table.delegate = self;
@@ -136,7 +127,7 @@
     
     
     if ( cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     

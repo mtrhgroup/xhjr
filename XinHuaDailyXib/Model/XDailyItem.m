@@ -8,7 +8,7 @@
 
 #import "XDailyItem.h"
 #import "DailyNews.h"
-
+#import "CommonMethod.h"
 @implementation XDailyItem
 @synthesize      item_id=_item_id;
 @synthesize      title = _title;
@@ -19,24 +19,24 @@
 @synthesize      isRead = _isread;
 @synthesize      channelId;
 @synthesize      channelTitle;
+@synthesize      summary=_summary;
+@synthesize      thumbnail=_thumbnail;
+@synthesize      homenum=_homenum;
+@synthesize      pn=_pn;
 @synthesize attachments;
-- (void)dealloc
-{
-    [_item_id release];
-    [_title release];
-    [_pageurl release];
-    [_zipurl release];
-    [_dateString release];
-    [_key release];
-    [channelId release];
-    [channelTitle release];
-    [attachments release];
-    [super dealloc];
-     
+
+-(NSString *)localPath{
+    NSString* path_url = [_zipurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    NSString* url=[_pageurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    NSString* filename=[url lastPathComponent];
+    NSString* dirName = [path_url lastPathComponent];
+    NSString* filePath =[[CommonMethod fileWithDocumentsPath:dirName] stringByDeletingPathExtension];
+    NSString* urlStr=[NSString stringWithFormat:@"%@/%@",[filePath stringByDeletingPathExtension],filename];
+    return  urlStr;
 }
 +(XDailyItem*)XDailyItemFromDailyNews:(DailyNews*) news
 {
-    XDailyItem * item = [[[XDailyItem alloc] init] autorelease];
+    __autoreleasing  XDailyItem * item = [[XDailyItem alloc] init];
      
     item.title = news.newsTitle;
     item.dateString = news.newsDate;
@@ -48,6 +48,9 @@
     item.channelTitle=news.channeltitle;
     item.item_id = news.item_id;
     item.attachments = news.attachments;
+    item.summary=news.summary;
+    item.thumbnail=news.thumbnail;
+    item.pn=news.pn;
     return item;
     
 }

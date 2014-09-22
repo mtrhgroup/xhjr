@@ -7,7 +7,6 @@
 //
 
 #import "NewsUploadTokenTask.h"
-#import "UserDefaultManager.h"
 static NewsUploadTokenTask *instance=nil;
 @implementation NewsUploadTokenTask
 +(NewsUploadTokenTask *)sharedInstance{
@@ -18,7 +17,7 @@ static NewsUploadTokenTask *instance=nil;
 }
 -(void)uploadToken:(NSString*)token
 {
-    NSString* oldToken = [[UserDefaultManager sharedInstance] stringForKey:KUserToken defaultValue:NO];
+    NSString* oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:KUserToken];
     if (oldToken.length > 0 && [oldToken isEqualToString:token]) 
     {
         return;
@@ -32,7 +31,7 @@ static NewsUploadTokenTask *instance=nil;
 }
 -(void)requestFinished:(ASIHTTPRequest *)request{
     NSString *token = [request.userInfo objectForKey:@"token"];
-    [[UserDefaultManager sharedInstance]  setString:token forKey:KUserToken];
+    [[NSUserDefaults standardUserDefaults]  setObject:token forKey:KUserToken];
     NSDictionary *d = [NSDictionary dictionaryWithObject:@"上传Token成功！"  forKey:@"data"];
     [[NSNotificationCenter defaultCenter] postNotificationName: KShowToast object: self userInfo:d];
 }
@@ -44,19 +43,16 @@ static NewsUploadTokenTask *instance=nil;
     NSString* regUrl = [NSString stringWithFormat:KClearBadgeURL,[UIDevice customUdid]];
     regUrl = [regUrl trimSpaceAndReturn];
     NSLog(@"reg = %@",regUrl);
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:regUrl]];
+    __weak ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:regUrl]];
     [request setShouldContinueWhenAppEntersBackground:YES];
     [request setCompletionBlock:^{
         
         NSData*   responseData = [request responseData];
         NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
         NSLog(@"responseString = %@",responseString);
-        [responseString release];
-        [request release];
     }];
     [request setFailedBlock:^{
         NSLog(@"responseString = %@",[request.error localizedDescription]);
-        [request release];
     }];
     [request startAsynchronous];
 }

@@ -18,7 +18,7 @@
 @property (nonatomic, readonly)NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readonly)NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly)NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, retain)NSString*  databasepath;
+@property (nonatomic, strong)NSString*  databasepath;
 
 - (id)initWithFile:(NSString*)dbPath;
 - (BOOL)SaveDb;

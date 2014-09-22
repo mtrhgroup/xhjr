@@ -16,9 +16,9 @@
 }
 
 
-@property (nonatomic,retain)   UIImageView* uivaa;
-@property (nonatomic,retain)   UIImageView* uivbb;
-@property (nonatomic,retain)   UIImageView* uivcc;
-@property (nonatomic,retain) UITableView* table;
+@property (nonatomic,strong)   UIImageView* uivaa;
+@property (nonatomic,strong)   UIImageView* uivbb;
+@property (nonatomic,strong)   UIImageView* uivcc;
+@property (nonatomic,strong) UITableView* table;
 
 @end

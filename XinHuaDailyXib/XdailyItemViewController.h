@@ -14,11 +14,11 @@
 
 @interface XdailyItemViewController : UIViewController <EGORefreshTableHeaderDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 
-@property (nonatomic, retain) NSMutableArray *xdailyitem_list;
-@property(nonatomic,copy)NSString* channel_id;
-@property(nonatomic,retain)NSString* channel_title; 
-@property(nonatomic,retain)NewsChannel *channel;
-@property (retain, nonatomic) UITableView *table;
-@property (nonatomic,retain)UILabel *emptyinfo_label;
+@property (nonatomic, strong) NSMutableArray *xdailyitem_list;
+@property(nonatomic,strong)NSString* channel_id;
+@property(nonatomic,strong)NSString* channel_title; 
+@property(nonatomic,strong)NewsChannel *channel;
+@property (strong, nonatomic) UITableView *table;
+@property (nonatomic,strong)UILabel *emptyinfo_label;
 
 @end

@@ -21,7 +21,20 @@
 @synthesize channel_list=_channel_list;
 @synthesize table;
 
-
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -29,25 +42,22 @@
     self.navigationController.navigationBar.hidden=YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"订阅管理";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     [self.view addSubview:bimgv];
-    [bimgv release];
     
     [self getListFromDB];
     
@@ -59,15 +69,13 @@
 }
 -(void)backAction:(id)sender{
     [self commitToServer];
-    [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory
+    [[NSNotificationCenter defaultCenter] postNotificationName: KEnterForeground
                                                         object: self];
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [_channel_list release];
-    [table release];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -98,7 +106,7 @@
     
 
         if ( cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
     
     NewsChannel *channelAtIndex = [self.channel_list objectAtIndex:indexPath.row];
@@ -108,7 +116,6 @@
     labtext.text = channelAtIndex.title;
     labtext.font = [UIFont fontWithName:@"system" size:15];
     [cell addSubview:labtext];
-    [labtext release];
     
     UICustomSwitch* sw = [[UICustomSwitch alloc] initWithFrame:CGRectMake(226,5,60,27)];
     [cell addSubview:sw];
@@ -132,24 +139,19 @@
         NSFileManager* fm = [[NSFileManager alloc] init];
         if ([fm fileExistsAtPath:pathImg]) {
             UIImageView* uiv = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 30, 30)];
-            uiv.image = [[[UIImage alloc] initWithContentsOfFile:pathImg] autorelease];
+            uiv.image = [[UIImage alloc] initWithContentsOfFile:pathImg];
             [cell addSubview:uiv];
-            [uiv release];
         }else{
             UIImageView* uiv = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 30, 30)];
             uiv.image = [UIImage imageNamed:@"Icon.png"];
             [cell addSubview:uiv];
-            [uiv release];
         }
-        [fm release];
-
     }
-    [sw release];
     return cell;
 }
 -(void)getListFromDB{
     self.channel_list=nil;
-    self.channel_list=[[[NSMutableArray alloc]init] autorelease];
+    self.channel_list=[[NSMutableArray alloc]init];
     NSMutableArray *tempArray=[AppDelegate.db allChannels];
     for(NewsChannel * channel in tempArray){
         if(channel.subscribe.intValue<2){
@@ -193,10 +195,9 @@
         [result appendString:@","];
     }
     NSString * sub_list_str=[result substringToIndex:result.length-1];  
-    [result release];
-    NSString *sub_commit_url=[NSString stringWithFormat:KSubscribeCommitURL,[UIDevice customUdid],sub_list_str,[[UIDevice currentDevice] systemVersion]];
+    NSString *sub_commit_url=[NSString stringWithFormat:KSubscribeCommitURL,[UIDevice customUdid],sub_list_str,[[UIDevice currentDevice] systemVersion],sxttype,sxtversion];
     NSLog(@"sub_commit_url = %@",sub_commit_url);
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:sub_commit_url]];
+    __weak ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:sub_commit_url]];
     [request setCompletionBlock:^{
         NSString *responseString = [request responseString];
         NSLog(@"sub_commit_url = %@",responseString);
@@ -206,12 +207,10 @@
         }else{
             //
         }
-        [request release];
     }];
     [request setFailedBlock:^{
         NSError *error = [request error];
         NSLog(@"error = %@",[error localizedDescription]);
-        [request release];
     }];
     [request startAsynchronous];
     }
@@ -220,7 +219,6 @@
 -(void)setExtraCellHidden:(UITableView *)tableview{
     UIView *view=[UIView new];
     view.backgroundColor=[UIColor clearColor];
-    [tableview setTableFooterView:view];
-    [view release];       
+    [tableview setTableFooterView:view];      
 }
 @end

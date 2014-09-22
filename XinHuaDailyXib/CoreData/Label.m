@@ -21,5 +21,6 @@
 @dynamic order;
 @dynamic sub;
 @dynamic sort;
+@dynamic homenum;
 
 @end

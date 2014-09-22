@@ -16,7 +16,6 @@
 #import "NewsDbOperator.h"
 #import "ContactUsViewController.h"
 #import "Toast+UIView.h"
-#import "NewsDbOperatorForChildThread.h"
 
 @interface SettingViewController ()
 
@@ -35,48 +34,51 @@
     self = [super init];
     if (self) {
         // Custom initialization
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:KSettingChange object:nil];        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:KSettingChange object:nil];
+        
+        
     }
     return self;
 }
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [table release];
-    [labBuff release];
-    [labFont release];
-    [byteslostLabel release];
-    // Release any retained subviews of the main view.
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"系统设置";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
     [self.view addSubview:bimgv];
-    [bimgv release];
     
-    
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0)) style:UITableViewStyleGrouped];
     
     table.delegate = self;
@@ -107,11 +109,11 @@
     if(section==0){
         return 2;
     }else if(section==1){
-        return 1;
+        return 1;//2:夜间模式
     }else if(section==2){
         return 1;
     }else if(section==3){
-        return 2;
+        return 1;
     }
     return 0;
 }
@@ -128,7 +130,7 @@
     UITableViewCell* cell = [table dequeueReusableCellWithIdentifier:str];
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
        
     }
     
@@ -171,13 +173,18 @@
             labFont.backgroundColor = [UIColor clearColor];
             [cell addSubview:labFont];
             cell.textLabel.text = @"字体大小"; 
+        }else if(indexPath.row==1){
+            NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+            if(displayMode==nil)
+                cell.textLabel.text = @"日间模式";
+            else
+                cell.textLabel.text=displayMode;
+            cell.accessoryType=UITableViewCellAccessoryNone;
         }
     }else if(indexPath.section==2){
         if(indexPath.row==0){
             byteslostLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
             NSDictionary *byteslostDic= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
-            NSLog(@"byteslostDic %@",byteslostDic);
-            NSLog(@"当前月份是 %@",[self currentMonth]);
             int bytesLostOfThisMonth=((NSString *)[byteslostDic objectForKey:[self currentMonth]]).intValue;
             if(bytesLostOfThisMonth==0){
                 byteslostLabel.text=@"无";
@@ -191,9 +198,6 @@
             cell.textLabel.text =  @"本月2G/3G流量";
         }
     }else if(indexPath.section==3){
-        if(indexPath.row==1){
-            cell.textLabel.text =  @"关于";
-        }
         if(indexPath.row==0){
             cell.textLabel.text=@"意见反馈";
         }
@@ -224,36 +228,45 @@
         if (indexPath.row == 0){
             NewsBufferSettingViewController* nsv = [[NewsBufferSettingViewController alloc] init];
             [self.navigationController pushViewController:nsv animated:YES];
-            [nsv release];
         }else if(indexPath.row == 1){
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"清除缓存提醒！" message:@"您确定清除缓存吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
-            [alert release];
         }
     }else if(indexPath.section==1){
         if(indexPath.row==0){
             NewsFontSettingViewController* nsv = [[NewsFontSettingViewController alloc] init];
             [self.navigationController pushViewController:nsv animated:YES];
-            [nsv release];
+        }else if(indexPath.row==1){
+            NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+            if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+                [[NSUserDefaults standardUserDefaults] setObject:@"夜间模式" forKey:@"displayMode"];
+                [[NSNotificationCenter defaultCenter] postNotificationName: KDisplayMode
+                                                                    object: self];
+                [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
+                                                                    object: self];
+            }else{
+                [[NSUserDefaults standardUserDefaults] setObject:@"日间模式" forKey:@"displayMode"];
+                [[NSNotificationCenter defaultCenter] postNotificationName: KDisplayMode
+                                                                    object: self];
+                [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
+                                                                    object: self];
+            }
         }
     }else if(indexPath.section==2){
         if(indexPath.row==0){
              NewsStatistsViewController*statists=[[NewsStatistsViewController alloc]init];
             [self.navigationController pushViewController:statists animated:YES];
-            [statists release];
         }
     }else if(indexPath.section==3){
         if(indexPath.row==1){
             XDAboutViewController *about=[[XDAboutViewController alloc]init];
             about.mode=1;
             [self.navigationController pushViewController:about animated:YES];
-            [about release];
         }
         if(indexPath.row==0){
             ContactUsViewController *contact=[[ContactUsViewController alloc]init];
             contact.mode=1;
             [self.navigationController pushViewController:contact animated:YES];
-            [contact release];
         }
     }
 }
@@ -262,15 +275,9 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex) {
         [self showWaitingAlert];
-        NSMutableArray * array = [AppDelegate.db  GetAllNewsExceptImgAndKuaiXun];
-        [self performSelectorInBackground:@selector(clearfilesWithXdailys:) withObject:array];
-        [AppDelegate.db DelAllNews];
-        [AppDelegate.db SaveDb];
-        [self hideWaitingAlert];
-        [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory
-                                                            object: self];
+        [self performSelectorInBackground:@selector(delAllNews) withObject:nil];
+        [self hideWaitingAlert];      
     }
-    
 }
 -(void)clearfilesWithXdailys:(NSMutableArray *)array{
     for (XDailyItem *daily in array) {
@@ -283,13 +290,27 @@
         NSLog(@"filePath______==%@",filePath);
     }
 }
--(void)autoClearBuffer{
+-(void)delNewsWithSettingLimit{
     NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
-    NSMutableArray* item2Delete=   [AppDelegate.db DelNewsByRetainCount:[setdate intValue]];
-    [self performSelectorInBackground:@selector(clearfilesWithXdailys:) withObject:item2Delete];
+    NSManagedObjectContext *context=[[NSManagedObjectContext alloc]init];
+    context.persistentStoreCoordinator=AppDelegate.storeCoordinater;
+    NewsDbOperator *db=[[NewsDbOperator alloc]initWithContext:context];
+    NSMutableArray* item2Delete=[db DelNewsByRetainCount:[setdate intValue]];
+    [db SaveDb];
+    [self clearfilesWithXdailys:item2Delete];
     [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory
                                                         object: self];
-    
+}
+-(void)delAllNews{
+    NSManagedObjectContext *context=[[NSManagedObjectContext alloc]init];
+    context.persistentStoreCoordinator=AppDelegate.storeCoordinater;
+    NewsDbOperator *db=[[NewsDbOperator alloc]initWithContext:context];
+    NSMutableArray* item2Delete=[db  GetAllNewsExceptImgAndKuaiXun];
+    [db DelAllNews];
+    [db SaveDb];
+    [self clearfilesWithXdailys:item2Delete];
+    [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory
+                                                        object: self];
 }
 -(void)update{
     NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
@@ -300,20 +321,28 @@
     }else if([setdate intValue] == 10){
         labBuff.text = @"10条";
     }
-    [self autoClearBuffer];
+    [self performSelectorInBackground:@selector(delNewsWithSettingLimit) withObject:nil];
     NSString* strFontSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"FONTSIZE"];
-    labFont.text = strFontSize;        
+    labFont.text = strFontSize;
+    NSDictionary *byteslostDic= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
+    int bytesLostOfThisMonth=((NSString *)[byteslostDic objectForKey:[self currentMonth]]).intValue;
+    if(bytesLostOfThisMonth==0){
+        byteslostLabel.text=@"无";
+    }else{
+        byteslostLabel.text=[self bytesFormater:bytesLostOfThisMonth];
+    }
+    [table reloadData];
 }
 -(void)returnclick:(id)sender{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 UIActivityIndicatorView*activeView;
 -(void)makeWaitingAlert{
-    self.waitingAlert = [[[UIAlertView alloc]initWithTitle:@"请等待"
+    self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待"
                                                    message:nil
                                                   delegate:self
                                          cancelButtonTitle:nil
-                                         otherButtonTitles:nil] autorelease];
+                                         otherButtonTitles:nil];
     activeView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];    
     [waitingAlert addSubview:activeView];
     

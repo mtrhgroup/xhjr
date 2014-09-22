@@ -27,17 +27,20 @@
 @synthesize item_id;
 @synthesize emptyinfo_view;
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [webView release];
-    [waitingView release];
-    [indicator release];
-    [item_id release];
-    [emptyinfo_view release];
-    // Release any retained subviews of the main view.
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
-
 - (id)init
 {
     self = [super init];
@@ -54,25 +57,22 @@
     self.navigationController.navigationBar.hidden = YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     NSLog(@"AAAAA");
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"最新信息";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     [self.view addSubview:bimgv];
-    [bimgv release];
 
     
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
@@ -86,10 +86,9 @@
 
 }
 -(void)backAction{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)loadNewsFromLocal{
-
     NSLog(@"%@%d",@"loadNewsFromLocal1",item_id.intValue);
     XDailyItem* tempItem =[AppDelegate.db GetXdailyByItemId: [NSNumber numberWithInt:item_id.intValue]];
     [self NewsDownloadFileCompleted:tempItem];
@@ -105,9 +104,9 @@
         
     }
     
-    NSString*  itemurl =  [NSString stringWithFormat:KXdailyUrlOnlyOne,self.item_id];
+    NSString*  itemurl =  [NSString stringWithFormat:KXdailyUrlOnlyOne,self.item_id,[UIDevice customUdid]];
     NSLog(@"itemurl = %@",itemurl);
-    ASIHTTPRequest* myrequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:itemurl]];
+    __weak ASIHTTPRequest* myrequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:itemurl]];
     [myrequest setShouldAttemptPersistentConnection:NO];
     [myrequest setTimeOutSeconds:30];
     myrequest.defaultResponseEncoding = NSUTF8StringEncoding;
@@ -117,7 +116,6 @@
         XDailyItem * xdaily = [NewsXmlParser ParseXDailyItem:responseString];
         xdaily.item_id=[NSNumber numberWithInt:self.item_id.intValue];
         [self downloadNewsExpress:xdaily];
-        [myrequest release];
     }];
     
     [myrequest setFailedBlock:^{
@@ -125,7 +123,6 @@
         NSLog(@"error = %@",[error localizedDescription]);
         [self hideWaitingView];
         [self showEmptyInfo];
-        [myrequest release];
     }];
     [myrequest startAsynchronous];
 }
@@ -139,7 +136,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: KExpressNewsOK object: self userInfo:d];
         return false;
     }
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    __weak ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     [request setShouldAttemptPersistentConnection:NO];
     [request setTimeOutSeconds:30];
     [request setCompletionBlock:^{
@@ -156,25 +153,11 @@
         [NewsZipReceivedReportTask execute:xdaily];
         [self saveToDB:xdaily];
         [self NewsDownloadFileCompleted:xdaily];
-        [zip release];
-        [request release];
         
     }];
     [request setFailedBlock:^{
-        int toAdd=(int)request.totalBytesRead;
-        [[NetStreamStatistics sharedInstance] appendBytesToDictionary:toAdd];
-        NSString *filePath = [request.userInfo objectForKey:@"file_path"];
-        XDailyItem *xdaily = [request.userInfo objectForKey:@"item"];
-        ZipArchive* zip = [[ZipArchive alloc] init];
-        BOOL ret =  [zip UnzipOpenFile:filePath];
-        if (ret)
-        {
-            [zip UnzipFileTo:[filePath stringByDeletingPathExtension] overWrite:YES];
-        }
-        [NewsZipReceivedReportTask execute:xdaily];
-        [self saveToDB:xdaily];
-        [zip release];
-        [request release];
+        [self hideWaitingView];
+        [self showEmptyInfo];
     }];
     [request setDownloadDestinationPath:filePath];
     request.userInfo=[NSDictionary dictionaryWithObjectsAndKeys:filePath,@"file_path",xdaily,@"item",nil];
@@ -199,7 +182,6 @@
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(40, 150, 231, 65)];
     imageView.image=[UIImage imageNamed:@"logo.png"];
     [waitingView addSubview:imageView];
-    [imageView release];
     [waitingView addSubview:indicator];
     [self.view addSubview:waitingView];
     
@@ -248,6 +230,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [self hideWaitingView];
+    [self hideEmptyInfo];
     NSString *strFontSize=[[NSUserDefaults standardUserDefaults] objectForKey:@"FONTSIZE"];
     if([strFontSize isEqualToString:@"大"]){
         [self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '150%'"]; 
@@ -262,21 +245,20 @@
     self.emptyinfo_view.hidden=NO;
 }
 -(void)makeEmptyInfo{
-    UIView *emptyView=[[UIView alloc]initWithFrame:CGRectMake(0,44,320,416+(iPhone5?88:0))];
+    UIControl *emptyView=[[UIControl alloc]initWithFrame:CGRectMake(0,44,320,416+(iPhone5?88:0))];
     //    emptyView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"1.png"]];
     UILabel* labtext = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 300, 100)];
     labtext.backgroundColor = [UIColor clearColor];
-    labtext.text = @"下载失败，可主页面手动更新，继续尝试下载。";
+    labtext.text = @"下载失败，点击屏幕刷新";
     labtext.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    labtext.textAlignment=UITextAlignmentCenter;
+    labtext.textAlignment=NSTextAlignmentCenter;
     labtext.textColor=[UIColor grayColor];
     labtext.backgroundColor = [UIColor clearColor];
     [emptyView addSubview:labtext];
-    [labtext release];
     self.emptyinfo_view=emptyView;
     self.emptyinfo_view.hidden=YES;
+    [emptyView addTarget:self action:@selector(loadNewsFromWeb) forControlEvents:UIControlEventTouchUpInside];
     [self.view  addSubview:emptyView];
-    [emptyView release];
 }
 -(void)hideEmptyInfo{
     self.emptyinfo_view.hidden=YES;

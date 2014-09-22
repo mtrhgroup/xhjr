@@ -11,11 +11,11 @@
    
 }
 @property (strong, nonatomic) NSMutableArray *favor_list;
-@property (nonatomic,retain)  NSMutableArray* titleCont;
-@property (nonatomic,retain)  NSMutableArray* requestStr;
-@property (nonatomic,retain) NSString *favorTitle;
-@property (nonatomic,retain) UITableView* table;
-@property (nonatomic,retain)UIView *emptyinfo_view;
+@property (nonatomic,strong)  NSMutableArray* titleCont;
+@property (nonatomic,strong)  NSMutableArray* requestStr;
+@property (nonatomic,strong) NSString *favorTitle;
+@property (nonatomic,strong) UITableView* table;
+@property (nonatomic,strong)UIView *emptyinfo_view;
 @end
 
 

@@ -34,7 +34,6 @@ static NewsFavorManager *instance;
     NSMutableDictionary* dict = nil;
     dict = [[ NSMutableDictionary alloc ] initWithContentsOfFile:filename];
     id result = [dict objectForKey: articleTitle];
-    [dict release];
     if (result != nil) {
         return true;
     }else{
@@ -44,6 +43,7 @@ static NewsFavorManager *instance;
 -(void)saveArticle:(UIWebView *)webview{
     NSString *currentURL = [webview stringByEvaluatingJavaScriptFromString:@"document.location.href"];
     NSString *articleTitle = [webview stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSLog(@"%@",articleTitle);
     NSString *htmlStr = [webview stringByEvaluatingJavaScriptFromString:@"document.documentElement.innerHTML"];
     NSString *urls=[webview stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('img').length"];
     //NSString *head = [[self.view.subviews objectAtIndex:2] stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"];
@@ -67,7 +67,7 @@ static NewsFavorManager *instance;
         dict = [[NSMutableDictionary alloc] initWithCapacity:10];
     }
     
-    NSString*  timeStr =  [NSString stringWithFormat:@"%qu",[[NSDate date] timeIntervalSince1970]];
+    NSString*  timeStr =  [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]];
     NSString* tempFile = [NSString stringWithFormat:@"%@%d.htm",timeStr,rand()*100];
     NSString* contFileName = [NSString stringWithFormat:@"%@/%@",dirname,tempFile];
     
@@ -84,7 +84,6 @@ static NewsFavorManager *instance;
     }else{
         NSLog(@"NEWS_contetn_datailHtml__收藏失败");
     }
-    [dict release];
     
     //创建img文件夹 保存css
      NSLog(@"AAA");
@@ -201,7 +200,7 @@ static NewsFavorManager *instance;
         dict = [[NSMutableDictionary alloc] initWithCapacity:10];
     }
     
-    NSString*  timeStr =  [NSString stringWithFormat:@"%qu",[[NSDate date] timeIntervalSince1970]];
+    NSString*  timeStr =  [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]];
     NSString* tempFile = [NSString stringWithFormat:@"%@%d.htm",timeStr,rand()*100];
     NSString* contFileName = [NSString stringWithFormat:@"%@/%@",dirname,tempFile];
     [[NSFileManager defaultManager] removeItemAtPath:contFileName error:nil];
@@ -212,7 +211,6 @@ static NewsFavorManager *instance;
     }else{
         NSLog(@"NEWS_contetn_datailHtml__收藏失败");
     }
-    [dict release];
     //找出所有的图片名称
     NSLog(@"AAA");
     NSString *urls=[webview stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('img').length"];
@@ -245,17 +243,17 @@ static NewsFavorManager *instance;
     NSString *path=[paths objectAtIndex:0];
     NSString *filename=[path stringByAppendingPathComponent:@"fav.plist"];   //获取路径
     NSMutableDictionary* dict = [[ NSMutableDictionary alloc ] initWithContentsOfFile:filename];
-    NSMutableArray *all_articles= [[[NSMutableArray alloc] initWithArray:[dict keysSortedByValueUsingComparator:^(id obj1, id obj2){
+    NSMutableArray *all_articles= [[NSMutableArray alloc] initWithArray:[dict keysSortedByValueUsingComparator:^(id obj1, id obj2){
         return (NSComparisonResult)[obj2 compare:obj1];
-    }]] autorelease];
+    }]] ;
     return all_articles;
 }
 -(NSMutableArray *)allArticleURL{
     NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *path=[paths objectAtIndex:0];
     NSString *filename=[path stringByAppendingPathComponent:@"fav.plist"];   //获取路径
-    NSMutableDictionary* dict = [[[ NSMutableDictionary alloc ] initWithContentsOfFile:filename] autorelease];
-    NSMutableArray *all_urls = [[[NSMutableArray alloc] initWithArray:[dict allValues]]autorelease];
+    NSMutableDictionary* dict = [[ NSMutableDictionary alloc ] initWithContentsOfFile:filename];
+    NSMutableArray *all_urls = [[NSMutableArray alloc] initWithArray:[dict allValues]];
     [all_urls sortUsingComparator:^(id obj1, id obj2){
         return (NSComparisonResult)[obj2 compare:obj1];
     }];
@@ -265,7 +263,7 @@ static NewsFavorManager *instance;
     NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *path=[paths objectAtIndex:0];
     NSString *filename=[path stringByAppendingPathComponent:@"fav.plist"];   //获取路径
-    NSMutableDictionary* dict = [[[ NSMutableDictionary alloc ] initWithContentsOfFile:filename] autorelease];
+    NSMutableDictionary* dict = [[ NSMutableDictionary alloc ] initWithContentsOfFile:filename];
     [dict removeAllObjects];
     [dict writeToFile:filename atomically:YES];
 }
@@ -273,7 +271,7 @@ static NewsFavorManager *instance;
     NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *path=[paths objectAtIndex:0];
     NSString *filename=[path stringByAppendingPathComponent:@"fav.plist"];   //获取路径
-    NSMutableDictionary* dict = [[[ NSMutableDictionary alloc ] initWithContentsOfFile:filename] autorelease];
+    NSMutableDictionary* dict = [[ NSMutableDictionary alloc ] initWithContentsOfFile:filename];
     [dict removeObjectForKey:title];
     [dict writeToFile:filename atomically:YES];
 }

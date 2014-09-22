@@ -1,0 +1,58 @@
+//
+// Prefix header for all source files of the 'XinHuaDailyXib' target in the 'XinHuaDailyXib' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+#ifdef __OBJC__
+#import "NSStringExt.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+#import  "CommonMethod.h"
+#import "NSDateExt.h"
+#import "NewsDefine.h"
+#import "XinHuaAppDelegate.h"
+#import "UIDeviceExt.h"
+#import "UIImageExt.h"
+
+#define RGBCOLOR(c)[UIColor colorWithRed:((c>>24)&0xFF)/255.0 \
+green:((c>>16)&0xFF)/255.0 \
+blue:((c>>8)&0xFF)/255.0 \
+alpha:((c)&0xFF)/255.0]
+
+
+#define __DEBUG__
+//#define __CRACK__
+#define AppDelegate ((XinHuaAppDelegate*)[[UIApplication sharedApplication] delegate])
+
+#ifdef __DEBUG__
+#define LoggerSimple(format,...) NSLog(format, ##__VA_ARGS__);
+#define Logger(format, ...)NSLog((@"%s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define LoggerF(float)NSLog((@"%s [Line %d]: %f"), __PRETTY_FUNCTION__, __LINE__, float);
+#define LoggerD(int)NSLog((@"%s [Line %d]: %d"), __PRETTY_FUNCTION__, __LINE__, int);
+#define LoggerS(string)NSLog((@"%s [Line %d]: %@ "), __PRETTY_FUNCTION__, __LINE__, string);
+#define HaloAssert(e)assert(e)
+#define HaloNSAssert(condition,desc) NSAssert( condition, desc )
+//NSLog((format), ##__VA_ARGS__);
+#else
+#define LoggerSimple(format,...) 
+#define Logger(format, ...)
+#define LoggerF(float)
+#define LoggerD(int)
+#define LoggerS(string)
+#define HaloAssert(e)
+#define HaloNSAssert(condition,desc)
+#endif
+
+
+#endif

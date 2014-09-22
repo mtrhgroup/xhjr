@@ -33,7 +33,7 @@
 	unzFile		_unzFile;
 	
 	NSString*   _password;
-	id			_delegate;
+	id<ZipArchiveDelegate>			_delegate;
 }
 
 @property (nonatomic, retain) id delegate;

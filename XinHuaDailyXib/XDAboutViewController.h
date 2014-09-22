@@ -14,7 +14,7 @@
     UITableView* table;
 }
 
-@property(nonatomic,retain)  UITableView* table;
+@property(nonatomic,strong)  UITableView* table;
 @property int mode;
 -(void)returnclick:(id)sender;
 

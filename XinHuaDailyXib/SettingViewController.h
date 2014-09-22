@@ -16,10 +16,10 @@
 }
 
 
-@property (nonatomic,retain) UITableView* table;
-@property (nonatomic,retain)UILabel *labBuff;
-@property (nonatomic,retain)UILabel *labFont;
-@property (nonatomic,retain)UILabel *byteslostLabel;
-@property (retain,nonatomic)UIAlertView *waitingAlert;
+@property (nonatomic,strong) UITableView* table;
+@property (nonatomic,strong)UILabel *labBuff;
+@property (nonatomic,strong)UILabel *labFont;
+@property (nonatomic,strong)UILabel *byteslostLabel;
+@property (strong,nonatomic)UIAlertView *waitingAlert;
 
 @end

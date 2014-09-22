@@ -16,6 +16,8 @@
  */
 
 @interface WelcomeViewController : UIViewController<ASIHTTPRequestDelegate>
-@property(assign,nonatomic)UINavigationController *mainViewController;
-@property(retain,nonatomic)UIImageView *subImg;
+@property(strong,nonatomic)UINavigationController *mainViewController;
+@property(strong,nonatomic)UIImageView *subImg;
 @end
+extern NSString *EnterSystemNotifiction;
+extern NSString *ShowAdvPageNotification;

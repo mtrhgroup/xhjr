@@ -19,7 +19,7 @@ static NSDateFormatter* __dateFormate = nil;
         case EDateStyleYMDHM:
         {
             [__dateFormate setDateStyle:NSDateFormatterLongStyle];
-            [__dateFormate setTimeStyle:kCFDateFormatterShortStyle];
+            [__dateFormate setTimeStyle:NSDateFormatterShortStyle];
         }
             break;
         case EDateStyleMDHM:
@@ -235,7 +235,7 @@ static NSDateFormatter* __dateFormate = nil;
 
 - (NSString*)intervalSince1970
 {
-    NSString*  timeStr =  [NSString stringWithFormat:@"%qu",[self timeIntervalSince1970]];
+    NSString*  timeStr =  [NSString stringWithFormat:@"%f",[self timeIntervalSince1970]];
 	Logger(@"timeStr = %@",timeStr);
 	
 	return timeStr;

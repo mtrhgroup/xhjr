@@ -12,6 +12,7 @@
 #import "NSIks.h"
 #import "NewsDownloadTask.h"
 #import "ExpressPlusViewController.h"
+#import "NSThread+detachNewThreadSelectorWithObjs.h"
 @interface XdailyItemViewController ()
 
 @end
@@ -25,7 +26,7 @@
 @synthesize channel=_channel;
 EGORefreshTableHeaderView       *_refreshHeaderView;
 BOOL                            _reloading;
-
+BOOL _displayMode;
 - (id)init
 {
     self = [super init];
@@ -38,48 +39,62 @@ BOOL                            _reloading;
 }
 - (void)viewDidUnload
 {
-    [_xdailyitem_list release];
-    [table release];
-    [emptyinfo_label release];
-    [_channel_id release];
-    [_channel_title release];
     _refreshHeaderView=nil;
+}
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.title=self.channel_title;
-//    UIView* booktopView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 832,640)];
-//    booktopView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bigtablebg.png"]];
-//    [self.view addSubview:booktopView];
-//    [booktopView release];
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
+        table = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){        
+        self.view.backgroundColor = [UIColor whiteColor];
+        table.backgroundColor= [UIColor whiteColor];
+    }else{
+        self.view.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0];
+        table.backgroundColor= [UIColor colorWithRed:30.0/255.0 green:31.0/255.0 blue:32.0/255.0 alpha:1.0];
+    }
     [table setSeparatorColor:[UIColor clearColor]];
     table.delegate =  self;
     table.dataSource = self;
     [self.view addSubview:table];
     [self scrollViewDidScroll:self.table];
     
+    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 360, 57.0)];
+    UIButton* btnNextPage = [[UIButton alloc] initWithFrame:footerView.frame];
+    btnNextPage.titleLabel.text = NSLocalizedString(@"next_page", null);
+    [footerView addSubview:btnNextPage];
+    table.tableFooterView=footerView;
+    
     
     UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 46, 40,40)];
     UIImage *favor_image=[UIImage imageNamed:@"clip.png"];
     [favorBtn setImage:favor_image forState:UIControlStateNormal];
     [self.view addSubview:favorBtn];
-    [favorBtn release];
     //   if (_refreshHeaderView == nil) {
     
     EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.table.bounds.size.height, self.view.frame.size.width, self.table.bounds.size.height)];
     view.delegate = self;
     [self.table addSubview:view];
     _refreshHeaderView = view;
-    [view release];
     _reloading=NO;
     //	}
     
-    [_refreshHeaderView refreshLastUpdatedDate];
-    
-    
-    
+    [_refreshHeaderView refreshLastUpdatedDate];   
     [self getItemsFormDBWithChannelID:self.channel_id];
     
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -90,25 +105,20 @@ BOOL                            _reloading;
     [butb addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
-    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
-    [self.view addSubview:lab];
+    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 240, 40)];
     lab.text = self.channel_title;
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
-    [bimgv addSubview:lab];
-    [lab release];  
+    lab.textColor = [UIColor blackColor];
+    [bimgv addSubview:lab]; 
     UIButton* historyBut = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 43,43)];
     [historyBut setImage:[UIImage imageNamed:@"History.png"]  forState:UIControlStateNormal];
     [historyBut  addTarget:self action:@selector(historyAction) forControlEvents:UIControlEventTouchUpInside];
     
     [bimgv addSubview:historyBut];
-    [historyBut release];
-    [self.view addSubview:bimgv];
-    [bimgv release];   
+    [self.view addSubview:bimgv];   
     self.xdailyitem_list=[AppDelegate.db GetNewsByChannelID:self.channel_id];
     [self setExtraCellHidden:self.table];
     [self makeEmptyInfo];
@@ -117,6 +127,7 @@ BOOL                            _reloading;
     }else{
         [self showEmptyInfo];
     }
+    [self createTableFooter];
 }
 
 
@@ -125,16 +136,14 @@ BOOL                            _reloading;
     
     XdailyItemOlderViewController *aController = [[XdailyItemOlderViewController alloc] init];
     NSString*  url = [NSString stringWithFormat:KGetOlderNews,self.channel_id,[UIDevice customUdid]];
-    
+    NSLog(@"%@",url);
     aController.url=url;
     aController.type=@"http";
     aController.channel_title=self.channel_title;
     aController.channel_id=self.channel_id;
     aController.channel=self.channel;
     NSLog(@"channel_title_histroyAc__%@",self.channel_title);
-    [self.navigationController pushViewController:aController animated:YES];
-    [aController release];
-    
+    [self.navigationController pushViewController:aController animated:YES]; 
 }
 -(void)backAction:(id)sender{
     [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory object: self];
@@ -143,6 +152,9 @@ BOOL                            _reloading;
 
 
 -(void)update{
+    [self performSelectorOnMainThread:@selector(updateUI) withObject:self waitUntilDone:NO];
+}
+-(void)updateUI{
     self.xdailyitem_list = [AppDelegate.db GetNewsByChannelID:self.channel_id];
     if([self.xdailyitem_list count]>0){
         [self hideEmptyInfo];
@@ -150,7 +162,6 @@ BOOL                            _reloading;
         [self showEmptyInfo];
     }
     [self.table reloadData];
-    
 }
 
 
@@ -186,7 +197,7 @@ BOOL                            _reloading;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if  (cell == nil){
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NSArray *views = [cell subviews];
     for(UIView* view in views)
@@ -196,41 +207,34 @@ BOOL                            _reloading;
     UIView *btmLine=[[UIView alloc] initWithFrame:CGRectMake(5, 43, 290, 1)];
     btmLine.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"list_diver.png"]];
     [cell addSubview:btmLine];
-    [btmLine release];
-    
-    UIImageView *cellbackground_image=[[UIImageView alloc] initWithImage: [UIImage imageNamed:@"cellbackground.png"]];
+    UIImageView *cellbackground_image;
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        cellbackground_image=[[UIImageView alloc] initWithImage: [UIImage imageNamed:@"cellbackground.png"]];
+    }else{
+        cellbackground_image=[[UIImageView alloc] initWithImage: [UIImage imageNamed:@"cellbackground_dark.png"]];
+    }
     cell.backgroundView = cellbackground_image;
-    [cellbackground_image release];
     
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redarrow.png"]];
     image.frame = CGRectMake(300, 15, 11, 12);
     [cell addSubview:image];
-    [image release];
-    
-    //    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redarrow.png"]];
-    //    image.frame = CGRectMake(300, 15, 11, 12);
-    //    [cell addSubview:image];
-    //    [image release];
-    
     if([self.xdailyitem_list count]>0){
         XDailyItem *itemAtIndex = [self.xdailyitem_list objectAtIndex:indexPath.row];
         if(!itemAtIndex.isRead){
             UIImageView* mv = [[UIImageView alloc] initWithFrame:CGRectMake(5, 13, 15, 15)];
             mv.image = [UIImage imageNamed:@"red.png"];
             [cell addSubview:mv];
-            [mv release];
             UILabel* labtext = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 260, 20)];
             labtext.backgroundColor = [UIColor clearColor];
             labtext.text = itemAtIndex.title;
             labtext.font = [UIFont fontWithName:@"system" size:17];
             labtext.textColor=[UIColor blackColor];
             [cell addSubview:labtext];
-            [labtext release];
         }else{
             UIImageView* mv = [[UIImageView alloc] initWithFrame:CGRectMake(5, 13, 15, 15)];
             mv.image = [UIImage imageNamed:@"unread_dot.png"];
             [cell addSubview:mv];
-            [mv release];
             
             UILabel* labtext = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 260, 20)];
             labtext.backgroundColor = [UIColor clearColor];
@@ -238,7 +242,6 @@ BOOL                            _reloading;
             labtext.font = [UIFont fontWithName:@"system" size:17];
             labtext.textColor=[UIColor grayColor];
             [cell addSubview:labtext];
-            [labtext release];
         }
     }
     return cell;
@@ -261,9 +264,12 @@ BOOL                            _reloading;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"generate = %@",self.channel.generate);
-    if(self.channel.generate.intValue==1){
-        ExpressPlusViewController *aController = [[ExpressPlusViewController alloc] init];
-        XDailyItem * daily = [self.xdailyitem_list objectAtIndex:[self.table indexPathForSelectedRow].row];
+    XDailyItem * daily = [self.xdailyitem_list objectAtIndex:[self.table indexPathForSelectedRow].row];
+    NSString* url=[daily.pageurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+    NSString* filename=[[url lastPathComponent] stringByDeletingPathExtension];
+    NSLog(@"%@",[[url lastPathComponent] stringByDeletingPathExtension]);
+    if(![filename isEqualToString:@"index"]){
+        ExpressPlusViewController *aController = [[ExpressPlusViewController alloc] init];        
         aController.siblings=self.xdailyitem_list;
         aController.index=indexPath.row;
         aController.type=@"file";
@@ -276,10 +282,8 @@ BOOL                            _reloading;
                                                             object: self];
         
         [self.navigationController pushViewController:aController animated:YES];
-        [aController release];
     }else{
         NewsListPlusViewController *aController = [[NewsListPlusViewController alloc] init];
-        XDailyItem * daily = [self.xdailyitem_list objectAtIndex:[self.table indexPathForSelectedRow].row];
         aController.siblings=self.xdailyitem_list;
         aController.index=indexPath.row;
         aController.type=@"file";
@@ -291,23 +295,46 @@ BOOL                            _reloading;
         [AppDelegate.db SaveDb];
         [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateWithMemory object: self];
         [self.navigationController pushViewController:aController animated:YES];
-        [aController release];
     }
 }
 
-
+-(void)getMoreXdailysFromWebToDb:(NSString *)channel_id oldestXdailyId:(NSString *)oldestXdailyId xdailyCount:(NSString *)xdailyCount{
+    NSLog(@"oldestXdailyId :%@",oldestXdailyId);
+    NSManagedObjectContext *context=[[NSManagedObjectContext alloc]init];
+    context.persistentStoreCoordinator=AppDelegate.storeCoordinater;
+    NewsDbOperator *db=[[NewsDbOperator alloc]initWithContext:context];
+    NewsDownloadTask *task=[[NewsDownloadTask alloc] initWithDB:db];
+    [task downloadMoreXdailyWithOldestXdailyId:oldestXdailyId channelId:channel_id xdailyCount:xdailyCount];
+}
 -(void)GetXdailysFromWebToDb: (NSString *)channel_id
 {
-    [NewsDownloadTask downloadXdailyOfChannelId:channel_id topN:@"5"];
+    NSLog(@"channel id :%@",channel_id);
+    NSManagedObjectContext *context=[[NSManagedObjectContext alloc]init];
+    context.persistentStoreCoordinator=AppDelegate.storeCoordinater;
+    NewsDbOperator *db=[[NewsDbOperator alloc]initWithContext:context];
+    NewsDownloadTask *task=[[NewsDownloadTask alloc] initWithDB:db];
+    [task downloadXdailyOfChannelId:channel_id topN:@"10"];
 }
 
 -(void)AllZipFinished{
+    [self loadDataEnd];
     
     [self doneLoadingTableViewData];
 }
 - (void)fetchUpdate
 {
-    [self GetXdailysFromWebToDb:self.channel_id];
+    @autoreleasepool {
+        [NSThread detachNewThreadSelector:@selector(GetXdailysFromWebToDb:) toTarget:self withObject:self.channel_id];
+    }
+}
+-(void)fetchMore{
+    @autoreleasepool {
+        if([self.xdailyitem_list count]==0)return;
+        int oldestXdailyId=((XDailyItem *)[self.xdailyitem_list objectAtIndex:[self.xdailyitem_list count]-1]).item_id.intValue;
+        NSString * oldestId=[NSString stringWithFormat:@"%d",oldestXdailyId];
+        NSString *xdailyCount=@"10";
+        [NSThread detachNewThreadSelector:@selector(getMoreXdailysFromWebToDb:oldestXdailyId:xdailyCount:) toTarget:self withObject:self.channel_id and2Object:oldestId and3Object:xdailyCount];
+    }
 }
 
 
@@ -319,8 +346,7 @@ BOOL                            _reloading;
 	
 	//  should be calling your tableviews data source model to reload
 	//  put here just for demo
-    //[self fetchUpdate];
-    [self performSelectorInBackground:@selector(fetchUpdate) withObject:nil];
+    [self fetchUpdate];
 	_reloading = YES;
 	
 }
@@ -334,11 +360,60 @@ BOOL                            _reloading;
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	
 	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    if(!_reloading && scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
+    {
+        NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
+        if([self.xdailyitem_list count]<[setdate intValue]&&[self.xdailyitem_list count]>0)
+            [self loadDataBegin];
+        else
+            self.table.tableFooterView=nil;
+    }
     
 }
+// 开始加载数据
+- (void) loadDataBegin
+{
+    if (_reloading == NO)
+    {
+        _reloading = YES;
+        UIActivityIndicatorView *tableFooterActivityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(75.0f, 10.0f, 20.0f, 20.0f)];
+        [tableFooterActivityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
+        [tableFooterActivityIndicator startAnimating];
+        [self.table.tableFooterView addSubview:tableFooterActivityIndicator];
+        
+        [self loadDataing];
+    }
+}
 
+// 加载数据中
+- (void) loadDataing
+{
+    [self fetchMore];
+}
+
+- (void) loadDataEnd
+{
+    _reloading = NO;
+    NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
+    if([self.xdailyitem_list count]==[setdate intValue])
+        self.table.tableFooterView=nil;
+    else
+        [self createTableFooter];
+}
+- (void) createTableFooter
+{
+    if([self.xdailyitem_list count]==0)return;
+    self.table.tableFooterView = nil;
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.table.bounds.size.width, 40.0f)];
+    UILabel *loadMoreText = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 116.0f, 40.0f)];
+    [loadMoreText setCenter:tableFooterView.center];
+    [loadMoreText setFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    [loadMoreText setText:@"上拉显示更多数据"];
+    [tableFooterView addSubview:loadMoreText];
+    
+    self.table.tableFooterView = tableFooterView;
+}
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	
 	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
@@ -369,7 +444,6 @@ BOOL                            _reloading;
     UIView *view=[UIView new];
     view.backgroundColor=[UIColor clearColor];
     [tableview setTableFooterView:view];
-    [view release];
 }
 
 -(void)showEmptyInfo{
@@ -380,13 +454,12 @@ BOOL                            _reloading;
     labtext.backgroundColor = [UIColor clearColor];
     labtext.text = @"无内容，可下拉更新";
     labtext.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    labtext.textAlignment=UITextAlignmentCenter;
+    labtext.textAlignment=NSTextAlignmentCenter;
     labtext.textColor=[UIColor grayColor];
     labtext.backgroundColor = [UIColor clearColor];
     self.emptyinfo_label=labtext;
     self.emptyinfo_label.hidden=YES;
     [self.view addSubview:labtext];
-    [labtext release];
 }
 -(void)hideEmptyInfo{
     self.emptyinfo_label.hidden=YES;

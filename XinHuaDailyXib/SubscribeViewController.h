@@ -15,7 +15,7 @@
 
 
 @property (strong, nonatomic) NSMutableArray *channel_list;
-@property (nonatomic,retain) UITableView* table;
+@property (nonatomic,strong) UITableView* table;
 
 
 - (void)changeStatus:(id)sender;

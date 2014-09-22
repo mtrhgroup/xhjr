@@ -23,5 +23,8 @@
 @dynamic pageurl;
 @dynamic read;
 @dynamic zipurl;
+@dynamic summary;
+@dynamic thumbnail;
+@dynamic pn;
 
 @end

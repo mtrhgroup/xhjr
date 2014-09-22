@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ContactUsViewController : UIViewController
-@property(nonatomic,retain)UITextField *emailTF;
-@property(nonatomic,retain)UITextView *contentTV;
-@property (retain,nonatomic)UIAlertView *waitingAlert;
+@property(nonatomic,strong)UITextField *emailTF;
+@property(nonatomic,strong)UITextView *contentTV;
+@property (strong,nonatomic)UIAlertView *waitingAlert;
 @property(nonatomic)int mode;
 @end

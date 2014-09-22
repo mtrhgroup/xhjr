@@ -42,9 +42,11 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDisplayMode) name:KDisplayMode object:nil];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+        
+
+//		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
 
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 30.0f, self.frame.size.width, 20.0f)];
 		label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -53,7 +55,7 @@
 		label.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
 		label.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		label.backgroundColor = [UIColor clearColor];
-		label.textAlignment = UITextAlignmentCenter;
+		label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:label];
 		_lastUpdatedLabel=label;
 		[label release];
@@ -65,7 +67,7 @@
 		label.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
 		label.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		label.backgroundColor = [UIColor clearColor];
-		label.textAlignment = UITextAlignmentCenter;
+		label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:label];
 		_statusLabel=label;
 		[label release];
@@ -94,11 +96,18 @@
 		[self setState:EGOOPullRefreshNormal];
 		
     }
-	
+	[self toggleDisplayMode];
     return self;
 	
 }
-
+-(void)toggleDisplayMode{
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+    }else{
+        self.backgroundColor = [UIColor colorWithRed:30/255.0 green:30/255.0 blue:30/255.0 alpha:1.0];
+    }
+}
 
 #pragma mark -
 #pragma mark Setters

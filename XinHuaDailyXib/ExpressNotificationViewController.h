@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ExpressNotificationViewController : UIViewController<UIWebViewDelegate>
-@property (retain, nonatomic) UIWebView *webView;
-@property (retain,nonatomic)UIView *waitingView;
-@property (retain,nonatomic)UIActivityIndicatorView *indicator;
-@property (nonatomic,retain)UIView *emptyinfo_view;
-@property(nonatomic,copy) NSString * item_id;
+@property (strong, nonatomic) UIWebView *webView;
+@property (strong,nonatomic)UIView *waitingView;
+@property (strong,nonatomic)UIActivityIndicatorView *indicator;
+@property (nonatomic,strong)UIControl *emptyinfo_view;
+@property(nonatomic,strong) NSString * item_id;
 @end

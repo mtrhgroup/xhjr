@@ -7,7 +7,6 @@
 //
 
 #import "NewsRegisterTask.h"
-#import "UserDefaultManager.h"
 #import "NewsDefine.h"
 #import "ASIHTTPRequest.h"
 #import "NewsXmlParser.h"
@@ -21,8 +20,11 @@ static NewsRegisterTask *instance=nil;
     return instance;
 }
 -(BOOL)isRegistered{
+//    [[NSUserDefaults standardUserDefaults] setValue:@"123456" forKey:KUserDefaultAuthCode];
+//    return YES;
     NSLog(@"isREgistered %@",[[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode]);
-    if([[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode]==nil){
+    NSString *regCode=[[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
+    if(regCode==nil||[regCode isEqualToString:@"18610480318"]){
         return NO;
     }else{
         return YES;
@@ -30,7 +32,7 @@ static NewsRegisterTask *instance=nil;
 }
 -(void)execute:(NSString *)authCode{
     NSLog(@"authCode=%@",authCode);
-    NSString* regUrl = [NSString stringWithFormat:KBindleSNUrl,[UIDevice customUdid],authCode,[[UIDevice currentDevice] systemVersion]];
+    NSString* regUrl = [NSString stringWithFormat:KBindleSNUrl,[UIDevice customUdid],authCode,[[UIDevice currentDevice] systemVersion],sxttype,sxtversion];
     NSLog(@"reg url %@",regUrl);
     regUrl=[regUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:regUrl]];
@@ -49,11 +51,11 @@ static NewsRegisterTask *instance=nil;
     NSLog(@"responseString %@",responseString);
     NSString *authCode=[request.userInfo objectForKey:@"data"];
     if([responseString rangeOfString:@"SUCCESSED"].location!=NSNotFound){
-        [[UserDefaultManager sharedInstance]  setString:authCode  forKey:KUserDefaultAuthCode];
+        [[NSUserDefaults standardUserDefaults]  setObject:authCode  forKey:KUserDefaultAuthCode];
 //        [[UIApplication sharedApplication]  registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
         [[NSNotificationCenter defaultCenter] postNotificationName: KBindleSnOK object: nil];
     }else{
-        NSDictionary *d = [NSDictionary dictionaryWithObject:@"此手机号尚未注册为会员！"  forKey:@"data"];
+        NSDictionary *d = [NSDictionary dictionaryWithObject:responseString  forKey:@"data"];
         [[NSNotificationCenter defaultCenter] postNotificationName: KShowToast  object: self userInfo:d];
     }       
 }
@@ -62,7 +64,7 @@ static NewsRegisterTask *instance=nil;
     NSLog(@"%@",regUrl);
     regUrl=[regUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"%@",regUrl);
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:regUrl]];
+    __weak ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:regUrl]];
     [request setCompletionBlock:^{
         NSString *responseString = [request responseString];
         if([responseString hasPrefix:@"SUCCESS"])

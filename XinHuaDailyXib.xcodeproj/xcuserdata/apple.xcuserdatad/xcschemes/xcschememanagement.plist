@@ -4,18 +4,46 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>NewsTest.xcscheme</key>
+		<key>Tests.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>gxzw_inhouse.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
-		<key>XinHuaDailyXib.xcscheme</key>
+		<key>hnzw_inhouse.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>lnzw_inhouse copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>lnzw_inhouse.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>sxt_appstore.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>XinHuaDailyXibTests.xcscheme</key>
+		<key>sxt_inhouse.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
@@ -23,6 +51,56 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>18126D01171171A3001AC7D8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1847F2581820A84A008C010D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1847F26E1820A93A008C010D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1887389418FCD3B00032CF2C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18B5C3411820A1FA00B28B75</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18D44F7F17A0C14D007F63E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18D4506E17A0C289007F63E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18F00C121796666B0084029D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18F00D0717968A4D0084029D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18F00DEA17968B390084029D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18F7841D1797901700551AF1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

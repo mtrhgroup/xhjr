@@ -29,7 +29,7 @@ static NewsDownloadExpreesTask *instance=nil;
         [[NSNotificationCenter defaultCenter] postNotificationName: KExpressNewsOK object: self userInfo:d];
         return;        
     }    
-    NSString*  itemurl =  [NSString stringWithFormat:KXdailyUrlOnlyOne,item_id];
+    NSString*  itemurl =  [NSString stringWithFormat:KXdailyUrlOnlyOne,item_id,[UIDevice customUdid]];
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:itemurl]];
     [request setShouldAttemptPersistentConnection:NO];
     [request setTimeOutSeconds:30];
@@ -44,12 +44,10 @@ static NewsDownloadExpreesTask *instance=nil;
     XDailyItem * xdaily = [NewsXmlParser ParseXDailyItem:responseString];
     xdaily.item_id=[NSNumber numberWithInt:item_id.intValue];
     [self downloadNewsExpress:xdaily];
-    [request release];
 }
 -(void)expressNewsXMlFailed:(ASIHTTPRequest *)request{
     NSDictionary *d = [NSDictionary dictionaryWithObject:@"获取快讯失败！" forKey:@"data"];
     [[NSNotificationCenter defaultCenter] postNotificationName: KExpressNewsError  object: self userInfo:d];
-    [request release];
 }
 -(void)saveToDB:(XDailyItem *)xdaily{
     [AppDelegate.db addXDailyItem:xdaily];
@@ -94,13 +92,9 @@ static NewsDownloadExpreesTask *instance=nil;
     }        
     [NewsZipReceivedReportTask execute:xdaily];
     [self saveToDB:xdaily];
-    [zip release];                                              
-    [request release];
-
 }
 -(void)expressNewsZipFailed:(ASIHTTPRequest *)request{
     NSDictionary *d = [NSDictionary dictionaryWithObject:@"获取快讯失败！" forKey:@"data"];
     [[NSNotificationCenter defaultCenter] postNotificationName: KExpressNewsError  object: self userInfo:d];
-    [request release];
 }
 @end

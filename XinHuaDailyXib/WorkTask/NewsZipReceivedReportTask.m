@@ -11,7 +11,8 @@
 
 @implementation NewsZipReceivedReportTask
 +(void)execute:(XDailyItem *)daily{
-    NSString *zipreceived_report_url=[NSString stringWithFormat:KReportZipDownloadUrl,[UIDevice customUdid],daily.channelId,daily.item_id,[[UIDevice currentDevice] systemVersion]];
+    NSString *zipreceived_report_url=[NSString stringWithFormat:KReportZipDownloadUrl,[UIDevice customUdid],daily.channelId,daily.item_id,[[UIDevice currentDevice] systemVersion],sxttype,sxtversion];
+    NSLog(@"#### %@",zipreceived_report_url);
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:zipreceived_report_url]];
     [request startSynchronous];
 }

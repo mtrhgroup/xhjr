@@ -9,11 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "NewsRegisterTask.h"
 @interface RegisterViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate>
-@property (retain, nonatomic) UITextField *snInput;
-@property (retain, nonatomic) UIButton *regBtn;
-@property (retain,nonatomic) UIButton *collageBtn;
-@property (retain,nonatomic)UIAlertView *waitingAlert;
-//- (void)registger:(id)sender;
-//- (void)cancel:(id)sender;
-//- (void)valueChanged:(id)sender;
+@property (strong, nonatomic) UITextField *snInput;
+@property (strong, nonatomic) UIButton *regBtn;
+@property (strong,nonatomic) UIButton *collageBtn;
+@property (strong,nonatomic)UIAlertView *waitingAlert;
 @end

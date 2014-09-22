@@ -18,7 +18,6 @@
 #import "NSIks.h"
 #import "NewsChannel.h"
 #import "XinHuaAppDelegate.h"
-#import "NewsAllChannelDownloadTask.h"
 #import "RegisterViewController.h"
 #import "NewsXmlParser.h"
 #import "NewsInBoxViewController.h"
@@ -28,9 +27,12 @@
 #import "ExpressPlusViewController.h"
 #import "PicturePlusViewController.h"
 #import "ContactUsViewController.h"
+#import "GalleryViewController.h"
+#import "GallerySource.h"
 #import "CustomBadge.h"
-#import "UserDefaultManager.h"
 #import "Toast+UIView.h"
+#import "NewsDownloadTask.h"
+#import "VersionInfo.h"
 /*
  * notification : KShowToast           "显示后台任务的执行反馈"      userInfo:data  (NSString *) "执行反馈的文本信息"
  *                KUpdateWithMemory    “用后台数据更新频道列表”
@@ -62,10 +64,19 @@ BOOL                            _reloading;
 int timer_count;
 CustomBadge *unread_inbox;
 NSTimer *timer;
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
 
 #pragma mark - View lifecycle
@@ -78,13 +89,21 @@ NSTimer *timer;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWithMemory) name:KUpdateWithMemory object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pictureReadyHandler) name:KUpdatePicture object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showTaskInfo) name:KShowToast object:nil];
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allTaskFinishedHandler) name:KAllTaskFinished object:nil];
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleDisplayMode) name:KDisplayMode object:nil];
     }
     return self;
 }
 
-
+-(void)toggleDisplayMode{
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        self.view.backgroundColor = [UIColor whiteColor];
+        table.backgroundColor= [UIColor whiteColor];
+    }else{
+        self.view.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0];
+        table.backgroundColor= [UIColor colorWithRed:30.0/255.0 green:31.0/255.0 blue:32.0/255.0 alpha:1.0];
+    }
+}
 
 -(void)enterForegroundHandler{
     NSLog(@"enterForegroundHandler");
@@ -93,12 +112,20 @@ NSTimer *timer;
 
 -(void)GetdatafromWebToDb{
     NSLog(@"GetdatafromWebToDb");
-    NSAutoreleasePool *pool=[[NSAutoreleasePool alloc]init];
-    [NSThread detachNewThreadSelector:@selector(updateMainView) toTarget:self withObject:nil];
-    [pool drain];
+#if InHouseDistribution
+    if(![[NewsRegisterTask sharedInstance] isRegistered])return;
+#endif
+    @autoreleasepool {
+        [NSThread detachNewThreadSelector:@selector(updateMainView) toTarget:self withObject:nil];
+    }
 }
 -(void)updateMainView{
-    [NewsAllChannelDownloadTask execute];
+    NSManagedObjectContext *context=[[NSManagedObjectContext alloc]init];
+    context.persistentStoreCoordinator=AppDelegate.storeCoordinater;
+    NewsDbOperator *db=[[NewsDbOperator alloc]initWithContext:context];
+    NewsDownloadTask *task=[[NewsDownloadTask alloc] initWithDB:db];
+    [task GetdatafromWebToDb];
+    NSLog(@"download main data OK");
 }
 -(void)updateWithMemory{
     [self performSelector:@selector(update) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
@@ -125,27 +152,78 @@ NSTimer *timer;
     
     bimgv.userInteractionEnabled = YES;
     bimgv.image = [UIImage imageNamed:@"titlebg.png"];
-    
-    
-    
-    UIImageView* zhong = [[UIImageView alloc] initWithFrame:CGRectMake(87, 5, 123, 28)];
-    zhong.image = [UIImage imageNamed:@"title.png"];
-    [bimgv addSubview:zhong];
-    [zhong release];
+    NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
+    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    if(version_info==nil||version_info.groupTitle==nil){
+        UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        lab.text = @"新华时讯通";
+        lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+        lab.textAlignment = NSTextAlignmentCenter;
+        lab.backgroundColor = [UIColor clearColor];
+        lab.textColor = [UIColor whiteColor];
+        [bimgv addSubview:lab];
+    }else{
+        UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        lab.text = version_info.groupTitle;
+        lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+        lab.textAlignment = NSTextAlignmentCenter;
+        lab.backgroundColor = [UIColor clearColor];
+        lab.textColor = [UIColor whiteColor];
+        [bimgv addSubview:lab];
+    }
+//#if defined(SXT)   
+//    UIImageView* zhong = [[UIImageView alloc] initWithFrame:CGRectMake(87, 5, 123, 28)];
+//    zhong.image = [UIImage imageNamed:@"title.png"];
+//    [bimgv addSubview:zhong];
+//    [zhong release];
+//#endif
+//
+//#if defined(GXZW)
+//    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    lab.text = @"新华政务在线";
+//    lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+//    lab.textAlignment = UITextAlignmentCenter;
+//    lab.backgroundColor = [UIColor clearColor];
+//    lab.textColor = [UIColor whiteColor];
+//    [bimgv addSubview:lab];
+//    [lab release];
+//#endif
+//#if defined(HNZW)
+//    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    lab.text = @"新华时讯通舆情资讯";
+//    lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+//    lab.textAlignment = UITextAlignmentCenter;
+//    lab.backgroundColor = [UIColor clearColor];
+//    lab.textColor = [UIColor whiteColor];
+//    [bimgv addSubview:lab];
+//    [lab release];
+//#endif
+//    
+//#if defined(LNZW)
+//    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+//    lab.text = @"辽宁舆情参考";
+//    lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+//    lab.textAlignment = UITextAlignmentCenter;
+//    lab.backgroundColor = [UIColor clearColor];
+//    lab.textColor = [UIColor whiteColor];
+//    [bimgv addSubview:lab];
+//    [lab release];
+//
+//#endif
     [self.view addSubview:bimgv];
-    [bimgv release];
-    self.view.backgroundColor = [UIColor whiteColor];
+    
+   // self.view.backgroundColor = [UIColor whiteColor];
     self.channel_list  = nil;
     //添加scrollview
-    scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, 320, 200)];
-    scrollview.contentSize = CGSizeMake(320 * 1, 200);
+    scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, 320, 180)];
+    scrollview.contentSize = CGSizeMake(320 * 1, 180);
     scrollview.showsVerticalScrollIndicator = NO;
     scrollview.showsHorizontalScrollIndicator = YES;
     scrollview.delegate =  self;
     scrollview.backgroundColor = [UIColor whiteColor];
     scrollview.pagingEnabled = YES;
-    UIImage *img=[UIImage imageNamed:@"ad_1.png"];
-    img=[img scaleToSize:CGSizeMake(320, 200)];
+    UIImage *img=[UIImage imageNamed:@"ad.png"];
+    img=[img scaleToSize:CGSizeMake(320, 180)];
     UIButton *btn=[[UIButton alloc] init];
     btn.backgroundColor=[UIColor colorWithPatternImage:img];
     btn.tag=0;
@@ -154,11 +232,9 @@ NSTimer *timer;
     frame.origin.y = 0;
     btn.frame = frame;
     [scrollview addSubview:btn];
-    [btn release];
-    [self.view addSubview:scrollview];
-    [scrollview release];    
+    [self.view addSubview:scrollview];   
     //放小横图
-    UIImageView* imv = [[UIImageView alloc] initWithFrame:CGRectMake(0,180+44 , 320 , 23)];
+    UIImageView* imv = [[UIImageView alloc] initWithFrame:CGRectMake(0,160+44 , 320 , 23)];
     imv.image = [UIImage imageNamed:@"heise.png"];  
     picTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 23)];
     picTitleLabel.backgroundColor = [UIColor clearColor];
@@ -166,22 +242,18 @@ NSTimer *timer;
     picTitleLabel.textColor = [UIColor whiteColor];
     picTitleLabel.font = [UIFont fontWithName:@"Arial" size:15];
     [imv addSubview:picTitleLabel];
-    [picTitleLabel release];
     [self.view addSubview:imv];
     pagecontrol =[[UIPageControl alloc] initWithFrame:CGRectMake(220, -20, 86, 16)];
     pagecontrol.numberOfPages = 1;
     pagecontrol.currentPage = 0;
     [imv addSubview:pagecontrol];
-    [imv release];
-    [pagecontrol release];
     //加入展示
     
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 200+44, 320, 173+(iPhone5?88:0)) style:UITableViewStylePlain];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 180+44, 320, 193+(iPhone5?88:0)) style:UITableViewStylePlain];
     [table setSeparatorColor:[UIColor clearColor]];
     table.delegate = self;
     table.dataSource = self;
     [self.view addSubview:table];
-    
     
     unread_inbox = [CustomBadge customBadgeWithString:@"0"
                                       withStringColor:[UIColor whiteColor]
@@ -203,40 +275,35 @@ NSTimer *timer;
     [badgeButton  addTarget:self action:@selector(showInboxScene) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:badgeButton];    
     [self.view addSubview:mail];
-    [mail release];
-    [badgeButton release];
     
-    UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(280, 176+44, 25,35)]; 
-    UIImage *favor_image=[UIImage imageNamed:@"flag_favor_big.png"];
-    [favorBtn setImage:favor_image forState:UIControlStateNormal];
-    [favorBtn  addTarget:self action:@selector(showFavorScene) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:favorBtn];
-    [favorBtn release];
+//    UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(280, 176+44, 25,35)]; 
+//    UIImage *favor_image=[UIImage imageNamed:@"flag_favor_big.png"];
+//    [favorBtn setImage:favor_image forState:UIControlStateNormal];
+//    [favorBtn  addTarget:self action:@selector(showFavorScene) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:favorBtn];
+//    [favorBtn release];
     
     EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.table.bounds.size.height, self.view.frame.size.width, self.table.bounds.size.height)];
     view.delegate = self;
     [self.table addSubview:view];
     _refreshHeaderView = view;
-    [view release];	
     _reloading=NO;
     
     UIView* uv = [[UIView alloc] initWithFrame:CGRectMake(0, 373+44+(iPhone5?88:0), 320, 44)];
     uv.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bottombg.png"]];
-    UIButton* MenuBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 29,26)];
-    UIImage *menu_image=[UIImage imageNamed:@"menu.png"];
+    UIButton* MenuBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 35,35)];
+    UIImage *menu_image=[UIImage imageNamed:@"ext_nav_columns.png"];
     [MenuBtn setImage:menu_image forState:UIControlStateNormal];
     MenuBtn.showsTouchWhenHighlighted=YES;
     [MenuBtn  addTarget:self action:@selector(menu) forControlEvents:UIControlEventTouchUpInside];
     [uv addSubview:MenuBtn];
-    [self.view addSubview:uv];
-    [uv release];
-    [MenuBtn release];    
+    [self.view addSubview:uv];   
     [self makeToolPannel];
     [self update];
     UIView *horsebar=[[UIView alloc]initWithFrame:CGRectMake(42, 426+(iPhone5?88:0), 270, 27)];
     horsebar.clipsToBounds=YES;
     [self.view addSubview:horsebar];   
-    self.expressMarquee=[[[ExpressMarquee alloc]initWithFrame:CGRectMake(0, 0, 200, 30)] autorelease];
+    self.expressMarquee=[[ExpressMarquee alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
     [self.expressMarquee setBackgroundColor:[UIColor clearColor]];
     [self.expressMarquee setTag:999];
     [self.expressMarquee setShowLap:1];
@@ -250,15 +317,14 @@ NSTimer *timer;
     }
     [horsebar addSubview:self.expressMarquee];
     
-    UIButton *btnMarqueeClick=[[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    UIButton *btnMarqueeClick=[UIButton buttonWithType:UIButtonTypeCustom];
     [btnMarqueeClick setFrame:CGRectMake(0, 0, 300, 27)];
     [btnMarqueeClick addTarget:self action:@selector(clickMarquee) forControlEvents:UIControlEventTouchDown];
     [horsebar addSubview:btnMarqueeClick];
-    [horsebar release];
-    [btnMarqueeClick release];
     [self GetdatafromWebToDb];
     [self loadPictures];
-    timer = [NSTimer scheduledTimerWithTimeInterval:6.0f target:self selector:@selector(changeText) userInfo:nil repeats:YES];
+    　timer = [NSTimer scheduledTimerWithTimeInterval:6.0f target:self selector:@selector(changeText) userInfo:nil repeats:YES];
+    [self toggleDisplayMode];
 }
 
 -(void)changeText{
@@ -279,7 +345,7 @@ NSTimer *timer;
 }
 -(void)clickMarquee{
     [self hideToolPannel];
-    ExpressPlusViewController *aController = [[[ExpressPlusViewController alloc] init] autorelease];
+    ExpressPlusViewController *aController = [[ExpressPlusViewController alloc] init] ;
     NSMutableArray *items=[AppDelegate.db GetKuaiXun];
     if(timer_count<0||timer_count>=[items count])return;
     XDailyItem *item=[items objectAtIndex:timer_count];
@@ -330,41 +396,39 @@ NSTimer *timer;
      [self hideToolPannel];
     FavorBoxViewController* fbv = [[FavorBoxViewController alloc] init];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:fbv];
-    [fbv release];
-    [self presentModalViewController:nav animated:YES];   
-    [nav release];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 -(void)showAboutScene{
     [self hideToolPannel];
     XDAboutViewController* about = [[XDAboutViewController alloc] init];
     about.mode=0;
-    [self presentModalViewController:about animated:YES];
-    [about release];
+    [self presentViewController:about animated:YES completion:nil];
 }
 -(void)showSubscribeScene{
     [self hideToolPannel];   
     SubscribeViewController* sub = [[SubscribeViewController alloc] init];
     UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:sub];
-    [self presentModalViewController:unc animated:YES];
-    [sub release];
-    [unc release];
+    [self presentViewController:unc animated:YES completion:nil];
 }
 -(void)showVipScene{
     [self hideToolPannel];
     RegisterViewController* rvc = [[RegisterViewController alloc] init];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:rvc];
-    [self presentModalViewController:nav animated:YES];
-    [rvc release];
-    [nav release];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+-(void)showGalleryScene{
+    [self hideToolPannel];    
+    GallerySource* gs=[[GallerySource alloc]initWithPictureNewsArray:self.picturenews_array];
+    GalleryViewController* gvc=[[GalleryViewController alloc]initWithPhotoSource:gs];
+    UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:gvc];
+    [self presentViewController:unc animated:YES completion:nil];
 }
 -(void)showInboxScene{
     [self hideToolPannel];
     NewsInBoxViewController* nbx = [[NewsInBoxViewController alloc] init];
     UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:nbx];
-    [self presentModalViewController:unc animated:YES];
-    [nbx release];
-    [unc release];
+    [self presentViewController:unc animated:YES completion:nil];
 }
 
 -(void)showFeedBackScene{
@@ -372,9 +436,7 @@ NSTimer *timer;
     ContactUsViewController* nbx = [[ContactUsViewController alloc] init];
     UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:nbx];
     nbx.mode=0;
-    [self presentModalViewController:unc animated:YES];
-    [nbx release];
-    [unc release];
+    [self presentViewController:unc animated:YES completion:nil];
 }
 
 
@@ -382,9 +444,7 @@ NSTimer *timer;
     [self hideToolPannel];    
     SettingViewController* svc = [[SettingViewController alloc] init];
     UINavigationController *nav=[[UINavigationController alloc] initWithRootViewController:svc];
-    [self presentModalViewController:nav animated:YES];
-    [svc release];
-    [nav release];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 
@@ -394,31 +454,37 @@ NSTimer *timer;
     toolsview.hidden=true;
     self.tools_view=toolsview;
     [self.view addSubview:toolsview];
-    
-    UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(8, 15, 60,44)]; 
+#if InHouseDistribution
+    UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(8, 15, 60,44)];
+#else
+    UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(8, 15, 60,44)];
+#endif
     UIImage *image=[UIImage imageNamed:@"favor_white.png"];
     [favorBtn setImage:image forState:UIControlStateNormal];
     favorBtn.showsTouchWhenHighlighted=YES;
     [favorBtn  addTarget:self action:@selector(showFavorScene) forControlEvents:UIControlEventTouchUpInside];
     [toolsview addSubview:favorBtn];  
-    [favorBtn release];
-    
+#if InHouseDistribution
+    UIButton* subscribBtn = [[UIButton alloc] initWithFrame:CGRectMake(88, 15, 60,44)];
+#else
     UIButton* subscribBtn = [[UIButton alloc] initWithFrame:CGRectMake(68, 15, 60,44)];
+#endif
     UIImage *sub_image=[UIImage imageNamed:@"subscribe_white.png"];
     [subscribBtn setImage:sub_image forState:UIControlStateNormal];
     subscribBtn.showsTouchWhenHighlighted=YES;
     [subscribBtn  addTarget:self action:@selector(showSubscribeScene) forControlEvents:UIControlEventTouchUpInside];
     [toolsview addSubview:subscribBtn];
-    [subscribBtn release];
-//    UIButton* feedBackBtn = [[UIButton alloc] initWithFrame:CGRectMake(168, 15, 60,44)];
-//    UIImage *feed_image=[UIImage imageNamed:@"feedback.png"];
+//    UIButton* feedBackBtn = [[UIButton alloc] initWithFrame:CGRectMake(128, 15, 60,44)];
+//    UIImage *feed_image=[UIImage imageNamed:@"vip_white.png"];
 //    [feedBackBtn setImage:feed_image forState:UIControlStateNormal];
 //    feedBackBtn.showsTouchWhenHighlighted=YES;
-//    [feedBackBtn  addTarget:self action:@selector(showFeedBackScene) forControlEvents:UIControlEventTouchUpInside];
+//    [feedBackBtn  addTarget:self action:@selector(showGalleryScene) forControlEvents:UIControlEventTouchUpInside];
 //    [toolsview addSubview:feedBackBtn]; 
 //    [feedBackBtn release];
-    
-    UIButton* vipBtn = [[UIButton alloc] initWithFrame:CGRectMake(128, 15, 60,44)]; 
+#if InHouseDistribution
+
+#else
+    UIButton* vipBtn = [[UIButton alloc] initWithFrame:CGRectMake(128, 15, 60,44)];
     UIImage *vip_image=[UIImage imageNamed:@"vip_white.png"];
     [vipBtn setImage:vip_image forState:UIControlStateNormal];
     vipBtn.showsTouchWhenHighlighted=YES;
@@ -426,23 +492,27 @@ NSTimer *timer;
     self.toVipBtn=vipBtn;
     [toolsview addSubview:vipBtn];
     [vipBtn release];
-    
+#endif
+#if InHouseDistribution
+    UIButton* settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(168, 15, 60,44)];
+#else
     UIButton* settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(188, 15, 60,44)];
+#endif
     UIImage *setting_image=[UIImage imageNamed:@"setting_white.png"];
     [settingBtn setImage:setting_image forState:UIControlStateNormal];
     settingBtn.showsTouchWhenHighlighted=YES;
     [settingBtn  addTarget:self action:@selector(showSettingScene) forControlEvents:UIControlEventTouchUpInside];
     [toolsview addSubview:settingBtn];
-    [settingBtn release];
-    
+#if InHouseDistribution
     UIButton* aboutBtn = [[UIButton alloc] initWithFrame:CGRectMake(248, 15, 60,44)]; 
+#else
+    UIButton* aboutBtn = [[UIButton alloc] initWithFrame:CGRectMake(248, 15, 60,44)]; 
+#endif
     UIImage *about_image=[UIImage imageNamed:@"about_white.png"];
     [aboutBtn setImage:about_image forState:UIControlStateNormal];
     aboutBtn.showsTouchWhenHighlighted=YES;
     [aboutBtn  addTarget:self action:@selector(showAboutScene) forControlEvents:UIControlEventTouchUpInside];
     [toolsview addSubview:aboutBtn]; 
-    [aboutBtn release];
-    [toolsview release];
 }
 
 
@@ -467,7 +537,7 @@ NSTimer *timer;
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NSArray *views = [cell subviews];
     for(UIView* view in views)
@@ -475,34 +545,37 @@ NSTimer *timer;
         [view removeFromSuperview];
     }
     
-    UIImageView *cellbackground_image=[[UIImageView alloc] initWithImage: [UIImage imageNamed:@"cellbackground.png"]];
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    UIImageView *cellbackground_image;
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        cellbackground_image=[[UIImageView alloc] initWithImage: [UIImage imageNamed:@"cellbackground.png"]];
+    }else{
+        cellbackground_image=[[UIImageView alloc] initWithImage: [UIImage imageNamed:@"cellbackground_dark.png"]];
+    }
     cell.backgroundView = cellbackground_image;
-    [cellbackground_image release];
     
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redarrow.png"]];
     image.frame = CGRectMake(300, 15, 11, 12);
     [cell addSubview:image];
-    [image release];
     
     NewsChannel *channelAtIndex = [self.channel_list objectAtIndex:indexPath.row];
     int channel_numberAtIndex=[[self.channel_read_list objectAtIndex:indexPath.row] intValue];
     
-    UILabel* labtext = [[UILabel alloc] initWithFrame:CGRectMake(70, 5, 160, 30)];
+    UILabel* labtext = [[UILabel alloc] initWithFrame:CGRectMake(70, 5, 200, 30)];
     labtext.backgroundColor = [UIColor clearColor];
     labtext.text = channelAtIndex.title;
     labtext.font = [UIFont fontWithName:@"system" size:15];
     [cell addSubview:labtext];
-    [labtext release];
-    UIImageView* mv = [[UIImageView alloc] initWithFrame:CGRectMake(240, 10, 15, 24)];
+    UIImageView* mv = [[UIImageView alloc] initWithFrame:CGRectMake(280, 10, 15, 24)];
     mv.image = [UIImage imageNamed:@"flag.png"];
     [cell addSubview:mv];
     
     
     
-    UILabel* labNum = [[UILabel alloc] initWithFrame:CGRectMake(240, 10, 15, 15)];
+    UILabel* labNum = [[UILabel alloc] initWithFrame:CGRectMake(280, 10, 15, 15)];
     labNum.backgroundColor = [UIColor clearColor];
     labNum.textColor = [UIColor whiteColor];
-    labNum.textAlignment=UITextAlignmentCenter;
+    labNum.textAlignment=NSTextAlignmentCenter;
     labNum.font = [UIFont fontWithName:@"Arial" size:9];
     [cell addSubview: labNum];
     
@@ -513,23 +586,20 @@ NSTimer *timer;
     }else{
         mv.hidden = YES;
     }
-    [mv release];
-    [labNum release];
-    
+    if(channelAtIndex.imgPath != nil){
     NSFileManager* fm = [[NSFileManager alloc] init];
     NSString* pathImg = [CommonMethod fileWithDocumentsPath:[[channelAtIndex.imgPath stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] lastPathComponent]];
-    if(channelAtIndex.imgPath != nil&&[fm fileExistsAtPath:pathImg]){
+    if([fm fileExistsAtPath:pathImg]){
         UIImageView* uiv = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 30, 30)];
-        uiv.image = [[[UIImage alloc] initWithContentsOfFile:pathImg] autorelease];
-        [cell addSubview:uiv];
-        [uiv release];        
+        uiv.image = [[UIImage alloc] initWithContentsOfFile:pathImg];
+        [cell addSubview:uiv];       
+    }
     }else{
         UIImageView* uiv = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 30, 30)];
         uiv.image = [UIImage imageNamed:@"Icon.png"];
         [cell addSubview:uiv];
-        [uiv release];
     }
-    [fm release];
+
     return cell;
 }
 
@@ -546,8 +616,12 @@ NSTimer *timer;
     int selected_index=0;
     NSMutableArray *xdailyitem_list= [AppDelegate.db GetNewsByChannelID:((NewsChannel *)[self.channel_list objectAtIndex:indexPath.row]).channel_id];
     if([xdailyitem_list count]>0&&!((XDailyItem *)[xdailyitem_list objectAtIndex:0]).isRead){
-        if(((NewsChannel *)[self.channel_list objectAtIndex:indexPath.row]).generate.intValue==1){
-            ExpressPlusViewController *aController = [[[ExpressPlusViewController alloc] init] autorelease];
+        XDailyItem * daily = [xdailyitem_list objectAtIndex:selected_index];
+        NSString* url=[daily.pageurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+        NSString* filename=[[url lastPathComponent] stringByDeletingPathExtension];
+        NSLog(@"%@",[[url lastPathComponent] stringByDeletingPathExtension]);
+        if(![filename isEqualToString:@"index"]){
+            ExpressPlusViewController *aController = [[ExpressPlusViewController alloc] init];
             aController.type=@"file";
             aController.siblings=xdailyitem_list;
             aController.index=0;
@@ -559,14 +633,12 @@ NSTimer *timer;
             [AppDelegate.db SaveDb];
             [self.navigationController pushViewController:aController animated:YES];
         }else{
-            NewsListPlusViewController *aController = [[[NewsListPlusViewController alloc] init] autorelease];
+            NewsListPlusViewController *aController = [[NewsListPlusViewController alloc] init];
             aController.type=@"file";
             aController.siblings=xdailyitem_list;
             aController.index=0;
             aController.baseURL=@"";
             aController.channel_title=((NewsChannel *)[self.channel_list objectAtIndex:indexPath.row]).title;
-            
-            XDailyItem * daily = [xdailyitem_list objectAtIndex:selected_index];
             aController.item_title=aController.channel_title;
             daily.isRead  = YES;
             [AppDelegate.db ModifyDailyNews:daily];
@@ -574,7 +646,7 @@ NSTimer *timer;
             [self.navigationController pushViewController:aController animated:YES];
         }
     }else{
-        XdailyItemViewController *aController = [[[XdailyItemViewController alloc] init] autorelease];
+        XdailyItemViewController *aController = [[XdailyItemViewController alloc] init];
         NewsChannel *channelAtIndex = [self.channel_list objectAtIndex:indexPath.row];
         aController.channel_title = channelAtIndex.title;
         aController.channel_id = channelAtIndex.channel_id;
@@ -605,7 +677,7 @@ NSTimer *timer;
                         pic_news.articel_url=articleURL;
                         [pic_news_array addObject:pic_news];
                         NSLog(@"%@",pic_news.picture_url);
-                        UIImage *img=[[[UIImage alloc] initWithContentsOfFile:pic_news.picture_url] autorelease];
+                        UIImage *img=[[UIImage alloc] initWithContentsOfFile:pic_news.picture_url];
                         img=[img scaleToSize:CGSizeMake(320, 200)];
                         UIButton *btn=[[UIButton alloc] init];
                         btn.backgroundColor=[UIColor colorWithPatternImage:img];
@@ -616,13 +688,10 @@ NSTimer *timer;
                         frame.origin.y = 0;
                         btn.frame = frame;
                         [self.scrollview addSubview:btn];
-                        [btn release];
-                        [pic_news release];
                     }         
                 }
                 self.picturenews_array=nil;
-                self.picturenews_array=pic_news_array;
-                [pic_news_array release];        
+                self.picturenews_array=pic_news_array;      
                 self.pagecontrol.numberOfPages=[self.picturenews_array count];
                 self.picTitleLabel.text=((PictureNews *)[self.picturenews_array objectAtIndex:0]).picture_title;
             }
@@ -631,7 +700,7 @@ NSTimer *timer;
 -(void)showArticle:(id)sender{
     [self hideToolPannel];
     self.pic_index=((UIButton *)sender).tag;
-    PicturePlusViewController *aController = [[[PicturePlusViewController alloc] init] autorelease];  
+    PicturePlusViewController *aController = [[PicturePlusViewController alloc] init];  
     aController.siblings=self.picturenews_array;
     aController.baseURL=@"";
     aController.index=self.pic_index;
@@ -767,8 +836,6 @@ NSTimer *timer;
             self.channel_read_list=nil;
             self.channel_read_list=read_list;
             [self.table reloadData];
-            [channel_list_temp release];
-            [read_list release];
 }
 -(void)updateWithWeb{
     if([[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode]!=nil){
@@ -779,24 +846,18 @@ NSTimer *timer;
     [self GetdatafromWebToDb];
 }
 
-
+- (BOOL)shouldAutorotate
+{ 
+    return NO;
+    
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return false;
+    return UIInterfaceOrientationIsPortrait(interfaceOrientation);
 }
+
 - (void)viewDidUnload
 {
-    [pagecontrol release];
-    [scrollview release];
-    [table release];
-    [channel_list release];
-    [tools_view release];
-    [_picturenews_array release];
-    [picTitleLabel release];
-    [expressMarquee release];
-    [toVipBtn release];
-    [_refreshHeaderView release];
-    [unread_inbox release];
     [timer invalidate];
     timer = nil;
     [super viewDidUnload];

@@ -23,5 +23,6 @@
 @property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) NSNumber * sub;
 @property (nonatomic, retain) NSNumber * sort;
+@property(nonatomic,strong)NSNumber *homenum;
 
 @end

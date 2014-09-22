@@ -41,33 +41,28 @@
     [btnCnl addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     [btnCnl setBackgroundImage:[UIImage imageNamed:@"btn_021.png"] forState:UIControlStateNormal];
     [bimgv addSubview:btnCnl];
-    [btnCnl release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     lab.text = @"选择学校";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
     lab.textColor = [UIColor whiteColor];
     [bimgv addSubview:lab];
-    [lab release];
     
     UIButton* btnOK = [[UIButton alloc] initWithFrame:CGRectMake(280, 5, 35, 35)];
     btnOK.showsTouchWhenHighlighted=YES;
     [btnOK addTarget:self action:@selector(locate:) forControlEvents:UIControlEventTouchUpInside];
     [btnOK setBackgroundImage:[UIImage imageNamed:@"btn_020.png"] forState:UIControlStateNormal];
     [bimgv addSubview:btnOK];
-    [btnOK release];
     
     [self addSubview:bimgv];
-    [bimgv release];
     
     UIPickerView *picker=[[UIPickerView alloc]initWithFrame:CGRectMake(0, 44, self.frame.size.width, self.frame.size.height-44)];
     picker.showsSelectionIndicator=YES; 
     picker.dataSource=self;
     picker.delegate=self;
     [self addSubview:picker];
-    [picker release];
 
 }
 

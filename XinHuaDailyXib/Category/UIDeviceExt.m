@@ -19,6 +19,7 @@
 
 #import "UIDeviceExt.h"
 #import "NSStringExt.h"
+#import "SvUDIDTools.h"
 static NSString* __udid;
 
 #define IFT_ETHER 0x6
@@ -254,17 +255,19 @@ char*  getMacAddress(char* macAddress, char* ifName) {
 
 + (NSString*)customUdid
 {
-    NSString* mac = [UIDevice wifiMac];
-    if (mac.length > 0)
-    {
-        NSString* u = [NSString stringWithFormat:@"%@@xinhua",mac];
-        return [u MD5String];
-    }
-    else
-    {
-        return nil;
-    }
+//    NSString* mac = [UIDevice wifiMac];
+//    if (mac.length > 0)
+//    {
+//        NSString* u = [NSString stringWithFormat:@"%@@xinhua",mac];
+//        return [u MD5String];
+//    }
+//    else
+//    {
+//        return nil;
+//    }
+    NSString* openUDID = [SvUDIDTools UDID];
+    return openUDID;
     
-//    return @"33963f2681f2d3ff1733cada91b2f767";
+//    return @"00ff196c0512658f";
 }
 @end

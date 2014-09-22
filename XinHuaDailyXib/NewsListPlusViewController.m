@@ -11,6 +11,7 @@
 #import "NewsArticleViewController.h"
 #import "XinHuaAppDelegate.h"
 #import "NewsDbOperator.h"
+#import "PeriodicalItem.h"
 @interface NewsListPlusViewController ()
 
 @end
@@ -30,25 +31,20 @@
 @synthesize newslist;
 UIButton * favor_yes_btn;
 UIButton * favor_no_btn;
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [previousWebView release];
-    [nextWebView release];
-    [topWebView release];
-    [waitingView release];
-    [indicator release];
-    [siblings release];
-    [baseURL release];
-    [type release];
-    [channel_title release];
-    [item_title release];
-    [newslist release];
-    [favor_yes_btn release];
-    [favor_no_btn release];
-    // Release any retained subviews of the main view.
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -66,15 +62,17 @@ UIButton * favor_no_btn;
     UIView* booktopView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320,416+(iPhone5?88:0))];
     booktopView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bigtablebg.png"]];
     [self.view addSubview:booktopView];
-    [booktopView release];
     //UIwebView
     previousWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
     nextWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
     topWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, 320, 416+(iPhone5?88:0))];
     
-    previousWebView.backgroundColor= [UIColor whiteColor]; 
-    nextWebView.backgroundColor= [UIColor whiteColor]; 
-    topWebView.backgroundColor= [UIColor whiteColor]; 
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+        [self toggleToDayMode];
+    }else{
+        [self toggleToNightMode];
+    }
     
       for (UIView* sv in [self.previousWebView subviews])        
        {      
@@ -117,20 +115,17 @@ UIButton * favor_no_btn;
     [panGest setMaximumNumberOfTouches:1];
     [panGest setMinimumNumberOfTouches:1];
     [topWebView addGestureRecognizer:panGest];
-    [panGest release];
     
     
     UIPanGestureRecognizer* panGest1 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [panGest1 setMaximumNumberOfTouches:1];
     [panGest1 setMinimumNumberOfTouches:1];
     [previousWebView addGestureRecognizer:panGest1];
-    [panGest1 release];
     
     UIPanGestureRecognizer* panGest2 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [panGest2 setMaximumNumberOfTouches:1];
     [panGest2 setMinimumNumberOfTouches:1];
     [nextWebView addGestureRecognizer:panGest2];
-    [panGest2 release];
     
     [self.view addSubview:previousWebView];
     [self.view addSubview:nextWebView];
@@ -138,40 +133,36 @@ UIButton * favor_no_btn;
     
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 240, 40)];
-    [self.view addSubview:lab];
     lab.text = self.item_title;
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
-    favor_no_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 33,33)];     
-    UIImage *favor_no_image=[UIImage imageNamed:@"favor_pressed.png"];
-    [favor_no_btn setImage:favor_no_image forState:UIControlStateNormal];
-    [favor_no_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
-    favor_no_btn.hidden=YES;
-    [bimgv addSubview:favor_no_btn];
-    
-    favor_yes_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 33,33)];     
-    UIImage *favor_yes_image=[UIImage imageNamed:@"favor_normal.png"];
-    [favor_yes_btn setImage:favor_yes_image forState:UIControlStateNormal];
-    [favor_yes_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
-    favor_yes_btn.hidden=YES;
-    [bimgv addSubview:favor_yes_btn];
+//    favor_no_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 33,33)];     
+//    UIImage *favor_no_image=[UIImage imageNamed:@"favor_pressed.png"];
+//    [favor_no_btn setImage:favor_no_image forState:UIControlStateNormal];
+//    [favor_no_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
+//    favor_no_btn.hidden=YES;
+//    [bimgv addSubview:favor_no_btn];
+//    
+//    favor_yes_btn = [[UIButton alloc] initWithFrame:CGRectMake(276, 5, 33,33)];     
+//    UIImage *favor_yes_image=[UIImage imageNamed:@"favor_normal.png"];
+//    [favor_yes_btn setImage:favor_yes_image forState:UIControlStateNormal];
+//    [favor_yes_btn  addTarget:self action:@selector(colect:) forControlEvents:UIControlEventTouchUpInside];
+//    favor_yes_btn.hidden=YES;
+//    [bimgv addSubview:favor_yes_btn];
     
     [self.view addSubview:bimgv];
-    [bimgv release];
     [self makeWaitingView];
     NSLog(@"subview___%@",self.view.subviews);
     [[self.view.subviews objectAtIndex:3] loadRequest:[NSURLRequest requestWithURL:[self makeURLwith:[self get_current_news]]]];
@@ -186,13 +177,27 @@ UIButton * favor_no_btn;
     UIImage *favor_image=[UIImage imageNamed:@"clip.png"];
     [favorBtn setImage:favor_image forState:UIControlStateNormal];
     [self.view addSubview:favorBtn];
-    [favorBtn release];
     
    [[NSNotificationCenter defaultCenter] postNotificationName: KUpdateInbox
                                                          object: self];
 	// Do any additional setup after loading the view.
 }
-
+-(void)toggleToDayMode{
+    self.view.backgroundColor=[UIColor whiteColor];
+    previousWebView.backgroundColor= [UIColor whiteColor];
+    nextWebView.backgroundColor= [UIColor whiteColor];
+    topWebView.backgroundColor= [UIColor whiteColor];
+    
+}
+-(void)toggleToNightMode{
+    self.view.backgroundColor=[UIColor blackColor];
+    previousWebView.backgroundColor= [UIColor blackColor];
+    previousWebView.opaque=NO;
+    nextWebView.backgroundColor= [UIColor blackColor];
+    nextWebView.opaque=NO;
+    topWebView.backgroundColor= [UIColor blackColor];
+    topWebView.opaque=NO;
+}
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer translationInView:self.view];
     CGPoint v =[recognizer velocityInView:recognizer.view];    
@@ -219,7 +224,6 @@ UIButton * favor_no_btn;
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(40, 150, 231, 65)];
     imageView.image=[UIImage imageNamed:@"logo.png"];
     [waitingView addSubview:imageView];
-    [imageView release];
     [waitingView addSubview:indicator];
     [self.view addSubview:waitingView];   
 }
@@ -260,12 +264,6 @@ UIButton * favor_no_btn;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc {
-    [previousWebView release];
-    [nextWebView release];
-    [topWebView release];
-    [super dealloc];
-}
 - (void)swipeLeftAction:(id)sender {
     NSLog(@"%@",@"swipeLeftAction");
     NSLog(@"%@",[[self.view.subviews objectAtIndex:2] stringByEvaluatingJavaScriptFromString:@"document.title"]);
@@ -361,13 +359,17 @@ UIButton * favor_no_btn;
     if([[currentURL lastPathComponent] isEqualToString:@"index.htm"]){
         NSString *urls=[[self.view.subviews objectAtIndex:3] stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('li').length"];
         int urls_length=[urls intValue];
-        self.newslist=[[[NSMutableArray alloc] initWithCapacity:urls_length] autorelease];
+        self.newslist=[[NSMutableArray alloc] initWithCapacity:urls_length];
         for(int i=0;i<urls_length;i++){
-            [self.newslist addObject:[[self.view.subviews objectAtIndex:3] stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].firstChild.getAttribute(\"href\")",i]]];
-            NSLog(@"%@",[self.newslist objectAtIndex:i]);
-        }
-        
-        
+            PeriodicalItem *item=[[PeriodicalItem alloc]init];
+            item.baseURL=[[[self get_current_news].pageurl stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByDeletingLastPathComponent];
+            NSLog(@"%@",item.baseURL);
+            item.url=[[self.view.subviews objectAtIndex:3] stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].firstChild.getAttribute(\"href\")",i]];
+            NSString *outHTML=[[self.view.subviews objectAtIndex:3] stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].parentNode.previousSibling.firstChild.innerText",i]];
+            item.topic=outHTML;
+            item.article_title=[[self.view.subviews objectAtIndex:3] stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementsByTagName('li')[%d].firstChild.innerText",i]];
+            [self.newslist addObject:item];
+        }    
     }
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -398,13 +400,12 @@ UIButton * favor_no_btn;
         aController.index=[self getIndexOfNewslistWith:[[request URL] lastPathComponent]];
         aController.type=self.type;
         aController.baseURL=base; 
-        aController.channel_title=self.channel_title;
+        aController.channel_title=@"";
         aController.item_title=self.item_title;
         NSLog(@"out %@",aController.baseURL);
         NSLog(@"out %@",aController.siblings);
         NSLog(@"out %@",aController.type);
         [self.navigationController pushViewController: aController animated:YES];        
-        [aController release];
         return NO;
     }else{
         
@@ -421,12 +422,30 @@ UIButton * favor_no_btn;
     if(self.newslist==nil){
         [self changeSiblingsList];
     }
+    NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
+    if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[0].style.background='#FFFFFF'"];
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[0].style.color='#000000'"];
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[39].style.color='#000000'"];
+//        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[7].style.color='#000000'"];
+    }else{
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[1].style.background='#1E1F20'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[1].style.color='#888888'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[2].style.color='#888888'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[4].style.color='#888888'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[11].style.color='#888888'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[9].style.borderBottomColor='#333333'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[7].style.borderTopColor='#333333'"];
+         [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[6].style.borderTopColor='#333333'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[7].style.background='-webkit-gradient(linear, left top, left bottom, from(#232323), to(#343434))'"];
+        [webView stringByEvaluatingJavaScriptFromString:@"document.styleSheets[0].cssRules[14].style.background='#1E1F20'"];
+    }
 
 }
 -(int)getIndexOfNewslistWith:(NSString *)str{
     int ind=-1;
     for(int i=0;i<[self.newslist count];i++){
-        if([[self.newslist objectAtIndex:i] isEqualToString:str]){
+        if([((PeriodicalItem *)[self.newslist objectAtIndex:i]).url isEqualToString:str]){
             ind=i;
             break;
         }

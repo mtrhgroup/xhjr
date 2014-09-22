@@ -69,7 +69,7 @@
 	self.leftLabel = [[UILabel alloc] init];
 	self.leftLabel.frame = CGRectMake(0, 0, 48, 23);
 	self.leftLabel.text = leftLabelText;
-	self.leftLabel.textAlignment = UITextAlignmentCenter;
+	self.leftLabel.textAlignment = NSTextAlignmentCenter;
 	self.leftLabel.font = [UIFont boldSystemFontOfSize:17];
 	self.leftLabel.textColor = [UIColor whiteColor];
 	self.leftLabel.backgroundColor = [UIColor clearColor];
@@ -88,7 +88,7 @@
 	self.rightLabel = [[UILabel alloc] init];
 	self.rightLabel.frame = CGRectMake(95, 0, 48, 23);
 	self.rightLabel.text = rightLabelText;
-	self.rightLabel.textAlignment = UITextAlignmentCenter;
+	self.rightLabel.textAlignment = NSTextAlignmentCenter;
 	self.rightLabel.font = [UIFont boldSystemFontOfSize:17];
 	self.rightLabel.textColor = [UIColor grayColor];
 	self.rightLabel.backgroundColor = [UIColor clearColor];

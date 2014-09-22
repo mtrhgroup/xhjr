@@ -17,41 +17,30 @@
 #import "Label.h"
 
 @implementation NewsChannel
-@synthesize channel_id = _channel_id, title = _title, description = _description, level=_level,subscribe=_subscribe, custom_order=_custom_order,  imgPath = _imgPath,generate = _generate ,sort=_sort;
+@synthesize channel_id = _channel_id, title = _title, description = _description, level=_level,subscribe=_subscribe, custom_order=_custom_order,  imgPath = _imgPath,generate = _generate ,sort=_sort,timestamp=_timestamp,color=_color,imgArrow=_imgArrow, items=_items,homenum=_homenum;
 
-- (void)dealloc
-{
-    [_channel_id release];
-    [_title release];
-    [_description release];
-    [_level release];
-    [_custom_order release];
-    [_imgPath release];
-    [_generate release];
-    [_sort release]; 
-    [super dealloc];
-    
+
+
+-(void)stampTime{
+   self.timestamp=[NSDate date];
 }
-
-//-(id)initWithChannel_id:(NSString *)channel_id title:(NSString *)title description:(NSString *)description level:(NSNumber *)level subscribe:(BOOL)subscribe custom_order:(NSNumber *)custom_order imgPath:(NSString*)imgPath {
-//    self = [super init];
-//    if (self) {
-//        _channel_id = channel_id;
-//        _title = title;
-//        _description = description;
-//        _level=level;
-//        _subscribe=subscribe;
-//        _custom_order=custom_order;
-//        _imgPath = imgPath;
-//      
-//        return self;
-//    }
-//    return nil;
-//}
+-(BOOL)isOld{
+    NSDate *now=[NSDate date];
+    NSTimeInterval date1=[now timeIntervalSinceReferenceDate];
+    NSTimeInterval date2=[_timestamp timeIntervalSinceReferenceDate];
+    long interval=date1-date2;
+    long const fiveminutes=60*5;
+    NSLog(@"now:%f  stamp:%f",date1,date2);
+    if(interval>fiveminutes){
+        return YES;
+    }else{
+        return NO;
+    }
+}
 +(NewsChannel*)NewsChannelFromLabel:(Label*) label;
 
 {
-    NewsChannel *channel = [[[NewsChannel alloc] init] autorelease];
+    NewsChannel *channel = [[NewsChannel alloc] init] ;
     channel.channel_id = label.channelID;
     channel.title = label.name;
     channel.description = label.des;
@@ -61,6 +50,7 @@
     channel.imgPath = label.imgPath;
     channel.generate = label.generate;
     channel.sort = label.sort;
+    channel.homenum=label.homenum;
     return channel;
 }
 @end

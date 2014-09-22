@@ -24,5 +24,9 @@
 @property (nonatomic, retain) NSString * pageurl;
 @property (nonatomic, retain) NSNumber * read;
 @property (nonatomic, retain) NSString * zipurl;
+@property (nonatomic,retain)  NSString *summary;
+@property(nonatomic,retain)NSString *thumbnail;
+@property(nonatomic,retain)NSString *pn;
+
 
 @end

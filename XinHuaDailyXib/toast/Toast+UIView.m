@@ -278,8 +278,8 @@ static NSString *kDurationKey = @"CSToastDurationKey";
 #endif
         [titleLabel setNumberOfLines:kMaxTitleLines];
         [titleLabel setFont:[UIFont boldSystemFontOfSize:kFontSize]];
-        [titleLabel setTextAlignment:UITextAlignmentLeft];
-        [titleLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [titleLabel setTextAlignment:NSTextAlignmentLeft];
+        [titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [titleLabel setTextColor:[UIColor whiteColor]];
         [titleLabel setBackgroundColor:[UIColor clearColor]];
         [titleLabel setAlpha:1.0];
@@ -287,7 +287,12 @@ static NSString *kDurationKey = @"CSToastDurationKey";
         
         // size the title label according to the length of the text
         CGSize maxSizeTitle = CGSizeMake((self.bounds.size.width * kMaxWidth) - imageWidth, self.bounds.size.height * kMaxHeight);
-        CGSize expectedSizeTitle = [title sizeWithFont:titleLabel.font constrainedToSize:maxSizeTitle lineBreakMode:titleLabel.lineBreakMode]; 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED>__IPHONE_6_1
+        CGSize expectedSizeTitle=[title boundingRectWithSize:maxSizeTitle withTextFont:titleLabel.font withLineSpacing:titleLabel.lineBreakMode];
+#else
+       CGSize expectedSizeTitle = [title sizeWithFont:titleLabel.font constrainedToSize:maxSizeTitle lineBreakMode:titleLabel.lineBreakMode];
+#endif
+        
         [titleLabel setFrame:CGRectMake(0.0, 0.0, expectedSizeTitle.width, expectedSizeTitle.height)];
     }
     
@@ -298,7 +303,7 @@ static NSString *kDurationKey = @"CSToastDurationKey";
 #endif
         [messageLabel setNumberOfLines:kMaxMessageLines];
         [messageLabel setFont:[UIFont systemFontOfSize:kFontSize]];
-        [messageLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [messageLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [messageLabel setTextColor:[UIColor whiteColor]];
         [messageLabel setBackgroundColor:[UIColor clearColor]];
         [messageLabel setAlpha:1.0];
@@ -306,7 +311,12 @@ static NSString *kDurationKey = @"CSToastDurationKey";
         
         // size the message label according to the length of the text
         CGSize maxSizeMessage = CGSizeMake((self.bounds.size.width * kMaxWidth) - imageWidth, self.bounds.size.height * kMaxHeight);
-        CGSize expectedSizeMessage = [message sizeWithFont:messageLabel.font constrainedToSize:maxSizeMessage lineBreakMode:messageLabel.lineBreakMode]; 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED>__IPHONE_6_1
+        CGSize expectedSizeMessage=[message boundingRectWithSize:maxSizeMessage withTextFont:messageLabel.font withLineSpacing:messageLabel.lineBreakMode];
+#else
+        CGSize expectedSizeMessage = [message sizeWithFont:messageLabel.font constrainedToSize:maxSizeMessage lineBreakMode:messageLabel.lineBreakMode];
+#endif
+        
         [messageLabel setFrame:CGRectMake(0.0, 0.0, expectedSizeMessage.width, expectedSizeMessage.height)];
     }
     

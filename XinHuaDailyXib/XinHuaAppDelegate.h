@@ -12,19 +12,15 @@
 #import "XinHuaViewController.h"
 #import "NewsDbOperator.h"
 #import "WelcomeViewController.h"
+#import "ObjectConfigration.h"
 
 @interface XinHuaAppDelegate : UIResponder <UIApplicationDelegate>
-{
-    NewsDbOperator *_db;
-}
-
 @property (strong, nonatomic) UIWindow *window;
-@property(retain,nonatomic)UINavigationController *mainviewController;
-@property(retain,nonatomic)WelcomeViewController *startviewController;
-
+@property(strong,nonatomic)UINavigationController *mainviewController;
+@property(strong,nonatomic)WelcomeViewController *startviewController;
+@property(strong,nonatomic)NSPersistentStoreCoordinator *storeCoordinater;
 @property (strong,nonatomic) NewsDbOperator* db;
-@property(nonatomic,copy)NSArray *channel_list_subscribe;
-@property(nonatomic,copy)NSMutableArray *channel_list;
 @property(nonatomic,strong)NSString *flag;
 @property(nonatomic)BOOL isSuspended;
+@property(strong,nonatomic)ObjectConfigration *objectConfigration;
 @end

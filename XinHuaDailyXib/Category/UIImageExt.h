@@ -47,9 +47,5 @@
 - (UIImage *)imageByScalingProportionallyToMinimumSize:(CGSize)targetSize;
 - (UIImage *)imageByScalingProportionallyToSize:(CGSize)targetSize;
 - (UIImage *)imageByScalingToSize:(CGSize)targetSize;
-- (UIImage *)imageRotatedByRadians:(CGFloat)radians;
-- (UIImage *)imageRotatedByDegrees:(CGFloat)degrees;
 
-- (UIImage*)meetingIconStyle;
-+ (UIImage*)myMeetingtTableSep:(UIColor*)color  width:(CGFloat)width;
 @end

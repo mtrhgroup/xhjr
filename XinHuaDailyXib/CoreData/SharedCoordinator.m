@@ -73,10 +73,4 @@ static SharedCoordinator *instance=nil;
     
     return persistentStoreCoordinator;
 }
-- (void)dealloc {
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-	[databasepath release];
-	[super dealloc];
-}
 @end

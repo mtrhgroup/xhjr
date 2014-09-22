@@ -85,7 +85,11 @@
 {
 	CGSize retValue;
 	CGFloat rectWidth, rectHeight;
-	CGSize stringSize = [badgeString sizeWithFont:[UIFont boldSystemFontOfSize:12]];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED>=70000
+    CGSize stringSize = [badgeString sizeWithAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:12.0f]}];
+#else
+    CGSize stringSize=[badgeString sizeWithFont:[UIFont boldSystemFontOfSize:12.0f]];
+#endif
 	CGFloat flexSpace;
 	if ([badgeString length]>=2) {
 		flexSpace = [badgeString length];
@@ -232,8 +236,15 @@
 			sizeOfFont += sizeOfFont*0.20;
 		}
 		UIFont *textFont = [UIFont boldSystemFontOfSize:sizeOfFont];
-		CGSize textSize = [self.badgeText sizeWithFont:textFont];
-		[self.badgeText drawAtPoint:CGPointMake((rect.size.width/2-textSize.width/2), (rect.size.height/2-textSize.height/2)) withFont:textFont];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED>=70000
+        CGSize textSize = [self.badgeText sizeWithAttributes:@{NSFontAttributeName:textFont}];
+        [self.badgeText  drawAtPoint:CGPointMake((rect.size.width/2-textSize.width/2), (rect.size.height/2-textSize.height/2)) withAttributes:@{NSFontAttributeName:textFont}];
+#else
+        CGSize textSize = [self.badgeText sizeWithFont:textFont];
+        [self.badgeText  drawAtPoint:CGPointMake((rect.size.width/2-textSize.width/2), (rect.size.height/2-textSize.height/2)) withFont:textFont];
+#endif
+		
+        
 	}
 	
 }

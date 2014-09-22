@@ -29,6 +29,20 @@
     }
     return self;
 }
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
+}
 -(void)showToast:(NSNotification*) notification{
    [self.view hideToastActivity];
    NSString *info=[[notification userInfo] valueForKey:@"data"];
@@ -42,33 +56,29 @@
     self.navigationController.navigationBar.hidden = YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
     butb.showsTouchWhenHighlighted=YES;
     [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
-    [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
+    [butb setBackgroundImage:[UIImage imageNamed:@"backheader"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"意见反馈";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
     UIButton *sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(270, 8, 43,29)];     
     UIImage * send_image=[UIImage imageNamed:@"send.png"];
     [sendBtn setImage:send_image forState:UIControlStateNormal];
     [sendBtn  addTarget:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
     [bimgv addSubview:sendBtn];
-    [sendBtn release];
     
     [self.view addSubview:bimgv];
-    [bimgv release];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"about_bac.png"]];
 
@@ -84,7 +94,6 @@
     content.contentInset = UIEdgeInsetsMake(2,2,2,2);
     self.contentTV=content;
     [self.view addSubview:content];
-    [content release];
     NSString *lastEmail=[[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
     UITextField* email = [[UITextField alloc] initWithFrame:CGRectMake(20, 160, 280, 40)];
     email.layer.borderWidth = 1.0f;
@@ -95,17 +104,15 @@
     paddingView.textColor = [UIColor blackColor];
     paddingView.backgroundColor = [UIColor clearColor];
     email.leftView = paddingView;
-    [paddingView release];
     email.leftViewMode = UITextFieldViewModeAlways;
     email.placeholder = @"便于我们给您反馈";
-    email.textAlignment = UITextAlignmentLeft;
+    email.textAlignment = NSTextAlignmentLeft;
     email.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     if(lastEmail!=nil){
        email.text=lastEmail;
     }
     self.emailTF=email;
     [self.view addSubview:email];
-    [email release];
     
     [self.contentTV becomeFirstResponder];
     
@@ -113,11 +120,11 @@
 	// Do any additional setup after loading the view.
 }
 -(void)makeWaitingAlert{
-    self.waitingAlert = [[[UIAlertView alloc]initWithTitle:@"请等待" 
+    self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待" 
                                                    message:nil                         
                                                   delegate:nil   
                                          cancelButtonTitle:nil                     
-                                         otherButtonTitles:nil] autorelease];  
+                                         otherButtonTitles:nil];  
     
 }
 -(void)showWaitingAlert{
@@ -125,8 +132,7 @@
     UIActivityIndicatorView*activeView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];    
     activeView.center = CGPointMake(waitingAlert.bounds.size.width/2.0f, waitingAlert.bounds.size.height-40.0f);      
     [activeView startAnimating];      
-    [waitingAlert addSubview:activeView];      
-    [activeView release];    
+    [waitingAlert addSubview:activeView];         
 }
 -(void)hideWaitingAlert{
     [self.waitingAlert dismissWithClickedButtonIndex:0 animated:YES];
@@ -141,7 +147,7 @@
     if(mode==1){
         [self.navigationController popViewControllerAnimated:YES];
     }else{
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
    
 }
@@ -169,7 +175,6 @@
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:string delegate:nil cancelButtonTitle:NSLocalizedString(@"确定", nil) otherButtonTitles:nil];
     [alert show];
-    [alert autorelease];
 }
 - (void)viewDidUnload
 {

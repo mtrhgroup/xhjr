@@ -13,22 +13,20 @@
 @synthesize table;
 @synthesize mode;
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [table release];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -36,55 +34,54 @@
     [super viewDidLoad];    
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
         [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     butb.showsTouchWhenHighlighted=YES;
     [bimgv addSubview:butb];
-    [butb release];
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
-    lab.text = @"关于";
+    lab.text = @"客服电话";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
     [self.view addSubview:bimgv];
-    [bimgv release];
          
     
     
-    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
-    NSString* appversion =  [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+
 //    
 //    self.deviceid.text=[UIDevice customUdid];
 //    self.version.text=appversion;
 //    self.telephonenumber.text=@"010-63076092";
 //    self.serialnumber.text=authcode;
-    
-    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"about_bac.png"]];
     UIView* uiv = [[UIView alloc] initWithFrame:CGRectMake(5, 88, 310, 230)];
     uiv.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"about_gray.png"]];
-    
-    UILabel* lab1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 90, 20)];
+#ifdef LNZW
+    UIImageView *logo=[[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 64, 64)];
+    logo.image=[UIImage imageNamed:@"Icon@2x.png"];
+    [uiv addSubview:logo];
+    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
+    NSString* appversion =  [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+    UILabel* lab1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 90, 20)];
     lab1.backgroundColor = [UIColor clearColor];
     lab1.font = [UIFont fontWithName:@"Arial" size:16];
     lab1.textColor = [UIColor whiteColor];
-    lab1.text =  @"手机号:";
+    lab1.text =  @"序列号:";
     [uiv addSubview:lab1];
-    [lab1 release];
     
     
-    UILabel* lab2 = [[UILabel alloc] initWithFrame:CGRectMake(90, 20, 220, 20)];
+    UILabel* lab2 = [[UILabel alloc] initWithFrame:CGRectMake(90, 100, 220, 20)];
     lab2.backgroundColor = [UIColor clearColor];
     lab2.font = [UIFont fontWithName:@"Arial" size:16];
     lab2.textColor = [UIColor whiteColor];
+//    lab2.text=[UIDevice customUdid];
     if (authcode == nil) {
         lab2.text = @"";
     }else {
@@ -92,84 +89,91 @@
     }
     
     [uiv addSubview:lab2];
-    [lab2 release];
     
     
-    UILabel* lab3 = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 90, 20)];
+    UILabel* lab3 = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, 90, 20)];
     lab3.backgroundColor = [UIColor clearColor];
     lab3.font = [UIFont fontWithName:@"Arial" size:16];
     lab3.textColor = [UIColor whiteColor];
     lab3.text =  @"版本信息:";
     [uiv addSubview:lab3];
-    [lab3 release];
     
     
-    UILabel* lab4 = [[UILabel alloc] initWithFrame:CGRectMake(90, 60, 220, 20)];
+    UILabel* lab4 = [[UILabel alloc] initWithFrame:CGRectMake(90, 120, 220, 20)];
     lab4.backgroundColor = [UIColor clearColor];
     lab4.font = [UIFont fontWithName:@"Arial" size:16];
     lab4.textColor = [UIColor whiteColor];
     lab4.text =  appversion;
     [uiv addSubview:lab4];
-    [lab4 release];
-    
-    
-    UILabel* lab5 = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 90, 20)];
-    lab5.backgroundColor = [UIColor clearColor];
-    lab5.font = [UIFont fontWithName:@"Arial" size:16];
-    lab5.textColor = [UIColor whiteColor];
-    lab5.text =  @"版权所有:";
-    [uiv addSubview:lab5];
-    [lab5 release];
-    
-    
-    UILabel* lab6 = [[UILabel alloc] initWithFrame:CGRectMake(90, 100, 220, 20)];
-    lab6.backgroundColor = [UIColor clearColor];
-    lab6.font = [UIFont fontWithName:@"Arial" size:16];
-    lab6.textColor = [UIColor whiteColor];
-    lab6.text =  @"新华社经济信息编辑部";
-    [uiv addSubview:lab6];
-    [lab6 release];
-    
-//    UIImageView* imgv = [[UIImageView alloc] initWithFrame:CGRectMake(254, 100, 32, 32)];
-//    imgv.image = [UIImage imageNamed:@"icon.png"];
-//    [uiv addSubview:imgv];
-//    [imgv release];
-    
-    
     UILabel* lab7 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 90, 20)];
     lab7.backgroundColor = [UIColor clearColor];
     lab7.font = [UIFont fontWithName:@"Arial" size:16];
     lab7.textColor = [UIColor whiteColor];
-    lab7.text =  @"联系电话:";
+    lab7.text =  @"客服电话:";
     [uiv addSubview:lab7];
-    [lab7 release];
-    
-    
     UILabel* lab8 = [[UILabel alloc] initWithFrame:CGRectMake(90, 140, 220, 20)];
     lab8.backgroundColor = [UIColor clearColor];
     lab8.font = [UIFont fontWithName:@"Arial" size:16];
-    lab8.textColor = [UIColor whiteColor];
-    lab8.text =  @"+86-010-63077787";
+    lab8.textColor = [UIColor blueColor];
+    lab8.text =  @"024-23822598";
     [uiv addSubview:lab8];
-    [lab8 release];
+    lab8.userInteractionEnabled=YES;
+    UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(telToMe:)];
+    [lab8 addGestureRecognizer:singleTap];
+#endif
+#ifdef HNZW
+    UIImageView *logo=[[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 64, 64)];
+    logo.image=[UIImage imageNamed:@"Icon@2x.png"];
+    [uiv addSubview:logo];
+    UILabel* lab7 = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 260, 20)];
+    lab7.backgroundColor = [UIColor clearColor];
+    lab7.font = [UIFont fontWithName:@"Arial" size:16];
+    lab7.textColor = [UIColor whiteColor];
+    lab7.text =  @"新华社海南分社客服电话:";
+    [uiv addSubview:lab7];
+    UILabel* lebtelnumber = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, 220, 20)];
+    lebtelnumber.backgroundColor = [UIColor clearColor];
+    lebtelnumber.font = [UIFont fontWithName:@"Arial" size:16];
+    lebtelnumber.textColor = [UIColor blueColor];
+    lebtelnumber.text =  @"0898-68527552";
+    [uiv addSubview:lebtelnumber];
+    lebtelnumber.userInteractionEnabled=YES;
+    UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(telToMe2:)];
+    [lebtelnumber addGestureRecognizer:singleTap];
+    UILabel* lebtel2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 260, 20)];
+    lebtel2.backgroundColor = [UIColor clearColor];
+    lebtel2.font = [UIFont fontWithName:@"Arial" size:16];
+    lebtel2.textColor = [UIColor whiteColor];
+    lebtel2.text =  @"新华社经济信息编辑部客服电话:";
+    [uiv addSubview:lebtel2];
+    UILabel* lebtelnumber2 = [[UILabel alloc] initWithFrame:CGRectMake(10, 160, 220, 20)];
+    lebtelnumber2.backgroundColor = [UIColor clearColor];
+    lebtelnumber2.font = [UIFont fontWithName:@"Arial" size:16];
+    lebtelnumber2.textColor = [UIColor blueColor];
+    lebtelnumber2.text =  @"010-63071129";
+    [uiv addSubview:lebtelnumber2];
+    lebtelnumber2.userInteractionEnabled=YES;
+    UITapGestureRecognizer *singleTap2=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(telToMe:)];
+    [lebtelnumber2 addGestureRecognizer:singleTap2];
+#endif
+
+    UILabel* labtel1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 120, 20)];
+    [self.view addSubview:labtel1];
+    labtel1.text = @"客服电话";
+    labtel1.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
+    labtel1.textAlignment = NSTextAlignmentCenter;
+    labtel1.backgroundColor = [UIColor clearColor];
+    labtel1.textColor = [UIColor whiteColor];
+    [bimgv addSubview:labtel1];
     
-    UIButton* telBtn=[[UIButton alloc]initWithFrame:CGRectMake(254, 140, 32, 32)];
-    [telBtn setBackgroundImage:[UIImage imageNamed:@"about_tel_pic.png"] forState:UIControlStateNormal];
-    [telBtn addTarget:self action:@selector(telToMe:) forControlEvents:UIControlEventTouchUpInside];
-    [uiv addSubview:telBtn];
-    [telBtn release];
     
-    
-    UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
-    but.frame = CGRectMake(125, 180, 175, 36);
-    [but setBackgroundImage:[UIImage imageNamed:@"about_tel.png"] forState:UIControlStateNormal];
-    [but addTarget:self action:@selector(telToMe:) forControlEvents:UIControlEventTouchUpInside];
-    [uiv addSubview:but];
-    
+    UILabel* labRight = [[UILabel alloc] initWithFrame:CGRectMake(10, 180, 250, 20)];
+    labRight.backgroundColor = [UIColor clearColor];
+    labRight.font = [UIFont fontWithName:@"Arial" size:16];
+    labRight.textColor = [UIColor whiteColor];
+    labRight.text =  @"©新华时讯通移动信息服务平台";
+    [uiv addSubview:labRight];
     [self.view addSubview:uiv];
-    [uiv release];
-
-
 }
 
 
@@ -177,7 +181,7 @@
     if(mode==1){
         [self.navigationController popViewControllerAnimated:YES];
     }else{
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     
 }
@@ -210,9 +214,9 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier];
         cell.detailTextLabel.numberOfLines = 2;
-        cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
+        cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0f];
     }
     switch (indexPath.row) {
@@ -241,7 +245,12 @@
         {
             //:010-63076092
             cell.textLabel.text =  @"联系电话";
-            cell.detailTextLabel.text =  @"010-63077787";
+#ifdef LNZW
+            cell.detailTextLabel.text =  @"024-23828522";
+#endif
+#ifdef HNZW
+            cell.detailTextLabel.text =  @"010-63071129";
+#endif
 
         }
             break;
@@ -253,13 +262,21 @@
     
     return cell;
 }
-
+-(void)telToMe2:(id)sender{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://089868527552"]];
+}
 -(void)telToMe:(id)sender{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://01063077787"]];
+#ifdef LNZW
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://02423828522"]];
+#endif
+#ifdef HNZW
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://01063071129"]];
+#endif
+    
 }
 - (void)done
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

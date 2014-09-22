@@ -39,6 +39,20 @@
                 duration:2.0
                 position:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
 }
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -46,7 +60,7 @@
     self.navigationController.navigationBar.hidden = YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
     
 
     
@@ -55,28 +69,24 @@
     [butb addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
     [bimgv addSubview:butb];
-    [butb release];
-    
     
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
     [self.view addSubview:lab];
     lab.text = @"会员申请";
     lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
     lab.textColor = [UIColor whiteColor];
     [bimgv addSubview:lab];
-    [lab release];
+
     
     [self.view addSubview:bimgv];
-    [bimgv release];
     
     UIControl *hiddenView=[[UIControl alloc]initWithFrame:CGRectMake(40,0,280,44)];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnce:)];//定义一个手势
     [tap setNumberOfTouchesRequired:1];//触击次数这里设为1
     [hiddenView addGestureRecognizer:tap];//添加手势到View中
     [self.view addSubview:hiddenView];
-    [hiddenView release];
 
 
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
@@ -130,7 +140,7 @@
                     position:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
         return;
     }else if([tf3.text isEqualToString:@""]||tf3.text==nil){
-        [self.view makeToast:@"手机号不能为空！"
+        [self.view makeToast:@"序列号不能为空！"
                     duration:1.0
                     position:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
         return;
@@ -165,7 +175,7 @@
     UITableViewCell* cell = [table dequeueReusableCellWithIdentifier:str];
 
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         
     }
     NSArray *views = [cell subviews];
@@ -198,31 +208,28 @@
             
             tf = [[UITextField alloc] initWithFrame:CGRectMake(100,10, 180, 30)];
             tf.placeholder = @"请输入您的真实姓名";
-            tf.textAlignment = UITextAlignmentLeft;
+            tf.textAlignment = NSTextAlignmentLeft;
             tf.contentVerticalAlignment = UIControlContentHorizontalAlignmentLeft;
          
             [cell addSubview:tf];
-            [tf release];
             cell.textLabel.text = @"姓名：";
              cell.accessoryType=UITableViewCellAccessoryNone;
         }else if(indexPath.row == 1){
             tf2 = [[UITextField alloc] initWithFrame:CGRectMake(100, 10, 180, 30)];
             tf2.placeholder = @"请输入您的单位名称";
-            tf2.textAlignment = UITextAlignmentLeft;
+            tf2.textAlignment = NSTextAlignmentLeft;
             tf2.contentVerticalAlignment = UIControlContentHorizontalAlignmentLeft;
             [cell addSubview:tf2];
-            [tf2 release];
             cell.textLabel.text = @"单位：";
             cell.accessoryType=UITableViewCellAccessoryNone;
         }else if(indexPath.row==2){
             tf3 = [[UITextField alloc] initWithFrame:CGRectMake(100, 10, 180, 30)];
             tf3.placeholder = @"请输入您的联系电话";
             tf3.keyboardType= UIKeyboardTypePhonePad;
-            tf3.textAlignment = UITextAlignmentLeft;
+            tf3.textAlignment = NSTextAlignmentLeft;
             tf3.contentVerticalAlignment = UIControlContentHorizontalAlignmentLeft;
             [cell addSubview:tf3];
-            [tf3 release];
-            cell.textLabel.text = @"手机号：";
+            cell.textLabel.text = @"序列号：";
             cell.accessoryType=UITableViewCellAccessoryNone;
         }
     }else if(indexPath.section==1){
@@ -235,7 +242,7 @@
         cell.textLabel.textColor = [UIColor whiteColor];
          cell.textLabel.text = @"提交";
         cell.textLabel.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:18];
-        cell.textLabel.textAlignment=UITextAlignmentCenter;
+        cell.textLabel.textAlignment=NSTextAlignmentCenter;
         cell.backgroundColor=[UIColor redColor];
 
     }

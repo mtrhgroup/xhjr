@@ -11,6 +11,6 @@
 
 }
 
-@property (nonatomic, retain) NSMutableArray *xdailyitem_list;
-@property (nonatomic, retain) UITableView* table;
+@property (nonatomic, strong) NSMutableArray *xdailyitem_list;
+@property (nonatomic, strong) UITableView* table;
 @end

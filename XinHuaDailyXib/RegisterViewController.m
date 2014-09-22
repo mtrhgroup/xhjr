@@ -7,7 +7,6 @@
 //
 
 #import "RegisterViewController.h"
-#import "UserDefaultManager.h"
 #import "ASIHTTPRequest.h"
 #import "NSIks.h"
 #import "NewsDefine.h"
@@ -53,7 +52,7 @@ NSString *collageCode;
 }
 -(void)showUserInfo:(NSNotification *)notification{
     [self.view hideToastActivity];
-    user_info=[(NewsUserInfo *)[[notification userInfo] objectForKey:@"data"] retain];
+    user_info=(NewsUserInfo *)[[notification userInfo] objectForKey:@"data"];
     NSLog(@"parser OK name%@",user_info.name);
     NSLog(@"parser OK sn%@",user_info.sn);
     NSLog(@"parser OK collage%@",user_info.company);
@@ -65,11 +64,24 @@ NSString *collageCode;
                                                     otherButtonTitles:@"确认", nil];
     alert.delegate=self;
     [alert show];
-    [alert release];
 }
 -(void)bindleSnOkHandler{
     [self.view hideToastActivity];
     [self navigateToMainScene];
+}
+- (void) viewDidLayoutSubviews {
+    // only works for iOS 7+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        
+        // snaps the view under the status bar (iOS 6 style)
+        viewBounds.origin.y = topBarOffset*-1;
+        
+        // shrink the bounds of your view to compensate for the offset
+        //viewBounds.size.height = viewBounds.size.height -20;
+        self.view.bounds = viewBounds;
+    }
 }
 - (void)viewDidLoad
 {
@@ -78,27 +90,28 @@ NSString *collageCode;
     self.navigationController.navigationBar.hidden = YES;
     UIImageView* bimgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     bimgv.userInteractionEnabled = YES;
-    bimgv.image = [UIImage imageNamed:@"titlebg.png"];
+    bimgv.image = [UIImage imageNamed:@"ext_navbar.png"];
 
-    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 40)];
-    [self.view addSubview:lab];
+    UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+#ifdef LNZW
+    lab.text = @"新华舆情通";
+#endif
+#ifdef HNZW
     lab.text = @"新华时讯通";
-    lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
-    lab.textAlignment = UITextAlignmentCenter;
+#endif
+    lab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+    lab.textAlignment = NSTextAlignmentCenter;
     lab.backgroundColor = [UIColor clearColor];
-    lab.textColor = [UIColor whiteColor];
+    lab.textColor = [UIColor blackColor];
     [bimgv addSubview:lab];
-    [lab release];
     
-    UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
-    butb.showsTouchWhenHighlighted=YES;
-    [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
-    [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
-    [bimgv addSubview:butb];
-    [butb release];
+//    UIButton* butb = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 35, 35)];
+//    butb.showsTouchWhenHighlighted=YES;
+//    [butb addTarget:self action:@selector(returnclick:) forControlEvents:UIControlEventTouchUpInside];
+//    [butb setBackgroundImage:[UIImage imageNamed:@"backheader.png"] forState:UIControlStateNormal];
+//    [bimgv addSubview:butb];
     
     [self.view addSubview:bimgv];
-    [bimgv release];
     
     
     
@@ -108,53 +121,36 @@ NSString *collageCode;
    // [uiv setImage:[UIImage imageNamed:@"reg_gray.png"]];
     uiv.userInteractionEnabled =  YES;
     
-    
-    UILabel *tel_label1=[[UILabel alloc] initWithFrame:CGRectMake(40,20+44,240,40)];
-    tel_label1.backgroundColor=[UIColor clearColor];
-    tel_label1.textColor=[UIColor blackColor];
-    //tel_label.text=@"联系电话：010－63077787";
-    tel_label1.text=@"为了更好的为您提供服务，请输入您的联系方式。";
-    tel_label1.numberOfLines=2;
-    [self.view addSubview:tel_label1];
-    [tel_label1 release];
-    
     UILabel *tel_label=[[UILabel alloc] initWithFrame:CGRectMake(40,60+44,280,20)];
     tel_label.backgroundColor=[UIColor clearColor];
     tel_label.textColor=[UIColor blackColor];
-    //tel_label.text=@"联系电话：010－63077787";
-    tel_label.text=@"手机号：";
+#ifdef LNZW
+    tel_label.text=@"联系电话：024－23822598";
+#endif
+#ifdef HNZW
+    tel_label.text=@"联系电话：010－63071129";
+#endif
+    //tel_label.text=@"授权号：";
     [self.view addSubview:tel_label];
-    [tel_label release];
     
     
     UITextField* tf = [[UITextField alloc] initWithFrame:CGRectMake(20, 30+44, 240, 40)];
     tf.placeholder = @"";
     tf.background = [UIImage imageNamed:@"reg_input.png"];
-    tf.textAlignment = UITextAlignmentCenter;
+    tf.textAlignment = NSTextAlignmentCenter;
     tf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [tf becomeFirstResponder];
     self.snInput=tf;
     [uiv addSubview:tf];
-    [tf release];
     UIButton *regbu = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    regbu.frame = CGRectMake(20, 115, 110, 35);
+    regbu.frame = CGRectMake(80, 115, 110, 35);
     [regbu setTitle:@"登录" forState:UIControlStateNormal];
     //[regbu setBackgroundImage:[UIImage imageNamed:@"reg_reg.png"] forState:UIControlStateNormal];
     [regbu addTarget:self action:@selector(registger:) forControlEvents:UIControlEventTouchUpInside];
     [uiv addSubview:regbu];
     self.regBtn=regbu;
-    [regbu release];
-    
-    UIButton *requestbu = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    requestbu.frame = CGRectMake(150, 115, 110, 35);
-    [requestbu setTitle:@"申请" forState:UIControlStateNormal];
-    //[regbu setBackgroundImage:[UIImage imageNamed:@"reg_reg.png"] forState:UIControlStateNormal];
-    [requestbu addTarget:self action:@selector(navigateToRegScene) forControlEvents:UIControlEventTouchUpInside];
-    [uiv addSubview:requestbu];
-//    [requestbu release];
-  
     [self.view addSubview:uiv];
-    [uiv release];}
+}
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     //开始编辑时触发，文本字段将成为first responder
     [collageSelector removeFromView];
@@ -179,7 +175,7 @@ NSString *collageCode;
 }
 
 -(void)returnclick:(id)sender{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -203,7 +199,7 @@ NSString *collageCode;
    // [self showUserInfo:nil];
     UITextField* field = (UITextField*)self.snInput;
     if([field.text isEqualToString:@""]||field.text==nil){
-        [self.view makeToast:@"手机号不能为空！"
+        [self.view makeToast:@"序列号不能为空！"
                     duration:1.0
                     position:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
         return;
@@ -222,15 +218,12 @@ NSString *collageCode;
     
 }
 -(void)navigateToRegScene{
-    RegViewController *aViewController = [[[RegViewController alloc] init] autorelease];    
+    RegViewController *aViewController = [[RegViewController alloc] init];    
   [self.navigationController pushViewController:aViewController animated:YES];
 }
 -(void)navigateToMainScene{
-    XinHuaViewController *mainController=[[[XinHuaViewController alloc] init] autorelease];
-    UINavigationController* unc = [[UINavigationController alloc] initWithRootViewController:mainController];
-    unc.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:unc animated:YES];
-    [unc release];
+    AppDelegate.mainviewController.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController: AppDelegate.mainviewController animated:YES completion:nil];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
     if (theTextField == self.snInput) {
@@ -241,11 +234,6 @@ NSString *collageCode;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [snInput release];
-    [regBtn release];
-    [waitingAlert release];
 }
-- (void)dealloc {
-    [super dealloc];
-}
+
 @end
