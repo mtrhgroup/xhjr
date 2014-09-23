@@ -13,7 +13,7 @@
 #import "NewsDbOperator.h"
 #import "WelcomeViewController.h"
 #import "ObjectConfigration.h"
-
+#import "InAppPurchaseManager.h"
 @interface XinHuaAppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @property(strong,nonatomic)UINavigationController *mainviewController;
@@ -23,4 +23,5 @@
 @property(nonatomic,strong)NSString *flag;
 @property(nonatomic)BOOL isSuspended;
 @property(strong,nonatomic)ObjectConfigration *objectConfigration;
+@property(strong,nonatomic)InAppPurchaseManager *inApp;
 @end

@@ -42,6 +42,7 @@
 @synthesize flag=_flag,isSuspended=_isSuspended;
 @synthesize storeCoordinater=_storeCoordinater;
 @synthesize objectConfigration=_objectConfigration;
+@synthesize inApp=_inApp;
 - (void)initializePlat
 {
     ///#begin zh-cn
@@ -233,6 +234,8 @@
         NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc] init];
         [managedObjectContext setPersistentStoreCoordinator: _storeCoordinater];
         self.db=[[NewsDbOperator alloc]initWithContext:managedObjectContext];
+        self.inApp=[[InAppPurchaseManager alloc]init];
+        [self.inApp loadStore];
         [[NSUserDefaults  standardUserDefaults] setObject:@"20" forKey:@"SETDATE"];
         [[NSUserDefaults  standardUserDefaults] setObject:@"中" forKey:@"FONTSIZE"];
     }
@@ -324,15 +327,15 @@
     [self performSelectorInBackground:@selector(checkNewVersion) withObject:nil];
 }
 -(void)checkNewVersion{
-    @try{
-        if([[CheckUpdateTask sharedInstance] hasNewerVersion]){
-            NSString *title=[NSString stringWithFormat:@"升级到 %@",[[CheckUpdateTask sharedInstance] newVersion]];
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:[[CheckUpdateTask sharedInstance] getNewerVersionDescription] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-        }
-    }@catch(NSException *e){
-        NSLog(@"版本升级功能失效！");
-    }
+//    @try{
+//        if([[CheckUpdateTask sharedInstance] hasNewerVersion]){
+//            NSString *title=[NSString stringWithFormat:@"升级到 %@",[[CheckUpdateTask sharedInstance] newVersion]];
+//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:[[CheckUpdateTask sharedInstance] getNewerVersionDescription] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//            [alert show];
+//        }
+//    }@catch(NSException *e){
+//        NSLog(@"版本升级功能失效！");
+//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

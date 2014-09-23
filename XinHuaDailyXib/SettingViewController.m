@@ -16,6 +16,7 @@
 #import "NewsDbOperator.h"
 #import "ContactUsViewController.h"
 #import "Toast+UIView.h"
+#import "InAppPurchaseManager.h"
 
 @interface SettingViewController ()
 
@@ -35,7 +36,7 @@
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:KSettingChange object:nil];
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifyPurchaseOK) name:kInAppPurchaseManagerTransactionSucceededNotification object:nil];
         
     }
     return self;
@@ -113,7 +114,7 @@
     }else if(section==2){
         return 1;
     }else if(section==3){
-        return 1;
+        return 2;
     }
     return 0;
 }
@@ -200,6 +201,8 @@
     }else if(indexPath.section==3){
         if(indexPath.row==0){
             cell.textLabel.text=@"意见反馈";
+        }else if (indexPath.row==1){
+            cell.textLabel.text=@"订阅收费栏目";
         }
     }
 
@@ -259,9 +262,7 @@
         }
     }else if(indexPath.section==3){
         if(indexPath.row==1){
-            XDAboutViewController *about=[[XDAboutViewController alloc]init];
-            about.mode=1;
-            [self.navigationController pushViewController:about animated:YES];
+            [AppDelegate.inApp purchaseProduct];
         }
         if(indexPath.row==0){
             ContactUsViewController *contact=[[ContactUsViewController alloc]init];
@@ -375,5 +376,12 @@ UIActivityIndicatorView*activeView;
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
+-(void)notifyPurchaseOK{
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"谢谢惠顾"
+                              message:@"收费栏目订阅成功！"
+                             delegate:self
+                    cancelButtonTitle:nil
+                    otherButtonTitles:nil];
+    [alert show];
+}
 @end
