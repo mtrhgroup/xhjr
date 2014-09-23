@@ -2323,16 +2323,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Connection",
+					"$(SRCROOT)",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Core",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/GooglePlusSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/Pinterest.embeddedframework",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/QQConnectSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/RenRenSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/UI",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Connection",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Core",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/GooglePlusSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/Pinterest.embeddedframework",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/QQConnectSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/RenRenSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/UI",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XinHuaDailyXib/XinHuaDailyXib-Prefix.pch";
@@ -2341,10 +2342,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/SinaWeiboSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/TencentWeiboSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/WeChatSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/YiXinSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/SinaWeiboSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/TencentWeiboSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/WeChatSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/YiXinSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = hnzw_inhouse;
@@ -2372,16 +2373,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Connection",
+					"$(SRCROOT)",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Core",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/GooglePlusSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/Pinterest.embeddedframework",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/QQConnectSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/RenRenSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/UI",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Connection",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Core",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/GooglePlusSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/Pinterest.embeddedframework",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/QQConnectSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/RenRenSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/UI",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XinHuaDailyXib/XinHuaDailyXib-Prefix.pch";
@@ -2391,10 +2393,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/SinaWeiboSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/TencentWeiboSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/WeChatSDK",
-					"/Users/zqx/Documents/iOS/hnzw\\ inhouse\\ /XinHuaDailyXib/ShareSDK/Extend/YiXinSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/SinaWeiboSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/TencentWeiboSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/WeChatSDK",
+					"$(SRCROOT)/XinHuaDailyXib/ShareSDK/Extend/YiXinSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = hnzw_inhouse;
