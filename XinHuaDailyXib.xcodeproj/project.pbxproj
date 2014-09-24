@@ -126,16 +126,11 @@
 		1887390618FCD3B00032CF2C /* woLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53B7417BC642C004F7B55 /* woLeftViewController.m */; };
 		1887390718FCD3B00032CF2C /* woPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53B7617BC642C004F7B55 /* woPopupViewController.m */; };
 		1887390818FCD3B00032CF2C /* woRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53B7817BC642C004F7B55 /* woRightViewController.m */; };
-		1887390918FCD3B00032CF2C /* NewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53B9F17BC65F0004F7B55 /* NewsManager.m */; };
 		1887390A18FCD3B00032CF2C /* SvUDIDTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882D8E61832179D00485B6B /* SvUDIDTools.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1887390B18FCD3B00032CF2C /* NewsNetOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BA217BC65F0004F7B55 /* NewsNetOperator.m */; };
-		1887390C18FCD3B00032CF2C /* NewsCoreDataOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BB017BC6765004F7B55 /* NewsCoreDataOperator.m */; };
 		1887390D18FCD3B00032CF2C /* RNDirectionPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BB917BC6B28004F7B55 /* RNDirectionPanGestureRecognizer.m */; };
 		1887390E18FCD3B00032CF2C /* RNSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BBB17BC6B28004F7B55 /* RNSwipeViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1887390F18FCD3B00032CF2C /* UIView+Sizes.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BBE17BC6B28004F7B55 /* UIView+Sizes.m */; };
 		1887391018FCD3B00032CF2C /* UIViewController+RNSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BC017BC6B28004F7B55 /* UIViewController+RNSwipeViewController.m */; };
-		1887391118FCD3B00032CF2C /* PeriodicalContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BDA17BC6BF2004F7B55 /* PeriodicalContentViewController.m */; };
-		1887391218FCD3B00032CF2C /* InstantContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D53BF217BC6C58004F7B55 /* InstantContentViewController.m */; };
 		1887391318FCD3B00032CF2C /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 182DE61C17BC9F86007A36CE /* Colors.m */; };
 		1887391418FCD3B00032CF2C /* FunctionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 182DE62417BCC2A7007A36CE /* FunctionSource.m */; };
 		1887391518FCD3B00032CF2C /* MainViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 182DE62C17BCD18B007A36CE /* MainViewDataSource.m */; };
@@ -338,6 +333,11 @@
 		4730101419D06314008121F0 /* ShareSDKiPhoneSimpleShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47300FD619D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.bundle */; };
 		4730101519D06314008121F0 /* ShareSDKiPhoneSimpleShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300FD719D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.framework */; };
 		4730101619D06314008121F0 /* ShareSDKShareActionSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300FD819D06313008121F0 /* ShareSDKShareActionSheet.framework */; };
+		47CA0CF619D1AB1F00D19AE8 /* NewsCoreDataOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CF019D1AB1F00D19AE8 /* NewsCoreDataOperator.m */; };
+		47CA0CF719D1AB1F00D19AE8 /* NewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CF219D1AB1F00D19AE8 /* NewsManager.m */; };
+		47CA0CF819D1AB1F00D19AE8 /* NewsNetOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CF519D1AB1F00D19AE8 /* NewsNetOperator.m */; };
+		47CA0CFB19D1AB9F00D19AE8 /* PeriodicalContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CFA19D1AB9F00D19AE8 /* PeriodicalContentViewController.m */; };
+		47CA0CFE19D1ACA300D19AE8 /* InstantContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CFD19D1ACA300D19AE8 /* InstantContentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -413,10 +413,10 @@
 		1847F27B1820A93A008C010D /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		1847F27F1820A989008C010D /* ChannelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelTest.m; sourceTree = "<group>"; };
 		1850191E19D110DB002C0E56 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		1850192219D14B0C002C0E56 /* InAppPurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseManager.h; sourceTree = "<group>"; };
-		1850192319D14B0C002C0E56 /* InAppPurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseManager.m; sourceTree = "<group>"; };
-		1850192519D15204002C0E56 /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; };
-		1850192619D15204002C0E56 /* SKProduct+LocalizedPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+LocalizedPrice.m"; sourceTree = "<group>"; };
+		1850192219D14B0C002C0E56 /* InAppPurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InAppPurchaseManager.h; path = ../InAppPurchaseManager.h; sourceTree = "<group>"; };
+		1850192319D14B0C002C0E56 /* InAppPurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InAppPurchaseManager.m; path = ../InAppPurchaseManager.m; sourceTree = "<group>"; };
+		1850192519D15204002C0E56 /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SKProduct+LocalizedPrice.h"; path = "../SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; };
+		1850192619D15204002C0E56 /* SKProduct+LocalizedPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SKProduct+LocalizedPrice.m"; path = "../SKProduct+LocalizedPrice.m"; sourceTree = "<group>"; };
 		185ADA7418FF6A7400D52177 /* default_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_image.png; sourceTree = "<group>"; };
 		185E146D17B09A7600D5929E /* NSThread+detachNewThreadSelectorWithObjs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+detachNewThreadSelectorWithObjs.h"; sourceTree = "<group>"; };
 		185E146E17B09A7600D5929E /* NSThread+detachNewThreadSelectorWithObjs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+detachNewThreadSelectorWithObjs.m"; sourceTree = "<group>"; };
@@ -557,13 +557,6 @@
 		18D53B7617BC642C004F7B55 /* woPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = woPopupViewController.m; sourceTree = "<group>"; };
 		18D53B7717BC642C004F7B55 /* woRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = woRightViewController.h; sourceTree = "<group>"; };
 		18D53B7817BC642C004F7B55 /* woRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = woRightViewController.m; sourceTree = "<group>"; };
-		18D53B9E17BC65F0004F7B55 /* NewsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsManager.h; sourceTree = "<group>"; };
-		18D53B9F17BC65F0004F7B55 /* NewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsManager.m; sourceTree = "<group>"; };
-		18D53BA017BC65F0004F7B55 /* NewsManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsManagerDelegate.h; sourceTree = "<group>"; };
-		18D53BA117BC65F0004F7B55 /* NewsNetOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsNetOperator.h; sourceTree = "<group>"; };
-		18D53BA217BC65F0004F7B55 /* NewsNetOperator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsNetOperator.m; sourceTree = "<group>"; };
-		18D53BAF17BC6765004F7B55 /* NewsCoreDataOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsCoreDataOperator.h; sourceTree = "<group>"; };
-		18D53BB017BC6765004F7B55 /* NewsCoreDataOperator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsCoreDataOperator.m; sourceTree = "<group>"; };
 		18D53BB817BC6B28004F7B55 /* RNDirectionPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNDirectionPanGestureRecognizer.h; sourceTree = "<group>"; };
 		18D53BB917BC6B28004F7B55 /* RNDirectionPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNDirectionPanGestureRecognizer.m; sourceTree = "<group>"; };
 		18D53BBA17BC6B28004F7B55 /* RNSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSwipeViewController.h; sourceTree = "<group>"; };
@@ -573,10 +566,6 @@
 		18D53BBE17BC6B28004F7B55 /* UIView+Sizes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Sizes.m"; sourceTree = "<group>"; };
 		18D53BBF17BC6B28004F7B55 /* UIViewController+RNSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RNSwipeViewController.h"; sourceTree = "<group>"; };
 		18D53BC017BC6B28004F7B55 /* UIViewController+RNSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RNSwipeViewController.m"; sourceTree = "<group>"; };
-		18D53BD917BC6BF2004F7B55 /* PeriodicalContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeriodicalContentViewController.h; sourceTree = "<group>"; };
-		18D53BDA17BC6BF2004F7B55 /* PeriodicalContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeriodicalContentViewController.m; sourceTree = "<group>"; };
-		18D53BF117BC6C58004F7B55 /* InstantContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantContentViewController.h; sourceTree = "<group>"; };
-		18D53BF217BC6C58004F7B55 /* InstantContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstantContentViewController.m; sourceTree = "<group>"; };
 		18D628361675C58000B9D107 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		18D7C60517D7104F0015CA17 /* UserActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActions.h; sourceTree = "<group>"; };
 		18D7C60617D7104F0015CA17 /* UserActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActions.m; sourceTree = "<group>"; };
@@ -860,6 +849,17 @@
 		47300FD619D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKiPhoneSimpleShareViewUI.bundle; sourceTree = "<group>"; };
 		47300FD719D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPhoneSimpleShareViewUI.framework; sourceTree = "<group>"; };
 		47300FD819D06313008121F0 /* ShareSDKShareActionSheet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKShareActionSheet.framework; sourceTree = "<group>"; };
+		47CA0CEF19D1AB1F00D19AE8 /* NewsCoreDataOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsCoreDataOperator.h; path = ../NewsCoreDataOperator.h; sourceTree = "<group>"; };
+		47CA0CF019D1AB1F00D19AE8 /* NewsCoreDataOperator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsCoreDataOperator.m; path = ../NewsCoreDataOperator.m; sourceTree = "<group>"; };
+		47CA0CF119D1AB1F00D19AE8 /* NewsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsManager.h; path = ../NewsManager.h; sourceTree = "<group>"; };
+		47CA0CF219D1AB1F00D19AE8 /* NewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsManager.m; path = ../NewsManager.m; sourceTree = "<group>"; };
+		47CA0CF319D1AB1F00D19AE8 /* NewsManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsManagerDelegate.h; path = ../NewsManagerDelegate.h; sourceTree = "<group>"; };
+		47CA0CF419D1AB1F00D19AE8 /* NewsNetOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsNetOperator.h; path = ../NewsNetOperator.h; sourceTree = "<group>"; };
+		47CA0CF519D1AB1F00D19AE8 /* NewsNetOperator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsNetOperator.m; path = ../NewsNetOperator.m; sourceTree = "<group>"; };
+		47CA0CF919D1AB9F00D19AE8 /* PeriodicalContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeriodicalContentViewController.h; sourceTree = "<group>"; };
+		47CA0CFA19D1AB9F00D19AE8 /* PeriodicalContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeriodicalContentViewController.m; sourceTree = "<group>"; };
+		47CA0CFC19D1ACA300D19AE8 /* InstantContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantContentViewController.h; sourceTree = "<group>"; };
+		47CA0CFD19D1ACA300D19AE8 /* InstantContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstantContentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -979,6 +979,8 @@
 				18CCEBA916ACEC260002A343 /* NewsZipReceivedReportTask.m */,
 				18F0FED71753027C004BA06D /* CheckUpdateTask.h */,
 				18F0FED81753027C004BA06D /* CheckUpdateTask.m */,
+				1850192219D14B0C002C0E56 /* InAppPurchaseManager.h */,
+				1850192319D14B0C002C0E56 /* InAppPurchaseManager.m */,
 			);
 			path = WorkTask;
 			sourceTree = "<group>";
@@ -986,6 +988,13 @@
 		182583A2158D842900A493B9 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				47CA0CEF19D1AB1F00D19AE8 /* NewsCoreDataOperator.h */,
+				47CA0CF019D1AB1F00D19AE8 /* NewsCoreDataOperator.m */,
+				47CA0CF119D1AB1F00D19AE8 /* NewsManager.h */,
+				47CA0CF219D1AB1F00D19AE8 /* NewsManager.m */,
+				47CA0CF319D1AB1F00D19AE8 /* NewsManagerDelegate.h */,
+				47CA0CF419D1AB1F00D19AE8 /* NewsNetOperator.h */,
+				47CA0CF519D1AB1F00D19AE8 /* NewsNetOperator.m */,
 				18CCEBC416ACEDD00002A343 /* SharedCoordinator.h */,
 				18CCEBC516ACEDD00002A343 /* SharedCoordinator.m */,
 				182583A3158D842900A493B9 /* CoreDataManager.h */,
@@ -1064,13 +1073,6 @@
 				1847F27B1820A93A008C010D /* Tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1863B75017BB6483003DCE12 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		188228151803C912006AF789 /* OpenUDID */ = {
@@ -1230,24 +1232,6 @@
 				18D53B7817BC642C004F7B55 /* woRightViewController.m */,
 			);
 			path = mainViewControllers;
-			sourceTree = "<group>";
-		};
-		18D53B9D17BC65F0004F7B55 /* oldcore */ = {
-			isa = PBXGroup;
-			children = (
-				18D53BF117BC6C58004F7B55 /* InstantContentViewController.h */,
-				18D53BF217BC6C58004F7B55 /* InstantContentViewController.m */,
-				18D53BD917BC6BF2004F7B55 /* PeriodicalContentViewController.h */,
-				18D53BDA17BC6BF2004F7B55 /* PeriodicalContentViewController.m */,
-				18D53BAF17BC6765004F7B55 /* NewsCoreDataOperator.h */,
-				18D53BB017BC6765004F7B55 /* NewsCoreDataOperator.m */,
-				18D53B9E17BC65F0004F7B55 /* NewsManager.h */,
-				18D53B9F17BC65F0004F7B55 /* NewsManager.m */,
-				18D53BA017BC65F0004F7B55 /* NewsManagerDelegate.h */,
-				18D53BA117BC65F0004F7B55 /* NewsNetOperator.h */,
-				18D53BA217BC65F0004F7B55 /* NewsNetOperator.m */,
-			);
-			path = oldcore;
 			sourceTree = "<group>";
 		};
 		18D53BB717BC6B28004F7B55 /* RNSwipeViewController */ = {
@@ -1511,6 +1495,8 @@
 		18FCA2BA163A256200D6A645 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				1850192519D15204002C0E56 /* SKProduct+LocalizedPrice.h */,
+				1850192619D15204002C0E56 /* SKProduct+LocalizedPrice.m */,
 				18FCA2BB163A256200D6A645 /* NSDateExt.h */,
 				18FCA2BC163A256200D6A645 /* NSDateExt.m */,
 				18FCA2BD163A256200D6A645 /* NSStringExt.h */,
@@ -1625,102 +1611,15 @@
 		2BE474A915672D0000081C82 /* XinHuaDailyXib */ = {
 			isa = PBXGroup;
 			children = (
-				47300F8519D06312008121F0 /* ShareSDK */,
-				1882D8E41832179D00485B6B /* UDID_Tools */,
-				188228151803C912006AF789 /* OpenUDID */,
-				18FACDE017C711BA0042E815 /* NavigationView */,
-				18D53BB717BC6B28004F7B55 /* RNSwipeViewController */,
-				18D53B9D17BC65F0004F7B55 /* oldcore */,
-				18D53B6C17BC642C004F7B55 /* mainViewControllers */,
-				18D53B3317BC63F0004F7B55 /* headerSources */,
-				18D53B2217BC63D6004F7B55 /* core */,
-				18D53B0117BC63C9004F7B55 /* channelSources */,
-				18D53AC017BC63B2004F7B55 /* contentSources */,
-				1863B75017BB6483003DCE12 /* ViewControllers */,
-				18EFA85A17A5F9260067ECA5 /* WebViewJavascriptBridge */,
-				18D44F62179EFD14007F63E9 /* FGallery */,
-				18DE4046165096040098D425 /* Component */,
-				180F154F1648AD9A006BA671 /* NewsLocateView.h */,
-				180F15501648AD9A006BA671 /* NewsLocateView.m */,
-				180F15511648AD9A006BA671 /* NewsStatistsViewController.h */,
-				180F15521648AD9A006BA671 /* NewsStatistsViewController.m */,
-				181F907B163E6E3F0011B104 /* WorkTask */,
-				181F9076163E6C790011B104 /* Statistics */,
-				18FCA2DF163A278600D6A645 /* http */,
-				18FCA2CD163A257A00D6A645 /* xml */,
-				18FCA2BA163A256200D6A645 /* Category */,
+				47CA0CEC19D1A3BB00D19AE8 /* ui */,
+				47CA0CEB19D1A38200D19AE8 /* bz */,
+				47CA0CEA19D1A31C00D19AE8 /* externals */,
 				18FCA1FF163A255100D6A645 /* images */,
-				18FCA1FB163A253E00D6A645 /* Reachability */,
-				18FCA1F7163A252800D6A645 /* utils */,
-				18FCA1E5163A24F200D6A645 /* zip */,
-				18E525F915E7148800803F00 /* UICustomSwitch */,
-				18C456E615E70AA9004F54EF /* toast */,
-				18CE52E615E5BA78003AE728 /* UIPlaceHolderTextView */,
-				1893618E15985045008CFE70 /* CustomBadge */,
-				1817C964158F291000459810 /* EGOTableViewPullRefresh */,
-				182583CB158D84E200A493B9 /* Model */,
-				182583A2158D842900A493B9 /* CoreData */,
-				18E73F8915A1852D002A6B74 /* WelcomeViewController.h */,
-				18E73F8815A1852D002A6B74 /* WelcomeViewController.m */,
-				182583E8158D9AAF00A493B9 /* SubscribeViewController.h */,
-				182583E9158D9AAF00A493B9 /* SubscribeViewController.m */,
-				18F84E651592A88800AD6266 /* ExpressMarquee.h */,
-				18F84E661592A88800AD6266 /* ExpressMarquee.m */,
-				186D582E158DC5EE0030628A /* XdailyItemOlderViewController.h */,
-				186D582F158DC5EE0030628A /* XdailyItemOlderViewController.m */,
-				186D582B158DC59A0030628A /* XdailyItemViewController.h */,
-				186D582C158DC59A0030628A /* XdailyItemViewController.m */,
-				2BE474B515672D0000081C82 /* XinHuaViewController.h */,
-				2BE474B615672D0000081C82 /* XinHuaViewController.m */,
-				18E73F6115A13CBC002A6B74 /* ExpressRemoteViewController.h */,
-				18E73F6215A13CBC002A6B74 /* ExpressRemoteViewController.m */,
-				18E73F6415A13CFB002A6B74 /* NewslistRemoteViewController.h */,
-				18E73F6515A13CFB002A6B74 /* NewslistRemoteViewController.m */,
-				181C9BEB1592E6700094E3D0 /* NewsListPlusViewController.h */,
-				181C9BEC1592E6700094E3D0 /* NewsListPlusViewController.m */,
-				18885F1215981C9100D78071 /* ExpressPlusViewController.h */,
-				18885F1315981C9100D78071 /* ExpressPlusViewController.m */,
-				18866FEE159C1D8C00F065EB /* PicturePlusViewController.h */,
-				18866FEF159C1D8C00F065EB /* PicturePlusViewController.m */,
-				18258400158DBE1700A493B9 /* NewsInBoxViewController.h */,
-				18258401158DBE1700A493B9 /* NewsInBoxViewController.m */,
-				182583FA158DAC1700A493B9 /* NewsArticleViewController.h */,
-				182583FB158DAC1700A493B9 /* NewsArticleViewController.m */,
-				182583F7158DABCC00A493B9 /* FavorBoxViewController.h */,
-				182583F8158DABCC00A493B9 /* FavorBoxViewController.m */,
-				182583E5158D976400A493B9 /* RegisterViewController.h */,
-				182583E6158D976400A493B9 /* RegisterViewController.m */,
 				182583E4158D96F700A493B9 /* NewsDefine.h */,
-				1825835C158D72F600A493B9 /* SettingViewController.h */,
-				1825835D158D72F600A493B9 /* SettingViewController.m */,
-				182583DE158D87EB00A493B9 /* NewsBufferSettingViewController.h */,
-				182583DF158D87EB00A493B9 /* NewsBufferSettingViewController.m */,
-				18913A9B159977DB009622D5 /* NewsFontSettingViewController.h */,
-				18913A9C159977DB009622D5 /* NewsFontSettingViewController.m */,
-				18C80EEF15E4B02E00BEBC81 /* ContactUsViewController.h */,
-				18C80EF015E4B02E00BEBC81 /* ContactUsViewController.m */,
-				2B7779801568948600862607 /* XDAboutViewController.h */,
-				2B77797F1568948600862607 /* XDAboutViewController.m */,
 				2BE474F8156743A300081C82 /* SynthesizeSingleton.h */,
 				2BE474B215672D0000081C82 /* XinHuaAppDelegate.h */,
 				2BE474B315672D0000081C82 /* XinHuaAppDelegate.m */,
-				1883991E1591924F004AE6C4 /* ExpressNotificationViewController.h */,
-				1883991F15919251004AE6C4 /* ExpressNotificationViewController.m */,
-				18D3CDAC18C9661400AFC51A /* AdvPageViewController.h */,
-				18D3CDAD18C9661400AFC51A /* AdvPageViewController.m */,
-				18D3CDB418C98BBB00AFC51A /* PushNewsViewController.h */,
-				18D3CDB518C98BBB00AFC51A /* PushNewsViewController.m */,
-				1850192519D15204002C0E56 /* SKProduct+LocalizedPrice.h */,
-				1850192619D15204002C0E56 /* SKProduct+LocalizedPrice.m */,
-				1850192219D14B0C002C0E56 /* InAppPurchaseManager.h */,
-				1850192319D14B0C002C0E56 /* InAppPurchaseManager.m */,
 				2BE474AA15672D0000081C82 /* Supporting Files */,
-				18E8366B16A4F88500CB8DD7 /* RegViewController.h */,
-				18E8366C16A4F88500CB8DD7 /* RegViewController.m */,
-				18C22E3317432D6000BB5F55 /* FeedBackToAuthorViewController.h */,
-				18C22E3417432D6100BB5F55 /* FeedBackToAuthorViewController.m */,
-				18D44F5B179EF759007F63E9 /* GalleryViewController.h */,
-				18D44F5C179EF759007F63E9 /* GalleryViewController.m */,
 			);
 			path = XinHuaDailyXib;
 			sourceTree = "<group>";
@@ -1864,6 +1763,131 @@
 				47300FD819D06313008121F0 /* ShareSDKShareActionSheet.framework */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		47CA0CEA19D1A31C00D19AE8 /* externals */ = {
+			isa = PBXGroup;
+			children = (
+				18D44F62179EFD14007F63E9 /* FGallery */,
+				1817C964158F291000459810 /* EGOTableViewPullRefresh */,
+				1893618E15985045008CFE70 /* CustomBadge */,
+				18CE52E615E5BA78003AE728 /* UIPlaceHolderTextView */,
+				18C456E615E70AA9004F54EF /* toast */,
+				18E525F915E7148800803F00 /* UICustomSwitch */,
+				18FCA1E5163A24F200D6A645 /* zip */,
+				18FCA1FB163A253E00D6A645 /* Reachability */,
+				18EFA85A17A5F9260067ECA5 /* WebViewJavascriptBridge */,
+				18FCA2DF163A278600D6A645 /* http */,
+				18FCA2CD163A257A00D6A645 /* xml */,
+				47300F8519D06312008121F0 /* ShareSDK */,
+				1882D8E41832179D00485B6B /* UDID_Tools */,
+				188228151803C912006AF789 /* OpenUDID */,
+			);
+			name = externals;
+			sourceTree = "<group>";
+		};
+		47CA0CEB19D1A38200D19AE8 /* bz */ = {
+			isa = PBXGroup;
+			children = (
+				182583A2158D842900A493B9 /* CoreData */,
+				18FCA1F7163A252800D6A645 /* utils */,
+				18FCA2BA163A256200D6A645 /* Category */,
+				18D53B2217BC63D6004F7B55 /* core */,
+				181F9076163E6C790011B104 /* Statistics */,
+				181F907B163E6E3F0011B104 /* WorkTask */,
+				18DE4046165096040098D425 /* Component */,
+				182583CB158D84E200A493B9 /* Model */,
+			);
+			name = bz;
+			sourceTree = "<group>";
+		};
+		47CA0CEC19D1A3BB00D19AE8 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				47CA0CEE19D1A69100D19AE8 /* views */,
+				47CA0CED19D1A52200D19AE8 /* viewcontrollers */,
+				18D53AC017BC63B2004F7B55 /* contentSources */,
+				18D53B0117BC63C9004F7B55 /* channelSources */,
+				18D53B3317BC63F0004F7B55 /* headerSources */,
+				18D53B6C17BC642C004F7B55 /* mainViewControllers */,
+				18D53BB717BC6B28004F7B55 /* RNSwipeViewController */,
+				18FACDE017C711BA0042E815 /* NavigationView */,
+			);
+			name = ui;
+			sourceTree = "<group>";
+		};
+		47CA0CED19D1A52200D19AE8 /* viewcontrollers */ = {
+			isa = PBXGroup;
+			children = (
+				47CA0CFC19D1ACA300D19AE8 /* InstantContentViewController.h */,
+				47CA0CFD19D1ACA300D19AE8 /* InstantContentViewController.m */,
+				47CA0CF919D1AB9F00D19AE8 /* PeriodicalContentViewController.h */,
+				47CA0CFA19D1AB9F00D19AE8 /* PeriodicalContentViewController.m */,
+				186D582E158DC5EE0030628A /* XdailyItemOlderViewController.h */,
+				186D582F158DC5EE0030628A /* XdailyItemOlderViewController.m */,
+				186D582B158DC59A0030628A /* XdailyItemViewController.h */,
+				186D582C158DC59A0030628A /* XdailyItemViewController.m */,
+				2BE474B515672D0000081C82 /* XinHuaViewController.h */,
+				2BE474B615672D0000081C82 /* XinHuaViewController.m */,
+				18E73F8915A1852D002A6B74 /* WelcomeViewController.h */,
+				18E73F8815A1852D002A6B74 /* WelcomeViewController.m */,
+				182583E8158D9AAF00A493B9 /* SubscribeViewController.h */,
+				182583E9158D9AAF00A493B9 /* SubscribeViewController.m */,
+				18E73F6115A13CBC002A6B74 /* ExpressRemoteViewController.h */,
+				18E73F6215A13CBC002A6B74 /* ExpressRemoteViewController.m */,
+				18E73F6415A13CFB002A6B74 /* NewslistRemoteViewController.h */,
+				18E73F6515A13CFB002A6B74 /* NewslistRemoteViewController.m */,
+				181C9BEB1592E6700094E3D0 /* NewsListPlusViewController.h */,
+				181C9BEC1592E6700094E3D0 /* NewsListPlusViewController.m */,
+				18885F1215981C9100D78071 /* ExpressPlusViewController.h */,
+				18885F1315981C9100D78071 /* ExpressPlusViewController.m */,
+				18866FEE159C1D8C00F065EB /* PicturePlusViewController.h */,
+				18866FEF159C1D8C00F065EB /* PicturePlusViewController.m */,
+				18258400158DBE1700A493B9 /* NewsInBoxViewController.h */,
+				18258401158DBE1700A493B9 /* NewsInBoxViewController.m */,
+				182583FA158DAC1700A493B9 /* NewsArticleViewController.h */,
+				182583FB158DAC1700A493B9 /* NewsArticleViewController.m */,
+				182583F7158DABCC00A493B9 /* FavorBoxViewController.h */,
+				182583F8158DABCC00A493B9 /* FavorBoxViewController.m */,
+				182583E5158D976400A493B9 /* RegisterViewController.h */,
+				182583E6158D976400A493B9 /* RegisterViewController.m */,
+				1825835C158D72F600A493B9 /* SettingViewController.h */,
+				1825835D158D72F600A493B9 /* SettingViewController.m */,
+				182583DE158D87EB00A493B9 /* NewsBufferSettingViewController.h */,
+				182583DF158D87EB00A493B9 /* NewsBufferSettingViewController.m */,
+				18913A9B159977DB009622D5 /* NewsFontSettingViewController.h */,
+				18913A9C159977DB009622D5 /* NewsFontSettingViewController.m */,
+				18C80EEF15E4B02E00BEBC81 /* ContactUsViewController.h */,
+				18C80EF015E4B02E00BEBC81 /* ContactUsViewController.m */,
+				2B7779801568948600862607 /* XDAboutViewController.h */,
+				2B77797F1568948600862607 /* XDAboutViewController.m */,
+				1883991E1591924F004AE6C4 /* ExpressNotificationViewController.h */,
+				1883991F15919251004AE6C4 /* ExpressNotificationViewController.m */,
+				18D3CDAC18C9661400AFC51A /* AdvPageViewController.h */,
+				18D3CDAD18C9661400AFC51A /* AdvPageViewController.m */,
+				18D3CDB418C98BBB00AFC51A /* PushNewsViewController.h */,
+				18D3CDB518C98BBB00AFC51A /* PushNewsViewController.m */,
+				18E8366B16A4F88500CB8DD7 /* RegViewController.h */,
+				18E8366C16A4F88500CB8DD7 /* RegViewController.m */,
+				18C22E3317432D6000BB5F55 /* FeedBackToAuthorViewController.h */,
+				18C22E3417432D6100BB5F55 /* FeedBackToAuthorViewController.m */,
+				18D44F5B179EF759007F63E9 /* GalleryViewController.h */,
+				18D44F5C179EF759007F63E9 /* GalleryViewController.m */,
+				180F15511648AD9A006BA671 /* NewsStatistsViewController.h */,
+				180F15521648AD9A006BA671 /* NewsStatistsViewController.m */,
+			);
+			name = viewcontrollers;
+			sourceTree = "<group>";
+		};
+		47CA0CEE19D1A69100D19AE8 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				18F84E651592A88800AD6266 /* ExpressMarquee.h */,
+				18F84E661592A88800AD6266 /* ExpressMarquee.m */,
+				180F154F1648AD9A006BA671 /* NewsLocateView.h */,
+				180F15501648AD9A006BA671 /* NewsLocateView.m */,
+			);
+			name = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2135,6 +2159,7 @@
 				188738CA18FCD3B00032CF2C /* dom.c in Sources */,
 				188738CB18FCD3B00032CF2C /* iks.c in Sources */,
 				188738CC18FCD3B00032CF2C /* ikstack.c in Sources */,
+				47CA0CFB19D1AB9F00D19AE8 /* PeriodicalContentViewController.m in Sources */,
 				188738CD18FCD3B00032CF2C /* NSIks.mm in Sources */,
 				188738CE18FCD3B00032CF2C /* sax.c in Sources */,
 				188738CF18FCD3B00032CF2C /* utility.c in Sources */,
@@ -2157,7 +2182,9 @@
 				188738E018FCD3B00032CF2C /* NewsDownloadExpreesTask.m in Sources */,
 				188738E118FCD3B00032CF2C /* NewsDownloadImgTask.m in Sources */,
 				188738E218FCD3B00032CF2C /* NewsDownloadTask.m in Sources */,
+				47CA0CFE19D1ACA300D19AE8 /* InstantContentViewController.m in Sources */,
 				188738E318FCD3B00032CF2C /* NewsFavorManager.m in Sources */,
+				47CA0CF619D1AB1F00D19AE8 /* NewsCoreDataOperator.m in Sources */,
 				188738E418FCD3B00032CF2C /* NewsFeedBackTask.m in Sources */,
 				188738E518FCD3B00032CF2C /* NewsRegisterTask.m in Sources */,
 				188738E618FCD3B00032CF2C /* NewsUploadTokenTask.m in Sources */,
@@ -2187,6 +2214,7 @@
 				188738FE18FCD3B00032CF2C /* ObjectConfigration.m in Sources */,
 				188738FF18FCD3B00032CF2C /* NewsheaderDataSource.m in Sources */,
 				1887390018FCD3B00032CF2C /* PictureNews.m in Sources */,
+				47CA0CF819D1AB1F00D19AE8 /* NewsNetOperator.m in Sources */,
 				1887390118FCD3B00032CF2C /* PictureNewsBuilder.m in Sources */,
 				1887390218FCD3B00032CF2C /* PictureView.m in Sources */,
 				1887390318FCD3B00032CF2C /* SwipeViewController.m in Sources */,
@@ -2195,22 +2223,18 @@
 				1887390618FCD3B00032CF2C /* woLeftViewController.m in Sources */,
 				1887390718FCD3B00032CF2C /* woPopupViewController.m in Sources */,
 				1887390818FCD3B00032CF2C /* woRightViewController.m in Sources */,
-				1887390918FCD3B00032CF2C /* NewsManager.m in Sources */,
 				1887390A18FCD3B00032CF2C /* SvUDIDTools.m in Sources */,
 				1850192419D14B0C002C0E56 /* InAppPurchaseManager.m in Sources */,
-				1887390B18FCD3B00032CF2C /* NewsNetOperator.m in Sources */,
-				1887390C18FCD3B00032CF2C /* NewsCoreDataOperator.m in Sources */,
 				1887390D18FCD3B00032CF2C /* RNDirectionPanGestureRecognizer.m in Sources */,
 				1887390E18FCD3B00032CF2C /* RNSwipeViewController.m in Sources */,
 				1887390F18FCD3B00032CF2C /* UIView+Sizes.m in Sources */,
 				1887391018FCD3B00032CF2C /* UIViewController+RNSwipeViewController.m in Sources */,
-				1887391118FCD3B00032CF2C /* PeriodicalContentViewController.m in Sources */,
-				1887391218FCD3B00032CF2C /* InstantContentViewController.m in Sources */,
 				1887391318FCD3B00032CF2C /* Colors.m in Sources */,
 				1887391418FCD3B00032CF2C /* FunctionSource.m in Sources */,
 				1887391518FCD3B00032CF2C /* MainViewDataSource.m in Sources */,
 				1887391618FCD3B00032CF2C /* ModifyAction.m in Sources */,
 				1887391718FCD3B00032CF2C /* MDSlideNavigationViewController.m in Sources */,
+				47CA0CF719D1AB1F00D19AE8 /* NewsManager.m in Sources */,
 				1887391818FCD3B00032CF2C /* UserActions.m in Sources */,
 				1887391918FCD3B00032CF2C /* UserAction.m in Sources */,
 				1887391A18FCD3B00032CF2C /* OpenUDID.m in Sources */,

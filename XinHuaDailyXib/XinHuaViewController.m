@@ -323,7 +323,7 @@ NSTimer *timer;
     [horsebar addSubview:btnMarqueeClick];
     [self GetdatafromWebToDb];
     [self loadPictures];
-    　timer = [NSTimer scheduledTimerWithTimeInterval:6.0f target:self selector:@selector(changeText) userInfo:nil repeats:YES];
+    //timer = [NSTimer scheduledTimerWithTimeInterval:6.0f target:self selector:@selector(changeText) userInfo:nil repeats:YES];
     [self toggleDisplayMode];
 }
 

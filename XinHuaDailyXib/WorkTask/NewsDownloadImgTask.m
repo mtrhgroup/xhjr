@@ -57,7 +57,7 @@ NSString *pid_net;
     
     NSString*  itemurl =  [NSString stringWithFormat:KXdailyUrlOnlyOne,gid,[UIDevice customUdid]];
     NSLog(@"itemurl = %@",itemurl);
-    ASIHTTPRequest* myrequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:itemurl]];
+    __unsafe_unretained ASIHTTPRequest* myrequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:itemurl]];
     [myrequest setShouldAttemptPersistentConnection:NO];
     [myrequest setTimeOutSeconds:30];
     myrequest.defaultResponseEncoding = NSUTF8StringEncoding;
@@ -83,7 +83,7 @@ NSString *pid_net;
     NSString* fileName = [url lastPathComponent];
     NSString* filePath = [CommonMethod fileWithDocumentsPath:fileName];
     NSLog(@"%@",filePath);
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    __unsafe_unretained ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     [request setShouldAttemptPersistentConnection:NO];
     [request setTimeOutSeconds:30];
     [request setCompletionBlock:^{

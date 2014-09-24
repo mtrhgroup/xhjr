@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
+#import "SKProduct+LocalizedPrice.h"
 #define kInAppPurchaseManagerProductsFetchNotification @"kInAppPurchaseManagerProductsFetchNotification"
 #define kInAppPurchaseManagerTransactionFailedNotification @"kInAppPurchaseManagerTransactionFailedNotification"
 #define kInAppPurchaseManagerTransactionSucceededNotification @"kInAppPurchaseManagerTransactionSucceededNotification"

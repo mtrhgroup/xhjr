@@ -33,8 +33,10 @@
 //
 - (void)purchaseProduct
 {
-    SKPayment *payment = [SKPayment paymentWithProduct:product];
-    [[SKPaymentQueue defaultQueue] addPayment:payment];
+    if([self canMakePurchases]){
+        SKPayment *payment = [SKPayment paymentWithProduct:product];
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+    }
 }
 -(void)requestProductData{
   NSSet *productIdentifiers=[NSSet setWithObject:kInAppPurchaseProUpgradeProductId];
@@ -133,7 +135,7 @@
     }
     else
     {
-        // this is fine, the user just cancelled, so don’t notify
+        // this is fine, the user just cancelled, so don’t notify.s
         [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
     }
 }
@@ -146,6 +148,8 @@
 {
     for (SKPaymentTransaction *transaction in transactions)
     {
+        NSLog(@"%d",transaction.transactionState);
+        NSLog(@"%d",transaction.error.code);
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
