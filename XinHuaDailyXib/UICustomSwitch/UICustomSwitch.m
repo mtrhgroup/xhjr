@@ -29,8 +29,6 @@
 {
 	if ((self=[super initWithFrame:CGRectMake(rect.origin.x,rect.origin.y,95,27)]))
 	{
-		//		self.clipsToBounds = YES;
-		
 		[self awakeFromNib];
 	}
 	return self;
