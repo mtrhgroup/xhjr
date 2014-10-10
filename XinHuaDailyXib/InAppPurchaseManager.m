@@ -34,6 +34,10 @@
 - (void)purchaseProduct
 {
     if([self canMakePurchases]){
+        NSLog(@"Product title: %@" , product.localizedTitle);
+        NSLog(@"Product description: %@" , product.localizedDescription);
+        NSLog(@"Product price: %@" , product.price);
+        NSLog(@"Product id: %@" , product.productIdentifier);
         SKPayment *payment = [SKPayment paymentWithProduct:product];
         [[SKPaymentQueue defaultQueue] addPayment:payment];
     }
@@ -47,16 +51,6 @@
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
   NSArray *products=response.products;
   product=[products count]==1?[products firstObject]:nil;
-  if(product){
-      NSLog(@"Product title: %@" , product.localizedTitle);
-      NSLog(@"Product description: %@" , product.localizedDescription);
-      NSLog(@"Product price: %@" , product.price);
-      NSLog(@"Product id: %@" , product.productIdentifier);
-  }
-  for (NSString *invalidProductId in response.invalidProductIdentifiers)
-  {
-      NSLog(@"Invalid product id: %@" , invalidProductId);
-  }
   [[NSNotificationCenter defaultCenter] postNotificationName:kInAppPurchaseManagerProductsFetchNotification object:self userInfo:nil];
 }
 #pragma -
@@ -128,6 +122,7 @@
 //
 - (void)failedTransaction:(SKPaymentTransaction *)transaction
 {
+     NSLog(@"error code :%d",transaction.error.code);
     if (transaction.error.code != SKErrorPaymentCancelled)
     {
         // error!

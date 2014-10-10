@@ -377,9 +377,9 @@ UIActivityIndicatorView*activeView;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 -(void)notifyPurchaseOK{
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"谢谢惠顾"
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"谢谢惠顾"
                               message:@"收费栏目订阅成功！"
-                             delegate:self
+                        delegate:nil 
                     cancelButtonTitle:nil
                     otherButtonTitles:nil];
     [alert show];

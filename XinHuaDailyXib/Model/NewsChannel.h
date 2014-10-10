@@ -13,9 +13,19 @@
 //  Created by apple on 12-4-23.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
-
+<id>372</id>
+<name>e情报</name>
+<description>辽宁发布</description>
+<iconurl/>
+<homenum>2</homenum>
+<level>1</level>
+<generatetype>1</generatetype>
+<subscribe>2</subscribe>
+<sort>0</sort>
+<parent>0</parent>
+<showtype>list</showtype>
+<type>child</type>
 #import <Foundation/Foundation.h>
-@class Label;
 @interface NewsChannel : NSObject
 //来自服务器的id
 @property(nonatomic,strong)NSString* channel_id;
@@ -35,7 +45,7 @@
 @property(nonatomic,strong)NSNumber* generate;
 
 @property(nonatomic,strong)NSNumber* sort;
-
+@property(nonatomic,strong)NSString*
 @property(nonatomic,strong)NSDate *timestamp;
 @property(nonatomic,strong)UIColor *color;
 @property(nonatomic,strong)UIImage *imgArrow;
