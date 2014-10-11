@@ -28,24 +28,20 @@
 //网络
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:channel_list_url,[KidsOpenUDID value], kindergartenid]];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary *jsonString) {
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSError *error=nil;
-            NSArray *channels=[_parser channelsFromJSON:jsonString error:&error];
-            KidsDBOperator *db_operator=[_db_manager aOperator];
-            if([channels count]>0){
-                [db_operator removeAllChannels];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        NSArray *channels=[_parser parseChannels:responseStr];
+        DBOperator *db_operator=[_db_manager aOperator];
+        if([channels count]>0){
+            [db_operator removeAllChannels];
+        }
+        for(Channel *channel in channels){
+            [db_operator addChannel:channel];
+        }
+        [db_operator save];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(successBlock){
+                successBlock(channels);
             }
-            [db_operator save];
-            for(KidsChannel *channel in channels){
-                [db_operator addChannel:channel];
-            }
-            [db_operator save];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if(successBlock){
-                    successBlock(channels);
-                }
-            });
         });
     } errorHandler:^(NSError *error) {
         if(errorBlock){
