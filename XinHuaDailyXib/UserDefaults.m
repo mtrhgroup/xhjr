@@ -16,6 +16,12 @@ static UserDefaults *_defaults=nil;
     }
     return _defaults;
 }
+-(void)setSn:(NSString *)sn{
+    [[NSUserDefaults standardUserDefaults] setObject:sn forKey:@"sn"];
+}
+-(NSString *)sn{
+   return [[NSUserDefaults standardUserDefaults] valueForKey:@"sn"];
+}
 -(void)setAppInfo:(AppInfo *)app_info{
     NSData * data = [NSKeyedArchiver archivedDataWithRootObject:app_info];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"AppInfo"];

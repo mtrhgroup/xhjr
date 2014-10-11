@@ -14,6 +14,7 @@
 #import "URLDefine.h"
 #import "DeviceInfo.h"
 #import "UserDefaults.h"
+#import "NotificationCenter.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
@@ -27,7 +28,65 @@
     }
     return self;
 }
-//网络
+-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
+    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
+            if(responseStr.length>3){
+                NSString *snStr=[responseStr substringFromIndex:4];
+                [UserDefaults defaults].sn=snStr;
+            }
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else if([responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else{
+            if(successBlock){
+                successBlock(NO);
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+-(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *tempURL=[NSString stringWithFormat:kBindleSNURL,[DeviceInfo udid],SN,[DeviceInfo osVersion]];
+    NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if([responseStr rangeOfString:@"SUCCESSED"].location!=NSNotFound){
+            [UserDefaults defaults].sn=SN;
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else{
+            [[NotificationCenter center] postMessageNotificationWithMessage:responseStr];
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+-(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        AppInfo *app_info=[_parser parseAppInfo:responseStr];
+        [UserDefaults defaults].appInfo=app_info;
+        if(successBlock){
+            successBlock(app_info);
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
@@ -75,66 +134,8 @@
         }
     }];
 }
--(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
-    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
-            if(responseStr.length>3){
-                NSString *snStr=[responseStr substringFromIndex:4];
-                [[NSUserDefaults standardUserDefaults]  setObject:snStr  forKey:KUserDefaultAuthCode];
-            }
-            if(successBlock){
-                successBlock(YES);
-            }
-        }else if([responseStr rangeOfString:@"NEW"].location!=NSNotFound){
-            if(successBlock){
-                successBlock(YES);
-            }
-        }else{
-            if(successBlock){
-                successBlock(NO);
-            }
-        }
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
-}
- -(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-     NSString *tempURL=[NSString stringWithFormat:kBindleSNURL,[DeviceInfo udid],SN,[DeviceInfo osVersion]];
-     NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-         if([responseStr rangeOfString:@"SUCCESSED"].location!=NSNotFound){
-             [[NSUserDefaults standardUserDefaults]  setObject:SN  forKey:KUserDefaultAuthCode];
-             if(successBlock){
-                 successBlock(YES);
-             }
-         }else{
-             NSDictionary *d = [NSDictionary dictionaryWithObject:responseStr  forKey:@"data"];
-             [[NSNotificationCenter defaultCenter] postNotificationName: kShowToast  object: self userInfo:d];
-         }
-     } errorHandler:^(NSError *error) {
-         if(errorBlock){
-             errorBlock(error);
-         }
-     }];
- }
--(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        AppInfo *app_info=[_parser parseAppInfo:responseStr];
-        [UserDefaults defaults].appInfo=app_info;
-        if(successBlock){
-            successBlock(app_info);
-        }
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
-}
+
+
 
 -(void)executeModifyActions:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *imei=[KidsOpenUDID value];

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AppInfo.h"
 @interface UserDefaults : NSObject
+@property(nonatomic,strong)NSString *sn;
 @property(nonatomic,strong)AppInfo *appInfo;
 +(UserDefaults *)defaults;
 @end

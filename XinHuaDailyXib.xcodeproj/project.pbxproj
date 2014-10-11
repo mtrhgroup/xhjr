@@ -340,6 +340,7 @@
 		4730101419D06314008121F0 /* ShareSDKiPhoneSimpleShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47300FD619D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.bundle */; };
 		4730101519D06314008121F0 /* ShareSDKiPhoneSimpleShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300FD719D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.framework */; };
 		4730101619D06314008121F0 /* ShareSDKShareActionSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300FD819D06313008121F0 /* ShareSDKShareActionSheet.framework */; };
+		473CD26619E9829300AC860B /* NotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 473CD26519E9829300AC860B /* NotificationCenter.m */; };
 		479C074419E9752800D946F9 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 479C074319E9752800D946F9 /* UserDefaults.m */; };
 		47C6C8A419E8242E002CD14C /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47C6C8A119E8242E002CD14C /* iVersion.bundle */; };
 		47C6C8A519E8242E002CD14C /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8A319E8242E002CD14C /* iVersion.m */; };
@@ -886,6 +887,8 @@
 		47300FD619D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKiPhoneSimpleShareViewUI.bundle; sourceTree = "<group>"; };
 		47300FD719D06313008121F0 /* ShareSDKiPhoneSimpleShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPhoneSimpleShareViewUI.framework; sourceTree = "<group>"; };
 		47300FD819D06313008121F0 /* ShareSDKShareActionSheet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKShareActionSheet.framework; sourceTree = "<group>"; };
+		473CD26419E9829300AC860B /* NotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCenter.h; sourceTree = "<group>"; };
+		473CD26519E9829300AC860B /* NotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCenter.m; sourceTree = "<group>"; };
 		479C074219E9752800D946F9 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
 		479C074319E9752800D946F9 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
 		47C6C8A119E8242E002CD14C /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
@@ -1849,6 +1852,8 @@
 		479C074519E9794800D946F9 /* notifications */ = {
 			isa = PBXGroup;
 			children = (
+				473CD26419E9829300AC860B /* NotificationCenter.h */,
+				473CD26519E9829300AC860B /* NotificationCenter.m */,
 			);
 			name = notifications;
 			sourceTree = "<group>";
@@ -1934,9 +1939,9 @@
 		47CA0CEB19D1A38200D19AE8 /* bz */ = {
 			isa = PBXGroup;
 			children = (
-				479C074519E9794800D946F9 /* notifications */,
 				18B273AB19E4EADC00FE3D42 /* Service.h */,
 				18B273AC19E4EADC00FE3D42 /* Service.m */,
+				479C074519E9794800D946F9 /* notifications */,
 				479C074119E974EE00D946F9 /* defaults */,
 				18B2739E19E4E5F200FE3D42 /* net */,
 				182583A2158D842900A493B9 /* CoreData */,
@@ -2379,6 +2384,7 @@
 				188738E718FCD3B00032CF2C /* NewsZipReceivedReportTask.m in Sources */,
 				188738E918FCD3B00032CF2C /* FeedBackToAuthorViewController.m in Sources */,
 				188738EA18FCD3B00032CF2C /* PeriodicalItem.m in Sources */,
+				473CD26619E9829300AC860B /* NotificationCenter.m in Sources */,
 				188738EB18FCD3B00032CF2C /* CheckUpdateTask.m in Sources */,
 				479C074419E9752800D946F9 /* UserDefaults.m in Sources */,
 				188738EC18FCD3B00032CF2C /* GalleryViewController.m in Sources */,
