@@ -12,6 +12,7 @@
 #import "DBManager.h"
 #import "DBOperator.h"
 #import "URLDefine.h"
+#import "DeviceInfo.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
@@ -27,43 +28,21 @@
 }
 //网络
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:channel_list_url,[KidsOpenUDID value], kindergartenid]];
+    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        NSArray *channels=[_parser parseChannels:responseStr];
-        DBOperator *db_operator=[_db_manager aOperator];
-        if([channels count]>0){
-            [db_operator removeAllChannels];
-        }
-        for(Channel *channel in channels){
-            [db_operator addChannel:channel];
-        }
-        [db_operator save];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(successBlock){
-                successBlock(channels);
-            }
-        });
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
-}
--(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:article_list_url,[KidsOpenUDID value], kindergartenid,[self fetchClassIDFromLocal],channelID,pageIndex,countPerPage]];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * jsonString) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSError *error=nil;
-            NSArray *articles=[_parser articlesFromJSON:jsonString error:&error];
-            KidsDBOperator *db_operator=[_db_manager aOperator];
-            for(KidsArticle *article in articles){
-                article.channel_id=channelID;
-                [db_operator addArticle:article];
+            NSArray *channels=[_parser parseChannels:responseStr];
+            DBOperator *db_operator=[_db_manager aOperator];
+            if([channels count]>0){
+                [db_operator removeAllChannels];
+            }
+            for(Channel *channel in channels){
+                [db_operator addChannel:channel];
             }
             [db_operator save];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(successBlock){
-                    successBlock(articles);
+                    successBlock(channels);
                 }
             });
         });
@@ -73,59 +52,54 @@
         }
     }];
 }
+-(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSArray *articles=[_parser parseArticles:responseStr];
+            KidsDBOperator *db_operator=[_db_manager aOperator];
+            for(Article *article in articles){
+                [db_operator addArticle:article];
+            }
+            [db_operator save];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(successBlock){
+                    successBlock(articles);
+                }
+            });
+        });
+    } errorHandler:^[(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
 -(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:reg_url,[KidsOpenUDID value], kindergartenid,[self phoneModel],[self osVersion], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
+    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
     url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * response) {
-        NSError *error=nil;
-        BOOL isOK=[_parser invalidateJSONWith:response error:&error];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *) {
         if(successBlock){
-            [[UserActionsController sharedInstance] enqueueARegisterAction:[NSString stringWithFormat:@"%@ iOS %@",[self phoneModel],[self osVersion]]];
             successBlock(isOK);
         }
-        
-    } errorHandler:^(NSError *error) {
+    } errorHandler:^[(NSError *) {
         if(errorBlock){
             errorBlock(error);
         }
     }];
 }
--(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *tempURL=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:enroll_class_url,[KidsOpenUDID value],kindergartenid,kidsclass.class_id,phone,username]];
-    NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * response) {
-        NSError *error=nil;
-        BOOL isOK=[_parser invalidateJSONWith:response error:&error];
-        if(isOK){
-            NSString *old_class_id=[self fetchClassIDFromLocal];
-            FrontiaPush *push=[Frontia getPush];
-            [push delTag:old_class_id tagOpResult:^(int count, NSArray *failureTag) {
-                // <#code#>
-            } failureResult:^(NSString *action, int errorCode, NSString *errorMessage) {
-                //  <#code#>
-            }];
-            [push setTag:[NSString stringWithFormat:@"%@",kidsclass.class_id] tagOpResult:^(int count, NSArray *failureTag) {
-                // <#code#>
-            } failureResult:^(NSString *action, int errorCode, NSString *errorMessage) {
-                //  <#code#>
-            }];
-            [self saveUserInfo:username userphone:phone classid:kidsclass.class_id];
-            [[UserActionsController sharedInstance] enqueueAEnrollmentAction:kidsclass];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if(successBlock){
-                successBlock(isOK);
-            }
-        });
-        
-    } errorHandler:^(NSError *error) {
-        [self saveUserInfo:username userphone:phone classid:@"0"];
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
-}
+ -(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+     NSString *tempURL=[NSString stringWithFormat:kBindleSNURL,[DeviceInfo udid],SN,[DeviceInfo osVersion]];
+     NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+         if(successBlock){
+             successBlock(isOK);
+         }
+     } errorHandler:^(NSError *error) {
+         if(errorBlock){
+             errorBlock(error);
+         }
+     }];
+ }
 -(void)fetchAppCoverImage:(void(^)(UIImage *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:startup_image_url,[KidsOpenUDID value],kindergartenid]];
     [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * response) {
@@ -182,7 +156,7 @@
     
 }
 -(void)reportActionsToServer:(NSString *)postJSON succcessHander:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:push_article_url,[KidsOpenUDID value],articleID]];
+    NSString *url=kUserActionsURL;
     [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * jsonString) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSError *error=nil;
