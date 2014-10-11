@@ -64,7 +64,7 @@
  返回示例 config|sn_sate:sn_msg:group_title:group_sub_title:startimage:gid
  备注
  ---------------------*/
-#define kCoverInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_config.ashx?appid=lnfb&imei=%@"
+#define kAppInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_config.ashx?appid=lnfb&imei=%@"
 
 
 /*---------------------

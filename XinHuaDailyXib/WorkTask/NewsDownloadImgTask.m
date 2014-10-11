@@ -10,14 +10,14 @@
 #import "NewsDefine.h"
 #import "ASIHTTPRequest.h"
 #import "CommonMethod.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 #import "NewsXmlParser.h"
 #import "NetStreamStatistics.h"
 #import "ZipArchive.h"
 #import "NewsZipReceivedReportTask.h"
 static NewsDownloadImgTask *instance;
 @implementation NewsDownloadImgTask{
-    VersionInfo *version_info_net;
+    AppInfo *version_info_net;
 }
 +(NewsDownloadImgTask *)sharedInstance{
     if(instance==nil){
@@ -111,7 +111,7 @@ NSString *pid_net;
     
 }
 -(BOOL)hasNewerCoverArticle{
-    VersionInfo *local_version=[self getLocalVersionInfo];
+    AppInfo *local_version=[self getLocalVersionInfo];
     if(local_version==nil){
         return YES;
     }
@@ -121,8 +121,8 @@ NSString *pid_net;
         return YES;
     }
 }
--(void)updateLocalVersionInfo:(VersionInfo *)version_info{
-    VersionInfo *local_version=[self getLocalVersionInfo];
+-(void)updateLocalVersionInfo:(AppInfo *)version_info{
+    AppInfo *local_version=[self getLocalVersionInfo];
     local_version.groupTitle=version_info.groupTitle;
     local_version.groupSubTitle=version_info.groupSubTitle;
     [self setLocalVersionInfo:local_version];
@@ -130,7 +130,7 @@ NSString *pid_net;
 
 -(void)updateLocalAdvInfo:(XDailyItem *)xdaily{
     //[self clearOldAdvPath:version_info_net.advPath];
-    VersionInfo *local_version=[self getLocalVersionInfo];
+    AppInfo *local_version=[self getLocalVersionInfo];
     local_version.gid=version_info_net.gid;
     local_version.advPagePath=[self getAdvPagePath:xdaily];
     local_version.advPath=[self getAdvPath:xdaily];
@@ -167,16 +167,16 @@ NSString *pid_net;
         [manager removeItemAtPath:filePath error:nil];
         NSLog(@"filePath______==%@",filePath);
 }
--(VersionInfo *)getLocalVersionInfo{
+-(AppInfo *)getLocalVersionInfo{
     NSData *old_data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info_local=[NSKeyedUnarchiver unarchiveObjectWithData:old_data];
+    AppInfo *version_info_local=[NSKeyedUnarchiver unarchiveObjectWithData:old_data];
     if(version_info_local==nil){
-        VersionInfo *newVersionInfo=[[VersionInfo alloc] init];
+        AppInfo *newVersionInfo=[[AppInfo alloc] init];
         [self setLocalVersionInfo: newVersionInfo];
     }
     return version_info_local;
 }
--(void)setLocalVersionInfo:(VersionInfo *)version_info{
+-(void)setLocalVersionInfo:(AppInfo *)version_info{
     NSData *data=[NSKeyedArchiver archivedDataWithRootObject:version_info];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"version_info"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"KVersionInfoOK" object: self userInfo:nil];

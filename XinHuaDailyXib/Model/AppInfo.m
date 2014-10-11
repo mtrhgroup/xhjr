@@ -6,9 +6,9 @@
 //
 //
 
-#import "VersionInfo.h"
+#import "AppInfo.h"
 
-@implementation VersionInfo
+@implementation AppInfo
 @synthesize snState;
 @synthesize snMsg;
 @synthesize groupTitle;

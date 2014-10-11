@@ -13,6 +13,7 @@
 #import "DBOperator.h"
 #import "URLDefine.h"
 #import "DeviceInfo.h"
+#import "UserDefaults.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
@@ -57,7 +58,7 @@
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
-            KidsDBOperator *db_operator=[_db_manager aOperator];
+            DBOperator *db_operator=[_db_manager aOperator];
             for(Article *article in articles){
                 [db_operator addArticle:article];
             }
@@ -68,7 +69,7 @@
                 }
             });
         });
-    } errorHandler:^[(NSError *error) {
+    } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);
         }
@@ -77,11 +78,25 @@
 -(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
     url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *) {
-        if(successBlock){
-            successBlock(isOK);
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
+            if(responseStr.length>3){
+                NSString *snStr=[responseStr substringFromIndex:4];
+                [[NSUserDefaults standardUserDefaults]  setObject:snStr  forKey:KUserDefaultAuthCode];
+            }
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else if([responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else{
+            if(successBlock){
+                successBlock(NO);
+            }
         }
-    } errorHandler:^[(NSError *) {
+    } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);
         }
@@ -91,8 +106,14 @@
      NSString *tempURL=[NSString stringWithFormat:kBindleSNURL,[DeviceInfo udid],SN,[DeviceInfo osVersion]];
      NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
      [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-         if(successBlock){
-             successBlock(isOK);
+         if([responseStr rangeOfString:@"SUCCESSED"].location!=NSNotFound){
+             [[NSUserDefaults standardUserDefaults]  setObject:SN  forKey:KUserDefaultAuthCode];
+             if(successBlock){
+                 successBlock(YES);
+             }
+         }else{
+             NSDictionary *d = [NSDictionary dictionaryWithObject:responseStr  forKey:@"data"];
+             [[NSNotificationCenter defaultCenter] postNotificationName: kShowToast  object: self userInfo:d];
          }
      } errorHandler:^(NSError *error) {
          if(errorBlock){
@@ -100,34 +121,21 @@
          }
      }];
  }
--(void)fetchAppCoverImage:(void(^)(UIImage *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:startup_image_url,[KidsOpenUDID value],kindergartenid]];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * response) {
-        NSError *error=nil;
-        KidsAppCoverImage *image=[_parser  setupImageFromJSON:response error:&error];
-        [self saveAppCoverImage:image];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(successBlock){
-                successBlock(image);
-            }
-        });
-        
+-(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        AppInfo *app_info=[_parser parseAppInfo:responseStr];
+        [UserDefaults defaults].appInfo=app_info;
+        if(successBlock){
+            successBlock(app_info);
+        }
     } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);
         }
     }];
 }
--(void)saveAppCoverImage:(KidsAppCoverImage *)appCoverImage{
-    NSData * data = [NSKeyedArchiver archivedDataWithRootObject:appCoverImage];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SetupImage"];
-}
--(KidsAppCoverImage *)fetchAppCoverImage{
-    NSData *data=[[NSUserDefaults standardUserDefaults] objectForKey:@"SetupImage"];
-    KidsAppCoverImage *setup_image = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    if(setup_image==nil)setup_image=[[KidsAppCoverImage alloc]init];
-    return setup_image;
-}
+
 -(void)executeModifyActions:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *imei=[KidsOpenUDID value];
     NSString *timeStamp=[self getDeleteTimeStamp];
@@ -176,21 +184,16 @@
         }
     }];
 }
--(void)fetchPushArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:@"%@%@",url_prefix,[NSString stringWithFormat:push_article_url,[KidsOpenUDID value],articleID]];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * jsonString) {
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSError *error=nil;
-            KidsArticle *article=[_parser pushArticleFromJSON:jsonString error:&error];
-            KidsDBOperator *db_operator=[_db_manager aOperator];
-            [db_operator addArticle:article];
-            [db_operator save];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if(successBlock){
-                    successBlock(article);
-                }
-            });
-        });
+-(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kOneArticleURL,articleID,[DeviceInfo udid]];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        Article *article=[_parser parseOneArticle:responseStr];
+        DBOperator *db_operator=[_db_manager aOperator];
+        [db_operator addArticle:article];
+        [db_operator save];
+        if(successBlock){
+            successBlock(article);
+        }
     } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);

@@ -13,7 +13,7 @@
 #import "NewsDefine.h"
 #import "ZipArchive.h"
 #import "NewsUserInfo.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 #import "ModifyAction.h"
 
 @implementation NewsXmlParser
@@ -214,14 +214,14 @@
     }
     return nil;
 }
-+(VersionInfo *)ParseVersionInfo:(NSString *)dataString{
++(AppInfo *)ParseVersionInfo:(NSString *)dataString{
     if(dataString.length<70)return nil;
     NSIks* xml = [[NSIks alloc] initWithString:dataString];
     iks*  citem  = xml.xmlObject;
     if (citem)
     {
         NSLog(@"%@",[xml nameFromNode:citem]);
-        __autoreleasing VersionInfo*  version_info = [[VersionInfo alloc] init];
+        __autoreleasing AppInfo*  version_info = [[AppInfo alloc] init];
         version_info.snState=[xml findValueFrom:citem nodeName:@"sn_state"];
         NSLog(@"sn_state=%@",version_info.snState);
         version_info.snMsg=[xml findValueFrom:citem nodeName:@"sn_msg"];
