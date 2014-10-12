@@ -126,7 +126,7 @@
 		1887391318FCD3B00032CF2C /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 182DE61C17BC9F86007A36CE /* Colors.m */; };
 		1887391418FCD3B00032CF2C /* FunctionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 182DE62417BCC2A7007A36CE /* FunctionSource.m */; };
 		1887391518FCD3B00032CF2C /* MainViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 182DE62C17BCD18B007A36CE /* MainViewDataSource.m */; };
-		1887391618FCD3B00032CF2C /* ModifyAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A5B25317C4BBF700E087F7 /* ModifyAction.m */; };
+		1887391618FCD3B00032CF2C /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A5B25317C4BBF700E087F7 /* Command.m */; };
 		1887391718FCD3B00032CF2C /* MDSlideNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FACDF217C71CF80042E815 /* MDSlideNavigationViewController.m */; };
 		1887391818FCD3B00032CF2C /* UserActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D7C60617D7104F0015CA17 /* UserActions.m */; };
 		1887391918FCD3B00032CF2C /* UserAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D7C60E17D712DD0015CA17 /* UserAction.m */; };
@@ -286,6 +286,7 @@
 		18F1170019E8B6990097A682 /* GridHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FF19E8B6990097A682 /* GridHeader.m */; };
 		18F1170319E8B75E0097A682 /* ListHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1170219E8B75E0097A682 /* ListHeader.m */; };
 		18F1170619E8B7ED0097A682 /* HomeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1170519E8B7ED0097A682 /* HomeHeader.m */; };
+		472BBAC619E9FED400C837DB /* FileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 472BBAC519E9FED400C837DB /* FileSystem.m */; };
 		47300FD919D06313008121F0 /* CopyConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300F8719D06312008121F0 /* CopyConnection.framework */; };
 		47300FDA19D06313008121F0 /* DouBanConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300F8819D06312008121F0 /* DouBanConnection.framework */; };
 		47300FDB19D06313008121F0 /* DropboxConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47300F8919D06312008121F0 /* DropboxConnection.framework */; };
@@ -480,8 +481,8 @@
 		18A5B23117C46FEB00E087F7 /* menu_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_refresh.png; sourceTree = "<group>"; };
 		18A5B23217C46FEB00E087F7 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		18A5B24B17C472CE00E087F7 /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
-		18A5B25217C4BBF700E087F7 /* ModifyAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyAction.h; sourceTree = "<group>"; };
-		18A5B25317C4BBF700E087F7 /* ModifyAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyAction.m; sourceTree = "<group>"; };
+		18A5B25217C4BBF700E087F7 /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
+		18A5B25317C4BBF700E087F7 /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Command.m; sourceTree = "<group>"; };
 		18AC106418FCD9AE00FBC603 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		18AC106518FCD9AE00FBC603 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		18AC106818FCDCC300FBC603 /* lnzw_inhouse-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "lnzw_inhouse-Info.plist"; sourceTree = "<group>"; };
@@ -828,6 +829,8 @@
 		2BE474E215672D7200081C82 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		2BE474E415672D7D00081C82 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		2BE474F8156743A300081C82 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		472BBAC419E9FED400C837DB /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		472BBAC519E9FED400C837DB /* FileSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystem.m; sourceTree = "<group>"; };
 		47300F8719D06312008121F0 /* CopyConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopyConnection.framework; sourceTree = "<group>"; };
 		47300F8819D06312008121F0 /* DouBanConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DouBanConnection.framework; sourceTree = "<group>"; };
 		47300F8919D06312008121F0 /* DropboxConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxConnection.framework; sourceTree = "<group>"; };
@@ -1082,8 +1085,8 @@
 				18F76876174F61C4003435EA /* PeriodicalItem.m */,
 				189A7B7117B4808100D95048 /* AppInfo.h */,
 				189A7B7217B4808100D95048 /* AppInfo.m */,
-				18A5B25217C4BBF700E087F7 /* ModifyAction.h */,
-				18A5B25317C4BBF700E087F7 /* ModifyAction.m */,
+				18A5B25217C4BBF700E087F7 /* Command.h */,
+				18A5B25317C4BBF700E087F7 /* Command.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1711,6 +1714,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		472BBAC319E9FE8A00C837DB /* files */ = {
+			isa = PBXGroup;
+			children = (
+				472BBAC419E9FED400C837DB /* FileSystem.h */,
+				472BBAC519E9FED400C837DB /* FileSystem.m */,
+			);
+			name = files;
+			sourceTree = "<group>";
+		};
 		47300F8519D06312008121F0 /* ShareSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1941,6 +1953,7 @@
 			children = (
 				18B273AB19E4EADC00FE3D42 /* Service.h */,
 				18B273AC19E4EADC00FE3D42 /* Service.m */,
+				472BBAC319E9FE8A00C837DB /* files */,
 				479C074519E9794800D946F9 /* notifications */,
 				479C074119E974EE00D946F9 /* defaults */,
 				18B2739E19E4E5F200FE3D42 /* net */,
@@ -2319,6 +2332,7 @@
 				188738B318FCD3B00032CF2C /* CustomBadge.m in Sources */,
 				188738B418FCD3B00032CF2C /* NewsFontSettingViewController.m in Sources */,
 				188738B518FCD3B00032CF2C /* PicturePlusViewController.m in Sources */,
+				472BBAC619E9FED400C837DB /* FileSystem.m in Sources */,
 				47C6C8C519E826EB002CD14C /* HomeViewController.m in Sources */,
 				188738B618FCD3B00032CF2C /* ExpressRemoteViewController.m in Sources */,
 				188738B718FCD3B00032CF2C /* NewslistRemoteViewController.m in Sources */,
@@ -2437,7 +2451,7 @@
 				1887391418FCD3B00032CF2C /* FunctionSource.m in Sources */,
 				47C6C8BF19E824DB002CD14C /* SUNSlideSwitchView.m in Sources */,
 				1887391518FCD3B00032CF2C /* MainViewDataSource.m in Sources */,
-				1887391618FCD3B00032CF2C /* ModifyAction.m in Sources */,
+				1887391618FCD3B00032CF2C /* Command.m in Sources */,
 				1887391718FCD3B00032CF2C /* MDSlideNavigationViewController.m in Sources */,
 				1887391818FCD3B00032CF2C /* UserActions.m in Sources */,
 				1887391918FCD3B00032CF2C /* UserAction.m in Sources */,

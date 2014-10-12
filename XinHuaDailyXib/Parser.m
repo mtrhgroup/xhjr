@@ -10,7 +10,7 @@
 #import "NSIks.h"
 #import "Channel.h"
 #import "Article.h"
-#import "ModifyAction.h"
+#import "Command.h"
 @implementation Parser
 -(NSArray*)parseChannels:(NSString *) xmlstring{
     NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -151,13 +151,13 @@
     }
     return nil;
 }
--(NSArray *)parseModifyActions:(NSString *)xmlstring{
+-(NSArray *)parseCommands:(NSString *)xmlstring{
     NSMutableArray* result = [[NSMutableArray alloc] init];
     NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
     iks*  item =   [xml firstTagFrom:xml.xmlObject];
     while (item)
     {
-        ModifyAction*  action = [[ModifyAction alloc] init];
+        Command*  action = [[Command alloc] init];
         action.f_id = [xml findValueFrom:item nodeName:@"F_ID"];
         action.f_inserttime=[xml findValueFrom:item nodeName:@"F_InsertTime"];
         action.f_state=[xml findValueFrom:item nodeName:@"F_State"];

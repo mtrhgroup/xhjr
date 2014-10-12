@@ -32,4 +32,14 @@ static UserDefaults *_defaults=nil;
     if(app_info==nil)app_info=[[AppInfo alloc]init];
     return app_info;
 }
+-(void)setFontSize:(NSString *)fontSize{
+    [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:@"fontSize"];
+}
+-(NSString *)fontSize{
+    NSString *fontSize=[[NSUserDefaults standardUserDefaults] objectForKey:@"fontSize"];
+    if(fontSize==nil)return @"正常";
+    else return fontSize;
+
+}
+
 @end

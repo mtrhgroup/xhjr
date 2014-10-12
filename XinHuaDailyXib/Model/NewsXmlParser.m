@@ -14,7 +14,7 @@
 #import "ZipArchive.h"
 #import "NewsUserInfo.h"
 #import "AppInfo.h"
-#import "ModifyAction.h"
+#import "Command.h"
 
 @implementation NewsXmlParser
 
@@ -240,7 +240,7 @@
     while (item)
     {
         NSLog(@"%@",[xml nameFromNode:item]);
-        ModifyAction*  action = [[ModifyAction alloc] init];
+        Command*  action = [[Command alloc] init];
         action.f_id = [xml findValueFrom:item nodeName:@"F_ID"];
         action.f_inserttime=[xml findValueFrom:item nodeName:@"F_InsertTime"];
         action.f_state=[xml findValueFrom:item nodeName:@"F_State"];

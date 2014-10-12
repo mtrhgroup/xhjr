@@ -24,5 +24,8 @@
 -(NSArray *)fetchFavorArticles;
 -(void)markArticleReadWithArticleID:(NSString *)articleID;
 -(void)markArticleFavorWithArticleID:(NSString *)articleID favor:(BOOL)favor;
--(void)deleteArticleWithArticleIDs:(NSString *)articleID;
+-(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID;
+-(Article *)fetchArticleWithArticleID:(NSString *)articleID;
+-(void)updateArticleTimeWithArticleID:(NSString *)articleID newTime:(NSString *)newTime;
+-(void)deleteArticleWithArticleID:(NSString *)articleID;
 @end

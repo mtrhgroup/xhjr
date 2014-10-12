@@ -13,7 +13,7 @@
 #import "NetStreamStatistics.h"
 #import "ZipArchive.h"
 #import "NewsZipReceivedReportTask.h"
-#import "ModifyAction.h"
+#import "Command.h"
 @implementation NewsDownloadTask
 @synthesize db=_db;
 -(id)initWithDB:(NewsDbOperator *)DbOperator{
@@ -311,7 +311,7 @@ bool busy=NO;
     if(!err){
         NSString *responseString = [request responseString];
         NSArray *actions=[NewsXmlParser ParseModifyActions:responseString];
-        for(ModifyAction *action in actions){
+        for(Command *action in actions){
             XDailyItem* item=[self.db GetXdailyByItemId:[NSNumber numberWithInt:action.f_id.intValue]];
             if(item!=nil){
                 if([action.f_state isEqualToString:@"2"]){

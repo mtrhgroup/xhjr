@@ -196,7 +196,24 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     }
     
 }
--(void)deleteArticleWithArticleIDs:(NSString *)articleID{
+-(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID{
+    
+}
+-(Article *)fetchArticleWithArticleID:(NSString *)articleID{
+    return nil;
+}
+-(void)updateArticleTimeWithArticleID:(NSString *)articleID newTime:(NSString *)newTime{
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"item_id = %d", itemid.intValue];
+    NSArray* result = [self getObjectsByName:@"DailyNews" predicate:p limited:1];
+    if (result.count == 1)
+    {
+        DailyNews* data = [result objectAtIndex:0];
+        NSDate* date = [NSDate dateFromString:timestr withFormat:@"yyyy－MM-dd"];
+        data.date = [NSNumber numberWithInt:[date timeIntervalSince1970]];
+        data.newsDate=timestr;
+    }
+}
+-(void)deleteArticleWithArticleID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@",articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];

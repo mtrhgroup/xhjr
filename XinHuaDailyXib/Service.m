@@ -15,6 +15,8 @@
 #import "DeviceInfo.h"
 #import "UserDefaults.h"
 #import "NotificationCenter.h"
+#import "FileSystem.h"
+#import "Command.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
@@ -137,45 +139,21 @@
 
 
 
--(void)executeModifyActions:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *imei=[KidsOpenUDID value];
-    NSString *timeStamp=[self getDeleteTimeStamp];
-    NSString *tempURL=[NSString stringWithFormat:delete_url,imei,kindergartenid,channelID,timeStamp ];
-    NSString *url=[[NSString stringWithFormat:@"%@%@",url_prefix,tempURL] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * response) {
-        NSError *error=nil;
-        NSArray *articleIDs=[_parser toDeleteArticleIDsFromJSON:response error:&error];
-        if(!error){
-            [self saveDeleteTimeStamp];
-        }
-        KidsDBOperator *db_operator=[_db_manager aOperator];
-        BOOL hasDeleted=[db_operator deleteArticleWithArticleIDs:articleIDs];
-        [db_operator save];
-        if(successBlock){
-            successBlock(hasDeleted);
-        }
-        
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
-}
--(void)fetchArticlesForHomeVC:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    
-}
--(void)reportActionsToServer:(NSString *)postJSON succcessHander:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=kUserActionsURL;
-    [_communicator fetchJSONContentAtURL:url successHandler:^(NSDictionary * jsonString) {
+-(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kCommandsURL,[DeviceInfo udid]];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSError *error=nil;
-            KidsArticle *article=[_parser pushArticleFromJSON:jsonString error:&error];
-            KidsDBOperator *db_operator=[_db_manager aOperator];
-            [db_operator addArticle:article];
-            [db_operator save];
+            NSArray *commands=[_parser parseCommands:responseStr];
+            DBOperator *db_operator=[_db_manager aOperator];
+            BOOL modified=NO;
+            for(Command *command in commands){
+                if([self executeCommand:command db_operator:db_operator]){
+                    modified=YES;
+                }
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(successBlock){
-                    successBlock(article);
+                    successBlock(modified);
                 }
             });
         });
@@ -185,6 +163,39 @@
         }
     }];
 }
+-(BOOL)executeCommand:(Command *)command db_operator:(DBOperator *)db_operator{
+        if([db_operator doesArticleExistWithArtilceID:command.f_id]){
+            if([command.f_state isEqualToString:@"2"]){
+                [db_operator deleteArticleWithArticleID:command.f_id];
+                [[FileSystem system] removeArticle:[db_operator fetchArticleWithArticleID:command.f_id]];
+            }else if([command.f_state isEqualToString:@"1"]){
+                [db_operator updateArticleTimeWithArticleID:command.f_id newTime:command.f_inserttime];
+            }
+            [db_operator save];
+            return YES;
+        }else{
+            return NO;
+        }
+}
+-(void)fetchArticlesForHomeVC:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    
+}
+-(void)reportUserActions:(NSString *)postJSON succcessHander:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=kUserActionsURL;
+    NSDictionary *variables=[NSDictionary dictionaryWithObject:postJSON forKey:@"json"];
+    [_communicator postVariablesToURL:url variables:variables successHandler:^(NSString *responseStr) {
+        if(successBlock){
+            if([responseStr rangeOfString:@"SUCCESS"].location!=NSNotFound){
+                successBlock(YES);
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+
 -(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kOneArticleURL,articleID,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
@@ -210,7 +221,7 @@
 -(NSArray *)fetchTrunkChannelsFromDB{
     NSArray * channels=[[_db_manager aOperator] fetchTrunkChannels];
     NSMutableArray *res=[[NSMutableArray alloc]init];
-    for (KidsChannel* ch in channels) {
+    for (Channel* ch in channels) {
         [res addObject:ch];
     }
     return res;
@@ -249,7 +260,7 @@
     if(favor){
         [[UserActionsController sharedInstance] enqueueACollecionAction:article];
     }
-    KidsDBOperator *db_operator=[_db_manager aOperator];
+    DBOperator *db_operator=[_db_manager aOperator];
     [db_operator markArticleFavorWithArticleID:article.article_id favor:favor];
     [db_operator save];
 }
@@ -275,15 +286,5 @@
 }
 
 //配置
--(NSString *)getFontSize{
-    NSString *fontSize=[[NSUserDefaults standardUserDefaults] objectForKey:@"fontSize"];
-    if(fontSize==nil){
-        return @"正常";
-    }else{
-        return fontSize;
-    }
-}
--(void)saveFontSize:(NSString *)fontSize{
-     [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:@"fontSize"];
-}
+
 @end

@@ -55,7 +55,7 @@
     }];
     [request startAsynchronous];
 }
--(void)postJSONToURL:(NSString *)url parameters:(NSDictionary *)parameters successHandler:(void(^)(NSDictionary *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+-(void)postVariablesToURL:(NSString *)url parameters:(NSDictionary *)parameters successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     
 }
 @end

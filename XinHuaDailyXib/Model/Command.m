@@ -6,9 +6,9 @@
 //
 //
 
-#import "ModifyAction.h"
+#import "Command.h"
 
-@implementation ModifyAction
+@implementation Command
 @synthesize f_id=_f_id;
 @synthesize f_inserttime=_f_inserttime;
 @synthesize f_state=_f_state;
