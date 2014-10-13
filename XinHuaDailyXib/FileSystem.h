@@ -10,5 +10,6 @@
 #import "Article.h"
 @interface FileSystem : NSObject
 +(FileSystem *)system;
+-(BOOL)isArticleExistWithArticle:(Article *)article;
 -(void)removeArticle:(Article *)article;
 @end

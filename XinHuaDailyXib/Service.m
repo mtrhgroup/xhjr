@@ -17,16 +17,19 @@
 #import "NotificationCenter.h"
 #import "FileSystem.h"
 #import "Command.h"
+#import "UserActions.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
     DBManager *_db_manager;
+    UserActions *_userActions;
 }
 -(id)init{
     if(self=[super init]){
         _communicator=[[Communicator alloc]init];
         _db_manager=[[DBManager alloc] init];
         _parser=[[Parser alloc] init];
+        _userActions=[[UserActions alloc]initWithCommunicator:_communicator];
     }
     return self;
 }
@@ -137,7 +140,30 @@
     }];
 }
 
-
+-(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    if([[FileSystem system] isArticleExistWithArticle:article]){
+        if(successBlock){
+            successBlock(article.page_path);
+        }
+    }else{
+        [_communicator fetchFileAtURL:article.zip_url toPath:article.zip_path successHandler:^(BOOL is_ok) {
+            if(is_ok){
+                if(successBlock){
+                    successBlock(article.page_path);
+                }
+            }else{
+                NSError *error;
+                if(errorBlock){
+                    errorBlock(error);
+                }
+            }
+        } errorHandler:^(NSError *error) {
+            if(errorBlock){
+                errorBlock(error);
+            }
+        }];
+    }
+}
 
 -(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kCommandsURL,[DeviceInfo udid]];
@@ -177,23 +203,9 @@
             return NO;
         }
 }
--(void)fetchArticlesForHomeVC:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    
-}
--(void)reportUserActions:(NSString *)postJSON succcessHander:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=kUserActionsURL;
-    NSDictionary *variables=[NSDictionary dictionaryWithObject:postJSON forKey:@"json"];
-    [_communicator postVariablesToURL:url variables:variables successHandler:^(NSString *responseStr) {
-        if(successBlock){
-            if([responseStr rangeOfString:@"SUCCESS"].location!=NSNotFound){
-                successBlock(YES);
-            }
-        }
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
+
+-(void)reportActionsToServer:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    [_userActions reportActionsToServer:successBlock errorHandler:errorBlock];
 }
 
 -(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
@@ -226,53 +238,50 @@
     }
     return res;
 }
+-(NSArray *)fetchHomeChannelsFromDB{
+    return [[_db_manager aOperator] fetchHomeChannels];
+}
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel{
-    
+    DBOperator *db_operator=[_db_manager aOperator];
+    return [db_operator fetchLeafChannelsWithTrunkChannel:channel];
 }
 -(NSArray *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN{
-    NSArray *articles=[[_db_manager aOperator] fetchMutiCoverImageArticlesWithChannel:channel topN:2];
-    NSMutableArray *array_ids=[[NSMutableArray alloc] init];
-    for(KidsArticle *article in articles){
-        [array_ids addObject:article.article_id];
-    }
-    if(exceptArticleID!=nil&&![exceptArticleID isEqual:@""]){
-        [array_ids insertObject:exceptArticleID atIndex:0];
-    }
-    NSArray * articles_only_thumail=[[_db_manager aOperator] fetchArticlesWithChannel:channel exceptArticleID:array_ids topN:topN];
-    NSMutableArray *res=[[NSMutableArray alloc] init];
-    [res addObjectsFromArray:articles_only_thumail];
-    if(articles!=nil&&[articles count]>0){
-        if([res count]>=5)
-            [res insertObject:articles[0] atIndex:5];
-        else
-            [res addObject:articles[0]];
-    }
-    if(articles!=nil&&[articles count]>1){
-        if([res count]>=10)
-            [res insertObject:articles[1] atIndex:10];
-        else
-            [res addObject:articles[1]];
-        
-    }
-    return res;
-}
--(void)markArticleFavorInDB:(Article *)article favor:(BOOL)favor{
-    if(favor){
-        [[UserActionsController sharedInstance] enqueueACollecionAction:article];
-    }
     DBOperator *db_operator=[_db_manager aOperator];
-    [db_operator markArticleFavorWithArticleID:article.article_id favor:favor];
+    Article *header_article=[db_operator fetchHeaderArticleWithChannel:channel];
+    NSArray *other_articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:header_article topN:10];
+    NSMutableArray *articles=[[NSMutableArray alloc] init];
+    [articles addObject:header_article];
+    [articles addObjectsFromArray:other_articles];
+    return articles;
+}
+-(BOOL)hasNewerArticlesThanArticle:(Article *)article in_channel:(Channel *)in_channel{
+    DBOperator *db_operator=[_db_manager aOperator];
+    NSArray *articles=[db_operator fetchArticlesWithChannel:in_channel exceptArticle:nil topN:1];
+    if([articles count]>0){
+    Article *latest_article=[articles objectAtIndex:0];
+    if([latest_article.article_id isEqualToString:article.article_id]){
+        return YES;
+    }else{
+        return NO;
+    }
+    }else{
+        return NO;
+    }
+}
+-(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected{
+    DBOperator *db_operator=[_db_manager aOperator];
+    [db_operator markArticleFavorWithArticleID:article.article_id is_collected:is_collected];
     [db_operator save];
 }
--(void)markArticleReadWithArticleInDB:(Article *)article{
-    [[UserActionsController sharedInstance] enqueueAReadAction:article];
-    KidsDBOperator *db_operator=[_db_manager aOperator];
+-(void)markArticleReadWithArticle:(Article *)article{
+    [_userActions enqueueAReadAction:article.article_id];
+    DBOperator *db_operator=[_db_manager aOperator];
     [db_operator markArticleReadWithArticleID:article.article_id];
     [db_operator save];
 }
 -(Article *)fetchADArticleFromDB{
     DBOperator *db_operator=[_db_manager aOperator];
-    Channel* channel=[db_operator fetchADInContentChannel];
+    Channel* channel=[db_operator fetchADChannel];
     NSArray *articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:nil topN:1];
     if([articles count]>0){
         return [articles objectAtIndex:0];
@@ -281,10 +290,12 @@
     }
 }
 -(NSArray *)fetchPushArticlesFromDB{
-    KidsChannel* channel=[[_db_manager aOperator] fetchNotificationChannel];
-    return channel;
+    NSArray *articles=[[_db_manager aOperator] fetchArticlesThatIsPushed];
+    return articles;
 }
-
-//配置
+-(NSArray *)fetchArticlesThatIncludeCoverImage{
+    NSArray *articles=[[_db_manager aOperator] fetchArticlesThatIncludeCoverImage];
+    return articles;
+}
 
 @end

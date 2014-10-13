@@ -55,7 +55,7 @@
     }];
     [request startAsynchronous];
 }
--(void)postVariablesToURL:(NSString *)url parameters:(NSDictionary *)parameters successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+-(void)postVariablesToURL:(NSString *)url variables:(NSDictionary *)variables successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     
 }
 @end

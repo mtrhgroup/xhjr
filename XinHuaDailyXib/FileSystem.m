@@ -19,4 +19,7 @@ static FileSystem *_system=nil;
 -(void)removeFileWithFilePath:(NSString *)file_path{
     
 }
+-(BOOL)isArticleExistWithArticle:(Article *)article{
+    return NO;
+}
 @end

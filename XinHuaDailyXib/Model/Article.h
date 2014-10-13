@@ -43,5 +43,7 @@
 @property(nonatomic,strong)NSNumber*      visit_number;
 //文章点赞数量
 @property(nonatomic,strong)NSNumber*      like_number;
+@property(nonatomic,strong)NSString*      page_path;
+@property(nonatomic,strong)NSString*      zip_path;
 
 @end

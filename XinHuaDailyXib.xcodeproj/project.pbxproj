@@ -594,10 +594,10 @@
 		18D53BBF17BC6B28004F7B55 /* UIViewController+RNSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RNSwipeViewController.h"; sourceTree = "<group>"; };
 		18D53BC017BC6B28004F7B55 /* UIViewController+RNSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RNSwipeViewController.m"; sourceTree = "<group>"; };
 		18D628361675C58000B9D107 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		18D7C60517D7104F0015CA17 /* UserActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActions.h; sourceTree = "<group>"; };
-		18D7C60617D7104F0015CA17 /* UserActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActions.m; sourceTree = "<group>"; };
-		18D7C60D17D712DD0015CA17 /* UserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAction.h; sourceTree = "<group>"; };
-		18D7C60E17D712DD0015CA17 /* UserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAction.m; sourceTree = "<group>"; };
+		18D7C60517D7104F0015CA17 /* UserActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserActions.h; path = Statistics/UserActions.h; sourceTree = "<group>"; };
+		18D7C60617D7104F0015CA17 /* UserActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserActions.m; path = Statistics/UserActions.m; sourceTree = "<group>"; };
+		18D7C60D17D712DD0015CA17 /* UserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserAction.h; path = Statistics/UserAction.h; sourceTree = "<group>"; };
+		18D7C60E17D712DD0015CA17 /* UserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserAction.m; path = Statistics/UserAction.m; sourceTree = "<group>"; };
 		18DE4047165096040098D425 /* CPMotionRecognizingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMotionRecognizingWindow.h; sourceTree = "<group>"; };
 		18DE4048165096040098D425 /* CPMotionRecognizingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMotionRecognizingWindow.m; sourceTree = "<group>"; };
 		18DE4049165096040098D425 /* UIResponder+MotionRecognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+MotionRecognizers.h"; sourceTree = "<group>"; };
@@ -1017,10 +1017,6 @@
 			children = (
 				181F9077163E6C790011B104 /* NetStreamStatistics.h */,
 				181F9078163E6C790011B104 /* NetStreamStatistics.m */,
-				18D7C60517D7104F0015CA17 /* UserActions.h */,
-				18D7C60617D7104F0015CA17 /* UserActions.m */,
-				18D7C60D17D712DD0015CA17 /* UserAction.h */,
-				18D7C60E17D712DD0015CA17 /* UserAction.m */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -1953,6 +1949,10 @@
 			children = (
 				18B273AB19E4EADC00FE3D42 /* Service.h */,
 				18B273AC19E4EADC00FE3D42 /* Service.m */,
+				18D7C60517D7104F0015CA17 /* UserActions.h */,
+				18D7C60617D7104F0015CA17 /* UserActions.m */,
+				18D7C60D17D712DD0015CA17 /* UserAction.h */,
+				18D7C60E17D712DD0015CA17 /* UserAction.m */,
 				472BBAC319E9FE8A00C837DB /* files */,
 				479C074519E9794800D946F9 /* notifications */,
 				479C074119E974EE00D946F9 /* defaults */,
