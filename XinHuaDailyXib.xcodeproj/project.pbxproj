@@ -11,6 +11,9 @@
 		1850192419D14B0C002C0E56 /* InAppPurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1850192319D14B0C002C0E56 /* InAppPurchaseManager.m */; };
 		1850192719D15204002C0E56 /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1850192619D15204002C0E56 /* SKProduct+LocalizedPrice.m */; };
 		185ADA7618FF6A7400D52177 /* default_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 185ADA7418FF6A7400D52177 /* default_image.png */; };
+		1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18A19ED071100BABC4F /* ChannelViewController.m */; };
+		1873E18E19ED0A4B00BABC4F /* TrunkChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */; };
+		1873E19119ED16CE00BABC4F /* AuthorizationCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */; };
 		1887389618FCD3B00032CF2C /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFA85D17A5F9260067ECA5 /* WebViewJavascriptBridge.m */; };
 		1887389718FCD3B00032CF2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474AF15672D0000081C82 /* main.m */; };
 		1887389818FCD3B00032CF2C /* XinHuaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474B315672D0000081C82 /* XinHuaAppDelegate.m */; };
@@ -359,7 +362,7 @@
 		47C6C8CB19E8275C002CD14C /* TileChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8CA19E8275C002CD14C /* TileChannelViewController.m */; };
 		47C6C8CE19E827F0002CD14C /* GridChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8CD19E827F0002CD14C /* GridChannelViewController.m */; };
 		47C6C8D119E82848002CD14C /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8D019E82848002CD14C /* ArticleViewController.m */; };
-		47C6C8D419E82B48002CD14C /* TrunkChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8D319E82B48002CD14C /* TrunkChannelViewController.m */; };
+		47C6C8D419E82B48002CD14C /* ChannelMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8D319E82B48002CD14C /* ChannelMenuViewController.m */; };
 		47CA0CFB19D1AB9F00D19AE8 /* PeriodicalContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CFA19D1AB9F00D19AE8 /* PeriodicalContentViewController.m */; };
 		47CA0CFE19D1ACA300D19AE8 /* InstantContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CA0CFD19D1ACA300D19AE8 /* InstantContentViewController.m */; };
 /* End PBXBuildFile section */
@@ -440,6 +443,12 @@
 		186D582C158DC59A0030628A /* XdailyItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XdailyItemViewController.m; sourceTree = "<group>"; };
 		186D582E158DC5EE0030628A /* XdailyItemOlderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XdailyItemOlderViewController.h; sourceTree = "<group>"; };
 		186D582F158DC5EE0030628A /* XdailyItemOlderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XdailyItemOlderViewController.m; sourceTree = "<group>"; };
+		1873E18919ED071100BABC4F /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
+		1873E18A19ED071100BABC4F /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
+		1873E18C19ED0A4B00BABC4F /* TrunkChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrunkChannelViewController.h; sourceTree = "<group>"; };
+		1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrunkChannelViewController.m; sourceTree = "<group>"; };
+		1873E18F19ED16CE00BABC4F /* AuthorizationCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationCoverView.h; sourceTree = "<group>"; };
+		1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorizationCoverView.m; sourceTree = "<group>"; };
 		187852AF1742350F00C249B0 /* btn_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_share.png; sourceTree = "<group>"; };
 		188228161803C912006AF789 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		188228171803C912006AF789 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
@@ -923,8 +932,8 @@
 		47C6C8CD19E827F0002CD14C /* GridChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridChannelViewController.m; sourceTree = "<group>"; };
 		47C6C8CF19E82848002CD14C /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
 		47C6C8D019E82848002CD14C /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
-		47C6C8D219E82B48002CD14C /* TrunkChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrunkChannelViewController.h; sourceTree = "<group>"; };
-		47C6C8D319E82B48002CD14C /* TrunkChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrunkChannelViewController.m; sourceTree = "<group>"; };
+		47C6C8D219E82B48002CD14C /* ChannelMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelMenuViewController.h; sourceTree = "<group>"; };
+		47C6C8D319E82B48002CD14C /* ChannelMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelMenuViewController.m; sourceTree = "<group>"; };
 		47CA0CF919D1AB9F00D19AE8 /* PeriodicalContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeriodicalContentViewController.h; sourceTree = "<group>"; };
 		47CA0CFA19D1AB9F00D19AE8 /* PeriodicalContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeriodicalContentViewController.m; sourceTree = "<group>"; };
 		47CA0CFC19D1ACA300D19AE8 /* InstantContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantContentViewController.h; sourceTree = "<group>"; };
@@ -2055,8 +2064,12 @@
 				47C6C8CD19E827F0002CD14C /* GridChannelViewController.m */,
 				47C6C8CF19E82848002CD14C /* ArticleViewController.h */,
 				47C6C8D019E82848002CD14C /* ArticleViewController.m */,
-				47C6C8D219E82B48002CD14C /* TrunkChannelViewController.h */,
-				47C6C8D319E82B48002CD14C /* TrunkChannelViewController.m */,
+				47C6C8D219E82B48002CD14C /* ChannelMenuViewController.h */,
+				47C6C8D319E82B48002CD14C /* ChannelMenuViewController.m */,
+				1873E18919ED071100BABC4F /* ChannelViewController.h */,
+				1873E18A19ED071100BABC4F /* ChannelViewController.m */,
+				1873E18C19ED0A4B00BABC4F /* TrunkChannelViewController.h */,
+				1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */,
 			);
 			name = viewcontrollers;
 			sourceTree = "<group>";
@@ -2080,6 +2093,8 @@
 				18F1170219E8B75E0097A682 /* ListHeader.m */,
 				18F1170419E8B7ED0097A682 /* HomeHeader.h */,
 				18F1170519E8B7ED0097A682 /* HomeHeader.m */,
+				1873E18F19ED16CE00BABC4F /* AuthorizationCoverView.h */,
+				1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -2312,6 +2327,7 @@
 				1887389A18FCD3B00032CF2C /* XDAboutViewController.m in Sources */,
 				1887389B18FCD3B00032CF2C /* SettingViewController.m in Sources */,
 				188738A018FCD3B00032CF2C /* db.xcdatamodeld in Sources */,
+				1873E19119ED16CE00BABC4F /* AuthorizationCoverView.m in Sources */,
 				188738A218FCD3B00032CF2C /* NewsChannel.m in Sources */,
 				188738A318FCD3B00032CF2C /* NewsXmlParser.m in Sources */,
 				188738A418FCD3B00032CF2C /* XDailyItem.m in Sources */,
@@ -2355,7 +2371,7 @@
 				188738C618FCD3B00032CF2C /* UIDeviceExt.m in Sources */,
 				188738C718FCD3B00032CF2C /* UIImageExt.m in Sources */,
 				18F116F719E8B4C60097A682 /* ListCell.m in Sources */,
-				47C6C8D419E82B48002CD14C /* TrunkChannelViewController.m in Sources */,
+				47C6C8D419E82B48002CD14C /* ChannelMenuViewController.m in Sources */,
 				188738C818FCD3B00032CF2C /* UIScreenExt.m in Sources */,
 				188738C918FCD3B00032CF2C /* UIViewExt.m in Sources */,
 				188738CA18FCD3B00032CF2C /* dom.c in Sources */,
@@ -2373,6 +2389,7 @@
 				188738D418FCD3B00032CF2C /* ASIHTTPRequest.m in Sources */,
 				188738D518FCD3B00032CF2C /* PushNewsViewController.m in Sources */,
 				18B273A219E4E75900FE3D42 /* Communicator.m in Sources */,
+				1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */,
 				188738D618FCD3B00032CF2C /* ASIInputStream.m in Sources */,
 				188738D718FCD3B00032CF2C /* ASINetworkQueue.m in Sources */,
 				188738D818FCD3B00032CF2C /* NetStreamStatistics.m in Sources */,
@@ -2384,6 +2401,7 @@
 				188738DD18FCD3B00032CF2C /* UIResponder+MotionRecognizers.m in Sources */,
 				47C6C8CE19E827F0002CD14C /* GridChannelViewController.m in Sources */,
 				188738DE18FCD3B00032CF2C /* RegViewController.m in Sources */,
+				1873E18E19ED0A4B00BABC4F /* TrunkChannelViewController.m in Sources */,
 				188738DF18FCD3B00032CF2C /* NewsBindingServerTask.m in Sources */,
 				188738E018FCD3B00032CF2C /* NewsDownloadExpreesTask.m in Sources */,
 				47C6C8BA19E824DB002CD14C /* MMDrawerVisualState.m in Sources */,

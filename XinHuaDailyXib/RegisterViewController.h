@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "NewsRegisterTask.h"
+#import "ChannelViewController.h"
 @interface RegisterViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate>
 @property (strong, nonatomic) UITextField *snInput;
 @property (strong, nonatomic) UIButton *regBtn;
 @property (strong,nonatomic) UIButton *collageBtn;
 @property (strong,nonatomic)UIAlertView *waitingAlert;
+
+@property(strong,strong)ChannelViewController *channel_vc;
 @end

@@ -33,4 +33,5 @@ typedef NS_ENUM(NSInteger, ShowType)
 @property(nonatomic,assign)BOOL is_leaf;
 @property(nonatomic,assign)BOOL has_new_article;
 @property(nonatomic,strong)NSArray *articles;
+@property(nonatomic,assign)BOOL need_be_authorized;
 @end

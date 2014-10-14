@@ -2,17 +2,17 @@
 //  TrunkChannelViewController.m
 //  XinHuaDailyXib
 //
-//  Created by apple on 14/10/14.
+//  Created by 刘 静 on 14-10-10.
 //
 //
 
-#import "TrunkChannelViewController.h"
+#import "ChannelMenuViewController.h"
 
-@interface TrunkChannelViewController ()
+@interface ChannelMenuViewController ()
 
 @end
 
-@implementation TrunkChannelViewController
+@implementation ChannelMenuViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
