@@ -13,8 +13,8 @@
 #import "NewsDefine.h"
 #import "ZipArchive.h"
 #import "NewsUserInfo.h"
-#import "VersionInfo.h"
-#import "ModifyAction.h"
+#import "AppInfo.h"
+#import "Command.h"
 
 @implementation NewsXmlParser
 
@@ -214,14 +214,14 @@
     }
     return nil;
 }
-+(VersionInfo *)ParseVersionInfo:(NSString *)dataString{
++(AppInfo *)ParseVersionInfo:(NSString *)dataString{
     if(dataString.length<70)return nil;
     NSIks* xml = [[NSIks alloc] initWithString:dataString];
     iks*  citem  = xml.xmlObject;
     if (citem)
     {
         NSLog(@"%@",[xml nameFromNode:citem]);
-        __autoreleasing VersionInfo*  version_info = [[VersionInfo alloc] init];
+        __autoreleasing AppInfo*  version_info = [[AppInfo alloc] init];
         version_info.snState=[xml findValueFrom:citem nodeName:@"sn_state"];
         NSLog(@"sn_state=%@",version_info.snState);
         version_info.snMsg=[xml findValueFrom:citem nodeName:@"sn_msg"];
@@ -240,7 +240,7 @@
     while (item)
     {
         NSLog(@"%@",[xml nameFromNode:item]);
-        ModifyAction*  action = [[ModifyAction alloc] init];
+        Command*  action = [[Command alloc] init];
         action.f_id = [xml findValueFrom:item nodeName:@"F_ID"];
         action.f_inserttime=[xml findValueFrom:item nodeName:@"F_InsertTime"];
         action.f_state=[xml findValueFrom:item nodeName:@"F_State"];

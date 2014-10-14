@@ -10,7 +10,9 @@
 typedef NS_ENUM(NSInteger, ShowType)
 {
     List = 0,
-    Grid = 1
+    Tile = 1,
+    Grid = 2
+    
 };
 @interface Channel : NSManagedObject
 //频道ID
@@ -29,4 +31,6 @@ typedef NS_ENUM(NSInteger, ShowType)
 @property(nonatomic,strong)NSString *parent_id;
 //是否为叶子频道
 @property(nonatomic,assign)BOOL is_leaf;
+@property(nonatomic,assign)BOOL has_new_article;
+@property(nonatomic,strong)NSArray *articles;
 @end

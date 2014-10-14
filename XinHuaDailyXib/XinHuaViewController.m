@@ -32,7 +32,7 @@
 #import "CustomBadge.h"
 #import "Toast+UIView.h"
 #import "NewsDownloadTask.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 /*
  * notification : KShowToast           "显示后台任务的执行反馈"      userInfo:data  (NSString *) "执行反馈的文本信息"
  *                KUpdateWithMemory    “用后台数据更新频道列表”
@@ -153,7 +153,7 @@ NSTimer *timer;
     bimgv.userInteractionEnabled = YES;
     bimgv.image = [UIImage imageNamed:@"titlebg.png"];
     NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AppInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
     if(version_info==nil||version_info.groupTitle==nil){
         UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         lab.text = @"新华时讯通";

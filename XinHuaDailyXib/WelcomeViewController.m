@@ -13,7 +13,7 @@
 #import "NewsDownloadImgTask.h"
 #import "NewsDefine.h"
 #import "RegisterViewController.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 
 @interface WelcomeViewController ()
 
@@ -183,9 +183,9 @@ NSString *EnterSystemNotifiction=@"EnterSystemNotifiction";
 -(void)showArticle:(id)sender{
     [[NSNotificationCenter defaultCenter] postNotificationName:ShowAdvPageNotification object:nil];
 }
--(VersionInfo *)getLocalVersionInfo{
+-(AppInfo *)getLocalVersionInfo{
     NSData *old_data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info_local=[NSKeyedUnarchiver unarchiveObjectWithData:old_data];
+    AppInfo *version_info_local=[NSKeyedUnarchiver unarchiveObjectWithData:old_data];
     return version_info_local;
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

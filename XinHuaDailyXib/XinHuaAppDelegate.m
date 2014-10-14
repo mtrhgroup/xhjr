@@ -302,7 +302,7 @@
 {
 
 }
--(void)setLocalVersionInfo:(VersionInfo *)version_info{
+-(void)setLocalVersionInfo:(AppInfo *)version_info{
     NSData *data=[NSKeyedArchiver archivedDataWithRootObject:version_info];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"version_info"];
     [[NSNotificationCenter defaultCenter] postNotificationName: @"KVersionInfoOK" object: self userInfo:nil];

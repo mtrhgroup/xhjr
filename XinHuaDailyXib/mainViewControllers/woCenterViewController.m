@@ -10,7 +10,7 @@
 #import "NewsheaderDataSource.h"
 #import "MainViewDataSource.h"
 #import "NewsChannel.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 @implementation woCenterViewController{
     UIView *_notificationView;
     UILabel *_notificationLbl;
@@ -48,7 +48,7 @@
     topView.backgroundColor=[UIColor colorWithRed:247.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0];;
 #endif
     NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AppInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
     UIView *bgView=[[UIView alloc]initWithFrame:CGRectMake(0, -20, 320, 50)];
 #ifdef LNZW
@@ -124,7 +124,7 @@
 }
 -(void)updateTitle{
     NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AppInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
 #ifdef LNZW
     if(version_info.groupTitle!=nil){
         _titleLabel.text = version_info.groupTitle;
@@ -168,7 +168,7 @@
 -(void)setMainViewDataSourceAndLoadDataWith:(MainViewDataSource *)mainDataSource{
     [self setDataSource:mainDataSource];
     NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AppInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
 #ifdef HNZW
     if(version_info==nil||version_info.groupTitle==nil){
         _titleLabel.text=@"新华时讯通";

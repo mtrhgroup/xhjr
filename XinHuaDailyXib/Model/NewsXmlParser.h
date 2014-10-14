@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "XDailyItem.h"
 #import "NewsUserInfo.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 @interface NewsXmlParser : NSObject
 
 +(NSArray*)ParseChannels:(NSString *) datastring;
@@ -18,6 +18,6 @@
 +(XDailyItem*)ParseXDailyItem:(NSString *)datastring;
 +(NSString *)CheckChannelsStatus:(NSString *)datastring;
 +(NewsUserInfo *)ParseUserInfo:(NSString *)dataString;
-+(VersionInfo *)ParseVersionInfo:(NSString *)dataString;
++(AppInfo *)ParseVersionInfo:(NSString *)dataString;
 +(NSMutableArray *)ParseModifyActions:(NSString *)dataString;
 @end

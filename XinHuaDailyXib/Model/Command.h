@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ModifyAction : NSObject
+@interface Command : NSObject
 @property(strong,nonatomic)NSString *f_id;
 @property(strong,nonatomic)NSString *f_inserttime;
 @property(strong,nonatomic)NSString *f_state;

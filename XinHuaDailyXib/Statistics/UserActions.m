@@ -8,28 +8,19 @@
 
 #import "UserActions.h"
 #import "UserAction.h"
-#import "NewsDefine.h"
-static  UserActions *_sharedInstance=nil;
-static dispatch_once_t once_token=0;
-
+#import "URLDefine.h"
+#import "DeviceInfo.h"
 @implementation UserActions{
     NSMutableArray *marked_array;
     int window_width;
     NSURL *_fetchingURL;
     NSURLConnection *_fetchingConnection;
     NSMutableData *_receivedData;
+    Communicator *_communicator;
 }
 
 @synthesize count;
-+(UserActions *)sharedInstance{
-    dispatch_once(&once_token,^{
-        if(_sharedInstance==nil){
-            _sharedInstance=[[UserActions alloc] init];
-        }
-    });
-    return _sharedInstance;
-}
-- (id)init
+- (id)initWithCommunicator:(Communicator *)communicator
 {
     if( self=[super init] )
     {
@@ -40,6 +31,7 @@ static dispatch_once_t once_token=0;
         marked_array=[[NSMutableArray alloc] init];
         count = 0;
         window_width=50;
+        _communicator=communicator;
     }
     return self;
 }
@@ -66,19 +58,7 @@ static dispatch_once_t once_token=0;
     count = m_array.count;
     [self archiveActions:m_array];
 }
--(void)reportActionsToServer{
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:KUserActionURL]];
-    NSString *postStr=[[NSString alloc]initWithData:[self markToReport] encoding:NSUTF8StringEncoding];
-    postStr=[NSString stringWithFormat:@"json=%@",postStr];
-    NSLog(@"%@",postStr);
-    NSData *postData=[postStr dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    //NSData *postData=[self markToReport];
-    NSString *postLength=[NSString stringWithFormat:@"%d",[postData length]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody:postData];
-    [NSURLConnection connectionWithRequest:request delegate:self];
-}
+
 - (NSData *)markToReport
 {
     [marked_array removeAllObjects];
@@ -97,11 +77,10 @@ static dispatch_once_t once_token=0;
         NSDictionary *item_dic=[NSDictionary dictionaryWithObjectsAndKeys:action.action_target,@"lid",localDateString,@"clienttime", nil];
         [items_arr addObject:item_dic];
     }
-    NSString *os_str=[NSString stringWithFormat:@"%@%@",[UIDevice currentDevice].systemName,[UIDevice currentDevice].systemVersion];
     NSDictionary* json_dic =[NSDictionary dictionaryWithObjectsAndKeys:
-                                    os_str,
+                                    [DeviceInfo osVersion],
                                     @"os",
-                             [UIDevice customUdid],
+                             [DeviceInfo udid],
                              @"imei",
                                      items_arr,
                                      @"items",
@@ -119,33 +98,21 @@ static dispatch_once_t once_token=0;
     count = [m_array count];
     [self archiveActions:m_array];
 }
-
-#pragma mark net callback
-
--(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    _receivedData=nil;
-    _fetchingConnection=nil;
-    _fetchingURL=nil;
-}
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSHTTPURLResponse *httpResponse=(NSHTTPURLResponse *)response;
-    NSLog(@"%d",[httpResponse statusCode]);
-    if([httpResponse statusCode]==200){
-        _receivedData=[[NSMutableData alloc] init];
-    }
-}
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    NSLog(@"data :%@",[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
-    [_receivedData appendData:data];
-}
--(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    _fetchingConnection=nil;
-    _fetchingURL=nil;
-    NSString *receivedText=[[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"##%@",receivedText);
-    if([receivedText rangeOfString:@"SUCCESS"].location!=NSNotFound){
-        [self dequeueMarked];
-    }
-    _receivedData=nil;
+-(void)reportActionsToServer:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=kUserActionsURL;
+    NSString *postStr=[[NSString alloc]initWithData:[self markToReport] encoding:NSUTF8StringEncoding];
+    NSDictionary *variables=[NSDictionary dictionaryWithObject:postStr forKey:@"json"];
+    [_communicator postVariablesToURL:url variables:variables successHandler:^(NSString *responseStr) {
+        if(successBlock){
+            if([responseStr rangeOfString:@"SUCCESS"].location!=NSNotFound){
+                [self dequeueMarked];
+                successBlock(YES);
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
 }
 @end

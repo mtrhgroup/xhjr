@@ -7,7 +7,7 @@
 //
 
 #import "woLeftViewController.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 #import "ObjectConfigration.h"
 #define BG_COLOR	 [UIColor colorWithRed:44.0/255.0 green:44.0/255.0 blue:44.0/255.0 alpha:1.0]
 #define HEADER_COLOR	 [UIColor colorWithRed:88.0/255.0 green:88.0/255.0 blue:88.0/255.0 alpha:1.0]
@@ -58,7 +58,7 @@
     UIImageView* topView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 220, 65)];
     topView.backgroundColor=[UIColor whiteColor];
     NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AppInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
     if(version_info==nil||version_info.groupTitle==nil){
         title=[[UILabel alloc] initWithFrame:CGRectMake(10, 0, 240, 40)];
 #ifdef HNZW
@@ -118,7 +118,7 @@
 }
 -(void)updateTitle{
     NSData *data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+    AppInfo *version_info=[NSKeyedUnarchiver unarchiveObjectWithData:data];
     if(version_info==nil||version_info.groupTitle==nil){
 #ifdef HNZW
         title.text = @"海南舆情通";

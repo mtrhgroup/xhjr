@@ -10,7 +10,7 @@
 #import "NSIks.h"
 #import "Channel.h"
 #import "Article.h"
-#import "ModifyAction.h"
+#import "Command.h"
 @implementation Parser
 -(NSArray*)parseChannels:(NSString *) xmlstring{
     NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -109,7 +109,7 @@
     }
     return result;
 }
--(Article *)parsePushArticle:(NSString *)xmlstring{
+-(Article *)parseOneArticle:(NSString *)xmlstring{
     NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
     iks*  item  =  xml.xmlObject;
     if (item)
@@ -134,15 +134,14 @@
     }
     return nil;
 }
--(VersionInfo *)parseVersionInfo:(NSString *)xmlstring{
+-(AppInfo *)parseAppInfo:(NSString *)xmlstring{
     if(xmlstring.length<70)return nil;
     NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
     iks*  citem  = xml.xmlObject;
     if (citem)
     {
-        __autoreleasing VersionInfo*  version_info = [[VersionInfo alloc] init];
+        __autoreleasing AppInfo*  version_info = [[AppInfo alloc] init];
         version_info.snState=[xml findValueFrom:citem nodeName:@"sn_state"];
-        NSLog(@"sn_state=%@",version_info.snState);
         version_info.snMsg=[xml findValueFrom:citem nodeName:@"sn_msg"];
         version_info.groupTitle=[xml findValueFrom:citem nodeName:@"group_title"];
         version_info.groupSubTitle=[xml findValueFrom:citem nodeName:@"group_sub_title"];
@@ -152,13 +151,13 @@
     }
     return nil;
 }
--(NSArray *)parseModifyActions:(NSString *)xmlstring{
+-(NSArray *)parseCommands:(NSString *)xmlstring{
     NSMutableArray* result = [[NSMutableArray alloc] init];
     NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
     iks*  item =   [xml firstTagFrom:xml.xmlObject];
     while (item)
     {
-        ModifyAction*  action = [[ModifyAction alloc] init];
+        Command*  action = [[Command alloc] init];
         action.f_id = [xml findValueFrom:item nodeName:@"F_ID"];
         action.f_inserttime=[xml findValueFrom:item nodeName:@"F_InsertTime"];
         action.f_state=[xml findValueFrom:item nodeName:@"F_State"];

@@ -64,7 +64,7 @@
  返回示例 config|sn_sate:sn_msg:group_title:group_sub_title:startimage:gid
  备注
  ---------------------*/
-#define kCoverInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_config.ashx?appid=lnfb&imei=%@"
+#define kAppInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_config.ashx?appid=lnfb&imei=%@"
 
 
 /*---------------------
@@ -141,7 +141,7 @@
 
 /*---------------------
  命令URL
- 参数个数 2
+ 参数个数 1
  参数列表 imei（设备唯一标示）       n（最新命令数）
  请求类型 GET
  返回类型 XML

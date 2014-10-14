@@ -16,13 +16,18 @@
 -(NSArray *)fetchTrunkChannels;
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel;
 -(Channel *)fetchADChannel;
--(NSArray *)fetchNotificationArticles;
+-(NSArray *)fetchHomeChannels;
+-(NSArray *)fetchArticlesThatIsPushed;
+-(NSArray *)fetchArticlesThatIncludeCoverImage;
 -(void)removeAllChannels;
 -(void)addArticle:(Article *)article;
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN;
 -(NSArray *)fetchFavorArticles;
 -(void)markArticleReadWithArticleID:(NSString *)articleID;
--(void)markArticleFavorWithArticleID:(NSString *)articleID favor:(BOOL)favor;
--(void)deleteArticleWithArticleIDs:(NSString *)articleID;
+-(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected;
+-(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID;
+-(Article *)fetchArticleWithArticleID:(NSString *)articleID;
+-(void)updateArticleTimeWithArticleID:(NSString *)articleID newTime:(NSString *)newTime;
+-(void)deleteArticleWithArticleID:(NSString *)articleID;
 @end

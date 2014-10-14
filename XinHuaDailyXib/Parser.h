@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VersionInfo.h"
-
+#import "AppInfo.h"
+#import "Article.h"
 @interface Parser : NSObject
--(NSArray*)parseChannels:(NSString *) xmlstring;
--(NSArray*)parseArticles:(NSString *)xmlstring;
+-(NSArray *)parseChannels:(NSString *) xmlstring;
+-(NSArray *)parseArticles:(NSString *)xmlstring;
 -(NSArray *)parseMoreXdailyItems:(NSString *)xmlstring;
--(XDailyItem*)parseXDailyItem:(NSString *)xmlstring;
--(VersionInfo *)parseVersionInfo:(NSString *)xmlstring;
--(NSArray *)parseModifyActions:(NSString *)xmlstring;
+-(Article *)parseOneArticle:(NSString *)xmlstring;
+-(AppInfo *)parseAppInfo:(NSString *)xmlstring;
+-(NSArray *)parseCommands:(NSString *)xmlstring;
 @end

@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-@class UserAction;
+#import "Communicator.h"
+#import "UserAction.h"
 @interface UserActions : NSObject<NSURLConnectionDelegate>{
    NSMutableArray* m_array;
 }
-+(UserActions *)sharedInstance;
+- (id)initWithCommunicator:(Communicator *)communicator;
 -(void)enqueueAReadAction:(NSString *)article_id;
--(void)reportActionsToServer;
+-(void)reportActionsToServer:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 @property (nonatomic, readonly) int count;
 @end

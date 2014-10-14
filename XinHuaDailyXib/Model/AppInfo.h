@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface VersionInfo : NSObject
+@interface AppInfo : NSObject
 @property(strong,nonatomic)NSString *snState;
 @property(strong,nonatomic)NSString *snMsg;
 @property(strong,nonatomic)NSString *groupTitle;

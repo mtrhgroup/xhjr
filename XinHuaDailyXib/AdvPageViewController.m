@@ -7,7 +7,7 @@
 //
 
 #import "AdvPageViewController.h"
-#import "VersionInfo.h"
+#import "AppInfo.h"
 @interface AdvPageViewController ()
 
 @end
@@ -65,7 +65,7 @@
     [self loadAdvPage];
 }
 -(void)loadAdvPage{
-    VersionInfo *version_info_local=[self getLocalVersionInfo];
+    AppInfo *version_info_local=[self getLocalVersionInfo];
     NSString* advPath = [CommonMethod fileWithDocumentsPath:@""];
     version_info_local.advPagePath=[version_info_local.advPagePath stringByReplacingCharactersInRange:NSMakeRange(0, 72) withString:advPath];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:version_info_local.advPagePath]]];
@@ -122,9 +122,9 @@
 -(void)hideEmptyInfo{
     self.emptyinfo_view.hidden=YES;
 }
--(VersionInfo *)getLocalVersionInfo{
+-(AppInfo *)getLocalVersionInfo{
     NSData *old_data=[[NSUserDefaults standardUserDefaults]objectForKey:@"version_info"];
-    VersionInfo *version_info_local=[NSKeyedUnarchiver unarchiveObjectWithData:old_data];
+    AppInfo *version_info_local=[NSKeyedUnarchiver unarchiveObjectWithData:old_data];
     return version_info_local;
 }
 @end
