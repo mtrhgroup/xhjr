@@ -33,4 +33,6 @@
 -(NSArray *)fetchPushArticlesFromDB;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 
+-(BOOL)authorize;
+
 @end

@@ -297,5 +297,8 @@
     NSArray *articles=[[_db_manager aOperator] fetchArticlesThatIncludeCoverImage];
     return articles;
 }
+-(BOOL)authorize{
+    
+}
 
 @end
