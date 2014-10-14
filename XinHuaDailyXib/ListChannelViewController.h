@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ListChannelViewController : UIViewController
+#import "LeafChannelViewController.h"
+@interface ListChannelViewController :LeafChannelViewController
 
 @end

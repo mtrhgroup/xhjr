@@ -11,5 +11,6 @@
 #import "Service.h"
 @interface ChannelViewController : UIViewController
 @property(nonatomic,strong)Channel *channel;
+@property(nonatomic,strong)Service *service;
 -(void)buildUI;
 @end

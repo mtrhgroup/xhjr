@@ -139,7 +139,9 @@
         }
     }];
 }
-
+-(void)fetchMoreArticlesFromNETWithChannel:(Channel *)channel last_article:(Article *)last_article successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    
+}
 -(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     if([[FileSystem system] isArticleExistWithArticle:article]){
         if(successBlock){

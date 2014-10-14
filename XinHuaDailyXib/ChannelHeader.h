@@ -1,5 +1,5 @@
 //
-//  ListHeader.h
+//  GridHeader.h
 //  XinHuaDailyXib
 //
 //  Created by apple on 14/10/11.
@@ -11,6 +11,7 @@
 @protocol HeaderViewDelegate <NSObject>
 -(void)headerClicked:(Article *)article;
 @end
-@interface ListHeader : UITableViewHeaderFooterView
-
+@interface ChannelHeader : UICollectionReusableView
+@property(nonatomic,strong)id<HeaderViewDelegate> delegate;
+@property(nonatomic,strong)Article *article;
 @end
