@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KidsNavigationController : UINavigationController
+@interface NavigationController : UINavigationController
 -(void)setLeftButtonWithImage:(UIImage *)img target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 -(void)setRightButtonWithImage:(UIImage *)img target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 @end

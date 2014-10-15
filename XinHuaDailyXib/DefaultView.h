@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KidsService.h"
-@protocol KidsCoverViewDelegate <NSObject>
+#import "Service.h"
+@protocol CoverViewDelegate <NSObject>
 -(void)loadDataForMainVC;
 -(void)openADWithURL:(NSString *)url;
 @end
 
-@interface KidsDefaultView : UIView
-@property(nonatomic,strong)KidsService *service;
-@property(nonatomic,assign)id<KidsCoverViewDelegate>delegate;
+@interface DefaultView : UIView
+@property(nonatomic,strong)Service *service;
+@property(nonatomic,assign)id<CoverViewDelegate>delegate;
 -(void)show;
 -(void)hide;
 @end

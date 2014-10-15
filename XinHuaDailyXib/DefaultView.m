@@ -6,19 +6,19 @@
 //  Copyright (c) 2014年 ikid. All rights reserved.
 //
 
-#import "KidsDefaultView.h"
+#import "DefaultView.h"
 #import "ALImageView.h"
-@interface KidsDefaultView()
+@interface DefaultView()
 {
     UIImageView * bg;
     ALImageView *coverimageView;
-    KidsAppCoverImage *cover_img;
+    AppInfo *_app_info;
     NSDate *_startup_time;
     BOOL canEnter;
 }
 @property(nonatomic,assign)NSTimeInterval lasting_ms;
 @end
-@implementation KidsDefaultView
+@implementation DefaultView
 @synthesize service;
 @synthesize lasting_ms=_lasting_ms;
 - (id)initWithFrame:(CGRect)frame
@@ -26,7 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.lasting_ms=5.0f;
-        self.service=AppDelegate.content_service;
+        self.service=AppDelegate.service;
         UIImageView *defaultImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         if(frame.size.height==568.0){
             defaultImageView.image=[UIImage imageNamed:@"Default~iphone.png"] ;
@@ -81,16 +81,18 @@
     }];
 }
 -(void)setupCoverImage{
-    cover_img=[service fetchAppCoverImage];
-    if(![cover_img isEmpty]){
+    [service fetchAppInfo:^(AppInfo *app_info) {
         if(coverimageView==nil)
             coverimageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-100)];
-        coverimageView.imageURL = cover_img.url;
+        coverimageView.imageURL = app_info.advPagePath;
         [self addSubview:coverimageView];
         coverimageView.userInteractionEnabled=YES;
         UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openAD)];
         [coverimageView addGestureRecognizer:singleTap];
-    }
+    } errorHandler:^(NSError *error) {
+       // <#code#>
+    }];
+
 }
 -(void)errorReport{
     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"初始化错误，请检查网络稍后重试！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

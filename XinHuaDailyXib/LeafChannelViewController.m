@@ -49,7 +49,7 @@
         //report error to user
     }];
 }
--(void)reloadMoreArticles{
+-(void)loadMoreArticlesFromNET{
     [self.service  fetchMoreArticlesFromNETWithChannel:self.channel last_article:[self.artilces lastObject]  successHandler:^(NSArray *articles) {
         [self.artilces addObjectsFromArray:articles];
         [self refreshUI];

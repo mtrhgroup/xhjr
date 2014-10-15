@@ -7,7 +7,7 @@
 //
 
 #import "DeviceInfo.h"
-
+#import <sys/utsname.h>
 @implementation DeviceInfo
 +(NSString *)udid{
     return nil;

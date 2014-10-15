@@ -12,6 +12,6 @@
 @property(nonatomic,strong)NSMutableArray *artilces;
 -(void)reloadArticlesFromDB;
 -(void)reloadArticlesFromNET;
--(void)reloadMoreArticles;
+-(void)loadMoreArticlesFromNET;
 -(void)refreshUI;
 @end

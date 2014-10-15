@@ -1,14 +1,14 @@
 
 #import "SlideSwitchViewController.h"
 #import "UIViewController+MMDrawerController.h"
-#import "ItemListViewController.h"
-#import "ItemGridViewController.h"
-#import "KidsNavigationController.h"
+#import "ListChannelViewController.h"
+#import "GridChannelViewController.h"
+#import "NavigationController.h"
 @interface SlideSwitchViewController ()
 @property (nonatomic, strong) SUNSlideSwitchView *slideSwitchView;
 @property(nonatomic,strong)NSMutableArray *topChannelVCs;
 @property(nonatomic,strong)UIViewController *currentVC;
-@property(nonatomic,strong)KidsService *service;
+@property(nonatomic,strong)Service *service;
 @end
 
 @implementation SlideSwitchViewController
@@ -50,7 +50,7 @@
     rightSideButton.userInteractionEnabled = NO;
     self.slideSwitchView.rigthSideButton = rightSideButton;
     
-    [((KidsNavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
+    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
     [self rebuildUI];
 }
 -(void)rebuildUI{

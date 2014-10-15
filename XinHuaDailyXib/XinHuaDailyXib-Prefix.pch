@@ -14,16 +14,13 @@
 #endif
 
 #ifdef __OBJC__
-#import "NSStringExt.h"
-#import <UIKit/UIKit.h>
+
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import  "CommonMethod.h"
-#import "NSDateExt.h"
-#import "NewsDefine.h"
+
 #import "XinHuaAppDelegate.h"
-#import "UIDeviceExt.h"
-#import "UIImageExt.h"
+#import "GlobalVariablesDefine.h"
+
 
 #define RGBCOLOR(c)[UIColor colorWithRed:((c>>24)&0xFF)/255.0 \
 green:((c>>16)&0xFF)/255.0 \

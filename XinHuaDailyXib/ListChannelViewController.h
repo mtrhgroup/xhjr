@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LeafChannelViewController.h"
-@interface ListChannelViewController :LeafChannelViewController
+#import "ChannelHeader.h"
+@interface ListChannelViewController :LeafChannelViewController<UITableViewDelegate,HeaderViewDelegate,UITableViewDataSource>
 
 @end

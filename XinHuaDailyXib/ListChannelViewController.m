@@ -7,9 +7,14 @@
 //
 
 #import "ListChannelViewController.h"
-
+#import "ListCell.h"
+#import "GlobalVariablesDefine.h"
+#import "NavigationController.h"
+#import "MJRefresh.h"
 @interface ListChannelViewController ()
+@property(nonatomic,strong)ChannelHeader *headerView;
 @property (nonatomic, strong) UITableView *tableView;
+
 @end
 
 @implementation ListChannelViewController
@@ -40,21 +45,55 @@
             }else{
                 self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
             }
-            [((KidsNavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
+            [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
             
         }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
-    self.headerView=[[KidsHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
-    [self.headerView setArticle:self.header_item];
+    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
+    [self.headerView setArticle:[self.artilces firstObject]];
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
     
-    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
+    [self.tableView addFooterWithTarget:self action:@selector(loadMoreArticlesFromNET)];
 }
+#pragma mark - 表格视图数据源代理方法
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.artilces count]-1;
+}
+NSString *ListCellID = @"ListCellID";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ListCell *cell=nil;
+    cell = [tableView dequeueReusableCellWithIdentifier:ListCellID];
+    if(cell==nil){
+        cell=[[ListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ListCellID];
+    }
+    cell.artilce=[self.artilces objectAtIndex:(indexPath.row+1)];
+    return (UITableViewCell *)cell;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Article *article=[self.artilces objectAtIndex:indexPath.row];
+    
+    return 100;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    Article * article = [self.artilces objectAtIndex:indexPath.row];
+    [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
+}
+-(void)headerClicked:(Article *)article{
+    [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
+}
+
 -(void)refreshUI{
+    [self.tableView reloadData];
+}
+-(void)showLeftMenu{
     
 }
 @end

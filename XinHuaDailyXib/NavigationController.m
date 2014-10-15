@@ -6,13 +6,13 @@
 //  Copyright (c) 2014年 ikid. All rights reserved.
 //
 
-#import "KidsNavigationController.h"
+#import "NavigationController.h"
 
-@interface KidsNavigationController ()
+@interface NavigationController ()
 
 @end
 
-@implementation KidsNavigationController
+@implementation NavigationController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

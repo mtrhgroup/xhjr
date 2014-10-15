@@ -16,7 +16,7 @@ static FileSystem *_system=nil;
     }
     return _system;
 }
--(void)removeFileWithFilePath:(NSString *)file_path{
+-(void)removeArticle:(Article *)article{
     
 }
 -(BOOL)isArticleExistWithArticle:(Article *)article{

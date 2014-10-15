@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "MMDrawerController+Subclass.h"
-#import "KidsDefaultView.h"
-@interface DrawerViewController : MMDrawerController<KidsCoverViewDelegate>
+#import "DefaultView.h"
+@interface DrawerViewController : MMDrawerController<CoverViewDelegate>
 -(void)setTopTitle:(NSString *)title;
--(void)presentArtilceContentVCWithArticle:(KidsArticle *)article channel:(KidsChannel *)channel;
--(void)presentClassListVCWithChannel:(KidsChannel *)channel;
+-(void)presentArtilceContentVCWithArticle:(Article *)article channel:(Channel *)channel;
+-(void)presentClassListVCWithChannel:(Channel *)channel;
 -(void)presentArticleContentVCWithPushArticleID:(NSString *)articleID;
 -(NSMutableArray *)appendOriginalChannels:(NSArray*)channels;
 @end
