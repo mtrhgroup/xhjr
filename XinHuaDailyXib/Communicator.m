@@ -11,10 +11,7 @@
 #import "NetStreamStatistics.h"
 @implementation Communicator
 -(void)fetchStringAtURL:(NSString *)url successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *bindphone_url=[NSString stringWithFormat:url,[UIDevice customUdid],[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion],sxttype,sxtversion];
-    bindphone_url=[bindphone_url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"%@",bindphone_url);
-    ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:bindphone_url]];
+    ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
     [request setCompletionBlock:^{
         int toAdd=(int)request.totalBytesRead;

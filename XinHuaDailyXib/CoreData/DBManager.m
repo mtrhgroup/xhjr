@@ -21,11 +21,11 @@
     }
     return self;
 }
--(KidsDBOperator *)aOperator{
+-(DBOperator *)aOperator{
     NSManagedObjectContext *context=[[NSManagedObjectContext alloc] init];
     [context setUndoManager:nil];// We're not using undo. By setting it to nil we reduce the memory footprint of the app
     context.persistentStoreCoordinator=_persistentStoreCoordinator;
-    KidsDBOperator *operator=[[KidsDBOperator alloc] initWithContext:context];
+    DBOperator *operator=[[DBOperator alloc] initWithContext:context];
     return operator;
 }
 - (NSManagedObjectModel *)managedObjectModel

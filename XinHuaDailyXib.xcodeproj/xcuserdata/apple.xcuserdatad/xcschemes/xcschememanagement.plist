@@ -9,12 +9,17 @@
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
+		<key>lnfb 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>lnfb.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>lnzw_inhouse.xcscheme_^#shared#^_</key>
 		<dict>

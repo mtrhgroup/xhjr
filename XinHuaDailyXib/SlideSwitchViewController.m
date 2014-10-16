@@ -3,6 +3,7 @@
 #import "UIViewController+MMDrawerController.h"
 #import "ListChannelViewController.h"
 #import "GridChannelViewController.h"
+#import "TileChannelViewController.h"
 #import "NavigationController.h"
 @interface SlideSwitchViewController ()
 @property (nonatomic, strong) SUNSlideSwitchView *slideSwitchView;
@@ -17,7 +18,7 @@
 {
     self = [super init];
     if (self) {
-        self.service=AppDelegate.content_service;
+        self.service=AppDelegate.service;
         self.topChannelVCs=[[NSMutableArray alloc] init];
     }
     return self;
@@ -55,13 +56,16 @@
 }
 -(void)rebuildUI{
     [_topChannelVCs removeAllObjects];
-    NSArray *topChannels=[self.service fetchTopChannelsFromDB];
-    for(KidsChannel *channel in topChannels){
-        if(channel.show_type==Detail){
-            ItemListViewController *ilvc=[[ItemListViewController alloc] initWithChannel:channel];
+    NSArray *chunkChannels=[self.service fetchTrunkChannelsFromDB];
+    for(Channel *channel in chunkChannels){
+        if(channel.show_type==List){
+            ListChannelViewController *ilvc=[[ListChannelViewController alloc] init];
             [_topChannelVCs addObject:ilvc];
-        }else{
-            ItemGridViewController *igvc=[[ItemGridViewController alloc]initWithChannel:channel];
+        }else if(channel.show_type==Grid){
+            GridChannelViewController *igvc=[[GridChannelViewController alloc] init];
+            [_topChannelVCs addObject:igvc];
+        }else if(channel.show_type==Tile){
+            TileChannelViewController *igvc=[[TileChannelViewController alloc] init];
             [_topChannelVCs addObject:igvc];
         }
         

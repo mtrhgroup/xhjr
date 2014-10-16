@@ -117,8 +117,8 @@
 }
 -(void)openAD{
     self.hidden=YES;
-    if(cover_img.goUrl!=nil&&![cover_img.goUrl isEqual:@""]&&[cover_img.goUrl hasPrefix:@"http"]&&[self.delegate respondsToSelector:@selector(openADWithURL:)]){
-        [self.delegate openADWithURL:cover_img.goUrl];
+    if(_app_info.advPagePath!=nil&&[self.delegate respondsToSelector:@selector(openADWithURL:)]){
+        [self.delegate openADWithURL:_app_info.advPagePath];
     }
 }
 -(void)loadDataForMainVC{

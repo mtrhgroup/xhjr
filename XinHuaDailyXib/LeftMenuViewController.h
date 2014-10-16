@@ -1,13 +1,8 @@
-//
-//  LeftMenuViewController.h
-//  XinHuaDailyXib
-//
-//  Created by 刘 静 on 14-10-10.
-//
-//
 
 #import <UIKit/UIKit.h>
 
-@interface LeftMenuViewController : UIViewController
-
+@interface LeftMenuViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@property (nonatomic,strong)   UILabel*title_label;
+@property (nonatomic,strong)   UILabel *sub_title_label;
+-(void)rebuildUI;
 @end

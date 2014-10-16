@@ -24,7 +24,7 @@
         channel.channel_id = [xml findValueFrom:item nodeName:@"id" ];
         channel.channel_name = [xml findValueFrom:item nodeName:@"name"];
         channel.description = [xml findValueFrom:item nodeName:@"description"];
-        channel.sort = [f numberFromString:[xml findValueFrom:item nodeName:@"sort"]];
+        channel.sort_number = [f numberFromString:[xml findValueFrom:item nodeName:@"sort"]];
         channel.home_number=[f numberFromString:[xml findValueFrom:item nodeName:@"homenum"]];
         NSString *type=[xml findValueFrom:item nodeName:@"type"];
         if([type isEqualToString:@"child"]){
