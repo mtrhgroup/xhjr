@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface Article : NSManagedObject
+#import "ArticleMO.h"
+@interface Article : NSObject
 //文章ID
 @property(nonatomic,strong)NSString*      article_id;
 //文章标题
@@ -43,7 +43,13 @@
 @property(nonatomic,strong)NSNumber*      visit_number;
 //文章点赞数量
 @property(nonatomic,strong)NSNumber*      like_number;
-@property(nonatomic,strong)NSString*      page_path;
-@property(nonatomic,strong)NSString*      zip_path;
+//计算属性 页面的本地存储地址
+@property(nonatomic,readonly)NSString*    page_path;
+//计算属性 zip包下载地址
+@property(nonatomic,readonly)NSString*    zip_path;
+//计算属性 是否有缓存
+@property(nonatomic,readonly)BOOL         is_cached;
 
+-(id)initWithArticleMO:(ArticleMO *)articleMO;
+-(void)toArticleMO:(ArticleMO *)articleMO;
 @end

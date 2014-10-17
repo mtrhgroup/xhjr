@@ -12,4 +12,6 @@
 #define lessiOS7 [[[UIDevice currentDevice] systemVersion] floatValue]<7.0
 #define kHeightOfTopScrollView  35.0f
 #define APP_KEY @"koZZjgSLNSOc5Gdp6WNpCA3i"
+#define kNotificationMessage @"notification_message"
+#define kNotificationArticleReceived @"notification_article_received"
 #endif

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ChannelMO.h"
 typedef NS_ENUM(NSInteger, ShowType)
 {
     List = 0,
@@ -14,7 +15,7 @@ typedef NS_ENUM(NSInteger, ShowType)
     Grid = 2
     
 };
-@interface Channel : NSManagedObject
+@interface Channel : NSObject
 //频道ID
 @property(nonatomic,strong)NSString* channel_id;
 //频道名称
@@ -31,7 +32,13 @@ typedef NS_ENUM(NSInteger, ShowType)
 @property(nonatomic,strong)NSString *parent_id;
 //是否为叶子频道
 @property(nonatomic,assign)BOOL is_leaf;
+//是否有新的文章
 @property(nonatomic,assign)BOOL has_new_article;
+//栏目内的文章，非叶子频道属性无效
 @property(nonatomic,strong)NSArray *articles;
+//是否需要授权
 @property(nonatomic,assign)BOOL need_be_authorized;
+
+-(id)initWithChannelMO:(ChannelMO *)channelMO;
+-(void)toChannelMO:(ChannelMO *)channelMO;
 @end
