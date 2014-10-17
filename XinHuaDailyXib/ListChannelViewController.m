@@ -13,7 +13,7 @@
 #import "MJRefresh.h"
 @interface ListChannelViewController ()
 @property(nonatomic,strong)ChannelHeader *headerView;
-@property (nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UITableView *tableView;
 
 @end
 

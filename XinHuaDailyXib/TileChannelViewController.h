@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TileChannelViewController : UIViewController
+#import "LeafChannelViewController.h"
+#import "ChannelHeader.h"
+@interface TileChannelViewController :LeafChannelViewController<UITableViewDelegate,HeaderViewDelegate,UITableViewDataSource>
 
 @end

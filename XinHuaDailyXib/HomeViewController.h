@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface HomeViewController : UIViewController
+#import "TouchViewDelegate.h"
+@interface HomeViewController : UIViewController<UITableViewDelegate,TouchViewDelegate,UITableViewDataSource>
 
 @end
