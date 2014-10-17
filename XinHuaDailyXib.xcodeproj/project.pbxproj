@@ -217,7 +217,6 @@
 		18F116FA19E8B5150097A682 /* TileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F919E8B5150097A682 /* TileCell.m */; };
 		18F116FD19E8B5310097A682 /* GridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FC19E8B5310097A682 /* GridCell.m */; };
 		18F1170019E8B6990097A682 /* ChannelHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FF19E8B6990097A682 /* ChannelHeader.m */; };
-		18F1170619E8B7ED0097A682 /* HomeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1170519E8B7ED0097A682 /* HomeHeader.m */; };
 		4710E65219EE9C6700246A1E /* DrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65119EE9C6700246A1E /* DrawerViewController.m */; };
 		4710E65519EE9C7900246A1E /* SlideSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65419EE9C7900246A1E /* SlideSwitchViewController.m */; };
 		4710E65819EE9E5300246A1E /* DefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65719EE9E5300246A1E /* DefaultView.m */; };
@@ -231,6 +230,7 @@
 		4710E6A719EEA40C00246A1E /* libWeiboSDK in Frameworks */ = {isa = PBXBuildFile; fileRef = 4710E69A19EEA40C00246A1E /* libWeiboSDK */; };
 		4710E6A819EEA40C00246A1E /* libWeChatSDK in Frameworks */ = {isa = PBXBuildFile; fileRef = 4710E69D19EEA40C00246A1E /* libWeChatSDK */; };
 		4710E6AB19EEA77100246A1E /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E6AA19EEA77100246A1E /* NavigationController.m */; };
+		4717628319EFE32B00646857 /* HomeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4717628219EFE32B00646857 /* HomeHeader.m */; };
 		4727AC9919ED47A1000B625A /* LeafChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727AC9819ED47A1000B625A /* LeafChannelViewController.m */; };
 		4727ACAB19ED6218000B625A /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4727AC9B19ED6218000B625A /* MJRefresh.bundle */; };
 		4727ACAC19ED6218000B625A /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727AC9E19ED6218000B625A /* MJRefreshBaseView.m */; };
@@ -400,8 +400,6 @@
 		18F116FC19E8B5310097A682 /* GridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridCell.m; sourceTree = "<group>"; };
 		18F116FE19E8B6990097A682 /* ChannelHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelHeader.h; sourceTree = "<group>"; };
 		18F116FF19E8B6990097A682 /* ChannelHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelHeader.m; sourceTree = "<group>"; };
-		18F1170419E8B7ED0097A682 /* HomeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
-		18F1170519E8B7ED0097A682 /* HomeHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHeader.m; sourceTree = "<group>"; };
 		18F7840E1797791F00551AF1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		18F7840F1797791F00551AF1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		18F784101797791F00551AF1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -625,6 +623,9 @@
 		4710E69F19EEA40C00246A1E /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		4710E6A919EEA77100246A1E /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		4710E6AA19EEA77100246A1E /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
+		4717628119EFE32B00646857 /* HomeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
+		4717628219EFE32B00646857 /* HomeHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHeader.m; sourceTree = "<group>"; };
+		4717628419EFF05100646857 /* TouchViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TouchViewDelegate.h; sourceTree = "<group>"; };
 		4727AC9719ED47A1000B625A /* LeafChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeafChannelViewController.h; sourceTree = "<group>"; };
 		4727AC9819ED47A1000B625A /* LeafChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeafChannelViewController.m; sourceTree = "<group>"; };
 		4727AC9B19ED6218000B625A /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
@@ -1504,10 +1505,11 @@
 				18F116FC19E8B5310097A682 /* GridCell.m */,
 				18F116FE19E8B6990097A682 /* ChannelHeader.h */,
 				18F116FF19E8B6990097A682 /* ChannelHeader.m */,
-				18F1170419E8B7ED0097A682 /* HomeHeader.h */,
-				18F1170519E8B7ED0097A682 /* HomeHeader.m */,
 				1873E18F19ED16CE00BABC4F /* AuthorizationCoverView.h */,
 				1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */,
+				4717628119EFE32B00646857 /* HomeHeader.h */,
+				4717628219EFE32B00646857 /* HomeHeader.m */,
+				4717628419EFF05100646857 /* TouchViewDelegate.h */,
 			);
 			name = v;
 			sourceTree = "<group>";
@@ -1799,6 +1801,7 @@
 				1871E16F19F0AD83000DFAD4 /* ArticleMO.m in Sources */,
 				473CD26619E9829300AC860B /* NotificationCenter.m in Sources */,
 				479C074419E9752800D946F9 /* UserDefaults.m in Sources */,
+				4717628319EFE32B00646857 /* HomeHeader.m in Sources */,
 				47C6C8C819E82708002CD14C /* ListChannelViewController.m in Sources */,
 				188738F118FCD3B00032CF2C /* NSThread+detachNewThreadSelectorWithObjs.m in Sources */,
 				188738F218FCD3B00032CF2C /* AppInfo.m in Sources */,
@@ -1814,7 +1817,6 @@
 				18B273B019E50BD000FE3D42 /* Channel.m in Sources */,
 				1892C9EB19E62C9C00F26945 /* DBManager.m in Sources */,
 				18F116FA19E8B5150097A682 /* TileCell.m in Sources */,
-				18F1170619E8B7ED0097A682 /* HomeHeader.m in Sources */,
 				4710E65219EE9C6700246A1E /* DrawerViewController.m in Sources */,
 				4710E6A319EEA40C00246A1E /* Base64.m in Sources */,
 				4727ACAF19ED6218000B625A /* MJRefreshHeaderView.m in Sources */,

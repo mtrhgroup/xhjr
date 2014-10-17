@@ -78,6 +78,9 @@
         }
     }];
 }
+-(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    
+}
 -(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {

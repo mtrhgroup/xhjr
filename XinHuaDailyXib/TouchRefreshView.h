@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol TouchViewDelegate <NSObject>
--(void)clicked;
-@end
+#import "TouchViewDelegate.h"
 @interface TouchRefreshView : UIView
 @property(nonatomic,strong)UIButton *touchView;
 @property(nonatomic,assign)id<TouchViewDelegate>delegate;
