@@ -213,6 +213,8 @@
 		18F116FA19E8B5150097A682 /* TileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F919E8B5150097A682 /* TileCell.m */; };
 		18F116FD19E8B5310097A682 /* GridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FC19E8B5310097A682 /* GridCell.m */; };
 		18F1170019E8B6990097A682 /* ChannelHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FF19E8B6990097A682 /* ChannelHeader.m */; };
+		470B13D319F0E489009A6A40 /* ArticleMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 470B13D019F0E489009A6A40 /* ArticleMO.m */; };
+		470B13D419F0E489009A6A40 /* ChannelMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 470B13D219F0E489009A6A40 /* ChannelMO.m */; };
 		4710E65219EE9C6700246A1E /* DrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65119EE9C6700246A1E /* DrawerViewController.m */; };
 		4710E65519EE9C7900246A1E /* SlideSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65419EE9C7900246A1E /* SlideSwitchViewController.m */; };
 		4710E65819EE9E5300246A1E /* DefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65719EE9E5300246A1E /* DefaultView.m */; };
@@ -576,6 +578,10 @@
 		2BE474E015672D6500081C82 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2BE474E215672D7200081C82 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		2BE474E415672D7D00081C82 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		470B13CF19F0E489009A6A40 /* ArticleMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleMO.h; sourceTree = "<group>"; };
+		470B13D019F0E489009A6A40 /* ArticleMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleMO.m; sourceTree = "<group>"; };
+		470B13D119F0E489009A6A40 /* ChannelMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelMO.h; sourceTree = "<group>"; };
+		470B13D219F0E489009A6A40 /* ChannelMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelMO.m; sourceTree = "<group>"; };
 		4710E64B19EE91C600246A1E /* GlobalVariablesDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalVariablesDefine.h; sourceTree = "<group>"; };
 		4710E65019EE9C6700246A1E /* DrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerViewController.h; sourceTree = "<group>"; };
 		4710E65119EE9C6700246A1E /* DrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerViewController.m; sourceTree = "<group>"; };
@@ -715,6 +721,10 @@
 		182583A2158D842900A493B9 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				470B13CF19F0E489009A6A40 /* ArticleMO.h */,
+				470B13D019F0E489009A6A40 /* ArticleMO.m */,
+				470B13D119F0E489009A6A40 /* ChannelMO.h */,
+				470B13D219F0E489009A6A40 /* ChannelMO.m */,
 				182583AF158D842900A493B9 /* db.xcdatamodeld */,
 				1892C9E619E614ED00F26945 /* DBOperator.h */,
 				1892C9E719E614ED00F26945 /* DBOperator.m */,
@@ -1765,6 +1775,8 @@
 				188738D418FCD3B00032CF2C /* ASIHTTPRequest.m in Sources */,
 				18B273A219E4E75900FE3D42 /* Communicator.m in Sources */,
 				186E6D7919EFB45B00E3C0D3 /* FontViewController.m in Sources */,
+				470B13D319F0E489009A6A40 /* ArticleMO.m in Sources */,
+				470B13D419F0E489009A6A40 /* ChannelMO.m in Sources */,
 				1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */,
 				186E6D5D19EFAFCC00E3C0D3 /* ArticleViewController.m in Sources */,
 				188738D618FCD3B00032CF2C /* ASIInputStream.m in Sources */,
