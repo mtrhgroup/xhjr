@@ -27,5 +27,6 @@
 @dynamic a_video_url;
 @dynamic a_visit_number;
 @dynamic a_zip_url;
+@dynamic a_is_collected;
 
 @end

@@ -72,13 +72,11 @@
     if(_article==nil){
         [self loadPushArticleFromNet];
     }else{
-        if(_article.content==nil){
+        if(!_article.is_cached){
             [self.waitingView show];
             [self loadArticleContentFromNet];
         }else{
-            
-            NSString *path=[[NSBundle mainBundle] pathForResource:@"article" ofType:@"html"];
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_article.page_path]]];
             [self initBridge];
         }
     }
@@ -89,7 +87,7 @@
     self.fontAlertView = [[ZSYPopoverListView alloc] initWithFrame:CGRectMake(0, 0, 200, 240)];
     self.fontAlertView.titleName.text = @"选择字体大小";
     self.fontAlertView.web_delegate=self;
-    [self.fontAlertView setSelectedFontSize:[_service getFontSize]];
+    [self.fontAlertView setSelectedFontSize:_service.fontSize];
     
     self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.popupMenuView.delegate=self;
@@ -128,10 +126,10 @@
     } errorHandler:^(NSError *error) {
         [self.waitingView hide];
         [self.touchView show];
-    }
+    }];
 }
 -(void)loadArticleContentFromNet{    
-    [_service fetchArticleContentFromNETWithArticle:_article  successHandler:^(Article *article) {
+    [_service fe:_article  successHandler:^(Article *article) {
         _article=article;
         self.popupMenuView.favor_status=_article.is_collected;
         NSString *path=[[NSBundle mainBundle] pathForResource:@"article" ofType:@"html"];
@@ -180,12 +178,12 @@
 }
 -(void)favor{
     _article.is_collected=YES;
-    [_service markArticleFavor:_article favor:YES];
+    [_service markArticleCollectedWithArticle:_article is_collected:YES];
     [self.view.window showHUDWithText:@"收藏成功" Type:ShowPhotoYes Enabled:YES];
 }
 -(void)unfavor{
     _article.is_collected=NO;
-    [_service markArticleFavor:_article favor:NO];
+    [_service markArticleCollectedWithArticle:_article is_collected:NO];
     [self.view.window showHUDWithText:@"已取消收藏" Type:ShowPhotoYes Enabled:YES];
 }
 -(void)font{    
@@ -239,6 +237,6 @@
 
 -(void)changeFontWithFontSize:(NSString *)fontSize{
     [self changeWebContentFontSize:fontSize webView:self.webView];
-    [_service saveFontSize:fontSize];
+    _service.fontSize=fontSize;
 }
 @end

@@ -39,13 +39,13 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    Channel *e_channel;
+    ChannelMO *e_channel;
     if([result count]>0){
         e_channel=[result objectAtIndex:0];
     }else{
         e_channel=[NSEntityDescription insertNewObjectForEntityForName:E_CHANNEL inManagedObjectContext:_context];
     }
-    e_channel=channel;
+    [channel toChannelMO:e_channel];
 }
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
@@ -57,7 +57,11 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setPredicate:p];
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    return result;
+    NSMutableArray *leaf_channels=[NSMutableArray array];
+    for(ChannelMO *amo in result){
+        [leaf_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
+    }
+    return leaf_channels;
 }
 
 -(NSArray *)fetchTrunkChannels{
@@ -70,7 +74,11 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setPredicate:p];
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    return result;
+    NSMutableArray *trunk_channels=[NSMutableArray array];
+    for(ChannelMO *amo in result){
+        [trunk_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
+    }
+    return trunk_channels;
 }
 -(NSArray *)fetchHomeChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
@@ -82,7 +90,11 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setPredicate:p];
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    return result;
+    NSMutableArray *home_channels=[NSMutableArray array];
+    for(ChannelMO *amo in result){
+        [home_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
+    }
+    return home_channels;
 }
 -(Channel *)fetchADChannel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
@@ -92,8 +104,10 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
     if([result count]>0){
-        return result[0];
+        Channel *ad_channel=[[Channel alloc] initWithChannelMO:result[0]];
+        return ad_channel;
     }
+    
     return nil;
 }
 -(NSArray *)fetchArticlesThatIsPushed{
@@ -103,10 +117,11 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    if([result count]>0){
-        return result[0];
+    NSMutableArray *articles=[NSMutableArray array];
+    for(ArticleMO *amo in result){
+        [articles addObject:[[Article alloc] initWithArticleMO:amo]];
     }
-    return nil;
+    return articles;
 }
 -(NSArray *)fetchArticlesThatIncludeCoverImage{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
@@ -115,17 +130,18 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    if([result count]>0){
-        return result;
+    NSMutableArray *articles=[NSMutableArray array];
+    for(ArticleMO *amo in result){
+        [articles addObject:[[Article alloc] initWithArticleMO:amo]];
     }
-    return nil;
+    return articles;
 }
 -(void)removeAllChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    for(Channel *channel in result){
+    for(ChannelMO*channel in result){
         [_context deleteObject:channel];
     }
 }
@@ -137,13 +153,13 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    Article *e_article;
+    ArticleMO *e_article;
     if([result count]==1){
         e_article=[result objectAtIndex:0];
     }else{
         e_article=[NSEntityDescription insertNewObjectForEntityForName:E_ARTICLE inManagedObjectContext:_context];
     }
-    e_article=article;
+    [article toArticleMO:e_article];
 }
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
@@ -157,7 +173,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
     if([result count]>0){
-        return result[0];
+        return [[Article alloc] initWithArticleMO:result[0]];
     }else{
         return nil;
     }
@@ -178,7 +194,11 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setFetchLimit:topN];
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    return result;
+    NSMutableArray *articles=[NSMutableArray array];
+    for(ArticleMO *amo in result){
+        [articles addObject:[[Article alloc] initWithArticleMO:amo]];
+    }
+    return articles;
 }
 
 -(NSArray *)fetchFavorArticles{
@@ -192,7 +212,11 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setPredicate:p];
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    return result;
+    NSMutableArray *articles=[NSMutableArray array];
+    for(ArticleMO *amo in result){
+        [articles addObject:[[Article alloc] initWithArticleMO:amo]];
+    }
+    return articles;
 }
 -(void)markArticleReadWithArticleID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
@@ -201,10 +225,10 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    Article *e_article;
+    ArticleMO *e_article;
     if([result count]==1){
         e_article=[result objectAtIndex:0];
-        e_article.is_read=YES;
+        e_article.a_is_read=[NSNumber numberWithBool:YES];
     }
 }
 -(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected{
@@ -214,10 +238,10 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    Article *e_article;
+    ArticleMO *e_article;
     if([result count]==1){
         e_article=[result objectAtIndex:0];
-        e_article.is_collected=is_collected;
+        e_article.a_is_collected=[NSNumber numberWithBool:is_collected];
     }
     
 }
@@ -242,7 +266,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
     if([result count]>0){
-        return result[0];
+        return [[Article alloc]initWithArticleMO:result[0]];
     }else{
         return nil;
     }
@@ -254,8 +278,8 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    for(Article *article in result){
-        article.publish_date=newTime;
+    for(ArticleMO *article in result){
+        article.a_publish_date=newTime;
     }
 }
 -(void)deleteArticleWithArticleID:(NSString *)articleID{
@@ -265,7 +289,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
-    for(Article *article in result){
+    for(ArticleMO *article in result){
         [_context deleteObject:article];
     }
 }

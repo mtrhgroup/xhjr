@@ -11,6 +11,7 @@
 #import "Article.h"
 #import "AppInfo.h"
 @interface Service : NSObject
+@property(nonatomic,strong)NSString *fontSize;
 //网络
 -(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -36,5 +37,6 @@
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 
 -(BOOL)authorize;
+
 
 @end

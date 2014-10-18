@@ -22,6 +22,10 @@
 		186E6D7B19EFB45B00E3C0D3 /* TrafficViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D7719EFB45B00E3C0D3 /* TrafficViewController.m */; };
 		186E6D7E19EFBACD00E3C0D3 /* CollectorBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */; };
 		186E6D8119EFC21000E3C0D3 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */; };
+		1871E16C19F0AD82000DFAD4 /* ChannelMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E16B19F0AD82000DFAD4 /* ChannelMO.m */; };
+		1871E16F19F0AD83000DFAD4 /* ArticleMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E16E19F0AD83000DFAD4 /* ArticleMO.m */; };
+		1871E17219F0AF71000DFAD4 /* woRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17119F0AF71000DFAD4 /* woRightViewController.m */; };
+		1871E17519F0AFAD000DFAD4 /* FunctionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17419F0AFAD000DFAD4 /* FunctionSource.m */; };
 		1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18A19ED071100BABC4F /* ChannelViewController.m */; };
 		1873E18E19ED0A4B00BABC4F /* TrunkChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */; };
 		1873E19119ED16CE00BABC4F /* AuthorizationCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */; };
@@ -319,6 +323,14 @@
 		186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectorBoxViewController.m; sourceTree = "<group>"; };
 		186E6D7F19EFC21000E3C0D3 /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = "<group>"; };
 		186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
+		1871E16A19F0AD82000DFAD4 /* ChannelMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelMO.h; sourceTree = "<group>"; };
+		1871E16B19F0AD82000DFAD4 /* ChannelMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelMO.m; sourceTree = "<group>"; };
+		1871E16D19F0AD83000DFAD4 /* ArticleMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleMO.h; sourceTree = "<group>"; };
+		1871E16E19F0AD83000DFAD4 /* ArticleMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleMO.m; sourceTree = "<group>"; };
+		1871E17019F0AF71000DFAD4 /* woRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = woRightViewController.h; sourceTree = "<group>"; };
+		1871E17119F0AF71000DFAD4 /* woRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = woRightViewController.m; sourceTree = "<group>"; };
+		1871E17319F0AFAD000DFAD4 /* FunctionSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionSource.h; sourceTree = "<group>"; };
+		1871E17419F0AFAD000DFAD4 /* FunctionSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionSource.m; sourceTree = "<group>"; };
 		1873E18919ED071100BABC4F /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
 		1873E18A19ED071100BABC4F /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
 		1873E18C19ED0A4B00BABC4F /* TrunkChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrunkChannelViewController.h; sourceTree = "<group>"; };
@@ -726,6 +738,10 @@
 				470B13D119F0E489009A6A40 /* ChannelMO.h */,
 				470B13D219F0E489009A6A40 /* ChannelMO.m */,
 				182583AF158D842900A493B9 /* db.xcdatamodeld */,
+				1871E16D19F0AD83000DFAD4 /* ArticleMO.h */,
+				1871E16E19F0AD83000DFAD4 /* ArticleMO.m */,
+				1871E16A19F0AD82000DFAD4 /* ChannelMO.h */,
+				1871E16B19F0AD82000DFAD4 /* ChannelMO.m */,
 				1892C9E619E614ED00F26945 /* DBOperator.h */,
 				1892C9E719E614ED00F26945 /* DBOperator.m */,
 				1892C9E919E62C9C00F26945 /* DBManager.h */,
@@ -1204,6 +1220,10 @@
 		4710E64F19EE9C3A00246A1E /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				1871E17319F0AFAD000DFAD4 /* FunctionSource.h */,
+				1871E17419F0AFAD000DFAD4 /* FunctionSource.m */,
+				1871E17019F0AF71000DFAD4 /* woRightViewController.h */,
+				1871E17119F0AF71000DFAD4 /* woRightViewController.m */,
 				186E6D7C19EFBACD00E3C0D3 /* CollectorBoxViewController.h */,
 				186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */,
 				186E6D7019EFB45B00E3C0D3 /* AboutViewController.h */,
@@ -1767,6 +1787,7 @@
 				188738CF18FCD3B00032CF2C /* utility.c in Sources */,
 				188738D018FCD3B00032CF2C /* ASIDataCompressor.m in Sources */,
 				188738D118FCD3B00032CF2C /* ASIDataDecompressor.m in Sources */,
+				1871E16C19F0AD82000DFAD4 /* ChannelMO.m in Sources */,
 				188738D218FCD3B00032CF2C /* ASIDownloadCache.m in Sources */,
 				186E6D6619EFB18600E3C0D3 /* TouchRefreshView.m in Sources */,
 				4727ACB119ED6218000B625A /* UIScrollView+MJRefresh.m in Sources */,
@@ -1783,11 +1804,13 @@
 				188738D718FCD3B00032CF2C /* ASINetworkQueue.m in Sources */,
 				188738D818FCD3B00032CF2C /* NetStreamStatistics.m in Sources */,
 				1892C9E819E614ED00F26945 /* DBOperator.m in Sources */,
+				1871E17219F0AF71000DFAD4 /* woRightViewController.m in Sources */,
 				47C6C8CE19E827F0002CD14C /* GridChannelViewController.m in Sources */,
 				4727ACB219ED6218000B625A /* UIView+Extension.m in Sources */,
 				1873E18E19ED0A4B00BABC4F /* TrunkChannelViewController.m in Sources */,
 				47C6C8BA19E824DB002CD14C /* MMDrawerVisualState.m in Sources */,
 				18F1170019E8B6990097A682 /* ChannelHeader.m in Sources */,
+				1871E16F19F0AD83000DFAD4 /* ArticleMO.m in Sources */,
 				473CD26619E9829300AC860B /* NotificationCenter.m in Sources */,
 				479C074419E9752800D946F9 /* UserDefaults.m in Sources */,
 				4717628319EFE32B00646857 /* HomeHeader.m in Sources */,
@@ -1797,6 +1820,7 @@
 				186E6D6919EFB1A500E3C0D3 /* WaitingView.m in Sources */,
 				4727ACB819ED646B000B625A /* ALImageView.m in Sources */,
 				186E6D7A19EFB45B00E3C0D3 /* SettingViewController.m in Sources */,
+				1871E17519F0AFAD000DFAD4 /* FunctionSource.m in Sources */,
 				47C6C8A519E8242E002CD14C /* iVersion.m in Sources */,
 				186E6D8119EFC21000E3C0D3 /* LeftMenuViewController.m in Sources */,
 				47C6C8B919E824DB002CD14C /* MMDrawerController.m in Sources */,
