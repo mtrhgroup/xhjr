@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) NSString * a_channel_id;
 @property (nonatomic, retain) NSString * a_channel_name;
-@property (nonatomic, retain) NSString * a_discription;
+@property (nonatomic, retain) NSString * a_description;
 @property (nonatomic, retain) NSNumber * a_home_number;
 @property (nonatomic, retain) NSNumber * a_is_leaf;
 @property (nonatomic, retain) NSString * a_parent_id;

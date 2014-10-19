@@ -211,7 +211,7 @@
         <auth>1</auth>
     </periodical>
     <periodical>
-        <id>244</id>
+        <id>274</id>
         <name>微快报</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -221,7 +221,7 @@
         <subscribe>2</subscribe>
         <sort>6</sort>
         <parent>0</parent>
-        <showtype>list</showtype>
+        <showtype>tile</showtype>
         <type>child</type>
         <auth>0</auth>
     </periodical>

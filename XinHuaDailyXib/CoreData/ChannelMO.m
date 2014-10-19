@@ -13,7 +13,7 @@
 
 @dynamic a_channel_id;
 @dynamic a_channel_name;
-@dynamic a_discription;
+@dynamic a_description;
 @dynamic a_home_number;
 @dynamic a_is_leaf;
 @dynamic a_parent_id;

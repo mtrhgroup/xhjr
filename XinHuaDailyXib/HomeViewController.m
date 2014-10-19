@@ -19,6 +19,7 @@
 @end
 
 @implementation HomeViewController
+@synthesize channel=_channel;
 @synthesize service=_service;
 @synthesize channels=_channels;
 @synthesize pic_channel=_pic_channel;
@@ -42,17 +43,17 @@
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
 }
 
-NSString *ListCellID = @"ListCellID";
+NSString *HomeListCellID = @"ListCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ListCell *cell=nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:ListCellID];
+    cell = [tableView dequeueReusableCellWithIdentifier:HomeListCellID];
     if(cell==nil){
-        cell=[[ListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ListCellID];
+        cell=[[ListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HomeListCellID];
     }
     Channel *channel=[self.channels objectAtIndex:indexPath.section];
     Article *article = [channel.articles objectAtIndex:indexPath.row];
-    cell.artilce=article;
+    cell.article=article;
     return (UITableViewCell *)cell;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

@@ -38,7 +38,7 @@
     {
         return _managedObjectModel;
     }
-    NSString *modelPath = [[NSBundle mainBundle] pathForResource:@"DB" ofType:@"momd"];
+    NSString *modelPath = [[NSBundle mainBundle] pathForResource:@"db" ofType:@"momd"];
     NSLog(@"%@",_databasepath);
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
     return _managedObjectModel;

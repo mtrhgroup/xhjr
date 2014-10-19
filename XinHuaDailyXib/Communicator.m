@@ -9,6 +9,7 @@
 #import "Communicator.h"
 #import "ASIHTTPRequest.h"
 #import "NetStreamStatistics.h"
+#import "ZipArchive.h"
 @implementation Communicator
 -(void)fetchStringAtURL:(NSString *)url successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
@@ -38,11 +39,16 @@
     [request setTimeOutSeconds:30];
     request.downloadDestinationPath = path;
     [request setCompletionBlock:^{
-        NSString *responseString = [request responseString];
-        NSLog(@"%@",responseString);
-        if(successBlock!=nil){
-            successBlock(YES);
-        }
+        ZipArchive* zip = [[ZipArchive alloc] init];
+        BOOL ret =  [zip UnzipOpenFile:path];
+        if (ret)
+        {
+            if([zip UnzipFileTo:[path stringByDeletingPathExtension] overWrite:YES]){
+                if(successBlock!=nil){
+                    successBlock(YES);
+                }
+            }
+        }    
     }];
     [request setFailedBlock:^{
         if(errorBlock!=nil){

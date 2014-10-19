@@ -8,6 +8,7 @@
 
 #import "ArticleViewController.h"
 #import "NavigationController.h"
+#import "UIWindow+YzdHUD.h"
 @interface ArticleViewController (){
     Article *_article;
     Service *_service;
@@ -129,11 +130,8 @@
     }];
 }
 -(void)loadArticleContentFromNet{    
-    [_service fe:_article  successHandler:^(Article *article) {
-        _article=article;
-        self.popupMenuView.favor_status=_article.is_collected;
-        NSString *path=[[NSBundle mainBundle] pathForResource:@"article" ofType:@"html"];
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
+    [_service fetchArticleContentWithArticle:_article successHandler:^(BOOL is_ok) {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_article.page_path]]];
         [self initBridge];
         [self.waitingView hide];
     } errorHandler:^(NSError *error) {

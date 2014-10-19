@@ -9,8 +9,8 @@
 #import "DBOperator.h"
 @implementation DBOperator
 NSManagedObjectContext *_context;
-static NSString * const E_CHANNEL = @"CHANNEL";
-static NSString * const E_ARTICLE = @"ARTICLE";
+static NSString * const E_CHANNEL = @"E_CHANNEL";
+static NSString * const E_ARTICLE = @"E_ARTICLE";
 -(id)initWithContext:(NSManagedObjectContext *)context{
     if(self=[super init]){
         _context=context;
@@ -34,7 +34,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(void)addChannel:(Channel *)channel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"channel_id = %@", channel.channel_id];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_channel_id = %@", channel.channel_id];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
@@ -49,8 +49,8 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"parent_id = %d ",trunk_channel.channel_id];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort" ascending:NSOrderedAscending];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %d ",trunk_channel.channel_id];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
@@ -66,8 +66,8 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 
 -(NSArray *)fetchTrunkChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"is_leaf = %d ",NO];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort" ascending:NSOrderedAscending];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %@ ",@"0"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
@@ -77,13 +77,14 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     NSMutableArray *trunk_channels=[NSMutableArray array];
     for(ChannelMO *amo in result){
         [trunk_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
+        NSLog(@"%d",amo.a_show_type.intValue);
     }
     return trunk_channels;
 }
 -(NSArray *)fetchHomeChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"is_leaf = %d and parent_id = %@",YES,@"0"];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort" ascending:NSOrderedAscending];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_is_leaf = %d and a_parent_id = %@",YES,@"0"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
@@ -98,7 +99,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(Channel *)fetchADChannel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"parent_id = %d",-1];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %d",-1];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
@@ -125,7 +126,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(NSArray *)fetchArticlesThatIncludeCoverImage{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"cover_image_url = %d",0];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_cover_image_url = %d",0];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
@@ -148,7 +149,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 
 -(void)addArticle:(Article *)article{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@", article.article_id];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@", article.article_id];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
@@ -163,8 +164,8 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and cover_image_url<>%@", channel.channel_id,nil];
-    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"publish_date" ascending:NO];
+    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_cover_image_url<>%@", channel.channel_id,nil];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
@@ -186,7 +187,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
     }else{
         p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@", channel.channel_id];
     }
-    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"pubish_time" ascending:NO];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
@@ -203,9 +204,9 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 
 -(NSArray *)fetchFavorArticles{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"is_favor = %d",YES];
-    NSSortDescriptor *sortPriorityDescriptor = [[NSSortDescriptor alloc] initWithKey:@"priority" ascending:NO];
-    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"pubish_time" ascending:NO];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_is_favor = %d",YES];
+    NSSortDescriptor *sortPriorityDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_priority" ascending:NO];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_pubish_time" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPriorityDescriptor,sortPublishTimeDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
@@ -220,7 +221,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(void)markArticleReadWithArticleID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@", articleID];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@", articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
@@ -233,7 +234,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@", articleID];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@", articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
@@ -247,7 +248,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@",articleID];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@",articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
@@ -260,7 +261,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(Article *)fetchArticleWithArticleID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@",articleID];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@",articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
@@ -273,7 +274,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(void)updateArticleTimeWithArticleID:(NSString *)articleID newTime:(NSString *)newTime{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@",articleID];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@",articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];
@@ -284,7 +285,7 @@ static NSString * const E_ARTICLE = @"ARTICLE";
 }
 -(void)deleteArticleWithArticleID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"article_id = %@",articleID];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@",articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];

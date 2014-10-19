@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TouchViewDelegate.h"
-@interface HomeViewController : UIViewController<UITableViewDelegate,TouchViewDelegate,UITableViewDataSource>
+#import "ChannelViewController.h"
+@interface HomeViewController : ChannelViewController<UITableViewDelegate,TouchViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)Channel *channel;
 
 @end

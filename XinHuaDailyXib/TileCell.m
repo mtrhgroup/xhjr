@@ -28,7 +28,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(5,0 , frameRect.size.width-5, 20)];
         label.backgroundColor = [UIColor clearColor];
         label.text = @"";
-        label.textColor = [UIColor whiteColor];
+        label.textColor = [UIColor blackColor];
         label.font = [UIFont fontWithName:@"Arial" size:15];
         [imv addSubview:label];
         [[self contentView] addSubview:imv];
@@ -36,7 +36,7 @@
     }
     return self;
 }
--(Article *)artilce{
+-(Article *)article{
     return _article;
 }
 -(void)setArticle:(Article *)article{
@@ -44,7 +44,7 @@
         _article=article;
         label.text=article.article_title;
         if(article.cover_image_url==nil){
-            alImageView.imageURL=@"";
+            alImageView.imageURL=article.thumbnail_url;
         }else{
             alImageView.imageURL=article.cover_image_url;
         }

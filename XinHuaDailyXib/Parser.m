@@ -32,11 +32,13 @@
         }else{
             channel.is_leaf=NO;
         }
-        NSString *show_type=[xml findValueFrom:item nodeName:@"show_type"];
+        NSString *show_type=[xml findValueFrom:item nodeName:@"showtype"];
         if([show_type isEqualToString:@"list"]){
             channel.show_type=List;
-        }else if([show_type isEqualToString:@"grid"]){
+        }else if([show_type isEqualToString:@"pic"]){
             channel.show_type=Grid;
+        }else if([show_type isEqualToString:@"tile"]){
+            channel.show_type=Tile;
         }
         channel.parent_id=[xml findValueFrom:item nodeName:@"parent"];
         [result addObject:channel];
@@ -62,12 +64,15 @@
             article.channel_name=channel_name;
             article.article_id=[xml findValueFrom:citem nodeName:@"id"];
             article.article_title = [xml findValueFrom:citem nodeName:@"title"];
-            article.zip_url = [xml findValueFrom:citem nodeName:@"zipurl"];
-            article.page_url =  [xml findValueFrom:citem nodeName:@"pageurl"];
+            NSString *raw_zip_url = [xml findValueFrom:citem nodeName:@"zipurl"];
+            article.zip_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_zip_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            NSString *raw_page_url =  [xml findValueFrom:citem nodeName:@"pageurl"];
+            article.page_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_page_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
             article.publish_date = [xml findValueFrom:citem nodeName:@"inserttime"];
             article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
             article.summary=[xml findValueFrom:citem nodeName:@"summary"];
-            article.thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
+            NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
+            article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
             NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
             if([pn isEqualToString:@"0"]){
                 article.is_push=NO;

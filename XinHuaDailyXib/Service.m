@@ -79,7 +79,26 @@
     }];
 }
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    
+    NSArray *home_channels=[self fetchHomeChannelsFromDB];
+    for(Channel *channel in home_channels){
+        [self fetchArticlesFromNETWithChannel:channel successHandler:^(NSArray *articles) {
+            for(Article *article in articles){
+                if(!article.is_cached){
+                [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
+                    // <#code#>
+                } errorHandler:^(NSError *error) {
+                    if(errorBlock){
+                        errorBlock(error);
+                    }
+                }];
+                }
+            }
+        } errorHandler:^(NSError *error) {
+            if(errorBlock){
+                errorBlock(error);
+            }
+        }];
+    }
 }
 -(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
@@ -96,10 +115,12 @@
     }];
 }
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSArray *channels=[_parser parseChannels:responseStr];
+//    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
+//    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"periodicalist" ofType:@"xml"];
+            NSString* myString = [NSString stringWithContentsOfFile:plistPath usedEncoding:NULL error:NULL];
+            NSArray *channels=[_parser parseChannels:myString];
             DBOperator *db_operator=[_db_manager aOperator];
             if([channels count]>0){
                 [db_operator removeAllChannels];
@@ -109,19 +130,23 @@
             }
             [db_operator save];
             dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
                 if(successBlock){
+                    [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationChannelsUpdate object: nil];
                     successBlock(channels);
                 }
             });
-        });
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
+//        });
+//    } errorHandler:^(NSError *error) {
+//        if(errorBlock){
+//            errorBlock(error);
+//        }
+//    }];
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
+    //NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
+    NSString *url=@"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=a6677859-8570-4427-8903-981c0293be1c&n=10&pid=274";
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
@@ -145,29 +170,23 @@
 -(void)fetchMoreArticlesFromNETWithChannel:(Channel *)channel last_article:(Article *)last_article successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     
 }
--(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    if([[FileSystem system] isArticleExistWithArticle:article]){
-        if(successBlock){
-            successBlock(article.page_path);
-        }
-    }else{
-        [_communicator fetchFileAtURL:article.zip_url toPath:article.zip_path successHandler:^(BOOL is_ok) {
-            if(is_ok){
-                if(successBlock){
-                    successBlock(article.page_path);
-                }
-            }else{
-                NSError *error;
-                if(errorBlock){
-                    errorBlock(error);
-                }
+-(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    [_communicator fetchFileAtURL:article.zip_url toPath:article.zip_path successHandler:^(BOOL is_ok) {
+        if(is_ok){
+            if(successBlock){
+                successBlock(YES);
             }
-        } errorHandler:^(NSError *error) {
+        }else{
+            NSError *error;
             if(errorBlock){
                 errorBlock(error);
             }
-        }];
-    }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
 }
 
 -(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
@@ -255,8 +274,10 @@
     Article *header_article=[db_operator fetchHeaderArticleWithChannel:channel];
     NSArray *other_articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:header_article topN:10];
     NSMutableArray *articles=[[NSMutableArray alloc] init];
-    [articles addObject:header_article];
     [articles addObjectsFromArray:other_articles];
+    if(header_article!=nil){
+        [articles addObject:header_article];
+    }
     return articles;
 }
 -(BOOL)hasNewerArticlesThanArticle:(Article *)article in_channel:(Channel *)in_channel{

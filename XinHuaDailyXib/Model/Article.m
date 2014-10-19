@@ -27,13 +27,18 @@
 @synthesize  visit_number=_visit_number;
 @synthesize  like_number=_like_number;
 -(NSString *)page_path{
-    
+    NSString *dir_path=[self.zip_path stringByDeletingPathExtension];
+    NSString *page_file_name=[self.page_url lastPathComponent];
+    return [NSString stringWithFormat:@"%@/%@",dir_path,page_file_name];
 }
 -(NSString *)zip_path{
-    
+    NSString* zip_file_name = [self.zip_url lastPathComponent];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentpath = ([paths count] > 0)? [paths objectAtIndex:0] : nil;
+    return [NSString stringWithFormat:@"%@/%@",documentpath,zip_file_name];
 }
 -(BOOL)is_cached{
-    
+    return [[NSFileManager defaultManager] fileExistsAtPath:self.page_path];
 }
 -(id)initWithArticleMO:(ArticleMO *)articleMO{
     self=[super init];
@@ -43,15 +48,15 @@
         self.page_url=articleMO.a_page_url;
         self.zip_url=articleMO.a_zip_url;
         self.publish_date=articleMO.a_publish_date;
-        self.is_read=(BOOL)[articleMO.a_is_read intValue];
-        self.is_collected=(BOOL)[articleMO.a_is_collected intValue];
+        self.is_read=[articleMO.a_is_read boolValue];
+        self.is_collected=[articleMO.a_is_collected boolValue];
         self.channel_id=articleMO.a_channel_id;
         self.channel_name=articleMO.a_channel_name;
         self.attachments=articleMO.a_attachments;
         self.summary=articleMO.a_summary;
         self.thumbnail_url=articleMO.a_thumbnail_url;
         self.cover_image_url=articleMO.a_cover_image_url;
-        self.is_push=(BOOL)[articleMO.a_is_push intValue];
+        self.is_push=[articleMO.a_is_push boolValue];
         self.video_url=articleMO.a_video_url;
         self.visit_number=articleMO.a_visit_number;
         self.like_number=articleMO.a_like_number;

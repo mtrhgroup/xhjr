@@ -31,14 +31,14 @@
 }
 
 -(void)buildUI{
-    if([self.channel.parent_id isEqualToString:@"0"])
-        if(lessiOS7){
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
-        }else{
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView)];
-        }
-    
-        else{
+//    if([self.channel.parent_id isEqualToString:@"0"])
+//        if(lessiOS7){
+//            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
+//        }else{
+//            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView)];
+//        }
+//    
+//        else{
             if(lessiOS7){
                 NSLog(@"%f",self.view.bounds.size.height);
                 self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
@@ -47,12 +47,12 @@
             }
             [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
             
-        }
+//        }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
-    [self.headerView setArticle:[self.artilces firstObject]];
+    [self.headerView setArticle:[self.articles firstObject]];
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
     
@@ -63,7 +63,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.artilces count]-1;
+    return [self.articles count]-1;
 }
 NSString *ListCellID = @"ListCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,17 +73,15 @@ NSString *ListCellID = @"ListCellID";
     if(cell==nil){
         cell=[[ListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ListCellID];
     }
-    cell.artilce=[self.artilces objectAtIndex:(indexPath.row+1)];
+    cell.article=[self.articles objectAtIndex:(indexPath.row)];
     return (UITableViewCell *)cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Article *article=[self.artilces objectAtIndex:indexPath.row];
-    
-    return 100;
+    return 70;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Article * article = [self.artilces objectAtIndex:indexPath.row];
+    Article * article = [self.articles objectAtIndex:indexPath.row];
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
 -(void)headerClicked:(Article *)article{

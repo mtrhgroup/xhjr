@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface GridChannelViewController : UIViewController
+#import "LeafChannelViewController.h"
+#import "ChannelHeader.h"
+@interface GridChannelViewController : LeafChannelViewController<HeaderViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 
 @end

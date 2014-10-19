@@ -23,9 +23,9 @@
     if(self){
         self.channel_id=channel_mo.a_channel_id;
         self.channel_name=channel_mo.a_channel_name;
-        self.description=channel_mo.a_discription;
+        self.description=channel_mo.a_description;
         self.sort_number=channel_mo.a_sort_number;
-        self.show_type=(ShowType)channel_mo.a_show_type;
+        self.show_type=channel_mo.a_show_type.intValue;
         self.home_number=channel_mo.a_home_number;
         self.parent_id=channel_mo.a_parent_id;
         self.is_leaf=(BOOL)channel_mo.a_is_leaf;
@@ -36,7 +36,7 @@
 -(void)toChannelMO:(ChannelMO *)channelMO{
         channelMO.a_channel_id=self.channel_id;
         channelMO.a_channel_name=self.channel_name;
-        channelMO.a_discription=self.description;
+        channelMO.a_description=self.description;
         channelMO.a_home_number=self.home_number;
         channelMO.a_is_leaf=[NSNumber numberWithBool: self.is_leaf];
         channelMO.a_parent_id=self.parent_id;

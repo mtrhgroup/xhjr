@@ -78,8 +78,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    //每次醒来都需要去判断是否得到device token
-    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(registerForRemoteNotificationToGetToken) userInfo:nil repeats:NO];
+//    //每次醒来都需要去判断是否得到device token
+//    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(registerForRemoteNotificationToGetToken) userInfo:nil repeats:NO];
     
     [_service reportActionsToServer:^(BOOL ok) {
         //<#code#>

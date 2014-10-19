@@ -19,6 +19,7 @@
 @synthesize service=_service;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=self.channel.channel_name;
     [self buildUI];
     _authorization_cover_view=[[AuthorizationCoverView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:_authorization_cover_view];

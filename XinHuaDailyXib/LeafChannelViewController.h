@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ChannelViewController.h"
 @interface LeafChannelViewController : ChannelViewController
-@property(nonatomic,strong)NSMutableArray *artilces;
+@property(nonatomic,strong)NSMutableArray *articles;
 -(void)reloadArticlesFromDB;
 -(void)reloadArticlesFromNET;
 -(void)loadMoreArticlesFromNET;

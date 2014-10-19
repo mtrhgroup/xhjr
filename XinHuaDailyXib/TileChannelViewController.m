@@ -29,7 +29,7 @@
 }
 
 -(void)buildUI{
-    if([self.channel.parent_id isEqualToString:@"0"])
+    if(![self.channel.parent_id isEqualToString:@"0"])
         if(lessiOS7){
             self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
         }else{
@@ -50,7 +50,7 @@
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
-    [self.headerView setArticle:[self.artilces firstObject]];
+    [self.headerView setArticle:[self.articles firstObject]];
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
     
@@ -61,7 +61,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.artilces count]-1;
+    return [self.articles count]-1;
 }
 NSString *TileCellID = @"ListCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,15 +71,15 @@ NSString *TileCellID = @"ListCellID";
     if(cell==nil){
         cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
     }
-    cell.artilce=[self.artilces objectAtIndex:(indexPath.row+1)];
-    return (UITableViewCell *)cell;
+    cell.article=[self.articles objectAtIndex:(indexPath.row)];
+    return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 140;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Article * article = [self.artilces objectAtIndex:indexPath.row];
+    Article * article = [self.articles objectAtIndex:indexPath.row];
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
 -(void)headerClicked:(Article *)article{

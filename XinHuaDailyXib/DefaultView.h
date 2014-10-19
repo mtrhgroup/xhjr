@@ -10,7 +10,6 @@
 #import "Service.h"
 @protocol CoverViewDelegate <NSObject>
 -(void)loadDataForMainVC;
--(void)openADWithURL:(NSString *)url;
 @end
 
 @interface DefaultView : UIView

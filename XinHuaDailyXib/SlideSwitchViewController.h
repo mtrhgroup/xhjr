@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 #import "SUNSlideSwitchView.h"
 #import "DrawerViewController.h"
-
-@interface SlideSwitchViewController : UIViewController<UINavigationControllerDelegate,SUNSlideSwitchViewDelegate>
+#import "ChannelViewController.h"
+@interface SlideSwitchViewController : ChannelViewController<UINavigationControllerDelegate,SUNSlideSwitchViewDelegate>
 -(void)rebuildUI;
 @end

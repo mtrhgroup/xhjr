@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TrunkChannelViewController : UIViewController
+#import "ChannelViewController.h"
+@interface TrunkChannelViewController : ChannelViewController
 
 @end

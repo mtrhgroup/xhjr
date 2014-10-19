@@ -57,6 +57,11 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
         block = [MMDrawerVisualState parallaxVisualStateBlockWithParallaxFactor:2.0];
         block(drawerController, drawerSide, percentVisible);
     }];
+    [self.service fetchChannelsFromNET:^(NSArray *channels) {
+      //  <#code#>
+    } errorHandler:^(NSError *error) {
+      //  <#code#>
+    }];
 }
 -(void)setTopTitle:(NSString *)title{
     [[self.nav_slideswitch_vc.viewControllers objectAtIndex:0] setTitle:title];
@@ -89,12 +94,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     [self.left_menu_vc rebuildUI];
     [((SlideSwitchViewController *)[[self.nav_slideswitch_vc viewControllers] objectAtIndex:0]) rebuildUI];
 }
--(void)openADWithURL:(NSString *)url{
-    KidsOnlineADViewController *controller=[[KidsOnlineADViewController alloc] init];
-    controller.url=url;
-    UINavigationController  *nav_vc = [[KidsNavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:nav_vc animated:YES completion:nil];
-}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

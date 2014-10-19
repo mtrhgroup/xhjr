@@ -16,7 +16,7 @@
      NSDate *_time_stamp;
      int _refresh_interval_minutes;
 }
-@synthesize artilces=_artilces;
+@synthesize articles=_articles;
 - (id)init
 {
     self = [super init];
@@ -30,28 +30,29 @@
     [super viewDidLoad];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    [self reloadArticlesFromDB];
     [super viewWillAppear:animated];
     if([self shouldTriggerRefresh]){
         [self triggerRefresh];
     }
 }
 -(void)reloadArticlesFromDB{
-    [self.artilces removeAllObjects];
-    self.artilces=[NSMutableArray arrayWithArray:[self.service fetchArticlesFromDBWithChannel:self.channel topN:10]];
+    [self.articles removeAllObjects];
+    self.articles=[NSMutableArray arrayWithArray:[self.service fetchArticlesFromDBWithChannel:self.channel topN:10]];
     [self refreshUI];
 }
 -(void)reloadArticlesFromNET{
     [self.service  fetchArticlesFromNETWithChannel:self.channel successHandler:^(NSArray *articles) {
         _time_stamp=[NSDate date];
-        self.artilces=[NSMutableArray arrayWithArray:articles];
+        self.articles=[NSMutableArray arrayWithArray:articles];
         [self refreshUI];
     } errorHandler:^(NSError *error) {
         //report error to user
     }];
 }
 -(void)loadMoreArticlesFromNET{
-    [self.service  fetchMoreArticlesFromNETWithChannel:self.channel last_article:[self.artilces lastObject]  successHandler:^(NSArray *articles) {
-        [self.artilces addObjectsFromArray:articles];
+    [self.service  fetchMoreArticlesFromNETWithChannel:self.channel last_article:[self.articles lastObject]  successHandler:^(NSArray *articles) {
+        [self.articles addObjectsFromArray:articles];
         [self refreshUI];
     } errorHandler:^(NSError *error) {
         //report error to user

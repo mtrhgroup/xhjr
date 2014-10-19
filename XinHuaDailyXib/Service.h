@@ -23,13 +23,12 @@
 -(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)reportActionsToServer:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
--(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
+-(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 //本地
 -(NSArray *)fetchFavorArticlesFromDB;
 -(NSArray *)fetchTrunkChannelsFromDB;
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
--(BOOL)hasNewerArticlesThanArticle:(Article *)article;
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected;
 -(void)markArticleReadWithArticle:(Article *)article;
 -(Article *)fetchADArticleFromDB;

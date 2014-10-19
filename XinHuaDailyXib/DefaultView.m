@@ -117,9 +117,9 @@
 }
 -(void)openAD{
     self.hidden=YES;
-    if(_app_info.advPagePath!=nil&&[self.delegate respondsToSelector:@selector(openADWithURL:)]){
-        [self.delegate openADWithURL:_app_info.advPagePath];
-    }
+//    if(_app_info.advPagePath!=nil&&[self.delegate respondsToSelector:@selector(openADWithURL:)]){
+//        [self.delegate openADWithURL:_app_info.advPagePath];
+//    }
 }
 -(void)loadDataForMainVC{
     if([self.delegate respondsToSelector:@selector(loadDataForMainVC)]){
@@ -137,7 +137,7 @@
     [UIView animateWithDuration:2.0f animations:^{
         [self setAlpha:0.0];
     } completion:^(BOOL finished) {
-
+       [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }];
 
 }
