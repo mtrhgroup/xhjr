@@ -82,15 +82,16 @@
     NSArray *home_channels=[self fetchHomeChannelsFromDB];
     for(Channel *channel in home_channels){
         [self fetchArticlesFromNETWithChannel:channel successHandler:^(NSArray *articles) {
+            channel.articles=articles;
             for(Article *article in articles){
                 if(!article.is_cached){
-                [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
-                    // <#code#>
-                } errorHandler:^(NSError *error) {
-                    if(errorBlock){
-                        errorBlock(error);
-                    }
-                }];
+                    [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
+                        // <#code#>
+                    } errorHandler:^(NSError *error) {
+                        if(errorBlock){
+                            errorBlock(error);
+                        }
+                    }];
                 }
             }
         } errorHandler:^(NSError *error) {

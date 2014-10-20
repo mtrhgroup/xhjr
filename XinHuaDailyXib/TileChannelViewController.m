@@ -63,7 +63,7 @@
 {
     return [self.articles count]-1;
 }
-NSString *TileCellID = @"ListCellID";
+NSString *TileCellID = @"TileCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TileCell *cell=nil;
@@ -76,7 +76,7 @@ NSString *TileCellID = @"ListCellID";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140;
+    return 240;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article * article = [self.articles objectAtIndex:indexPath.row];

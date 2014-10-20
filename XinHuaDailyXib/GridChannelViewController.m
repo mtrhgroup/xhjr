@@ -34,10 +34,18 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
     flowLayout.minimumLineSpacing=0;
     flowLayout.minimumInteritemSpacing=0;
     flowLayout.headerReferenceSize=CGSizeMake(320, 160);
-    if(lessiOS7){
-        self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView) collectionViewLayout:flowLayout];
+    if(![self.channel.parent_id isEqualToString:@"0"]){
+        if(lessiOS7){
+            self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView) collectionViewLayout:flowLayout];
+        }else{
+            self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView) collectionViewLayout:flowLayout];
+        }
     }else{
-        self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView) collectionViewLayout:flowLayout];
+        if(lessiOS7){
+            self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) collectionViewLayout:flowLayout];
+        }else{
+            self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) collectionViewLayout:flowLayout];
+        }
     }
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
     self.collectionView.alwaysBounceVertical = YES;
@@ -47,7 +55,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
     self.collectionView.delegate=self;
     self.collectionView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:self.collectionView];
-
+    
     // 2.集成刷新控件
     [self.collectionView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
     [self.collectionView addFooterWithTarget:self action:@selector(loadMoreArticlesFromNET)];
@@ -59,8 +67,8 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 
 
 -(void)calculateCellSize{
-    CGFloat width=self.view.bounds.size.width/2;
-    CGFloat height=width/4*3;
+    CGFloat width=self.view.bounds.size.width/2-20;
+    CGFloat height=width/4*3+20;
     cell_size=CGSizeMake(width, height);
 }
 
@@ -77,7 +85,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 0, 0, 0);
+    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 #pragma mark --UICollectionViewDelegate
 //UICollectionView被选中时调用的方法
@@ -125,7 +133,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GridCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellectionViewCellId forIndexPath:indexPath];
-    cell.artilce=[self.articles objectAtIndex:indexPath.row];
+    cell.article=[self.articles objectAtIndex:indexPath.row];
     return cell;
 }
 

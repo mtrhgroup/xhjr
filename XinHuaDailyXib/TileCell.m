@@ -11,27 +11,31 @@
 @implementation TileCell{
     ALImageView *alImageView;
     UILabel *label;
+    UILabel *summary_label;
     Article *_article;
 }
 
 
-- (instancetype)initWithFrame:(CGRect)frameRect
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithFrame:frameRect];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        alImageView = [[ALImageView alloc] initWithFrame:CGRectMake(0,0 , frameRect.size.width , frameRect.size.height)];
+        alImageView = [[ALImageView alloc] initWithFrame:CGRectMake(10,0 , 320-20 , 200)];
         alImageView.placeholderImage = [UIImage imageNamed:@"placeholder"];
         alImageView.imageURL = @"";
         [[self contentView] addSubview:alImageView];
-        UIImageView* imv = [[UIImageView alloc] initWithFrame:CGRectMake(0,frameRect.size.height-20 , frameRect.size.width , 20)];
-        imv.image = [UIImage imageNamed:@"heise.png"];
-        label = [[UILabel alloc] initWithFrame:CGRectMake(5,0 , frameRect.size.width-5, 20)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(10,200 , 320-20, 20)];
         label.backgroundColor = [UIColor clearColor];
         label.text = @"";
         label.textColor = [UIColor blackColor];
         label.font = [UIFont fontWithName:@"Arial" size:15];
-        [imv addSubview:label];
-        [[self contentView] addSubview:imv];
+        [[self contentView] addSubview:label];
+        summary_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 220, 320-20, 20)];
+        summary_label.backgroundColor = [UIColor clearColor];
+        summary_label.font = [UIFont fontWithName:@"Arial" size:13];
+        summary_label.numberOfLines=2;
+        summary_label.textColor=[UIColor grayColor];
+        [[self contentView] addSubview:summary_label];
         
     }
     return self;
@@ -47,6 +51,11 @@
             alImageView.imageURL=article.thumbnail_url;
         }else{
             alImageView.imageURL=article.cover_image_url;
+        }
+        if(article.summary==nil||[article.summary isEqualToString:@""]){
+            summary_label.text=article.publish_date;
+        }else{
+            summary_label.text=article.summary;
         }
     }
 }

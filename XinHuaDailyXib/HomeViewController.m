@@ -43,7 +43,7 @@
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
 }
 
-NSString *HomeListCellID = @"ListCellID";
+NSString *HomeListCellID = @"HomeListCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ListCell *cell=nil;

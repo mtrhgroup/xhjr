@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "Article.h"
 @interface GridCell : UICollectionViewCell
-@property(nonatomic,strong)Article *artilce;
+@property(nonatomic,strong)Article *article;
 @end
