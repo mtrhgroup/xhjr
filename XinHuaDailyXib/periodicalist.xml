@@ -221,7 +221,7 @@
         <subscribe>2</subscribe>
         <sort>6</sort>
         <parent>0</parent>
-        <showtype>pic</showtype>
+        <showtype>tile</showtype>
         <type>child</type>
         <auth>0</auth>
     </periodical>
@@ -236,7 +236,7 @@
         <subscribe>2</subscribe>
         <sort>3</sort>
         <parent>378</parent>
-        <showtype>pic</showtype>
+        <showtype>tile</showtype>
         <type>child</type>
         <auth>0</auth>
     </periodical>

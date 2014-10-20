@@ -16,7 +16,7 @@
      NSDate *_time_stamp;
      int _refresh_interval_minutes;
 }
-@synthesize articles=_articles;
+@synthesize articles_for_cvc=_articles_for_cvc;
 - (id)init
 {
     self = [super init];
@@ -37,22 +37,21 @@
     }
 }
 -(void)reloadArticlesFromDB{
-    [self.articles removeAllObjects];
-    self.articles=[NSMutableArray arrayWithArray:[self.service fetchArticlesFromDBWithChannel:self.channel topN:10]];
+    self.articles_for_cvc=[self.service fetchArticlesFromDBWithChannel:self.channel topN:10];
     [self refreshUI];
 }
 -(void)reloadArticlesFromNET{
     [self.service  fetchArticlesFromNETWithChannel:self.channel successHandler:^(NSArray *articles) {
-        _time_stamp=[NSDate date];
-        self.articles=[NSMutableArray arrayWithArray:articles];
-        [self refreshUI];
+        [self reloadArticlesFromDB];
     } errorHandler:^(NSError *error) {
         //report error to user
     }];
 }
 -(void)loadMoreArticlesFromNET{
-    [self.service  fetchMoreArticlesFromNETWithChannel:self.channel last_article:[self.articles lastObject]  successHandler:^(NSArray *articles) {
-        [self.articles addObjectsFromArray:articles];
+    [self.service  fetchMoreArticlesFromNETWithChannel:self.channel last_article:[self.articles_for_cvc.other_articles lastObject]  successHandler:^(NSArray *articles) {
+        NSMutableArray *other_articles=[NSMutableArray arrayWithArray:self.articles_for_cvc.other_articles];
+        [other_articles addObjectsFromArray:articles];
+        self.articles_for_cvc.other_articles=other_articles;
         [self refreshUI];
     } errorHandler:^(NSError *error) {
         //report error to user

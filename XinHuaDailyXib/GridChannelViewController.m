@@ -14,8 +14,6 @@
 @interface GridChannelViewController ()
 @property(nonatomic,strong)ChannelHeader *headerView;
 @property(nonatomic,strong)UICollectionView *collectionView;
-@property(nonatomic,strong)Article *headerArticle;
-@property(nonatomic,strong)NSMutableArray *otherArticles;
 @end
 
 @implementation GridChannelViewController{
@@ -91,7 +89,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Article * article = [self.articles objectAtIndex:indexPath.row];
+    Article * article = [self.articles_for_cvc.other_articles objectAtIndex:indexPath.row];
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
     
 }
@@ -108,7 +106,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 //定义展示的UICollectionViewCell的个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.articles count];
+    return [self.articles_for_cvc.other_articles count];
 }
 
 //定义展示的Section的个数
@@ -120,8 +118,8 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
     UICollectionReusableView *reusableview=nil;
     if(kind==UICollectionElementKindSectionHeader){
         ChannelHeader *headerView=[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView" forIndexPath:indexPath];
-        if(self.headerArticle!=nil){
-            headerView.article=self.headerArticle;
+        if(self.articles_for_cvc.header_article!=nil){
+            headerView.article=self.articles_for_cvc.header_article;
             headerView.delegate=self;
         }
         reusableview=headerView;
@@ -133,7 +131,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GridCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellectionViewCellId forIndexPath:indexPath];
-    cell.article=[self.articles objectAtIndex:indexPath.row];
+    cell.article=[self.articles_for_cvc.other_articles objectAtIndex:indexPath.row];
     return cell;
 }
 

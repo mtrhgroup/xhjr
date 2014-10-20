@@ -13,16 +13,13 @@
 @interface HomeViewController ()
 @property(nonatomic,strong)HomeHeader *headerView;
 @property (nonatomic,strong)UITableView *tableView;
-@property(nonatomic,strong)NSArray *channels;
-@property(nonatomic,strong)Channel *pic_channel;
+@property(nonatomic,strong)ChannelsForHVC *channels_for_hvc;
 @property(nonatomic,strong)Service *service;
 @end
 
 @implementation HomeViewController
 @synthesize channel=_channel;
 @synthesize service=_service;
-@synthesize channels=_channels;
-@synthesize pic_channel=_pic_channel;
 @synthesize tableView=_tableView;
 
 - (void)viewDidLoad {
@@ -37,7 +34,7 @@
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
     self.headerView=[[HomeHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
-    self.headerView.articles=self.pic_channel.articles;
+    self.headerView.articles=self.channels_for_hvc.header_articles;
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadArticlesFromDB) name:kNotificationArticleReceived object:nil];
@@ -52,7 +49,7 @@
     }];
 }
 -(void)reloadArticlesFromDB{
-    self.channels=[self.service fetchHomeArticlesFromDB];
+    self.channels_for_hvc=[self.service fetchHomeArticlesFromDB];
     [self.tableView reloadData];
 }
 NSString *HomeListCellID = @"HomeListCellID";
@@ -63,7 +60,7 @@ NSString *HomeListCellID = @"HomeListCellID";
     if(cell==nil){
         cell=[[ListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HomeListCellID];
     }
-    Channel *channel=[self.channels objectAtIndex:indexPath.section];
+    Channel *channel=[self.channels_for_hvc.other_channels objectAtIndex:indexPath.section];
     Article *article = [channel.articles objectAtIndex:indexPath.row];
     cell.article=article;
     return (UITableViewCell *)cell;
@@ -72,7 +69,7 @@ NSString *HomeListCellID = @"HomeListCellID";
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     headerView.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.6];
     UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(3, 1, 300, 18)];
-    titleLabel.text=((Channel *)[self.channels objectAtIndex:section]).channel_name;
+    titleLabel.text=((Channel *)[self.channels_for_hvc.other_channels objectAtIndex:section]).channel_name;
     titleLabel.backgroundColor=[UIColor clearColor];
     titleLabel.textColor=[UIColor blackColor];
     titleLabel.font=[UIFont fontWithName:@"TrebuchetMS-Bold" size:12];
@@ -81,13 +78,13 @@ NSString *HomeListCellID = @"HomeListCellID";
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [self.channels count];
+    return [self.channels_for_hvc.other_channels count];
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return ((Channel *)[self.channels objectAtIndex:section]).channel_name;
+    return ((Channel *)[self.channels_for_hvc.other_channels objectAtIndex:section]).channel_name;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-   return [((Channel *)[self.channels objectAtIndex:section]).articles count];
+   return [((Channel *)[self.channels_for_hvc.other_channels objectAtIndex:section]).articles count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -100,7 +97,7 @@ NSString *HomeListCellID = @"HomeListCellID";
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Channel *channel=[self.channels objectAtIndex:indexPath.section];
+    Channel *channel=[self.channels_for_hvc.other_channels objectAtIndex:indexPath.section];
     Article *article = [channel.articles objectAtIndex:indexPath.row];
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:channel];
 }

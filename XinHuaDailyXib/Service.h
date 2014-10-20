@@ -28,7 +28,7 @@
 -(NSArray *)fetchFavorArticlesFromDB;
 -(NSArray *)fetchTrunkChannelsFromDB;
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel;
--(NSArray *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
+-(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected;
 -(void)markArticleReadWithArticle:(Article *)article;
 -(Article *)fetchADArticleFromDB;

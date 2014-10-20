@@ -18,6 +18,7 @@
 @synthesize parent_id=_parent_id;
 @synthesize is_leaf=_is_leaf;
 @synthesize need_be_authorized=_need_be_authorized;
+
 -(id)initWithChannelMO:(ChannelMO *)channel_mo{
     self=[super init];
     if(self){
@@ -44,4 +45,8 @@
         channelMO.a_sort_number=self.sort_number;
         channelMO.a_authorize=[NSNumber numberWithInt:self.need_be_authorized];
 }
+@end
+@implementation ChannelsForHVC
+@synthesize header_articles=_header_articles;
+@synthesize other_channels=_other_channels;
 @end

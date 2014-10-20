@@ -42,9 +42,10 @@
     if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
         _article=article;
         label.text=article.article_title;
-        if(article.cover_image_url==nil)return;
-        
-        alImageView.imageURL=article.cover_image_url;
+        if(article.cover_image_url==nil)
+            alImageView.imageURL=article.thumbnail_url;
+        else
+            alImageView.imageURL=article.cover_image_url;
     }
 }
 -(void)openArticle{

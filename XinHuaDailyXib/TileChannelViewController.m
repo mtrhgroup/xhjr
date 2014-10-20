@@ -50,7 +50,7 @@
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
-    [self.headerView setArticle:[self.articles firstObject]];
+    self.headerView.article=self.articles_for_cvc.header_article;
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
     
@@ -61,7 +61,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.articles count]-1;
+    return [self.articles_for_cvc.other_articles count];
 }
 NSString *TileCellID = @"TileCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,7 +71,7 @@ NSString *TileCellID = @"TileCellID";
     if(cell==nil){
         cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
     }
-    cell.article=[self.articles objectAtIndex:(indexPath.row)];
+    cell.article=[self.articles_for_cvc.other_articles objectAtIndex:(indexPath.row)];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,7 +79,7 @@ NSString *TileCellID = @"TileCellID";
     return 240;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Article * article = [self.articles objectAtIndex:indexPath.row];
+    Article * article = [self.articles_for_cvc.other_articles objectAtIndex:indexPath.row];
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
 -(void)headerClicked:(Article *)article{
@@ -87,6 +87,13 @@ NSString *TileCellID = @"TileCellID";
 }
 
 -(void)refreshUI{
+    if(self.articles_for_cvc.header_article!=nil){
+        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 160)];
+        ((ChannelHeader *)self.tableView.tableHeaderView).article=self.articles_for_cvc.header_article;
+        ((ChannelHeader *)self.tableView.tableHeaderView).delegate=self;
+    }else{
+        self.tableView.tableHeaderView=nil;
+    }
     [self.tableView reloadData];
 }
 -(void)showLeftMenu{

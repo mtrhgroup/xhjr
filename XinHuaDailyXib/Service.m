@@ -78,12 +78,16 @@
         }
     }];
 }
--(NSArray *)fetchHomeArticlesFromDB{
-    NSArray *home_channels=[self fetchHomeChannelsFromDB];
+-(ChannelsForHVC *)fetchHomeArticlesFromDB{
+    ChannelsForHVC *channels_for_hvc=[[ChannelsForHVC alloc] init];
+    DBOperator *db_operator=[_db_manager aOperator];
+    NSArray *home_channels=[db_operator fetchHomeChannels];
     for(Channel *channel in home_channels){
-        channel.articles=[self fetchArticlesFromDBWithChannel:channel topN:channel.home_number.intValue];
+       channel.articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:nil topN:channel.home_number.intValue];
     }
-    return home_channels;
+    channels_for_hvc.header_articles=[db_operator fetchArticlesThatIncludeCoverImage];
+    channels_for_hvc.other_channels=home_channels;
+    return channels_for_hvc;
 }
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSArray *home_channels=[self fetchHomeChannelsFromDB];
@@ -294,16 +298,14 @@
     DBOperator *db_operator=[_db_manager aOperator];
     return [db_operator fetchLeafChannelsWithTrunkChannel:channel];
 }
--(NSArray *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN{
+-(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN{
     DBOperator *db_operator=[_db_manager aOperator];
     Article *header_article=[db_operator fetchHeaderArticleWithChannel:channel];
-    NSArray *other_articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:header_article topN:10];
-    NSMutableArray *articles=[[NSMutableArray alloc] init];
-    [articles addObjectsFromArray:other_articles];
-    if(header_article!=nil){
-        [articles addObject:header_article];
-    }
-    return articles;
+    NSArray *other_articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:header_article topN:topN];
+    ArticlesForCVC *articles_for_cvc=[[ArticlesForCVC alloc]init];
+    articles_for_cvc.header_article=header_article;
+    articles_for_cvc.other_articles=other_articles;
+    return articles_for_cvc;
 }
 -(BOOL)hasNewerArticlesThanArticle:(Article *)article in_channel:(Channel *)in_channel{
     DBOperator *db_operator=[_db_manager aOperator];

@@ -26,6 +26,7 @@
 @synthesize  video_url=_video_url;
 @synthesize  visit_number=_visit_number;
 @synthesize  like_number=_like_number;
+
 -(NSString *)page_path{
     NSString *dir_path=[self.zip_path stringByDeletingPathExtension];
     NSString *page_file_name=[self.page_url lastPathComponent];
@@ -83,4 +84,8 @@
     articleMO.a_visit_number=self.visit_number;
     articleMO.a_like_number=self.like_number;
 }
+@end
+@implementation ArticlesForCVC
+@synthesize header_article=_header_article;
+@synthesize other_articles=_other_articles;
 @end

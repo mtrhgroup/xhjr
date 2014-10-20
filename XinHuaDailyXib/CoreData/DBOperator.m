@@ -164,7 +164,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
 }
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_cover_image_url<>%@", channel.channel_id,nil];
+    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_thumbnail_url<>%@", channel.channel_id,nil];
     NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];

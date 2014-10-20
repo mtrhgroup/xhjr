@@ -53,3 +53,7 @@
 -(id)initWithArticleMO:(ArticleMO *)articleMO;
 -(void)toArticleMO:(ArticleMO *)articleMO;
 @end
+@interface ArticlesForCVC : NSObject
+@property(nonatomic,strong)Article *header_article;
+@property(nonatomic,strong)NSArray *other_articles;
+@end

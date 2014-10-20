@@ -591,7 +591,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "125"
             endingLineNumber = "125"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchHomeArticlesFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -607,7 +607,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "127"
             endingLineNumber = "127"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchHomeArticlesFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -623,7 +623,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "128"
             endingLineNumber = "128"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -639,7 +639,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "126"
             endingLineNumber = "126"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchHomeArticlesFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -655,7 +655,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "129"
             endingLineNumber = "129"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -671,7 +671,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"
             endingLineNumber = "131"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -687,7 +687,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
             endingLineNumber = "130"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -703,7 +703,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
             endingLineNumber = "132"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
             <Locations>
                <Location
@@ -749,7 +749,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
             endingLineNumber = "123"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchHomeArticlesFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -765,7 +765,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "124"
             endingLineNumber = "124"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchHomeArticlesFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -781,7 +781,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "122"
             endingLineNumber = "122"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchHomeArticlesFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -797,7 +797,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
             endingLineNumber = "135"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -813,7 +813,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
             endingLineNumber = "137"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -829,7 +829,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "138"
             endingLineNumber = "138"
-            landmarkName = "-fetchChannelsFromNET:errorHandler:"
+            landmarkName = "-fetchAppInfo:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -909,7 +909,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "-rebuildUI"
+            landmarkName = "-markNewToChannel:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1021,7 +1021,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
             endingLineNumber = "65"
-            landmarkName = "-rebuildUI"
+            landmarkName = "-markNewToChannel:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1037,7 +1037,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "-rebuildUI"
+            landmarkName = "-markNewToChannel:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1069,7 +1069,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "263"
             endingLineNumber = "263"
-            landmarkName = "-fetchTrunkChannelsFromDB"
+            landmarkName = "-fetchOneArticleWithArticleID:successHandler:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1080,11 +1080,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/Model/Channel.m"
-            timestampString = "435372333.377254"
+            timestampString = "435501859.764018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "-initWithChannelMO:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1176,7 +1176,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/Model/Article.m"
-            timestampString = "435416951.538392"
+            timestampString = "435501859.764018"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "-zip_path"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/Model/Article.m"
+            timestampString = "435501859.764018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
@@ -1191,28 +1207,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/Model/Article.m"
-            timestampString = "435416951.538392"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "-zip_path"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ListChannelViewController.m"
-            timestampString = "435417557.931697"
+            timestampString = "435503742.681203"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "-refreshUI"
             landmarkType = "5">
          </BreakpointContent>
@@ -1229,7 +1229,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "149"
             endingLineNumber = "149"
-            landmarkName = "-fetchArticlesFromNETWithChannel:successHandler:errorHandler:"
+            landmarkName = "-fetchChannelsFromNET:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1245,7 +1245,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "281"
             endingLineNumber = "281"
-            landmarkName = "-fetchArticlesFromDBWithChannel:topN:"
+            landmarkName = "-fetchFavorArticlesFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1406,6 +1406,86 @@
             startingLineNumber = "44"
             endingLineNumber = "44"
             landmarkName = "-setArticle:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/DrawerViewController.m"
+            timestampString = "435499262.113265"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "-presentArticleContentVCWithPushArticleID:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/DrawerViewController.m"
+            timestampString = "435499272.153771"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "-presentArtilceContentVCWithArticle:channel:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/LeafChannelViewController.m"
+            timestampString = "435501948.814674"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "-reloadArticlesFromDB"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/CoreData/DBOperator.m"
+            timestampString = "435502711.001584"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "-fetchHeaderArticleWithChannel:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/Service.m"
+            timestampString = "435502763.006114"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
+            landmarkName = "-fetchArticlesFromDBWithChannel:topN:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
