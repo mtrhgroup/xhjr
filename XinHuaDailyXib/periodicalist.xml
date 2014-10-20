@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <periodicallist sn_state="1">
     <periodical>
-        <id>372</id>
+        <id>273</id>
         <name>e情报</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -16,7 +16,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>373</id>
+        <id>272</id>
         <name>@真相</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -31,7 +31,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>374</id>
+        <id>271</id>
         <name>w圈子</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -46,7 +46,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>375</id>
+        <id>270</id>
         <name>a品鉴</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -61,7 +61,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>376</id>
+        <id>278</id>
         <name>i生活</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -76,7 +76,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>377</id>
+        <id>279</id>
         <name>u赚钱</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -91,7 +91,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>378</id>
+        <id>280</id>
         <name>p图文</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -106,7 +106,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>379</id>
+        <id>281</id>
         <name>发现</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -121,7 +121,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>380</id>
+        <id>282</id>
         <name>画廊</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -136,7 +136,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>381</id>
+        <id>283</id>
         <name>新华舆情通</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -151,7 +151,7 @@
         <auth>1</auth>
     </periodical>
     <periodical>
-        <id>382</id>
+        <id>284</id>
         <name>微清样</name>
         <description>辽宁发布</description>
         <iconurl/>

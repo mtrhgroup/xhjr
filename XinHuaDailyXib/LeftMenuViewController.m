@@ -53,10 +53,20 @@
     [self.tableView setScrollEnabled:NO];
     [self.view addSubview:self.tableView];
     [self rebuildUI];
-   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(markNewToChannel:) name:kNotificationArticleReceived object:nil];
 }
 -(void)viewDidUnload{
     [super viewDidUnload];
+}
+-(void)markNewToChannel:(NSNotification *)notification{
+    NSString *channel_id=[notification object];
+    for(ChannelViewController *cvc in self.leftChannelVCs){
+        if([cvc.channel.channel_id isEqualToString:channel_id]){
+            cvc.channel.has_new_article=YES;
+        }
+    }
+    [self.tableView reloadData];
 }
 -(void)rebuildUI{
     self.leftChannels=[self.service fetchTrunkChannelsFromDB];
@@ -92,12 +102,14 @@
     homeChannel.channel_id=@"0";
     ChannelViewController *homevc=[[HomeViewController alloc]init];
     homevc.channel=homeChannel;
+    homevc.service=AppDelegate.service;
     [originalChannels insertObject:homevc atIndex:0];
     return originalChannels;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UIViewController *vc= [self.leftChannelVCs objectAtIndex:indexPath.row];
-    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+    ChannelViewController *cvc= [self.leftChannelVCs objectAtIndex:indexPath.row];
+    cvc.channel.has_new_article=NO;
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:cvc];
     [AppDelegate.main_vc setCenterViewController:nv
                               withCloseAnimation:YES completion:nil];
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

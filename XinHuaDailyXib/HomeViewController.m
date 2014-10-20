@@ -28,21 +28,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
         if(lessiOS7){
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
+            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         }else{
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView)];
+            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
     self.headerView=[[HomeHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
     self.headerView.articles=self.pic_channel.articles;
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadArticlesFromDB) name:kNotificationArticleReceived object:nil];
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
+    [self reloadArticlesFromDB];
 }
-
+-(void)reloadArticlesFromNET{
+    [self.service fetchHomeArticlesFromNET:^(NSArray *channels) {
+        //<#code#>
+    } errorHandler:^(NSError *error) {
+        //<#code#>
+    }];
+}
+-(void)reloadArticlesFromDB{
+    self.channels=[self.service fetchHomeArticlesFromDB];
+    [self.tableView reloadData];
+}
 NSString *HomeListCellID = @"HomeListCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -58,10 +70,11 @@ NSString *HomeListCellID = @"HomeListCellID";
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    headerView.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.6];
     UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(3, 1, 300, 18)];
     titleLabel.text=((Channel *)[self.channels objectAtIndex:section]).channel_name;
     titleLabel.backgroundColor=[UIColor clearColor];
-    titleLabel.textColor=[UIColor whiteColor];
+    titleLabel.textColor=[UIColor blackColor];
     titleLabel.font=[UIFont fontWithName:@"TrebuchetMS-Bold" size:12];
     [headerView addSubview:titleLabel];
     return headerView;
@@ -92,17 +105,4 @@ NSString *HomeListCellID = @"HomeListCellID";
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:channel];
 }
 
--(void)reloadArticlesFromNET{
-    [self.service  fetchHomeArticlesFromNET:^(NSArray *channels) {
-        self.pic_channel=[channels firstObject];
-        NSMutableArray *temp_channels=[NSMutableArray arrayWithArray:channels];
-        [temp_channels removeLastObject];
-        self.channels=temp_channels;
-    } errorHandler:^(NSError *error) {
-       // <#code#>
-    }];
-}
--(void)refreshUI{
-    [self.tableView reloadData];
-}
 @end

@@ -52,8 +52,9 @@
  返回示例 periodicallist|periodical@id@name|item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:summary:thumbnail:pid:coverimg:visit:video
  备注
  ---------------------*/
-#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&n=%d&pid=%@&order=asc"
+///#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&n=%d&pid=%@&order=asc"
 
+#define kLatestArticlesURL @"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=%@&n=%d&pid=%@"
 
 /*---------------------
  封面信息URL

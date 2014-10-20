@@ -78,22 +78,46 @@
         }
     }];
 }
+-(NSArray *)fetchHomeArticlesFromDB{
+    NSArray *home_channels=[self fetchHomeChannelsFromDB];
+    for(Channel *channel in home_channels){
+        channel.articles=[self fetchArticlesFromDBWithChannel:channel topN:channel.home_number.intValue];
+    }
+    return home_channels;
+}
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSArray *home_channels=[self fetchHomeChannelsFromDB];
     for(Channel *channel in home_channels){
-        [self fetchArticlesFromNETWithChannel:channel successHandler:^(NSArray *articles) {
-            channel.articles=articles;
-            for(Article *article in articles){
-                if(!article.is_cached){
-                    [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
-                        // <#code#>
-                    } errorHandler:^(NSError *error) {
-                        if(errorBlock){
-                            errorBlock(error);
-                        }
-                    }];
+        int topN=(int)fabs([channel.home_number intValue]);
+        NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id];
+        NSLog(@"%@",url);
+        [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                NSArray *articles=[_parser parseArticles:responseStr];
+                DBOperator *db_operator=[_db_manager aOperator];
+                for(Article *article in articles){
+                    if(![db_operator doesArticleExistWithArtilceID:article.article_id]){
+                        [db_operator addArticle:article];
+                        [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationArticleReceived object: article.channel_id ];
+                    }
+                    if(!article.is_cached){
+                        [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
+                            // <#code#>
+                            //TODO ssss
+                        } errorHandler:^(NSError *error) {
+                            if(errorBlock){
+                                errorBlock(error);
+                            }
+                        }];
+                    }
                 }
-            }
+                [db_operator save];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(successBlock){
+                        successBlock(articles);
+                    }
+                });
+            });
         } errorHandler:^(NSError *error) {
             if(errorBlock){
                 errorBlock(error);

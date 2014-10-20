@@ -10,7 +10,7 @@
 #import <sys/utsname.h>
 @implementation DeviceInfo
 +(NSString *)udid{
-    return nil;
+    return @"a6677859-8570-4427-8903-981c0293be1c";
 }
 +(NSString *)osVersion{
     return [[UIDevice currentDevice] systemVersion];
