@@ -53,13 +53,14 @@
     return _articles;
 }
 -(void)setArticles:(NSArray *)articles{
+    _articles=articles;
     if([articles count]>0){
         _scrollview.contentSize=CGSizeMake(_scrollview.frame.size.width * [articles count], _scrollview.frame.size.height);
         for(Article *article in articles){
             int index=[articles indexOfObject:article];
             ALImageView *cover_image_view = [[ALImageView alloc] initWithFrame:CGRectMake(self.frame.size.width * index, 0, self.frame.size.width, self.frame.size.height)];
             cover_image_view.placeholderImage = [UIImage imageNamed:@"default_image.png"];
-            cover_image_view.imageURL=article.cover_image_url;
+            cover_image_view.imageURL=article.thumbnail_url;
             [_scrollview addSubview:cover_image_view];
             cover_image_view.userInteractionEnabled=YES;
             UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openArticle)];
@@ -69,6 +70,14 @@
         _pagecontrol.numberOfPages=[articles count];
         _picTitleLabel.text=((Article *)[articles firstObject]).article_title;
     }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+        CGFloat pageWidth = scrollView.frame.size.width;
+        int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth)+1;
+        if(page>=0&&page<[self.articles count]){
+            _pagecontrol.currentPage = page;
+            _picTitleLabel.text=((Article *)self.articles[page]).article_title;
+        }
 }
 -(void)openArticle{
     if([self.delegate respondsToSelector:@selector(clicked)]){

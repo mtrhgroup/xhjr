@@ -19,11 +19,13 @@
 		186E6D7B19EFB45B00E3C0D3 /* TrafficViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D7719EFB45B00E3C0D3 /* TrafficViewController.m */; };
 		186E6D7E19EFBACD00E3C0D3 /* CollectorBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */; };
 		186E6D8119EFC21000E3C0D3 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */; };
-		1871E17219F0AF71000DFAD4 /* woRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17119F0AF71000DFAD4 /* woRightViewController.m */; };
+		1871E17219F0AF71000DFAD4 /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17119F0AF71000DFAD4 /* RightViewController.m */; };
 		1871E17519F0AFAD000DFAD4 /* FunctionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17419F0AFAD000DFAD4 /* FunctionSource.m */; };
 		1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18A19ED071100BABC4F /* ChannelViewController.m */; };
-		1873E18E19ED0A4B00BABC4F /* TrunkChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */; };
 		1873E19119ED16CE00BABC4F /* AuthorizationCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */; };
+		1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881F0ED19F5E81D00AD52CC /* ChannelCell.m */; };
+		1881F0F119F645DC00AD52CC /* title_menu_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */; };
+		1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */; };
 		1887389618FCD3B00032CF2C /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFA85D17A5F9260067ECA5 /* WebViewJavascriptBridge.m */; };
 		1887389718FCD3B00032CF2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474AF15672D0000081C82 /* main.m */; };
 		1887389818FCD3B00032CF2C /* XinHuaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474B315672D0000081C82 /* XinHuaAppDelegate.m */; };
@@ -202,7 +204,7 @@
 		470B13D319F0E489009A6A40 /* ArticleMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 470B13D019F0E489009A6A40 /* ArticleMO.m */; };
 		470B13D419F0E489009A6A40 /* ChannelMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 470B13D219F0E489009A6A40 /* ChannelMO.m */; };
 		4710E65219EE9C6700246A1E /* DrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65119EE9C6700246A1E /* DrawerViewController.m */; };
-		4710E65519EE9C7900246A1E /* SlideSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65419EE9C7900246A1E /* SlideSwitchViewController.m */; };
+		4710E65519EE9C7900246A1E /* TrunkChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65419EE9C7900246A1E /* TrunkChannelViewController.m */; };
 		4710E65819EE9E5300246A1E /* DefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E65719EE9E5300246A1E /* DefaultView.m */; };
 		4710E6A019EEA40C00246A1E /* Frontia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4710E68219EEA40C00246A1E /* Frontia.framework */; };
 		4710E6A119EEA40C00246A1E /* FrontiaSource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4710E68319EEA40C00246A1E /* FrontiaSource.bundle */; };
@@ -304,17 +306,19 @@
 		186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectorBoxViewController.m; sourceTree = "<group>"; };
 		186E6D7F19EFC21000E3C0D3 /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = "<group>"; };
 		186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
-		1871E17019F0AF71000DFAD4 /* woRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = woRightViewController.h; sourceTree = "<group>"; };
-		1871E17119F0AF71000DFAD4 /* woRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = woRightViewController.m; sourceTree = "<group>"; };
+		1871E17019F0AF71000DFAD4 /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
+		1871E17119F0AF71000DFAD4 /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
 		1871E17319F0AFAD000DFAD4 /* FunctionSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionSource.h; sourceTree = "<group>"; };
 		1871E17419F0AFAD000DFAD4 /* FunctionSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionSource.m; sourceTree = "<group>"; };
 		1873E18919ED071100BABC4F /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
 		1873E18A19ED071100BABC4F /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
-		1873E18C19ED0A4B00BABC4F /* TrunkChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrunkChannelViewController.h; sourceTree = "<group>"; };
-		1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrunkChannelViewController.m; sourceTree = "<group>"; };
 		1873E18F19ED16CE00BABC4F /* AuthorizationCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationCoverView.h; sourceTree = "<group>"; };
 		1873E19019ED16CE00BABC4F /* AuthorizationCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorizationCoverView.m; sourceTree = "<group>"; };
 		187852AF1742350F00C249B0 /* btn_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_share.png; sourceTree = "<group>"; };
+		1881F0EC19F5E81D00AD52CC /* ChannelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelCell.h; sourceTree = "<group>"; };
+		1881F0ED19F5E81D00AD52CC /* ChannelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelCell.m; sourceTree = "<group>"; };
+		1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title_menu_btn_normal.png; sourceTree = "<group>"; };
+		1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title_menu_btn_pressed.png; sourceTree = "<group>"; };
 		188228161803C912006AF789 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		188228171803C912006AF789 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		188228181803C912006AF789 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -550,8 +554,8 @@
 		4710E64B19EE91C600246A1E /* GlobalVariablesDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalVariablesDefine.h; sourceTree = "<group>"; };
 		4710E65019EE9C6700246A1E /* DrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerViewController.h; sourceTree = "<group>"; };
 		4710E65119EE9C6700246A1E /* DrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerViewController.m; sourceTree = "<group>"; };
-		4710E65319EE9C7900246A1E /* SlideSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideSwitchViewController.h; sourceTree = "<group>"; };
-		4710E65419EE9C7900246A1E /* SlideSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideSwitchViewController.m; sourceTree = "<group>"; };
+		4710E65319EE9C7900246A1E /* TrunkChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrunkChannelViewController.h; sourceTree = "<group>"; };
+		4710E65419EE9C7900246A1E /* TrunkChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrunkChannelViewController.m; sourceTree = "<group>"; };
 		4710E65619EE9E5300246A1E /* DefaultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultView.h; sourceTree = "<group>"; };
 		4710E65719EE9E5300246A1E /* DefaultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultView.m; sourceTree = "<group>"; };
 		4710E68219EEA40C00246A1E /* Frontia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Frontia.framework; sourceTree = "<group>"; };
@@ -861,6 +865,8 @@
 		18FCA1FF163A255100D6A645 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */,
+				1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */,
 				47982DE219F3A25D003B6363 /* new.png */,
 				18A5B24B17C472CE00E087F7 /* about.png */,
 				18392D1017CEE36700531381 /* default_image.png */,
@@ -1121,8 +1127,8 @@
 			children = (
 				1871E17319F0AFAD000DFAD4 /* FunctionSource.h */,
 				1871E17419F0AFAD000DFAD4 /* FunctionSource.m */,
-				1871E17019F0AF71000DFAD4 /* woRightViewController.h */,
-				1871E17119F0AF71000DFAD4 /* woRightViewController.m */,
+				1871E17019F0AF71000DFAD4 /* RightViewController.h */,
+				1871E17119F0AF71000DFAD4 /* RightViewController.m */,
 				186E6D7C19EFBACD00E3C0D3 /* CollectorBoxViewController.h */,
 				186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */,
 				186E6D7019EFB45B00E3C0D3 /* AboutViewController.h */,
@@ -1137,8 +1143,8 @@
 				186E6D5C19EFAFCC00E3C0D3 /* ArticleViewController.m */,
 				4710E6A919EEA77100246A1E /* NavigationController.h */,
 				4710E6AA19EEA77100246A1E /* NavigationController.m */,
-				4710E65319EE9C7900246A1E /* SlideSwitchViewController.h */,
-				4710E65419EE9C7900246A1E /* SlideSwitchViewController.m */,
+				4710E65319EE9C7900246A1E /* TrunkChannelViewController.h */,
+				4710E65419EE9C7900246A1E /* TrunkChannelViewController.m */,
 				4710E65019EE9C6700246A1E /* DrawerViewController.h */,
 				4710E65119EE9C6700246A1E /* DrawerViewController.m */,
 				47C6C8C319E826EB002CD14C /* HomeViewController.h */,
@@ -1157,8 +1163,6 @@
 				1873E18A19ED071100BABC4F /* ChannelViewController.m */,
 				4727AC9719ED47A1000B625A /* LeafChannelViewController.h */,
 				4727AC9819ED47A1000B625A /* LeafChannelViewController.m */,
-				1873E18C19ED0A4B00BABC4F /* TrunkChannelViewController.h */,
-				1873E18D19ED0A4B00BABC4F /* TrunkChannelViewController.m */,
 			);
 			name = vc;
 			sourceTree = "<group>";
@@ -1423,6 +1427,8 @@
 				186E6D5F19EFB0B600E3C0D3 /* PopupMenuView.m */,
 				4710E65619EE9E5300246A1E /* DefaultView.h */,
 				4710E65719EE9E5300246A1E /* DefaultView.m */,
+				1881F0EC19F5E81D00AD52CC /* ChannelCell.h */,
+				1881F0ED19F5E81D00AD52CC /* ChannelCell.m */,
 				18F116F519E8B4C60097A682 /* ListCell.h */,
 				18F116F619E8B4C60097A682 /* ListCell.m */,
 				18F116F819E8B5150097A682 /* TileCell.h */,
@@ -1545,6 +1551,7 @@
 				1887396118FCD3B00032CF2C /* flag.png in Resources */,
 				1887396218FCD3B00032CF2C /* grayArrow.png in Resources */,
 				1887396318FCD3B00032CF2C /* grayArrow@2x.png in Resources */,
+				1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */,
 				1887396418FCD3B00032CF2C /* heise.png in Resources */,
 				1887396518FCD3B00032CF2C /* startup_logo.png in Resources */,
 				1887396618FCD3B00032CF2C /* History.png in Resources */,
@@ -1555,6 +1562,7 @@
 				1887396B18FCD3B00032CF2C /* menu@2x.png in Resources */,
 				1887396C18FCD3B00032CF2C /* nb_back@2x.png in Resources */,
 				1887396D18FCD3B00032CF2C /* num_bg.png in Resources */,
+				1881F0F119F645DC00AD52CC /* title_menu_btn_normal.png in Resources */,
 				1887396F18FCD3B00032CF2C /* red.png in Resources */,
 				1887397018FCD3B00032CF2C /* redarrow.png in Resources */,
 				1887397118FCD3B00032CF2C /* redarrow@2x.png in Resources */,
@@ -1673,7 +1681,7 @@
 				188738C018FCD3B00032CF2C /* zip.c in Sources */,
 				188738C118FCD3B00032CF2C /* ZipArchive.mm in Sources */,
 				188738C218FCD3B00032CF2C /* CommonMethod.mm in Sources */,
-				4710E65519EE9C7900246A1E /* SlideSwitchViewController.m in Sources */,
+				4710E65519EE9C7900246A1E /* TrunkChannelViewController.m in Sources */,
 				186E6D7E19EFBACD00E3C0D3 /* CollectorBoxViewController.m in Sources */,
 				188738C318FCD3B00032CF2C /* Reachability.m in Sources */,
 				47C6C8B819E824DB002CD14C /* MMDrawerBarButtonItem.m in Sources */,
@@ -1694,6 +1702,7 @@
 				4753277119F279520081A0F5 /* YzdHUDBackgroundView.m in Sources */,
 				188738D018FCD3B00032CF2C /* ASIDataCompressor.m in Sources */,
 				188738D118FCD3B00032CF2C /* ASIDataDecompressor.m in Sources */,
+				1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */,
 				188738D218FCD3B00032CF2C /* ASIDownloadCache.m in Sources */,
 				186E6D6619EFB18600E3C0D3 /* TouchRefreshView.m in Sources */,
 				4727ACB119ED6218000B625A /* UIScrollView+MJRefresh.m in Sources */,
@@ -1711,10 +1720,9 @@
 				188738D718FCD3B00032CF2C /* ASINetworkQueue.m in Sources */,
 				188738D818FCD3B00032CF2C /* NetStreamStatistics.m in Sources */,
 				1892C9E819E614ED00F26945 /* DBOperator.m in Sources */,
-				1871E17219F0AF71000DFAD4 /* woRightViewController.m in Sources */,
+				1871E17219F0AF71000DFAD4 /* RightViewController.m in Sources */,
 				47C6C8CE19E827F0002CD14C /* GridChannelViewController.m in Sources */,
 				4727ACB219ED6218000B625A /* UIView+Extension.m in Sources */,
-				1873E18E19ED0A4B00BABC4F /* TrunkChannelViewController.m in Sources */,
 				47C6C8BA19E824DB002CD14C /* MMDrawerVisualState.m in Sources */,
 				18F1170019E8B6990097A682 /* ChannelHeader.m in Sources */,
 				4753277019F279520081A0F5 /* UIWindow+YzdHUD.m in Sources */,

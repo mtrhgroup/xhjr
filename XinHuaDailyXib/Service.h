@@ -33,7 +33,7 @@
 -(void)markArticleReadWithArticle:(Article *)article;
 -(Article *)fetchADArticleFromDB;
 -(NSArray *)fetchPushArticlesFromDB;
--(NSArray *)fetchHomeArticlesFromDB;
+-(ChannelsForHVC *)fetchHomeArticlesFromDB;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 
 -(BOOL)authorize;

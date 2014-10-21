@@ -8,17 +8,19 @@
 
 #import "DrawerViewController.h"
 #import "NavigationController.h"
-#import "SlideSwitchViewController.h"
+#import "TrunkChannelViewController.h"
 #import "MMDrawerVisualState.h"
 #import "ArticleViewController.h"
 #import "CollectorBoxViewController.h"
 #import "SettingViewController.h"
+#import "RightViewController.h"
 @interface DrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)DefaultView *cover_view;
 @property (nonatomic, strong)  UINavigationController *nav_slideswitch_vc;
 @property (nonatomic, strong)  UINavigationController *nav_comm_vc;
 @property (nonatomic,strong)   LeftMenuViewController *left_menu_vc;
+@property(nonatomic,strong)    RightViewController *right_vc;
 @end
 
 @implementation DrawerViewController
@@ -40,15 +42,16 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     self.cover_view=[[DefaultView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.cover_view];
     self.cover_view.delegate=self;
-    SlideSwitchViewController *slideSwitchVC = [[SlideSwitchViewController alloc] init];
+    TrunkChannelViewController *slideSwitchVC = [[TrunkChannelViewController alloc] init];
     self.nav_slideswitch_vc = [[NavigationController alloc] initWithRootViewController:slideSwitchVC];
     self.nav_slideswitch_vc.delegate=slideSwitchVC;
     //初始化左侧菜单对象
     self.left_menu_vc= [[LeftMenuViewController alloc]init];
+    self.right_vc=[[RightViewController alloc] init];
     //    //初始化抽屉视图对象
     [self setCenterViewController:self.nav_slideswitch_vc];
     [self setLeftDrawerViewController:self.left_menu_vc];
-    [self setRightDrawerViewController:nil];
+    [self setRightDrawerViewController:self.right_vc];
     [self setMaximumLeftDrawerWidth:kPublicLeftMenuWidth];
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
@@ -92,7 +95,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
 }
 -(void)loadDataForMainVC{
     [self.left_menu_vc rebuildUI];
-    [((SlideSwitchViewController *)[[self.nav_slideswitch_vc viewControllers] objectAtIndex:0]) rebuildUI];
+    [((TrunkChannelViewController *)[[self.nav_slideswitch_vc viewControllers] objectAtIndex:0]) rebuildUI];
 }
 
 - (void)didReceiveMemoryWarning

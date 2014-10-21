@@ -36,6 +36,7 @@
     _tableView.dataSource = self;
     _tableView.scrollEnabled=false;
     [self.view addSubview:_tableView];
+
 [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
   
 

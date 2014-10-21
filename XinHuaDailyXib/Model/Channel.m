@@ -29,8 +29,8 @@
         self.show_type=channel_mo.a_show_type.intValue;
         self.home_number=channel_mo.a_home_number;
         self.parent_id=channel_mo.a_parent_id;
-        self.is_leaf=(BOOL)channel_mo.a_is_leaf;
-        self.need_be_authorized=(BOOL)channel_mo.a_authorize;
+        self.is_leaf=channel_mo.a_is_leaf.boolValue;
+        self.need_be_authorized=channel_mo.a_authorize.boolValue;
     }
     return self;
 }
@@ -47,6 +47,6 @@
 }
 @end
 @implementation ChannelsForHVC
-@synthesize header_articles=_header_articles;
+@synthesize header_channel=_header_channel;
 @synthesize other_channels=_other_channels;
 @end

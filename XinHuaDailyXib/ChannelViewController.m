@@ -8,6 +8,7 @@
 
 #import "ChannelViewController.h"
 #import "AuthorizationCoverView.h"
+#import "NavigationController.h"
 #import "Service.h"
 @interface ChannelViewController ()
 @property(nonatomic,strong)AuthorizationCoverView *authorization_cover_view;
@@ -32,7 +33,17 @@
         }
     }
 
+    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
+    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"nav_func.png"] target:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
 }
+
+-(void)showLeftMenu{
+    
+}
+-(void)showMenu{
+    
+}
+
 -(void)buildUI{
     
 }

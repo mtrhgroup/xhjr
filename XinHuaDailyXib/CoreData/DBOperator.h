@@ -16,6 +16,7 @@
 -(NSArray *)fetchTrunkChannels;
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel;
 -(Channel *)fetchADChannel;
+-(Channel *)fetchPicChannel;
 -(NSArray *)fetchHomeChannels;
 -(NSArray *)fetchArticlesThatIsPushed;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;

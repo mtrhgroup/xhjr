@@ -43,6 +43,6 @@ typedef NS_ENUM(NSInteger, ShowType)
 -(void)toChannelMO:(ChannelMO *)channelMO;
 @end
 @interface ChannelsForHVC : NSObject
-@property(nonatomic,strong)NSArray *header_articles;
+@property(nonatomic,strong)Channel *header_channel;
 @property(nonatomic,strong)NSArray *other_channels;
 @end

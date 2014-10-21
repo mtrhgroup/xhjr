@@ -11,7 +11,7 @@
 #import "MMDrawerController.h"
 #import "MMDrawerVisualState.h"
 #import "DrawerViewController.h"
-#import "SlideSwitchViewController.h"
+#import "TrunkChannelViewController.h"
 #import "NavigationController.h"
 #import <Frontia/FrontiaPush.h>
 #import <Frontia/Frontia.h>
