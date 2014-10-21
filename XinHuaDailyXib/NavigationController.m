@@ -28,9 +28,11 @@
     UIColor *color=[UIColor blackColor];
     NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys: color,UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0, 0)],UITextAttributeTextShadowOffset,nil];
     self.navigationBar.titleTextAttributes=dict;
-    // Do any additional setup after loading the view.
+   
 }
-
+-(void)showLeftMenu{
+    [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
 -(void)setLeftButtonWithImage:(UIImage *)img target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents{
     UIButton *left_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
     [left_btn setBackgroundImage:img forState:UIControlStateNormal];

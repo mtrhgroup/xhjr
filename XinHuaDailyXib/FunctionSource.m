@@ -49,7 +49,7 @@
         
         UILabel *FavorLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 75, 80, 25)];
         FavorLbl.text=@"我的收藏";
-        FavorLbl.textColor = [UIColor blackColor];
+        FavorLbl.textColor = [UIColor lightGrayColor];
         FavorLbl.font = [UIFont fontWithName:@"System" size:17];
         FavorLbl.textAlignment=NSTextAlignmentCenter;
         FavorLbl.backgroundColor = [UIColor clearColor];
@@ -65,7 +65,7 @@
         UILabel *SettingsLbl = [[UILabel alloc] initWithFrame:CGRectMake(120, 75, 80, 25)];
         SettingsLbl.text=@"管理设置";
         SettingsLbl.textAlignment=NSTextAlignmentCenter;
-        SettingsLbl.textColor = [UIColor blackColor];
+        SettingsLbl.textColor = [UIColor lightGrayColor];
         SettingsLbl.font = [UIFont fontWithName:@"System" size:17];
         SettingsLbl.backgroundColor = [UIColor clearColor];
         [cell addSubview:SettingsLbl];
@@ -81,7 +81,7 @@
         UILabel *feedbackLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 75, 80, 25)];
         feedbackLbl.text=@"消息汇总";
         feedbackLbl.textAlignment=NSTextAlignmentCenter;
-        feedbackLbl.textColor = [UIColor blackColor];
+        feedbackLbl.textColor = [UIColor lightGrayColor];
         feedbackLbl.font = [UIFont fontWithName:@"System" size:17];
         feedbackLbl.backgroundColor = [UIColor clearColor];
         [cell addSubview:feedbackLbl];
@@ -96,7 +96,7 @@
         UILabel *aboutLbl = [[UILabel alloc] initWithFrame:CGRectMake(120, 75, 80, 25)];
         aboutLbl.text=@"客服电话";
         aboutLbl.textAlignment=NSTextAlignmentCenter;
-        aboutLbl.textColor = [UIColor blackColor];
+        aboutLbl.textColor = [UIColor lightGrayColor];
         aboutLbl.font = [UIFont fontWithName:@"System" size:17];
         aboutLbl.backgroundColor = [UIColor clearColor];
         [cell addSubview:aboutLbl];

@@ -5,6 +5,7 @@
 #import "TileChannelViewController.h"
 #import "TrunkChannelViewController.h"
 #import "HomeViewController.h"
+#import "ChannelCell.h"
 @interface LeftMenuViewController ()
 @property(nonatomic,strong)NSMutableArray *leftChannelVCs;
 @property(nonatomic,strong)NSArray *leftChannels;
@@ -15,9 +16,9 @@
 @implementation LeftMenuViewController{
 
 }
-@synthesize leftChannelVCs;
-@synthesize tableView;
-@synthesize service;
+@synthesize leftChannelVCs=_leftChannelVCs;
+@synthesize tableView=_tableView;
+@synthesize service=_service;
 #pragma mark - 控制器初始化方法
 - (id)init
 {
@@ -109,6 +110,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ChannelViewController *cvc= [self.leftChannelVCs objectAtIndex:indexPath.row];
     cvc.channel.has_new_article=NO;
+    [self.tableView reloadData];
     NavigationController *nv=[[NavigationController alloc]initWithRootViewController:cvc];
     [AppDelegate.main_vc setCenterViewController:nv
                               withCloseAnimation:YES completion:nil];
@@ -121,23 +123,15 @@
 {
     return 44;
 }
+NSString *LeftSideCellId = @"LeftSideCellId";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    int row = (int)indexPath.row;
-    NSString *LeftSideCellId = @"LeftSideCellId";
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:LeftSideCellId];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:LeftSideCellId];
+    ChannelCell *cell=nil;
+    cell = [tableView dequeueReusableCellWithIdentifier:LeftSideCellId];
+    if(cell==nil){
+        cell=[[ChannelCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LeftSideCellId];
     }
-    ChannelViewController *vc=[self.leftChannelVCs objectAtIndex:row];
-    cell.textLabel.text=vc.channel.channel_name;
-    [cell.textLabel setFont: [UIFont boldSystemFontOfSize:25]];
-    cell.textLabel.textColor=[UIColor whiteColor];
-    cell.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.0];
-    if(vc.channel.has_new_article){
-        UIImageView *new_view=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new.png"]];
-        new_view.frame=CGRectMake(100, 5, 16, 16);
-        [[cell contentView] addSubview:new_view];
-    }
+    ChannelViewController *vc=[self.leftChannelVCs objectAtIndex:indexPath.row];
+    cell.channel=vc.channel;   
     return  cell;
 }
 

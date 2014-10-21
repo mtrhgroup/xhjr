@@ -1,13 +1,8 @@
-//
-//  TrunkChannelViewController.h
-//  XinHuaDailyXib
-//
-//  Created by apple on 14/10/14.
-//
-//
 
 #import <UIKit/UIKit.h>
+#import "SUNSlideSwitchView.h"
+#import "DrawerViewController.h"
 #import "ChannelViewController.h"
-@interface TrunkChannelViewController : ChannelViewController
-
+@interface TrunkChannelViewController : ChannelViewController<UINavigationControllerDelegate,SUNSlideSwitchViewDelegate>
+-(void)rebuildUI;
 @end

@@ -6,18 +6,18 @@
 //  Copyright (c) 2013年 apple. All rights reserved.
 //
 
-#import "woRightViewController.h"
+#import "RightViewController.h"
 #import "FunctionSource.h"
 
 
 #define BG_COLOR	 [UIColor colorWithRed:44.0/255.0 green:44.0/255.0 blue:44.0/255.0 alpha:1.0]
 #define HEADER_COLOR	 [UIColor colorWithRed:88.0/255.0 green:88.0/255.0 blue:88.0/255.0 alpha:1.0]
 
-@interface woRightViewController ()
+@interface RightViewController ()
 
 @end
 
-@implementation woRightViewController{
+@implementation RightViewController{
     UITableView *_tableView;
     FunctionSource *_dataSource;
     UIView *_bottomView;
@@ -42,17 +42,13 @@
     [super viewDidLoad];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     self.navigationController.navigationBar.hidden = YES;
-    
-    
-   
-    
-    UIScrollView *scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0, 220, 460+(iPhone5?88:0))];
+    UIScrollView *scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(30, 0, 220, 460+(iPhone5?88:0))];
     CGSize newSize = CGSizeMake(220,460);
     [scrollView setContentSize:newSize];
-    scrollView.backgroundColor=[UIColor whiteColor];
+    scrollView.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
     [self.view addSubview:scrollView];
     UIImageView* topView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 220, 65)];
-    topView.backgroundColor=[UIColor whiteColor];
+    topView.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
     [scrollView addSubview:topView];
     NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 12, 220, 40)];
@@ -64,7 +60,7 @@
     [topView addSubview:label];
     _dataSource=[[FunctionSource alloc] init];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, 220, 330)];
-    _tableView.backgroundColor=[UIColor whiteColor];
+    _tableView.backgroundColor=[UIColor clearColor];
     _tableView.separatorColor=[UIColor clearColor];
     _tableView.delegate =  _dataSource;
     _tableView.dataSource = _dataSource;
@@ -100,7 +96,7 @@
     copyrightLbl.textColor = [UIColor grayColor];
     [_bottomView addSubview:copyrightLbl];
     [scrollView addSubview:_bottomView];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
     
     
 }

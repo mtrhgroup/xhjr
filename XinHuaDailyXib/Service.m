@@ -85,12 +85,20 @@
     for(Channel *channel in home_channels){
        channel.articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:nil topN:channel.home_number.intValue];
     }
-    channels_for_hvc.header_articles=[db_operator fetchArticlesThatIncludeCoverImage];
+    Channel *pic_channel=[db_operator fetchPicChannel];
+    int topN=(int)fabs(pic_channel.home_number.intValue);
+    pic_channel.articles=[db_operator fetchArticlesWithChannel:pic_channel exceptArticle:nil topN:topN];
+    channels_for_hvc.header_channel=pic_channel;
     channels_for_hvc.other_channels=home_channels;
     return channels_for_hvc;
 }
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSArray *home_channels=[self fetchHomeChannelsFromDB];
+    DBOperator *db_operator=[_db_manager aOperator];
+    Channel *pic_channel=[db_operator fetchPicChannel];
+    NSArray *other_channels=[db_operator fetchHomeChannels];
+    NSMutableArray *home_channels=[[NSMutableArray alloc]init];
+    [home_channels addObject:pic_channel];
+    [home_channels addObjectsFromArray:other_channels];  
     for(Channel *channel in home_channels){
         int topN=(int)fabs([channel.home_number intValue]);
         NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id];
@@ -98,7 +106,6 @@
         [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 NSArray *articles=[_parser parseArticles:responseStr];
-                DBOperator *db_operator=[_db_manager aOperator];
                 for(Article *article in articles){
                     if(![db_operator doesArticleExistWithArtilceID:article.article_id]){
                         [db_operator addArticle:article];
@@ -175,7 +182,7 @@
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     //NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
-    NSString *url=@"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=a6677859-8570-4427-8903-981c0293be1c&n=10&pid=274";
+    NSString *url=@"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=a6677859-8570-4427-8903-981c0293be1c&n=10&pid=272";
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];

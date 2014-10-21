@@ -21,9 +21,8 @@
 }
 NSString *CellectionViewCellId = @"CellectionViewCellId";
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
 -(void)buildUI{
     [self calculateCellSize];
@@ -99,7 +98,9 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
     
     return YES;
 }
-
+-(void)triggerRefresh{
+    [self reloadArticlesFromNET];
+}
 -(void)refreshUI{
     [self.collectionView reloadData];
 }

@@ -91,7 +91,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>280</id>
+        <id>256</id>
         <name>p图文</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -110,7 +110,7 @@
         <name>发现</name>
         <description>辽宁发布</description>
         <iconurl/>
-        <homenum>-2</homenum>
+        <homenum>2</homenum>
         <level>1</level>
         <generatetype>1</generatetype>
         <subscribe>2</subscribe>
@@ -136,7 +136,7 @@
         <auth>0</auth>
     </periodical>
     <periodical>
-        <id>283</id>
+        <id>381</id>
         <name>新华舆情通</name>
         <description>辽宁发布</description>
         <iconurl/>
@@ -151,7 +151,7 @@
         <auth>1</auth>
     </periodical>
     <periodical>
-        <id>284</id>
+        <id>272</id>
         <name>微清样</name>
         <description>辽宁发布</description>
         <iconurl/>

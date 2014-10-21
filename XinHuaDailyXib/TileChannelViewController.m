@@ -23,11 +23,9 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
-
 -(void)buildUI{
     if(![self.channel.parent_id isEqualToString:@"0"])
         if(lessiOS7){
@@ -43,8 +41,6 @@
             }else{
                 self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
             }
-            [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
-            
         }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
@@ -85,7 +81,9 @@ NSString *TileCellID = @"TileCellID";
 -(void)headerClicked:(Article *)article{
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
-
+-(void)triggerRefresh{
+    [self reloadArticlesFromNET];
+}
 -(void)refreshUI{
     if(self.articles_for_cvc.header_article!=nil){
         if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 160)];
@@ -95,8 +93,5 @@ NSString *TileCellID = @"TileCellID";
         self.tableView.tableHeaderView=nil;
     }
     [self.tableView reloadData];
-}
--(void)showLeftMenu{
-    
 }
 @end

@@ -49,7 +49,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
 }
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %d ",trunk_channel.channel_id];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %@ ",trunk_channel.channel_id];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
@@ -61,6 +61,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     for(ChannelMO *amo in result){
         [leaf_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
     }
+    NSLog(@"%@",trunk_channel.channel_id);
     return leaf_channels;
 }
 
@@ -111,6 +112,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     
     return nil;
 }
+
 -(NSArray *)fetchArticlesThatIsPushed{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate* p = [NSPredicate predicateWithFormat:@"is_push = %d",YES];
@@ -124,9 +126,23 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     }
     return articles;
 }
+-(Channel *)fetchPicChannel{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_home_number < %d",0];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+        Channel *ad_channel=[[Channel alloc] initWithChannelMO:result[0]];
+        return ad_channel;
+    }
+    
+    return nil;
+}
 -(NSArray *)fetchArticlesThatIncludeCoverImage{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_cover_image_url = %d",0];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_thumbnail_url<>%@",0];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];

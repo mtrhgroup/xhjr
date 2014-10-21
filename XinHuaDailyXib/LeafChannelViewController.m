@@ -69,11 +69,11 @@
     }
 }
 -(void)refreshUI{
-    
+   
 }
 
 -(void)triggerRefresh{
-    
+    [self reloadArticlesFromNET];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
