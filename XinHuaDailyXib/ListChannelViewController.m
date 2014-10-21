@@ -90,7 +90,11 @@ NSString *ListCellID = @"ListCellID";
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
 -(void)triggerRefresh{
-    [self reloadArticlesFromNET];
+    [self.tableView headerBeginRefreshing];
+}
+-(void)endRefresh{
+    [self refreshUI];
+    [self.tableView headerEndRefreshing];
 }
 -(void)refreshUI{
     if(self.articles_for_cvc.header_article!=nil){

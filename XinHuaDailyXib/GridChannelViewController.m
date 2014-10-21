@@ -99,7 +99,11 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
     return YES;
 }
 -(void)triggerRefresh{
-    [self reloadArticlesFromNET];
+    [self.collectionView headerBeginRefreshing];
+}
+-(void)endRefresh{
+    [self refreshUI];
+    [self.collectionView headerEndRefreshing];
 }
 -(void)refreshUI{
     [self.collectionView reloadData];

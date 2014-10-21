@@ -43,8 +43,10 @@
 -(void)reloadArticlesFromNET{
     [self.service  fetchArticlesFromNETWithChannel:self.channel successHandler:^(NSArray *articles) {
         [self reloadArticlesFromDB];
+        [self endRefresh];
+        _time_stamp=[NSDate date];
     } errorHandler:^(NSError *error) {
-        //report error to user
+        [self endRefresh];
     }];
 }
 -(void)loadMoreArticlesFromNET{
@@ -52,7 +54,7 @@
         NSMutableArray *other_articles=[NSMutableArray arrayWithArray:self.articles_for_cvc.other_articles];
         [other_articles addObjectsFromArray:articles];
         self.articles_for_cvc.other_articles=other_articles;
-        [self refreshUI];
+        [self endRefresh];
     } errorHandler:^(NSError *error) {
         //report error to user
     }];
@@ -61,7 +63,7 @@
     NSDate *now=[NSDate date];
     NSTimeInterval date1=[now timeIntervalSinceReferenceDate];
     NSTimeInterval date2=[_time_stamp timeIntervalSinceReferenceDate];
-    long interval=date1-date2;
+    NSTimeInterval interval=date1-date2;
     if(interval>_refresh_interval_minutes*60){
         return YES;
     }else{
@@ -73,7 +75,9 @@
 }
 
 -(void)triggerRefresh{
-    [self reloadArticlesFromNET];
+}
+-(void)endRefresh{
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

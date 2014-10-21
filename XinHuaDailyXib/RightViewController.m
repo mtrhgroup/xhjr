@@ -7,8 +7,10 @@
 //
 
 #import "RightViewController.h"
-#import "FunctionSource.h"
-
+#import "AboutViewController.h"
+#import "SettingViewController.h"
+#import "CollectorBoxViewController.h"
+#import "PushNewsViewController.h"
 
 #define BG_COLOR	 [UIColor colorWithRed:44.0/255.0 green:44.0/255.0 blue:44.0/255.0 alpha:1.0]
 #define HEADER_COLOR	 [UIColor colorWithRed:88.0/255.0 green:88.0/255.0 blue:88.0/255.0 alpha:1.0]
@@ -19,7 +21,6 @@
 
 @implementation RightViewController{
     UITableView *_tableView;
-    FunctionSource *_dataSource;
     UIView *_bottomView;
 }
 
@@ -58,12 +59,11 @@
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor grayColor];
     [topView addSubview:label];
-    _dataSource=[[FunctionSource alloc] init];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, 220, 330)];
     _tableView.backgroundColor=[UIColor clearColor];
     _tableView.separatorColor=[UIColor clearColor];
-    _tableView.delegate =  _dataSource;
-    _tableView.dataSource = _dataSource;
+    _tableView.delegate =  self;
+    _tableView.dataSource = self;
     _tableView.scrollEnabled=NO;
     [scrollView addSubview:_tableView];
 
@@ -97,14 +97,118 @@
     [_bottomView addSubview:copyrightLbl];
     [scrollView addSubview:_bottomView];
     self.view.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
-    
-    
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 3;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 100;
+}
+
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString* str = @"cellid";
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:str];
+    
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
+        
+    }
+    NSArray *views = [[cell contentView] subviews];
+    for(UIView* view in views)
+    {
+        [view removeFromSuperview];
+    }
+    cell.backgroundColor=[UIColor clearColor];
+    cell.textLabel.textColor = [UIColor lightGrayColor];
+    cell.textLabel.font = [UIFont fontWithName:@"System" size:17.0];
+    cell.accessoryType=UITableViewCellAccessoryNone;
+    cell.selectionStyle=UITableViewCellAccessoryNone;
+    if (indexPath.row == 0){
+        UIButton* favorBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, 15, 60,60)];
+        UIImage *favor_image=[UIImage imageNamed:@"favor.png"];
+        [favorBtn setImage:favor_image forState:UIControlStateNormal];
+        favorBtn.showsTouchWhenHighlighted=YES;
+        [favorBtn  addTarget:self action:@selector(showFavors) forControlEvents:UIControlEventTouchUpInside];
+        [[cell contentView] addSubview:favorBtn];
+        
+        UILabel *FavorLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 75, 80, 25)];
+        FavorLbl.text=@"我的收藏";
+        FavorLbl.textColor = [UIColor lightGrayColor];
+        FavorLbl.font = [UIFont fontWithName:@"System" size:17];
+        FavorLbl.textAlignment=NSTextAlignmentCenter;
+        FavorLbl.backgroundColor = [UIColor clearColor];
+        [cell addSubview:FavorLbl];
+        
+        UIButton* settingsBtn = [[UIButton alloc] initWithFrame:CGRectMake(130, 15, 60,60)];
+        UIImage *settings_image=[UIImage imageNamed:@"settings.png"];
+        [settingsBtn setImage:settings_image forState:UIControlStateNormal];
+        settingsBtn.showsTouchWhenHighlighted=YES;
+        [settingsBtn  addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+        [[cell contentView] addSubview:settingsBtn];
+        
+        UILabel *SettingsLbl = [[UILabel alloc] initWithFrame:CGRectMake(120, 75, 80, 25)];
+        SettingsLbl.text=@"管理设置";
+        SettingsLbl.textAlignment=NSTextAlignmentCenter;
+        SettingsLbl.textColor = [UIColor lightGrayColor];
+        SettingsLbl.font = [UIFont fontWithName:@"System" size:17];
+        SettingsLbl.backgroundColor = [UIColor clearColor];
+        [cell addSubview:SettingsLbl];
+        
+    }else if(indexPath.row == 1){
+        UIButton* feedbackBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, 15, 60,60)];
+        UIImage *feedback_image=[UIImage imageNamed:@"ext_feedback.png"];
+        [feedbackBtn setImage:feedback_image forState:UIControlStateNormal];
+        feedbackBtn.showsTouchWhenHighlighted=YES;
+        [feedbackBtn  addTarget:self action:@selector(showPushNews) forControlEvents:UIControlEventTouchUpInside];
+        [[cell contentView] addSubview:feedbackBtn];
+        
+        UILabel *feedbackLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 75, 80, 25)];
+        feedbackLbl.text=@"消息汇总";
+        feedbackLbl.textAlignment=NSTextAlignmentCenter;
+        feedbackLbl.textColor = [UIColor lightGrayColor];
+        feedbackLbl.font = [UIFont fontWithName:@"System" size:17];
+        feedbackLbl.backgroundColor = [UIColor clearColor];
+        [cell addSubview:feedbackLbl];
+        
+        UIButton* aboutBtn = [[UIButton alloc] initWithFrame:CGRectMake(130, 15, 60,60)];
+        UIImage *about_image=[UIImage imageNamed:@"about.png"];
+        [aboutBtn setImage:about_image forState:UIControlStateNormal];
+        aboutBtn.showsTouchWhenHighlighted=YES;
+        [aboutBtn  addTarget:self action:@selector(showAbout) forControlEvents:UIControlEventTouchUpInside];
+        [[cell contentView] addSubview:aboutBtn];
+        
+        UILabel *aboutLbl = [[UILabel alloc] initWithFrame:CGRectMake(120, 75, 80, 25)];
+        aboutLbl.text=@"客服电话";
+        aboutLbl.textAlignment=NSTextAlignmentCenter;
+        aboutLbl.textColor = [UIColor lightGrayColor];
+        aboutLbl.font = [UIFont fontWithName:@"System" size:17];
+        aboutLbl.backgroundColor = [UIColor clearColor];
+        [cell addSubview:aboutLbl];
+    }else if(indexPath.row==2){
+    }
+    return cell;
+}
+-(void)showFavors{
+    CollectorBoxViewController *vc=[[CollectorBoxViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+-(void)showPushNews{
+    PushNewsViewController *vc=[[PushNewsViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+-(void)showSettings{
+    SettingViewController *vc=[[SettingViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+-(void)showAbout{
+    AboutViewController *vc=[[AboutViewController alloc]init];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end

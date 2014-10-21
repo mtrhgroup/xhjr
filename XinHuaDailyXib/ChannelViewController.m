@@ -38,10 +38,10 @@
 }
 
 -(void)showLeftMenu{
-    
+    [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 -(void)showMenu{
-    
+    [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 -(void)buildUI{

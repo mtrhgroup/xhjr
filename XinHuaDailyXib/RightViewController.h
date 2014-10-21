@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RightViewController : UIViewController
+@interface RightViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @end
