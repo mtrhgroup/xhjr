@@ -33,7 +33,17 @@
     NSString *fontSize=[[NSUserDefaults standardUserDefaults] objectForKey:@"fontSize"];
     if(fontSize==nil)return @"正常";
     else return fontSize;
-
 }
-
+-(void)setCacheArticleNumber:(NSString *)cacheArticleNumber{
+    [[NSUserDefaults standardUserDefaults] setObject:cacheArticleNumber forKey:@"cacheArticleNumber"];
+}
+-(NSString *)cacheArticleNumber{
+    NSString *numbers=[[NSUserDefaults standardUserDefaults] objectForKey:@"fontSize"];
+    if(numbers==nil)return @"20条";
+    else return numbers;
+}
+-(BOOL)is_authorized{
+    if(self.sn!=nil)return YES;
+    else return NO;
+}
 @end

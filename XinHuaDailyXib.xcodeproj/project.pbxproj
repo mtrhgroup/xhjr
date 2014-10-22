@@ -1499,10 +1499,10 @@
 		47CA0CEB19D1A38200D19AE8 /* bz */ = {
 			isa = PBXGroup;
 			children = (
-				479C074219E9752800D946F9 /* UserDefaults.h */,
-				479C074319E9752800D946F9 /* UserDefaults.m */,
 				18B273AB19E4EADC00FE3D42 /* Service.h */,
 				18B273AC19E4EADC00FE3D42 /* Service.m */,
+				479C074219E9752800D946F9 /* UserDefaults.h */,
+				479C074319E9752800D946F9 /* UserDefaults.m */,
 				18D7C60517D7104F0015CA17 /* UserActions.h */,
 				18D7C60617D7104F0015CA17 /* UserActions.m */,
 				479C074119E974EE00D946F9 /* defaults */,

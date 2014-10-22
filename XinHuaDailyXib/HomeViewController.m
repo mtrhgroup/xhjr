@@ -27,11 +27,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-        if(lessiOS7){
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        }else{
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        }
+}
+-(void)buildUI{
+    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
@@ -44,7 +42,6 @@
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
     [self reloadArticlesFromDB];
 }
-
 -(void)reloadArticlesFromNET{
     [self.service fetchHomeArticlesFromNET:^(NSArray *channels) {
         [self reloadArticlesFromDB];

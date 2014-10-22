@@ -14,6 +14,7 @@
 #import "CollectorBoxViewController.h"
 #import "SettingViewController.h"
 #import "RightViewController.h"
+#import "HomeViewController.h"
 @interface DrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)DefaultView *cover_view;
@@ -42,14 +43,13 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     self.cover_view=[[DefaultView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.cover_view];
     self.cover_view.delegate=self;
-    TrunkChannelViewController *slideSwitchVC = [[TrunkChannelViewController alloc] init];
-    self.nav_slideswitch_vc = [[NavigationController alloc] initWithRootViewController:slideSwitchVC];
-    self.nav_slideswitch_vc.delegate=slideSwitchVC;
+
     //初始化左侧菜单对象
     self.left_menu_vc= [[LeftMenuViewController alloc]init];
     self.right_vc=[[RightViewController alloc] init];
     //    //初始化抽屉视图对象
-    [self setCenterViewController:self.nav_slideswitch_vc];
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:self.left_menu_vc.home_vc];
+    [self setCenterViewController:nv];
     [self setLeftDrawerViewController:self.left_menu_vc];
     [self setRightDrawerViewController:self.right_vc];
     [self setMaximumLeftDrawerWidth:kPublicLeftMenuWidth];
@@ -82,20 +82,6 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     }else{
         [self presentViewController:nav_vc animated:YES completion:nil];
     }
-}
-
-
--(NSMutableArray *)appendOriginalChannels:(NSArray*)channels{
-    NSMutableArray *originalChannels=[NSMutableArray arrayWithArray:channels];    
-    Channel *defaultChannel=[[Channel alloc] init];
-    defaultChannel.channel_name=@"首页";
-    defaultChannel.channel_id=@"0";
-    [originalChannels insertObject:self.nav_slideswitch_vc atIndex:0];
-    return originalChannels;
-}
--(void)loadDataForMainVC{
-    [self.left_menu_vc rebuildUI];
-    [((TrunkChannelViewController *)[[self.nav_slideswitch_vc viewControllers] objectAtIndex:0]) rebuildUI];
 }
 
 - (void)didReceiveMemoryWarning

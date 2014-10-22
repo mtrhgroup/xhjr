@@ -19,6 +19,7 @@
 @synthesize leftChannelVCs=_leftChannelVCs;
 @synthesize tableView=_tableView;
 @synthesize service=_service;
+@synthesize home_vc=_home_vc;
 #pragma mark - 控制器初始化方法
 - (id)init
 {
@@ -27,10 +28,21 @@
         self.service=AppDelegate.service;
         self.leftChannelVCs=[[NSMutableArray alloc] init];
         self.leftChannels=[[NSArray alloc]init];
+        [self createHomeVC];
     }
     return self;
 }
-
+-(void)createHomeVC{
+    Channel *homeChannel=[[Channel alloc] init];
+    homeChannel.channel_name=@"首页";
+    homeChannel.channel_id=@"0";
+    homeChannel.has_new_article=NO;
+    homeChannel.need_be_authorized=NO;
+    self.home_vc=[[HomeViewController alloc]init];
+    self.home_vc.channel=homeChannel;
+    self.home_vc.service=AppDelegate.service;
+    [self.leftChannelVCs addObject:self.home_vc];
+}
 #pragma mark - 控制器方法
 
 #pragma mark - 视图加载方法
@@ -71,7 +83,9 @@
 }
 -(void)rebuildUI{
     self.leftChannels=[self.service fetchTrunkChannelsFromDB];
-    [self.leftChannelVCs removeAllObjects];
+    while([self.leftChannelVCs count]>1){
+        [self.leftChannelVCs removeLastObject];
+    }
     for(Channel *channel in self.leftChannels){
         ChannelViewController  *cvc;
         if(channel.is_leaf){
@@ -93,20 +107,9 @@
         [self.leftChannelVCs addObject:cvc];
         
     }
-    self.leftChannelVCs=[self wrapLeftChannels:self.leftChannelVCs];
     [self.tableView reloadData];
 }
--(NSMutableArray *)wrapLeftChannels:(NSArray *)channels{
-    NSMutableArray *originalChannels=[NSMutableArray arrayWithArray:channels];
-    Channel *homeChannel=[[Channel alloc] init];
-    homeChannel.channel_name=@"首页";
-    homeChannel.channel_id=@"0";
-    ChannelViewController *homevc=[[HomeViewController alloc]init];
-    homevc.channel=homeChannel;
-    homevc.service=AppDelegate.service;
-    [originalChannels insertObject:homevc atIndex:0];
-    return originalChannels;
-}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ChannelViewController *cvc= [self.leftChannelVCs objectAtIndex:indexPath.row];
     cvc.channel.has_new_article=NO;

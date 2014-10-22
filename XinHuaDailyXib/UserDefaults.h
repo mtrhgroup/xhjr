@@ -12,4 +12,6 @@
 @property(nonatomic,strong)NSString *sn;
 @property(nonatomic,strong)AppInfo *appInfo;
 @property(nonatomic,strong)NSString *fontSize;
+@property(nonatomic,strong)NSString *cacheArticleNumber;
+@property(readonly,assign)BOOL is_authorized;
 @end
