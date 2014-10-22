@@ -12,12 +12,12 @@
 #import "WaitingView.h"
 #import "PopupMenuView.h"
 #import "ZSYPopoverListView.h"
-#import "TouchRefreshView.h"
+#import "CoverTouchView.h"
 #import "ArticleViewDelegate.h"
 @interface ArticleViewController : UIViewController<UIWebViewDelegate,PopupMenuDelegate,FontAlertDelegate,TouchViewDelegate,ArticleViewDelegate>
 @property(nonatomic,strong)UIWebView *webView;
 @property(nonatomic,strong)WaitingView *waitingView;
-@property(nonatomic,strong)TouchRefreshView *touchView;
+@property(nonatomic,strong)CoverTouchView *touchView;
 @property(nonatomic,strong)PopupMenuView *popupMenuView;
 @property(nonatomic,strong)ZSYPopoverListView *fontAlertView;
 

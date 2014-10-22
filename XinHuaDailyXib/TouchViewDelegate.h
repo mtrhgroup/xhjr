@@ -7,5 +7,5 @@
 //
 
 @protocol TouchViewDelegate <NSObject>
--(void)clicked;
+-(void)touchViewClicked;
 @end

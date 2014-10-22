@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TouchViewDelegate.h"
-@interface TouchRefreshView : UIView
-@property(nonatomic,strong)UIButton *touchView;
+@interface CoverTouchView : UIView
 @property(nonatomic,assign)id<TouchViewDelegate>delegate;
+-(id)initWithImage:(UIImage *)image frame:(CGRect)frame;
 -(void)hide;
 -(void)show;
 @end

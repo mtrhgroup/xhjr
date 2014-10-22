@@ -66,7 +66,7 @@
     [self.view addSubview:self.webView];
     self.waitingView=[[WaitingView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.waitingView];
-    self.touchView=[[TouchRefreshView alloc]initWithFrame:self.view.bounds];
+    self.touchView=[[CoverTouchView alloc]initWithFrame:self.view.bounds];
     self.touchView.delegate=self;
     [self.view addSubview:self.touchView];
     [_service markArticleReadWithArticle:_article];
@@ -82,20 +82,83 @@
         }
     }
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"ic_menu_normal.png"] target:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
+//    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"ic_menu_normal.png"] target:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
     
     
     self.fontAlertView = [[ZSYPopoverListView alloc] initWithFrame:CGRectMake(0, 0, 200, 240)];
     self.fontAlertView.titleName.text = @"选择字体大小";
     self.fontAlertView.web_delegate=self;
-    [self.fontAlertView setSelectedFontSize:_service.fontSize];
+    [self.fontAlertView setSelectedFontSize:_service.user_defaults.fontSize];
     
     self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.popupMenuView.delegate=self;
     self.popupMenuView.favor_status=_article.is_collected;
     [self.view addSubview:self.popupMenuView];
+    
+    UIButton *like_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    [like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
+    [like_btn addTarget:self action:@selector(like) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
+    [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *star_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    [star_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+    [star_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    //    if(lessiOS7){
+    //        negativeSpacer.width=0;
+    //    }else{
+    //        negativeSpacer.width=-20;
+    //    }
+    negativeSpacer.width=0;
+    UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_btn];
+    UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
+    UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:star_btn];
+    
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,star_btn_item,share_btn_item,like_btn_item,nil] animated:YES];
 }
-
+-(void)like{
+    
+}
+-(void)share{
+    FrontiaShare *share = [Frontia getShare];
+    
+    [share registerQQAppId:@"100358052" enableSSO:NO];
+    [share registerWeixinAppId:@"wx712df8473f2a1dbe"];
+    
+    //授权取消回调函数
+    FrontiaShareCancelCallback onCancel = ^(){
+        NSLog(@"OnCancel: share is cancelled");
+    };
+    
+    //授权失败回调函数
+    FrontiaShareFailureCallback onFailure = ^(int errorCode, NSString *errorMessage){
+        NSLog(@"OnFailure: %d  %@", errorCode, errorMessage);
+    };
+    
+    //授权成功回调函数
+    FrontiaMultiShareResultCallback onResult = ^(NSDictionary *respones){
+        NSLog(@"OnResult: %@", [respones description]);
+    };
+    
+    
+    FrontiaShareContent *content=[[FrontiaShareContent alloc] init];
+    content.url = _article.page_url;
+    content.title = _article.article_title;
+    content.description = _article.summary;
+    content.imageObj = _article.thumbnail_url;
+    
+    //    NSArray *platforms = @[FRONTIA_SOCIAL_SHARE_PLATFORM_SINAWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQ,FRONTIA_SOCIAL_SHARE_PLATFORM_RENREN,FRONTIA_SOCIAL_SHARE_PLATFORM_KAIXIN,FRONTIA_SOCIAL_SHARE_PLATFORM_EMAIL,FRONTIA_SOCIAL_SHARE_PLATFORM_SMS];
+    NSArray *platforms = @[FRONTIA_SOCIAL_SHARE_PLATFORM_SINAWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQ,FRONTIA_SOCIAL_SHARE_PLATFORM_RENREN,FRONTIA_SOCIAL_SHARE_PLATFORM_KAIXIN,FRONTIA_SOCIAL_SHARE_PLATFORM_WEIXIN_SESSION,FRONTIA_SOCIAL_SHARE_PLATFORM_QQFRIEND,FRONTIA_SOCIAL_SHARE_PLATFORM_EMAIL,FRONTIA_SOCIAL_SHARE_PLATFORM_SMS,FRONTIA_SOCIAL_SHARE_PLATFORM_COPY];
+    [share showShareMenuWithShareContent:content displayPlatforms:platforms supportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait isStatusBarHidden:NO targetViewForPad:self.view cancelListener:onCancel failureListener:onFailure resultListener:onResult];
+}
+-(void)collect{
+    
+}
 -(void)clickedWithArticle:(Article *)article{
     ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
     controller.isAD=YES;
@@ -198,43 +261,12 @@
         [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '70%'"];
     }
 }
--(void)share{
-    FrontiaShare *share = [Frontia getShare];
-    
-    [share registerQQAppId:@"100358052" enableSSO:NO];
-    [share registerWeixinAppId:@"wx712df8473f2a1dbe"];
-    
-    //授权取消回调函数
-    FrontiaShareCancelCallback onCancel = ^(){
-        NSLog(@"OnCancel: share is cancelled");
-    };
-    
-    //授权失败回调函数
-    FrontiaShareFailureCallback onFailure = ^(int errorCode, NSString *errorMessage){
-        NSLog(@"OnFailure: %d  %@", errorCode, errorMessage);
-    };
-    
-    //授权成功回调函数
-    FrontiaMultiShareResultCallback onResult = ^(NSDictionary *respones){
-        NSLog(@"OnResult: %@", [respones description]);
-    };
-    
-    
-    FrontiaShareContent *content=[[FrontiaShareContent alloc] init];
-    content.url = _article.page_url;
-    content.title = _article.article_title;
-    content.description = _article.summary;
-    content.imageObj = _article.thumbnail_url;
-    
-//    NSArray *platforms = @[FRONTIA_SOCIAL_SHARE_PLATFORM_SINAWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQ,FRONTIA_SOCIAL_SHARE_PLATFORM_RENREN,FRONTIA_SOCIAL_SHARE_PLATFORM_KAIXIN,FRONTIA_SOCIAL_SHARE_PLATFORM_EMAIL,FRONTIA_SOCIAL_SHARE_PLATFORM_SMS];
-     NSArray *platforms = @[FRONTIA_SOCIAL_SHARE_PLATFORM_SINAWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQ,FRONTIA_SOCIAL_SHARE_PLATFORM_RENREN,FRONTIA_SOCIAL_SHARE_PLATFORM_KAIXIN,FRONTIA_SOCIAL_SHARE_PLATFORM_WEIXIN_SESSION,FRONTIA_SOCIAL_SHARE_PLATFORM_QQFRIEND,FRONTIA_SOCIAL_SHARE_PLATFORM_EMAIL,FRONTIA_SOCIAL_SHARE_PLATFORM_SMS,FRONTIA_SOCIAL_SHARE_PLATFORM_COPY];
-    [share showShareMenuWithShareContent:content displayPlatforms:platforms supportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait isStatusBarHidden:NO targetViewForPad:self.view cancelListener:onCancel failureListener:onFailure resultListener:onResult];
-}
+
 #pragma mark -
 
 
 -(void)changeFontWithFontSize:(NSString *)fontSize{
     [self changeWebContentFontSize:fontSize webView:self.webView];
-    _service.fontSize=fontSize;
+    _service.user_defaults.fontSize=fontSize;
 }
 @end

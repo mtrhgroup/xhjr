@@ -220,10 +220,9 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
 
 -(NSArray *)fetchFavorArticles{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_is_favor = %d",YES];
-    NSSortDescriptor *sortPriorityDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_priority" ascending:NO];
-    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_pubish_time" ascending:NO];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPriorityDescriptor,sortPublishTimeDescriptor, nil];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_is_collected = %d",YES];
+    NSSortDescriptor *sortPriorityDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPriorityDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_article_desc];
     [frq setPredicate:p];

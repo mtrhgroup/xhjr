@@ -38,6 +38,7 @@
 }
 - (void)setupTableView
 {
+    self.title=@"收藏夹";
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 
@@ -45,7 +46,11 @@
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:self.tableView];
-    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"title_menu_btn_normal.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
+    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+-(void)back{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)reloadDataFromDB{
     [_items removeAllObjects];
