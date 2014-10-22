@@ -11,6 +11,7 @@
 #import "SettingViewController.h"
 #import "CollectorBoxViewController.h"
 #import "PushNewsViewController.h"
+#import "NavigationController.h"
 
 #define BG_COLOR	 [UIColor colorWithRed:44.0/255.0 green:44.0/255.0 blue:44.0/255.0 alpha:1.0]
 #define HEADER_COLOR	 [UIColor colorWithRed:88.0/255.0 green:88.0/255.0 blue:88.0/255.0 alpha:1.0]
@@ -196,19 +197,24 @@
 }
 -(void)showFavors{
     CollectorBoxViewController *vc=[[CollectorBoxViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nv animated:YES completion:nil];
 }
 -(void)showPushNews{
     PushNewsViewController *vc=[[PushNewsViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nv animated:YES completion:nil];
+    
 }
 -(void)showSettings{
     SettingViewController *vc=[[SettingViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nv animated:YES completion:nil];
 }
 -(void)showAbout{
     AboutViewController *vc=[[AboutViewController alloc]init];
-    [self presentViewController:vc animated:YES completion:nil];
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nv animated:YES completion:nil];
 }
 
 @end

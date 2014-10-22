@@ -80,8 +80,8 @@
         }
 }
 -(void)openArticle{
-    if([self.delegate respondsToSelector:@selector(clicked)]){
-        [self.delegate clicked];
+    if([self.delegate respondsToSelector:@selector(touchViewClicked)]){
+        [self.delegate touchViewClicked];
     }
 }
 @end

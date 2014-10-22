@@ -1,13 +1,21 @@
 //
-//  KidsAboutViewController.h
-//  kidsgarden
+//  XDAboutViewController.h
+//  XDailyNews
 //
-//  Created by apple on 14/6/25.
-//  Copyright (c) 2014年 ikid. All rights reserved.
+//  Created by peiqiang li on 11-12-25.
+//  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface AboutViewController : UIViewController
+@interface AboutViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
+    
+    UINavigationBar* bar;
+    UITableView* table;
+}
+
+@property(nonatomic,strong)  UITableView* table;
+@property int mode;
+-(void)returnclick:(id)sender;
 
 @end

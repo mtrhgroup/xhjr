@@ -14,8 +14,6 @@
 #import "URLDefine.h"
 #import "DeviceInfo.h"
 #import "UserDefaults.h"
-#import "NotificationCenter.h"
-#import "FileSystem.h"
 #import "Command.h"
 #import "UserActions.h"
 @implementation Service{
@@ -24,6 +22,7 @@
     DBManager *_db_manager;
     UserActions *_userActions;
 }
+@synthesize user_defaults=_user_defaults;
 -(id)init{
     if(self=[super init]){
         _communicator=[[Communicator alloc]init];
@@ -40,7 +39,7 @@
         if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
             if(responseStr.length>3){
                 NSString *snStr=[responseStr substringFromIndex:4];
-                [UserDefaults defaults].sn=snStr;
+                _user_defaults.sn=snStr;
             }
             if(successBlock){
                 successBlock(YES);
@@ -65,12 +64,12 @@
     NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"SUCCESSED"].location!=NSNotFound){
-            [UserDefaults defaults].sn=SN;
+            _user_defaults.sn=SN;
             if(successBlock){
                 successBlock(YES);
             }
         }else{
-            [[NotificationCenter center] postMessageNotificationWithMessage:responseStr];
+            //[[NotificationCenter center] postMessageNotificationWithMessage:responseStr];
         }
     } errorHandler:^(NSError *error) {
         if(errorBlock){
@@ -140,7 +139,7 @@
     NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         AppInfo *app_info=[_parser parseAppInfo:responseStr];
-        [UserDefaults defaults].appInfo=app_info;
+        _user_defaults.appInfo=app_info;
         if(successBlock){
             successBlock(app_info);
         }
@@ -154,7 +153,7 @@
 //    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
 //    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
 //        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"periodicalist" ofType:@"xml"];
+            NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"periodicals" ofType:@"xml"];
             NSString* myString = [NSString stringWithContentsOfFile:plistPath usedEncoding:NULL error:NULL];
             NSArray *channels=[_parser parseChannels:myString];
             DBOperator *db_operator=[_db_manager aOperator];
@@ -253,7 +252,7 @@
         if([db_operator doesArticleExistWithArtilceID:command.f_id]){
             if([command.f_state isEqualToString:@"2"]){
                 [db_operator deleteArticleWithArticleID:command.f_id];
-                [[FileSystem system] removeArticle:[db_operator fetchArticleWithArticleID:command.f_id]];
+               // [[FileSystem system] removeArticle:[db_operator fetchArticleWithArticleID:command.f_id]];
             }else if([command.f_state isEqualToString:@"1"]){
                 [db_operator updateArticleTimeWithArticleID:command.f_id newTime:command.f_inserttime];
             }
@@ -358,7 +357,9 @@
     return articles;
 }
 -(BOOL)authorize{
-    
+    return NO;
 }
-
+-(BOOL)hasAuthorized{
+    return NO;
+}
 @end

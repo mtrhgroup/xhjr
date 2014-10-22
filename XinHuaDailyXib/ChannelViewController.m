@@ -7,11 +7,12 @@
 //
 
 #import "ChannelViewController.h"
-#import "AuthorizationCoverView.h"
+#import "AuthorizationTouchView.h"
 #import "NavigationController.h"
+#import "RegisterViewController.h"
 #import "Service.h"
 @interface ChannelViewController ()
-@property(nonatomic,strong)AuthorizationCoverView *authorization_cover_view;
+@property(nonatomic,strong)AuthorizationTouchView *authorization_cover_view;
 @end
 
 @implementation ChannelViewController
@@ -22,14 +23,15 @@
     [super viewDidLoad];
     self.title=self.channel.channel_name;
     [self buildUI];
-    _authorization_cover_view=[[AuthorizationCoverView alloc] initWithFrame:self.view.frame];
+    _authorization_cover_view=[[AuthorizationTouchView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    _authorization_cover_view.delegate=self;
     [self.view addSubview:_authorization_cover_view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeCoverView) name:@"" object:nil];
     if(_channel.need_be_authorized){
-        if([self authorize]){
-            [self removeCoverView];
+        if([self.service hasAuthorized]){
+            [_authorization_cover_view hide];
         }else{
-            [self pushRegisterVC];
+            [_authorization_cover_view show];
         }
     }
 
@@ -51,9 +53,13 @@
     return [_service authorize];
 }
 -(void)removeCoverView{
-    [_authorization_cover_view removeFromSuperview];
+    [_authorization_cover_view hide];
+}
+-(void)touchViewClicked{
+    [self pushRegisterVC];
 }
 -(void)pushRegisterVC{
-    
+    RegisterViewController *vc=[[RegisterViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

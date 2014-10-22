@@ -12,5 +12,4 @@
 @property(nonatomic,strong)NSString *sn;
 @property(nonatomic,strong)AppInfo *appInfo;
 @property(nonatomic,strong)NSString *fontSize;
-+(UserDefaults *)defaults;
 @end

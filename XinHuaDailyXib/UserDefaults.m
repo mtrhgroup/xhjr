@@ -9,13 +9,7 @@
 #import "UserDefaults.h"
 
 @implementation UserDefaults
-static UserDefaults *_defaults=nil;
-+(UserDefaults *)defaults{
-    if(_defaults==nil){
-        _defaults=[[UserDefaults alloc]init];
-    }
-    return _defaults;
-}
+
 -(void)setSn:(NSString *)sn{
     [[NSUserDefaults standardUserDefaults] setObject:sn forKey:@"sn"];
 }
