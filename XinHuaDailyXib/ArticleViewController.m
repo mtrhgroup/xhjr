@@ -88,6 +88,7 @@
     self.touchView.delegate=self;
     [self.view addSubview:self.touchView];
     [_service markArticleReadWithArticle:_article];
+    
     if(_article==nil){
         [self loadPushArticleFromNet];
     }else{
@@ -118,7 +119,7 @@
     _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
     _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(30,0,30,30)];
     [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
-    [_like_btn addTarget:self action:@selector(like) forControlEvents:UIControlEventTouchUpInside];
+    [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
     [like_view addSubview:_like_btn];
     [like_view addSubview:_like_number_label];
     
@@ -128,7 +129,9 @@
     [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     
     _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-    [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+    if(_article.is_collected){
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
+    }
     [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -143,9 +146,6 @@
     
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,star_btn_item,share_btn_item,like_btn_item,nil] animated:YES];
    
-}
--(void)like{
-    
 }
 
 -(void)back{
@@ -188,19 +188,11 @@
 -(void)initBridge{
     [WebViewJavascriptBridge enableLogging];
     _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        
+        NSLog(@"bridge is ok");
     }];
     [_bridge registerHandler:@"openAd" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"open ad ok");
-//        if(_adArticle){
-//            ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:_adArticle];
-//            controller.isAD=YES;
-//           [self.navigationController pushViewController:controller animated:YES];
-//            
-//        }
+        [self navToAdArticleVC];
     }];
-
-
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -211,10 +203,10 @@ BOOL isFirst=YES;
     [_waitingView hide];
     if(isFirst){
         isFirst=NO;
-    NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {var bridge = event.bridge;bridge.init(function(message, responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')}});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response', responseData)});}, false);";
+        NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {bridge = event.bridge;bridge.init(function(message,responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')};});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response',responseData);});}, false);";
     [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
     NSString *js_insert_visit_number=@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:345';";
-    NSString *js_insert_ad=@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='http://news.baidu.com/resource/img/logo_news_137_46.png';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};alert(bridge);}";
+    NSString *js_insert_ad=@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='http://news.baidu.com/resource/img/logo_news_137_46.png';li_ad.appendChild(pic);pic.onclick=function(){alert(bridge);if(bridge){bridge.callHandler('openAd','',null)};}";
 
     [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
     [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
@@ -250,15 +242,9 @@ BOOL isFirst=YES;
     [self.fontAlertView show];
 }
 #pragma mark - ad insert
--(void)appendInsideAD{
+-(void)navToAdArticleVC{
     Article *article_ad=[_service fetchADArticleFromDB];
-    if(article_ad.thumbnail_url!=nil&&![article_ad.thumbnail_url isEqual:@""]){
-        _adArticle=article_ad;
-        [_bridge callHandler:@"appendAd" data:article_ad.thumbnail_url];
-    }
-}
--(void)clickedWithArticle:(Article *)article{
-    ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
+    ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article_ad];
     controller.isAD=YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -266,12 +252,12 @@ BOOL isFirst=YES;
 -(void)collect{
     if(_article.is_collected){
         _article.is_collected=NO;
-        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"mail2.png"] forState:UIControlStateNormal];
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
         [_service markArticleCollectedWithArticle:_article is_collected:NO];
         [self.view.window showHUDWithText:@"已取消收藏" Type:ShowPhotoYes Enabled:YES];
     }else{
         _article.is_collected=YES;
-        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
         [_service markArticleCollectedWithArticle:_article is_collected:YES];
         [self.view.window showHUDWithText:@"收藏成功" Type:ShowPhotoYes Enabled:YES];
     }
@@ -313,8 +299,10 @@ BOOL isFirst=YES;
 }
 #pragma mark - like article
 -(void)likeArticle{
+    [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
     [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
         _like_number_label.text=like_number;
+        [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
     } errorHandler:^(NSError *error) {
         //<#code#>
     }];

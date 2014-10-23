@@ -65,7 +65,7 @@
 		<auth>0</auth>
 	</periodical>
 	<periodical>
-		<id>376</id>
+		<id>272</id>
 		<name>i生活</name>
 		<description>辽宁发布</description>
 		<iconurl/>
@@ -81,7 +81,7 @@
 		<auth>0</auth>
 	</periodical>
 	<periodical>
-		<id>377</id>
+		<id>274</id>
 		<name>u赚钱</name>
 		<description>辽宁发布</description>
 		<iconurl/>
@@ -209,7 +209,7 @@
 		<auth>1</auth>
 	</periodical>
 	<periodical>
-		<id>384</id>
+		<id>272</id>
 		<name>辽宁发布广告</name>
 		<description>辽宁发布</description>
 		<iconurl/>
@@ -225,7 +225,7 @@
 		<auth>1</auth>
 	</periodical>
 	<periodical>
-		<id>244</id>
+		<id>256</id>
 		<name>微快报</name>
 		<description>辽宁发布</description>
 		<iconurl/>
@@ -272,18 +272,4 @@
 		<type>child</type>
 		<auth>0</auth>
 	</periodical>
-    <periodical>
-        <id>272</id>
-        <name>辽宁发布广告</name>
-        <description>辽宁发布</description>
-        <iconurl/>
-        <homenum>0</homenum>
-        <level>1</level>
-        <generatetype>1</generatetype>
-        <subscribe>2</subscribe>
-        <sort>13</sort>
-        <parent>-1</parent>
-        <showtype>list</showtype>
-        <type>child</type>
-    </periodical>
 </periodicallist>

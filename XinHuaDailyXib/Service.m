@@ -181,7 +181,7 @@
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     //NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
-    NSString *url=@"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=a6677859-8570-4427-8903-981c0293be1c&n=10&pid=272";
+    NSString *url=@"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=a6677859-8570-4427-8903-981c0293be1c&n=10&pid=274";
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
