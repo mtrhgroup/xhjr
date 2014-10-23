@@ -362,4 +362,19 @@
 -(BOOL)hasAuthorized{
     return NO;
 }
+-(void)likeArticleWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kLikeURL,[DeviceInfo udid],article.article_id];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if(successBlock){
+            successBlock(responseStr);
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+-(void)shareArticleWithArticle:(Article *)article{
+    
+}
 @end

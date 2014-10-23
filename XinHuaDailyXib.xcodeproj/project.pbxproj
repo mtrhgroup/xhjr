@@ -16,6 +16,7 @@
 		186E6D7E19EFBACD00E3C0D3 /* CollectorBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */; };
 		186E6D8119EFC21000E3C0D3 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */; };
 		1871E17219F0AF71000DFAD4 /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17119F0AF71000DFAD4 /* RightViewController.m */; };
+		1872EC8219F88C1300959362 /* WebViewFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872EC8119F88C1300959362 /* WebViewFontManager.m */; };
 		1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18A19ED071100BABC4F /* ChannelViewController.m */; };
 		1877650519F731AA00D84604 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877650419F731AA00D84604 /* AboutViewController.m */; };
 		1877650819F73B5500D84604 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877650719F73B5500D84604 /* SettingViewController.m */; };
@@ -45,7 +46,6 @@
 		1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881F0ED19F5E81D00AD52CC /* ChannelCell.m */; };
 		1881F0F119F645DC00AD52CC /* title_menu_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */; };
 		1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */; };
-		1887389618FCD3B00032CF2C /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EFA85D17A5F9260067ECA5 /* WebViewJavascriptBridge.m */; };
 		1887389718FCD3B00032CF2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474AF15672D0000081C82 /* main.m */; };
 		1887389818FCD3B00032CF2C /* XinHuaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474B315672D0000081C82 /* XinHuaAppDelegate.m */; };
 		188738A018FCD3B00032CF2C /* db.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 182583AF158D842900A493B9 /* db.xcdatamodeld */; };
@@ -215,6 +215,9 @@
 		18B273AD19E4EADC00FE3D42 /* Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273AC19E4EADC00FE3D42 /* Service.m */; };
 		18B273B019E50BD000FE3D42 /* Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273AF19E50BD000FE3D42 /* Channel.m */; };
 		18B273B319E5165100FE3D42 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273B219E5165100FE3D42 /* Article.m */; };
+		18EECA0D19F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EECA0819F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.m */; };
+		18EECA0E19F8F5B3009FC79F /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18EECA0A19F8F5B3009FC79F /* WebViewJavascriptBridge.js.txt */; };
+		18EECA0F19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EECA0C19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m */; };
 		18F116F719E8B4C60097A682 /* ListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F619E8B4C60097A682 /* ListCell.m */; };
 		18F116FA19E8B5150097A682 /* TileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F919E8B5150097A682 /* TileCell.m */; };
 		18F116FD19E8B5310097A682 /* GridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FC19E8B5310097A682 /* GridCell.m */; };
@@ -316,6 +319,8 @@
 		186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
 		1871E17019F0AF71000DFAD4 /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
 		1871E17119F0AF71000DFAD4 /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
+		1872EC8019F88C1300959362 /* WebViewFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewFontManager.h; sourceTree = "<group>"; };
+		1872EC8119F88C1300959362 /* WebViewFontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewFontManager.m; sourceTree = "<group>"; };
 		1873E18919ED071100BABC4F /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
 		1873E18A19ED071100BABC4F /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
 		1877650319F731AA00D84604 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
@@ -402,8 +407,12 @@
 		18D7C60617D7104F0015CA17 /* UserActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserActions.m; path = Statistics/UserActions.m; sourceTree = "<group>"; };
 		18D7C60D17D712DD0015CA17 /* UserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserAction.h; path = ../Statistics/UserAction.h; sourceTree = "<group>"; };
 		18D7C60E17D712DD0015CA17 /* UserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserAction.m; path = ../Statistics/UserAction.m; sourceTree = "<group>"; };
-		18EFA85B17A5F9260067ECA5 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
-		18EFA85D17A5F9260067ECA5 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		18EECA0719F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge_iOS.h; sourceTree = "<group>"; };
+		18EECA0819F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge_iOS.m; sourceTree = "<group>"; };
+		18EECA0A19F8F5B3009FC79F /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		18EECA0B19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeAbstract.h; sourceTree = "<group>"; };
+		18EECA0C19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeAbstract.m; sourceTree = "<group>"; };
+		18EECA1019F8F79A009FC79F /* 辽宁发布新增接口.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "辽宁发布新增接口.docx"; sourceTree = "<group>"; };
 		18F116F519E8B4C60097A682 /* ListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCell.h; sourceTree = "<group>"; };
 		18F116F619E8B4C60097A682 /* ListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCell.m; sourceTree = "<group>"; };
 		18F116F819E8B5150097A682 /* TileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileCell.h; sourceTree = "<group>"; };
@@ -852,6 +861,8 @@
 				4710E65419EE9C7900246A1E /* TrunkChannelViewController.m */,
 				186E6D5B19EFAFCC00E3C0D3 /* ArticleViewController.h */,
 				186E6D5C19EFAFCC00E3C0D3 /* ArticleViewController.m */,
+				1872EC8019F88C1300959362 /* WebViewFontManager.h */,
+				1872EC8119F88C1300959362 /* WebViewFontManager.m */,
 			);
 			name = center;
 			sourceTree = "<group>";
@@ -939,6 +950,7 @@
 		18B2739B19E4E58A00FE3D42 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				18EECA1019F8F79A009FC79F /* 辽宁发布新增接口.docx */,
 				1877652819F75DE800D84604 /* periodicals.xml */,
 			);
 			name = data;
@@ -956,13 +968,24 @@
 			name = net;
 			sourceTree = "<group>";
 		};
-		18EFA85A17A5F9260067ECA5 /* WebViewJavascriptBridge */ = {
+		18EECA0619F8F5B3009FC79F /* WebViewJavascriptBridge_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				18EFA85B17A5F9260067ECA5 /* WebViewJavascriptBridge.h */,
-				18EFA85D17A5F9260067ECA5 /* WebViewJavascriptBridge.m */,
+				18EECA0719F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.h */,
+				18EECA0819F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.m */,
+				18EECA0919F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract */,
 			);
-			path = WebViewJavascriptBridge;
+			path = WebViewJavascriptBridge_iOS;
+			sourceTree = "<group>";
+		};
+		18EECA0919F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract */ = {
+			isa = PBXGroup;
+			children = (
+				18EECA0A19F8F5B3009FC79F /* WebViewJavascriptBridge.js.txt */,
+				18EECA0B19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.h */,
+				18EECA0C19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m */,
+			);
+			path = WebViewJavascriptBridgeAbstract;
 			sourceTree = "<group>";
 		};
 		18FCA1E5163A24F200D6A645 /* zip */ = {
@@ -1478,6 +1501,7 @@
 		47CA0CEA19D1A31C00D19AE8 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				18EECA0619F8F5B3009FC79F /* WebViewJavascriptBridge_iOS */,
 				1877651819F73E3800D84604 /* UIPlaceHolderTextView */,
 				4753276519F279520081A0F5 /* toast */,
 				186E6D6A19EFB30900E3C0D3 /* poupview */,
@@ -1488,7 +1512,6 @@
 				47C6C8A019E8242E002CD14C /* iVersion */,
 				18FCA1E5163A24F200D6A645 /* zip */,
 				18FCA1FB163A253E00D6A645 /* Reachability */,
-				18EFA85A17A5F9260067ECA5 /* WebViewJavascriptBridge */,
 				18FCA2DF163A278600D6A645 /* http */,
 				18FCA2CD163A257A00D6A645 /* xml */,
 				188228151803C912006AF789 /* OpenUDID */,
@@ -1617,6 +1640,7 @@
 				1887394818FCD3B00032CF2C /* about_bac@2x.png in Resources */,
 				1877654719F7A2FF00D84604 /* mail2.png in Resources */,
 				1887394918FCD3B00032CF2C /* about_gray.png in Resources */,
+				18EECA0E19F8F5B3009FC79F /* WebViewJavascriptBridge.js.txt in Resources */,
 				47C6C8BD19E824DB002CD14C /* icon_rightarrow@2x.png in Resources */,
 				1887394A18FCD3B00032CF2C /* about_gray@2x.png in Resources */,
 				1887394B18FCD3B00032CF2C /* about_log.png in Resources */,
@@ -1761,7 +1785,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1887389618FCD3B00032CF2C /* WebViewJavascriptBridge.m in Sources */,
 				1887389718FCD3B00032CF2C /* main.m in Sources */,
 				4710E6AB19EEA77100246A1E /* NavigationController.m in Sources */,
 				18F116FD19E8B5310097A682 /* GridCell.m in Sources */,
@@ -1784,6 +1807,7 @@
 				1877652719F74E9600D84604 /* RegisterViewController.m in Sources */,
 				1892C9EE19E67AFC00F26945 /* DeviceInfo.m in Sources */,
 				188738C018FCD3B00032CF2C /* zip.c in Sources */,
+				18EECA0D19F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.m in Sources */,
 				188738C118FCD3B00032CF2C /* ZipArchive.mm in Sources */,
 				188738C218FCD3B00032CF2C /* CommonMethod.mm in Sources */,
 				4710E65519EE9C7900246A1E /* TrunkChannelViewController.m in Sources */,
@@ -1809,6 +1833,7 @@
 				4753277119F279520081A0F5 /* YzdHUDBackgroundView.m in Sources */,
 				188738D018FCD3B00032CF2C /* ASIDataCompressor.m in Sources */,
 				188738D118FCD3B00032CF2C /* ASIDataDecompressor.m in Sources */,
+				1872EC8219F88C1300959362 /* WebViewFontManager.m in Sources */,
 				1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */,
 				477D2B9619F692A40055C796 /* PushNewsViewController.m in Sources */,
 				1877652F19F76A3000D84604 /* AuthorizationTouchView.m in Sources */,
@@ -1826,6 +1851,7 @@
 				186E6D5D19EFAFCC00E3C0D3 /* ArticleViewController.m in Sources */,
 				188738D618FCD3B00032CF2C /* ASIInputStream.m in Sources */,
 				188738D718FCD3B00032CF2C /* ASINetworkQueue.m in Sources */,
+				18EECA0F19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m in Sources */,
 				188738D818FCD3B00032CF2C /* NetStreamStatistics.m in Sources */,
 				1892C9E819E614ED00F26945 /* DBOperator.m in Sources */,
 				1871E17219F0AF71000DFAD4 /* RightViewController.m in Sources */,

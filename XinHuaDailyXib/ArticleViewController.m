@@ -9,6 +9,7 @@
 #import "ArticleViewController.h"
 #import "NavigationController.h"
 #import "UIWindow+YzdHUD.h"
+#import "RefreshTouchView.h"
 @interface ArticleViewController (){
     Article *_article;
     Service *_service;
@@ -18,6 +19,15 @@
     int offset;
 }
 @property WebViewJavascriptBridge* bridge;
+@property(nonatomic,strong)UIWebView *webView;
+@property(nonatomic,strong)WaitingView *waitingView;
+@property(nonatomic,strong)RefreshTouchView *touchView;
+@property(nonatomic,strong)PopupMenuView *popupMenuView;
+@property(nonatomic,strong)ZSYPopoverListView *fontAlertView;
+@property(nonatomic,strong)UIButton *like_btn;
+@property(nonatomic,strong)UILabel *like_number_label;
+@property(nonatomic,strong)UIButton *collect_btn;
+@property(nonatomic,assign)BOOL isAD;
 @end
 
 @implementation ArticleViewController
@@ -25,6 +35,10 @@
 @synthesize popupMenuView=_popupMenuView;
 @synthesize fontAlertView=_fontAlertView;
 @synthesize isAD=_isAD;
+@synthesize like_btn=_like_btn;
+@synthesize like_number_label=_like_number_label;
+@synthesize collect_btn=_collect_btn;
+@synthesize bridge=_bridge;
 - (id)initWithAritcle:(Article *)article
 {
     self = [super init];
@@ -58,15 +72,19 @@
     }
     return self;
 }
+-(void)touchViewClicked{
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.webView.delegate=self;
     [self.view addSubview:self.webView];
+    [self initBridge];
     self.waitingView=[[WaitingView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:self.waitingView];
-    self.touchView=[[CoverTouchView alloc]initWithFrame:self.view.bounds];
+    self.touchView=[[RefreshTouchView alloc]initWithFrame:self.view.bounds];
     self.touchView.delegate=self;
     [self.view addSubview:self.touchView];
     [_service markArticleReadWithArticle:_article];
@@ -77,53 +95,190 @@
             [self.waitingView show];
             [self loadArticleContentFromNet];
         }else{
+            NSLog(@"%@",_article.page_path);
             [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_article.page_path]]];
-            [self initBridge];
+            
         }
     }
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-//    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"ic_menu_normal.png"] target:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     self.fontAlertView = [[ZSYPopoverListView alloc] initWithFrame:CGRectMake(0, 0, 200, 240)];
     self.fontAlertView.titleName.text = @"选择字体大小";
     self.fontAlertView.web_delegate=self;
     [self.fontAlertView setSelectedFontSize:_service.user_defaults.fontSize];
     
-    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    self.popupMenuView.delegate=self;
-    self.popupMenuView.favor_status=_article.is_collected;
-    [self.view addSubview:self.popupMenuView];
+//    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+//    self.popupMenuView.delegate=self;
+//    self.popupMenuView.favor_status=_article.is_collected;
+//    [self.view addSubview:self.popupMenuView];
+    UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,60,30)];
+    _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 30, 20)];
+    _like_number_label.text=@"123";
+    _like_number_label.textAlignment=NSTextAlignmentRight;
+    _like_number_label.textColor=[UIColor grayColor];
+    _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
+    _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(30,0,30,30)];
+    [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
+    [_like_btn addTarget:self action:@selector(like) forControlEvents:UIControlEventTouchUpInside];
+    [like_view addSubview:_like_btn];
+    [like_view addSubview:_like_number_label];
     
-    UIButton *like_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
-    [like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
-    [like_btn addTarget:self action:@selector(like) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
     [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
     [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *star_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
-    [star_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
-    [star_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
-    
+    _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+    [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+    [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    //    if(lessiOS7){
-    //        negativeSpacer.width=0;
-    //    }else{
-    //        negativeSpacer.width=-20;
-    //    }
-    negativeSpacer.width=0;
-    UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_btn];
+        if(lessiOS7){
+            negativeSpacer.width=0;
+        }else{
+            negativeSpacer.width=-10;
+        }
+    UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_view];
     UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
-    UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:star_btn];
+    UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
     
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,star_btn_item,share_btn_item,like_btn_item,nil] animated:YES];
+   
 }
 -(void)like{
     
 }
+
+-(void)back{
+    if(self.isAD)
+        [self.navigationController popViewControllerAnimated:YES];
+    else
+        [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)clicked{
+    [self.touchView hide];
+    [self.waitingView show];
+    if(_article==nil){
+        [self loadPushArticleFromNet];
+    }else{
+        [self loadArticleContentFromNet];
+    }
+}
+-(void)loadPushArticleFromNet{
+    [_service fetchOneArticleWithArticleID:_pushArticleID successHandler:^(Article *article) {
+        _article=article;
+        self.popupMenuView.favor_status=NO;
+        NSString *path=[[NSBundle mainBundle] pathForResource:@"article" ofType:@"html"];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
+        [self.waitingView hide];
+    } errorHandler:^(NSError *error) {
+        [self.waitingView hide];
+        [self.touchView show];
+    }];
+}
+-(void)loadArticleContentFromNet{    
+    [_service fetchArticleContentWithArticle:_article successHandler:^(BOOL is_ok) {
+        NSLog(@"%@",_article.page_path);
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_article.page_path]]];
+        [self.waitingView hide];
+    } errorHandler:^(NSError *error) {
+        [self.waitingView hide];
+        [self.touchView show];
+    }];
+}
+-(void)initBridge{
+    [WebViewJavascriptBridge enableLogging];
+    _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+    }];
+    [_bridge registerHandler:@"openAd" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"open ad ok");
+//        if(_adArticle){
+//            ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:_adArticle];
+//            controller.isAD=YES;
+//           [self.navigationController pushViewController:controller animated:YES];
+//            
+//        }
+    }];
+
+
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    NSLog(@"webViewDidStartLoad");
+}
+BOOL isFirst=YES;
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [_waitingView hide];
+    if(isFirst){
+        isFirst=NO;
+    NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {var bridge = event.bridge;bridge.init(function(message, responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')}});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response', responseData)});}, false);";
+    [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
+    NSString *js_insert_visit_number=@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:345';";
+    NSString *js_insert_ad=@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='http://news.baidu.com/resource/img/logo_news_137_46.png';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};alert(bridge);}";
+
+    [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
+    [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
+    }
+}
+-(void)showMenu{
+    [self.popupMenuView show];
+}
+
+
+
+#pragma mark -
+
+
+
+#pragma mark - fond size change
+-(void)changeWebContentFontSize:(NSString *)strFontSize webView:(UIWebView *)webView{
+    if([strFontSize isEqualToString:@"特大"]){
+        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '200%'"];
+    }else if([strFontSize isEqualToString:@"较大"]){
+        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '150%'"];
+    }else if([strFontSize isEqualToString:@"正常"]){
+        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '100%'"];
+    }else if([strFontSize isEqualToString:@"较小"]){
+        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '70%'"];
+    }
+}
+-(void)changeFontWithFontSize:(NSString *)fontSize{
+    [self changeWebContentFontSize:fontSize webView:self.webView];
+    _service.user_defaults.fontSize=fontSize;
+}
+-(void)font{
+    [self.fontAlertView show];
+}
+#pragma mark - ad insert
+-(void)appendInsideAD{
+    Article *article_ad=[_service fetchADArticleFromDB];
+    if(article_ad.thumbnail_url!=nil&&![article_ad.thumbnail_url isEqual:@""]){
+        _adArticle=article_ad;
+        [_bridge callHandler:@"appendAd" data:article_ad.thumbnail_url];
+    }
+}
+-(void)clickedWithArticle:(Article *)article{
+    ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
+    controller.isAD=YES;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+#pragma mark - collect article
+-(void)collect{
+    if(_article.is_collected){
+        _article.is_collected=NO;
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"mail2.png"] forState:UIControlStateNormal];
+        [_service markArticleCollectedWithArticle:_article is_collected:NO];
+        [self.view.window showHUDWithText:@"已取消收藏" Type:ShowPhotoYes Enabled:YES];
+    }else{
+        _article.is_collected=YES;
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+        [_service markArticleCollectedWithArticle:_article is_collected:YES];
+        [self.view.window showHUDWithText:@"收藏成功" Type:ShowPhotoYes Enabled:YES];
+    }
+}
+
+
+#pragma mark - share article
 -(void)share{
     FrontiaShare *share = [Frontia getShare];
     
@@ -156,117 +311,15 @@
     NSArray *platforms = @[FRONTIA_SOCIAL_SHARE_PLATFORM_SINAWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQWEIBO,FRONTIA_SOCIAL_SHARE_PLATFORM_QQ,FRONTIA_SOCIAL_SHARE_PLATFORM_RENREN,FRONTIA_SOCIAL_SHARE_PLATFORM_KAIXIN,FRONTIA_SOCIAL_SHARE_PLATFORM_WEIXIN_SESSION,FRONTIA_SOCIAL_SHARE_PLATFORM_QQFRIEND,FRONTIA_SOCIAL_SHARE_PLATFORM_EMAIL,FRONTIA_SOCIAL_SHARE_PLATFORM_SMS,FRONTIA_SOCIAL_SHARE_PLATFORM_COPY];
     [share showShareMenuWithShareContent:content displayPlatforms:platforms supportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait isStatusBarHidden:NO targetViewForPad:self.view cancelListener:onCancel failureListener:onFailure resultListener:onResult];
 }
--(void)collect{
-    
-}
--(void)clickedWithArticle:(Article *)article{
-    ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
-    controller.isAD=YES;
-    [self.navigationController pushViewController:controller animated:YES];
-}
--(void)back{
-    if(self.isAD)
-        [self.navigationController popViewControllerAnimated:YES];
-    else
-        [self dismissViewControllerAnimated:YES completion:nil];
-}
--(void)clicked{
-    [self.touchView hide];
-    [self.waitingView show];
-    if(_article==nil){
-        [self loadPushArticleFromNet];
-    }else{
-        [self loadArticleContentFromNet];
-    }
-}
--(void)loadPushArticleFromNet{
-    [_service fetchOneArticleWithArticleID:_pushArticleID successHandler:^(Article *article) {
-        _article=article;
-        self.popupMenuView.favor_status=NO;
-        NSString *path=[[NSBundle mainBundle] pathForResource:@"article" ofType:@"html"];
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:path]]];
-        [self initBridge];
-        [self.waitingView hide];
+#pragma mark - like article
+-(void)likeArticle{
+    [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
+        _like_number_label.text=like_number;
     } errorHandler:^(NSError *error) {
-        [self.waitingView hide];
-        [self.touchView show];
+        //<#code#>
     }];
 }
--(void)loadArticleContentFromNet{    
-    [_service fetchArticleContentWithArticle:_article successHandler:^(BOOL is_ok) {
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_article.page_path]]];
-        [self initBridge];
-        [self.waitingView hide];
-    } errorHandler:^(NSError *error) {
-        [self.waitingView hide];
-        [self.touchView show];
-    }];
-}
--(void)initBridge{
-    [WebViewJavascriptBridge enableLogging];
-    _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ObjC received message from JS: %@", data);
-        responseCallback(@"Response for message from ObjC");
-    }];
 
-    [_bridge registerHandler:@"openAd" handler:^(id data, WVJBResponseCallback responseCallback) {
-        if(_adArticle){
-            ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:_adArticle];
-            controller.isAD=YES;
-           [self.navigationController pushViewController:controller animated:YES];
-            
-        }
-    }];
+#pragma mark - visit_numner insert
 
-}
--(void)appendInsideAD{
-    Article *article_ad=[_service fetchADArticleFromDB];
-    if(article_ad.thumbnail_url!=nil&&![article_ad.thumbnail_url isEqual:@""]){
-        _adArticle=article_ad;
-        [_bridge callHandler:@"appendAd" data:article_ad.thumbnail_url];
-    }
-    
-}
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    NSLog(@"webViewDidStartLoad");
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [_waitingView hide];
-}
--(void)showMenu{
-    [self.popupMenuView show];
-}
--(void)favor{
-    _article.is_collected=YES;
-    [_service markArticleCollectedWithArticle:_article is_collected:YES];
-    [self.view.window showHUDWithText:@"收藏成功" Type:ShowPhotoYes Enabled:YES];
-}
--(void)unfavor{
-    _article.is_collected=NO;
-    [_service markArticleCollectedWithArticle:_article is_collected:NO];
-    [self.view.window showHUDWithText:@"已取消收藏" Type:ShowPhotoYes Enabled:YES];
-}
--(void)font{    
-    [self.fontAlertView show];
-}
--(void)changeWebContentFontSize:(NSString *)strFontSize webView:(UIWebView *)webView{
-    if([strFontSize isEqualToString:@"特大"]){
-        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '200%'"];
-    }else if([strFontSize isEqualToString:@"较大"]){
-        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '150%'"];
-    }else if([strFontSize isEqualToString:@"正常"]){
-        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '100%'"];
-    }else if([strFontSize isEqualToString:@"较小"]){
-        [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '70%'"];
-    }
-}
-
-#pragma mark -
-
-
--(void)changeFontWithFontSize:(NSString *)fontSize{
-    [self changeWebContentFontSize:fontSize webView:self.webView];
-    _service.user_defaults.fontSize=fontSize;
-}
 @end
