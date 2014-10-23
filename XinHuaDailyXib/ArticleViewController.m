@@ -13,7 +13,6 @@
 @interface ArticleViewController (){
     Article *_article;
     Service *_service;
-    Article * _adArticle;
     NSString *_pushArticleID;
     NSArray *fonts;
     int offset;
@@ -28,6 +27,7 @@
 @property(nonatomic,strong)UILabel *like_number_label;
 @property(nonatomic,strong)UIButton *collect_btn;
 @property(nonatomic,assign)BOOL isAD;
+@property(nonatomic,strong)Article *ad_article;
 @end
 
 @implementation ArticleViewController
@@ -39,6 +39,7 @@
 @synthesize like_number_label=_like_number_label;
 @synthesize collect_btn=_collect_btn;
 @synthesize bridge=_bridge;
+@synthesize ad_article=_ad_article;
 - (id)initWithAritcle:(Article *)article
 {
     self = [super init];
@@ -75,6 +76,7 @@
 -(void)touchViewClicked{
     
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -88,7 +90,7 @@
     self.touchView.delegate=self;
     [self.view addSubview:self.touchView];
     [_service markArticleReadWithArticle:_article];
-    
+    _ad_article=[_service fetchADArticleFromDB];
     if(_article==nil){
         [self loadPushArticleFromNet];
     }else{
@@ -107,45 +109,48 @@
     self.fontAlertView.web_delegate=self;
     [self.fontAlertView setSelectedFontSize:_service.user_defaults.fontSize];
     
-//    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-//    self.popupMenuView.delegate=self;
-//    self.popupMenuView.favor_status=_article.is_collected;
-//    [self.view addSubview:self.popupMenuView];
-    UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,60,30)];
-    _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 30, 20)];
-    _like_number_label.text=@"123";
-    _like_number_label.textAlignment=NSTextAlignmentRight;
-    _like_number_label.textColor=[UIColor grayColor];
-    _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
-    _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(30,0,30,30)];
-    [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
-    [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
-    [like_view addSubview:_like_btn];
-    [like_view addSubview:_like_number_label];
-    
-    
-    UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-    [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-    [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-    
-    _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-    if(_article.is_collected){
-        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
-    }
-    [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    //    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    //    self.popupMenuView.delegate=self;
+    //    self.popupMenuView.favor_status=_article.is_collected;
+    //    [self.view addSubview:self.popupMenuView];
+    if(!self.isAD){
+        UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,60,30)];
+        _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 30, 20)];
+        _like_number_label.text=@"123";
+        _like_number_label.textAlignment=NSTextAlignmentRight;
+        _like_number_label.textColor=[UIColor grayColor];
+        _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
+        _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(30,0,30,30)];
+        [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
+        [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
+        [like_view addSubview:_like_btn];
+        [like_view addSubview:_like_number_label];
+        
+        
+        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
+        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+        
+        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+        if(_article.is_collected){
+            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
+        }else{
+            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+        }
+        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         if(lessiOS7){
             negativeSpacer.width=0;
         }else{
             negativeSpacer.width=-10;
         }
-    UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_view];
-    UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
-    UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
-    
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,star_btn_item,share_btn_item,like_btn_item,nil] animated:YES];
-   
+        UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_view];
+        UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
+        UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
+        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,star_btn_item,share_btn_item,like_btn_item,nil] animated:YES];
+    }
+    isFirst=YES;
 }
 
 -(void)back{
@@ -200,13 +205,14 @@
 }
 BOOL isFirst=YES;
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
     [_waitingView hide];
     if(isFirst){
         isFirst=NO;
         NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {bridge = event.bridge;bridge.init(function(message,responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')};});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response',responseData);});}, false);";
     [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
     NSString *js_insert_visit_number=@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:345';";
-    NSString *js_insert_ad=@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='http://news.baidu.com/resource/img/logo_news_137_46.png';li_ad.appendChild(pic);pic.onclick=function(){alert(bridge);if(bridge){bridge.callHandler('openAd','',null)};}";
+    NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.thumbnail_url];
 
     [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
     [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];

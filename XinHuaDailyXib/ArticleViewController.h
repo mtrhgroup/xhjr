@@ -14,7 +14,7 @@
 #import "ZSYPopoverListView.h"
 #import "RefreshTouchView.h"
 #import "ArticleViewDelegate.h"
-@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate,ArticleViewDelegate>
+@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate>
 - (id)initWithAritcle:(Article *)article;
 -(id)initWithPushArticleID:(NSString *)articleID;
 @end

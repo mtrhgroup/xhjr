@@ -57,9 +57,8 @@ NSString *collageCode;
     verify_get_btn.backgroundColor=[UIColor whiteColor];
     [verify_get_btn.layer setMasksToBounds:YES];
     [verify_get_btn.layer setCornerRadius:10.0];
-    [verify_get_btn.layer setBorderWidth:1.0];
+    [verify_get_btn.layer setBorderWidth:0.2];
     verify_get_btn.tintColor=[UIColor blackColor];
-    //[regbu setBackgroundImage:[UIImage imageNamed:@"reg_reg.png"] forState:UIControlStateNormal];
     [verify_get_btn addTarget:self action:@selector(registger:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:verify_get_btn];
     
@@ -72,7 +71,7 @@ NSString *collageCode;
     self.snInput=tf;
     [self.view addSubview:tf];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"commit.png"] target:self action:@selector(bindSN) forControlEvents:UIControlEventTouchUpInside];
+    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"cloudcheck.png"] target:self action:@selector(bindSN) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
