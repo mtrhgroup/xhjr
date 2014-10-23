@@ -7,21 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WebViewJavascriptBridge.h"
+#import "WebViewJavascriptBridge_iOS.h"
 #import "Service.h"
 #import "WaitingView.h"
 #import "PopupMenuView.h"
 #import "ZSYPopoverListView.h"
-#import "CoverTouchView.h"
+#import "RefreshTouchView.h"
 #import "ArticleViewDelegate.h"
-@interface ArticleViewController : UIViewController<UIWebViewDelegate,PopupMenuDelegate,FontAlertDelegate,TouchViewDelegate,ArticleViewDelegate>
-@property(nonatomic,strong)UIWebView *webView;
-@property(nonatomic,strong)WaitingView *waitingView;
-@property(nonatomic,strong)CoverTouchView *touchView;
-@property(nonatomic,strong)PopupMenuView *popupMenuView;
-@property(nonatomic,strong)ZSYPopoverListView *fontAlertView;
-
-@property(nonatomic,assign)BOOL isAD;
+@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate,ArticleViewDelegate>
 - (id)initWithAritcle:(Article *)article;
 -(id)initWithPushArticleID:(NSString *)articleID;
 @end

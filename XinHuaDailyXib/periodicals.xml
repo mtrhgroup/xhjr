@@ -272,4 +272,18 @@
 		<type>child</type>
 		<auth>0</auth>
 	</periodical>
+    <periodical>
+        <id>272</id>
+        <name>辽宁发布广告</name>
+        <description>辽宁发布</description>
+        <iconurl/>
+        <homenum>0</homenum>
+        <level>1</level>
+        <generatetype>1</generatetype>
+        <subscribe>2</subscribe>
+        <sort>13</sort>
+        <parent>-1</parent>
+        <showtype>list</showtype>
+        <type>child</type>
+    </periodical>
 </periodicallist>
