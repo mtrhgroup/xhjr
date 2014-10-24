@@ -66,9 +66,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
       //  <#code#>
     }];
 }
--(void)setTopTitle:(NSString *)title{
-    [[self.nav_slideswitch_vc.viewControllers objectAtIndex:0] setTitle:title];
-}
+
 -(void)presentArticleContentVCWithPushArticleID:(NSString *)articleID{
     ArticleViewController *controller=[[ArticleViewController alloc] initWithPushArticleID:articleID];
     UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];

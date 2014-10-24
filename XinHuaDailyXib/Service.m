@@ -22,14 +22,12 @@
     DBManager *_db_manager;
     UserActions *_userActions;
 }
-@synthesize user_defaults=_user_defaults;
 -(id)init{
     if(self=[super init]){
         _communicator=[[Communicator alloc]init];
         _db_manager=[[DBManager alloc] init];
         _parser=[[Parser alloc] init];
         _userActions=[[UserActions alloc]initWithCommunicator:_communicator];
-        _user_defaults=[[UserDefaults alloc] init];
     }
     return self;
 }
@@ -40,7 +38,7 @@
         if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
             if(responseStr.length>3){
                 NSString *snStr=[responseStr substringFromIndex:4];
-                _user_defaults.sn=snStr;
+                AppDelegate.user_defaults.sn=snStr;
             }
             if(successBlock){
                 successBlock(YES);
@@ -65,7 +63,7 @@
     NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"SUCCESSED"].location!=NSNotFound){
-            _user_defaults.sn=SN;
+            AppDelegate.user_defaults.sn=SN;
             if(successBlock){
                 successBlock(YES);
             }
@@ -78,6 +76,7 @@
         }
     }];
 }
+
 -(ChannelsForHVC *)fetchHomeArticlesFromDB{
     ChannelsForHVC *channels_for_hvc=[[ChannelsForHVC alloc] init];
     DBOperator *db_operator=[_db_manager aOperator];
@@ -97,8 +96,10 @@
     Channel *pic_channel=[db_operator fetchPicChannel];
     NSArray *other_channels=[db_operator fetchHomeChannels];
     NSMutableArray *home_channels=[[NSMutableArray alloc]init];
+    if(pic_channel!=nil){
     [home_channels addObject:pic_channel];
-    [home_channels addObjectsFromArray:other_channels];  
+    }
+    [home_channels addObjectsFromArray:other_channels];
     for(Channel *channel in home_channels){
         int topN=(int)fabs([channel.home_number intValue]);
         NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id];
@@ -136,11 +137,13 @@
         }];
     }
 }
+
 -(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         AppInfo *app_info=[_parser parseAppInfo:responseStr];
-        _user_defaults.appInfo=app_info;
+        AppDelegate.user_defaults.appInfo=app_info;
+        [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationAppVersionReceived object: nil];
         if(successBlock){
             successBlock(app_info);
         }
@@ -164,8 +167,6 @@
             }
             [db_operator save];
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
                 if(successBlock){
                     [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationChannelsUpdate object: nil];
                     successBlock(channels);

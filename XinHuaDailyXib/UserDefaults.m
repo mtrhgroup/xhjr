@@ -9,12 +9,12 @@
 #import "UserDefaults.h"
 
 @implementation UserDefaults
--(void)setCan_enter_system:(BOOL)can_enter_system{
-    [[NSUserDefaults standardUserDefaults] setBool:can_enter_system forKey:@"can_enter_system"];
+-(void)setHas_bind_device_to_server:(BOOL)has_bind_device_to_server{
+    [[NSUserDefaults standardUserDefaults] setBool:has_bind_device_to_server forKey:@"has_bind_device_to_server"];
 }
--(BOOL)can_enter_system{
-   BOOL can=[[NSUserDefaults standardUserDefaults] boolForKey:@"can_enter_system"];
-   return can;
+-(BOOL)has_bind_device_to_server{
+   BOOL has_or_not=[[NSUserDefaults standardUserDefaults] boolForKey:@"has_bind_device_to_server"];
+   return has_or_not;
 }
 -(void)setSn:(NSString *)sn{
     [[NSUserDefaults standardUserDefaults] setObject:sn forKey:@"sn"];

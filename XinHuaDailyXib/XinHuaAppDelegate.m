@@ -18,13 +18,14 @@
 @synthesize  share=_share;
 @synthesize prepare_error_alert=_prepare_error_alert;
 @synthesize push_article_alert=_push_article_alert;
+@synthesize user_defaults=_user_defaults;
 #define DeviceTokenRegisteredKEY @"DeviceTokenStringKEY"
 #define DeviceTokenStringKEY @"DeviceTokenStringKEY"
 + (void)initialize
 {
     [iVersion sharedInstance].appStoreID = 908566596;
 }
-BOOL can_go=NO;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
@@ -32,12 +33,6 @@ BOOL can_go=NO;
     [Frontia getPush];
     [FrontiaPush setupChannel:launchOptions];
     [self setupApp];
-    [self prepareEnterSystem];
-    while (!can_go) {
-        NSLog(@"begin");
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-        NSLog(@"end");
-    }
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window setRootViewController:self.main_vc];
     [self.window makeKeyAndVisible];
@@ -52,28 +47,10 @@ BOOL can_go=NO;
 -(void)setupApp{
     self.service=[[Service alloc] init];
     AppDelegate.main_vc=[[DrawerViewController alloc] init];
+    self.user_defaults=[[UserDefaults alloc] init];;
     self.prepare_error_alert=[[UIAlertView alloc] initWithTitle:@"系统初始化失败"  message:@"请联网后重试！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
 }
--(void)prepareEnterSystem{
-    if(!self.service.user_defaults.can_enter_system){
-        [self.service registerDevice:^(BOOL is_ok) {
-            if(is_ok){
-                [self.service fetchChannelsFromNET:^(NSArray *channels) {
-                    if([channels count]>0){
-                        self.service.user_defaults.can_enter_system=YES;
-                    }
-                } errorHandler:^(NSError *error) {
-                    [self.prepare_error_alert show];
-                }];
-            }else{
-               [self.prepare_error_alert show]; 
-            }
-        } errorHandler:^(NSError *error) {
-            [self.prepare_error_alert show];
-        }];
 
-    }
-}
 
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {

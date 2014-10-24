@@ -111,7 +111,7 @@
     self.fontAlertView = [[ZSYPopoverListView alloc] initWithFrame:CGRectMake(0, 0, 200, 240)];
     self.fontAlertView.titleName.text = @"选择字体大小";
     self.fontAlertView.web_delegate=self;
-    [self.fontAlertView setSelectedFontSize:_service.user_defaults.fontSize];
+    [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.fontSize];
     
     //    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     //    self.popupMenuView.delegate=self;
@@ -289,7 +289,7 @@ BOOL isFirst=YES;
 }
 -(void)changeFontWithFontSize:(NSString *)fontSize{
     [self changeWebContentFontSize:fontSize webView:self.webView];
-    _service.user_defaults.fontSize=fontSize;
+    AppDelegate.user_defaults.fontSize=fontSize;
 }
 -(void)font{
     [self.fontAlertView show];

@@ -14,5 +14,5 @@
 @property(nonatomic,strong)NSString *fontSize;
 @property(nonatomic,strong)NSString *cacheArticleNumber;
 @property(readonly,assign)BOOL is_authorized;
-@property(nonatomic,assign)BOOL can_enter_system;
+@property(nonatomic,assign)BOOL has_bind_device_to_server;
 @end

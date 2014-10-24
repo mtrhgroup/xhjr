@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property(strong,nonatomic)Service *service;
+@property(strong,nonatomic)UserDefaults *user_defaults;
 @property(nonatomic,strong)DrawerViewController *main_vc;
 @property(nonatomic,strong)UIAlertView *prepare_error_alert;
 @property(nonatomic,strong)UIAlertView *push_article_alert;

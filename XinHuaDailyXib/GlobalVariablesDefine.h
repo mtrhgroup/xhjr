@@ -16,6 +16,7 @@
 #define kNotificationMessage @"notification_message"
 #define kNotificationArticleReceived @"notification_article_received"
 #define kNotificationChannelsUpdate @"notification_channel_update"
+#define kNotificationAppVersionReceived @"notification_app_version_received"
 #define KSettingChange @"fontchange"
 #define KDisplayMode @"DisplayMode"
 #endif

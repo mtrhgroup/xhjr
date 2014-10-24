@@ -12,7 +12,6 @@
 #import "AppInfo.h"
 #import "UserDefaults.h"
 @interface Service : NSObject
-@property(nonatomic,strong)UserDefaults *user_defaults;
 //网络
 -(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;

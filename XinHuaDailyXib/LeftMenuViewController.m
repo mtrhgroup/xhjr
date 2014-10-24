@@ -68,9 +68,13 @@
     [self rebuildUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(markNewToChannel:) name:kNotificationArticleReceived object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAppVersion) name:kNotificationAppVersionReceived object:nil];
 }
 -(void)viewDidUnload{
     [super viewDidUnload];
+}
+-(void)updateAppVersion{
+    self.title_label.text=AppDelegate.user_defaults.appInfo.groupTitle;
 }
 -(void)markNewToChannel:(NSNotification *)notification{
     NSString *channel_id=[notification object];

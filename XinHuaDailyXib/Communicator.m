@@ -10,8 +10,36 @@
 #import "ASIHTTPRequest.h"
 #import "NetStreamStatistics.h"
 #import "ZipArchive.h"
+#import "URLDefine.h"
+#import "DeviceInfo.h"
 @implementation Communicator
+-(BOOL)synBindDevice{
+    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
+    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error)
+    {
+        NSString *responseStr = [request responseString];
+        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound||[responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+            return YES;
+        }
+    }
+    return NO;
+}
+-(BOOL)check{
+    if(AppDelegate.user_defaults.has_bind_device_to_server){
+        return YES;
+    }else{
+        if([self synBindDevice]){
+            return YES;
+        }else{
+            return NO;
+        }
+    }
+}
 -(void)fetchStringAtURL:(NSString *)url successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    if(![self check])return;
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
     [request setCompletionBlock:^{

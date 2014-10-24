@@ -10,7 +10,6 @@
 #import "MMDrawerController+Subclass.h"
 #import "DefaultView.h"
 @interface DrawerViewController : MMDrawerController<CoverViewDelegate>
--(void)setTopTitle:(NSString *)title;
 -(void)presentArtilceContentVCWithArticle:(Article *)article channel:(Channel *)channel;
 -(void)presentArticleContentVCWithPushArticleID:(NSString *)articleID;
 @end
