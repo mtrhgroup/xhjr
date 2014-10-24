@@ -16,7 +16,6 @@
 		186E6D7E19EFBACD00E3C0D3 /* CollectorBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D7D19EFBACD00E3C0D3 /* CollectorBoxViewController.m */; };
 		186E6D8119EFC21000E3C0D3 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */; };
 		1871E17219F0AF71000DFAD4 /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1871E17119F0AF71000DFAD4 /* RightViewController.m */; };
-		1872EC8219F88C1300959362 /* WebViewFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872EC8119F88C1300959362 /* WebViewFontManager.m */; };
 		1873E18B19ED071100BABC4F /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873E18A19ED071100BABC4F /* ChannelViewController.m */; };
 		1877650519F731AA00D84604 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877650419F731AA00D84604 /* AboutViewController.m */; };
 		1877650819F73B5500D84604 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877650719F73B5500D84604 /* SettingViewController.m */; };
@@ -43,6 +42,8 @@
 		1877654A19F7A2FF00D84604 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877654219F7A2FF00D84604 /* share.png */; };
 		1877654B19F7A2FF00D84604 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877654319F7A2FF00D84604 /* star.png */; };
 		1877654C19F7A2FF00D84604 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877654419F7A2FF00D84604 /* tag.png */; };
+		187F598119F9DB460050563A /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187F597419F9DB460050563A /* AMBlurView.m */; };
+		187F598C19F9E9520050563A /* FeedBackToEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187F598B19F9E9520050563A /* FeedBackToEditorViewController.m */; };
 		1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881F0ED19F5E81D00AD52CC /* ChannelCell.m */; };
 		1881F0F119F645DC00AD52CC /* title_menu_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */; };
 		1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */; };
@@ -321,8 +322,6 @@
 		186E6D8019EFC21000E3C0D3 /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
 		1871E17019F0AF71000DFAD4 /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
 		1871E17119F0AF71000DFAD4 /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
-		1872EC8019F88C1300959362 /* WebViewFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewFontManager.h; sourceTree = "<group>"; };
-		1872EC8119F88C1300959362 /* WebViewFontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewFontManager.m; sourceTree = "<group>"; };
 		1873E18919ED071100BABC4F /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
 		1873E18A19ED071100BABC4F /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
 		1877650319F731AA00D84604 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
@@ -361,6 +360,11 @@
 		1877654319F7A2FF00D84604 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		1877654419F7A2FF00D84604 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
 		187852AF1742350F00C249B0 /* btn_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_share.png; sourceTree = "<group>"; };
+		187F597319F9DB460050563A /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
+		187F597419F9DB460050563A /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
+		187F598A19F9E9520050563A /* FeedBackToEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackToEditorViewController.h; sourceTree = "<group>"; };
+		187F598B19F9E9520050563A /* FeedBackToEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackToEditorViewController.m; sourceTree = "<group>"; };
+		187F598D19FA318F0050563A /* 辽宁发布新增接口.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "辽宁发布新增接口.docx"; sourceTree = "<group>"; };
 		1881F0EC19F5E81D00AD52CC /* ChannelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelCell.h; sourceTree = "<group>"; };
 		1881F0ED19F5E81D00AD52CC /* ChannelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelCell.m; sourceTree = "<group>"; };
 		1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title_menu_btn_normal.png; sourceTree = "<group>"; };
@@ -414,7 +418,6 @@
 		18EECA0A19F8F5B3009FC79F /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		18EECA0B19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeAbstract.h; sourceTree = "<group>"; };
 		18EECA0C19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeAbstract.m; sourceTree = "<group>"; };
-		18EECA1019F8F79A009FC79F /* 辽宁发布新增接口.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "辽宁发布新增接口.docx"; sourceTree = "<group>"; };
 		18F116F519E8B4C60097A682 /* ListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListCell.h; sourceTree = "<group>"; };
 		18F116F619E8B4C60097A682 /* ListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListCell.m; sourceTree = "<group>"; };
 		18F116F819E8B5150097A682 /* TileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileCell.h; sourceTree = "<group>"; };
@@ -865,8 +868,8 @@
 				4710E65419EE9C7900246A1E /* TrunkChannelViewController.m */,
 				186E6D5B19EFAFCC00E3C0D3 /* ArticleViewController.h */,
 				186E6D5C19EFAFCC00E3C0D3 /* ArticleViewController.m */,
-				1872EC8019F88C1300959362 /* WebViewFontManager.h */,
-				1872EC8119F88C1300959362 /* WebViewFontManager.m */,
+				187F598A19F9E9520050563A /* FeedBackToEditorViewController.h */,
+				187F598B19F9E9520050563A /* FeedBackToEditorViewController.m */,
 			);
 			name = center;
 			sourceTree = "<group>";
@@ -941,6 +944,15 @@
 			name = cover;
 			sourceTree = "<group>";
 		};
+		187F597019F9DB460050563A /* blur */ = {
+			isa = PBXGroup;
+			children = (
+				187F597319F9DB460050563A /* AMBlurView.h */,
+				187F597419F9DB460050563A /* AMBlurView.m */,
+			);
+			path = blur;
+			sourceTree = "<group>";
+		};
 		188228151803C912006AF789 /* OpenUDID */ = {
 			isa = PBXGroup;
 			children = (
@@ -954,7 +966,7 @@
 		18B2739B19E4E58A00FE3D42 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				18EECA1019F8F79A009FC79F /* 辽宁发布新增接口.docx */,
+				187F598D19FA318F0050563A /* 辽宁发布新增接口.docx */,
 				1877652819F75DE800D84604 /* periodicals.xml */,
 			);
 			name = data;
@@ -1442,13 +1454,6 @@
 			path = toast;
 			sourceTree = "<group>";
 		};
-		479C074119E974EE00D946F9 /* defaults */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = defaults;
-			sourceTree = "<group>";
-		};
 		47C6C8A019E8242E002CD14C /* iVersion */ = {
 			isa = PBXGroup;
 			children = (
@@ -1507,6 +1512,7 @@
 		47CA0CEA19D1A31C00D19AE8 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				187F597019F9DB460050563A /* blur */,
 				18EECA0619F8F5B3009FC79F /* WebViewJavascriptBridge_iOS */,
 				1877651819F73E3800D84604 /* UIPlaceHolderTextView */,
 				4753276519F279520081A0F5 /* toast */,
@@ -1534,7 +1540,6 @@
 				479C074319E9752800D946F9 /* UserDefaults.m */,
 				18D7C60517D7104F0015CA17 /* UserActions.h */,
 				18D7C60617D7104F0015CA17 /* UserActions.m */,
-				479C074119E974EE00D946F9 /* defaults */,
 				18B2739E19E4E5F200FE3D42 /* net */,
 				182583A2158D842900A493B9 /* CoreData */,
 				18FCA1F7163A252800D6A645 /* utils */,
@@ -1806,6 +1811,7 @@
 				18B273AD19E4EADC00FE3D42 /* Service.m in Sources */,
 				47C6C8C519E826EB002CD14C /* HomeViewController.m in Sources */,
 				4710E6A419EEA40C00246A1E /* GzipCompressor.m in Sources */,
+				187F598119F9DB460050563A /* AMBlurView.m in Sources */,
 				188738BE18FCD3B00032CF2C /* ioapi.c in Sources */,
 				1877651B19F73E3800D84604 /* UIPlaceHolderTextView.m in Sources */,
 				188738BF18FCD3B00032CF2C /* unzip.c in Sources */,
@@ -1841,7 +1847,6 @@
 				4753277119F279520081A0F5 /* YzdHUDBackgroundView.m in Sources */,
 				188738D018FCD3B00032CF2C /* ASIDataCompressor.m in Sources */,
 				188738D118FCD3B00032CF2C /* ASIDataDecompressor.m in Sources */,
-				1872EC8219F88C1300959362 /* WebViewFontManager.m in Sources */,
 				1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */,
 				477D2B9619F692A40055C796 /* PushNewsViewController.m in Sources */,
 				1877652F19F76A3000D84604 /* AuthorizationTouchView.m in Sources */,
@@ -1884,6 +1889,7 @@
 				18B273B019E50BD000FE3D42 /* Channel.m in Sources */,
 				1877650819F73B5500D84604 /* SettingViewController.m in Sources */,
 				1892C9EB19E62C9C00F26945 /* DBManager.m in Sources */,
+				187F598C19F9E9520050563A /* FeedBackToEditorViewController.m in Sources */,
 				18F116FA19E8B5150097A682 /* TileCell.m in Sources */,
 				4710E65219EE9C6700246A1E /* DrawerViewController.m in Sources */,
 				4710E6A319EEA40C00246A1E /* Base64.m in Sources */,

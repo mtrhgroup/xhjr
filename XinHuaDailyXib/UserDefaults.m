@@ -9,7 +9,13 @@
 #import "UserDefaults.h"
 
 @implementation UserDefaults
-
+-(void)setCan_enter_system:(BOOL)can_enter_system{
+    [[NSUserDefaults standardUserDefaults] setBool:can_enter_system forKey:@"can_enter_system"];
+}
+-(BOOL)can_enter_system{
+   BOOL can=[[NSUserDefaults standardUserDefaults] boolForKey:@"can_enter_system"];
+   return can;
+}
 -(void)setSn:(NSString *)sn{
     [[NSUserDefaults standardUserDefaults] setObject:sn forKey:@"sn"];
 }

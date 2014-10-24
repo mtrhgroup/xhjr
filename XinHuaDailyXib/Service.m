@@ -29,6 +29,7 @@
         _db_manager=[[DBManager alloc] init];
         _parser=[[Parser alloc] init];
         _userActions=[[UserActions alloc]initWithCommunicator:_communicator];
+        _user_defaults=[[UserDefaults alloc] init];
     }
     return self;
 }
@@ -150,12 +151,10 @@
     }];
 }
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-//    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
-//    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"periodicals" ofType:@"xml"];
-            NSString* myString = [NSString stringWithContentsOfFile:plistPath usedEncoding:NULL error:NULL];
-            NSArray *channels=[_parser parseChannels:myString];
+    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid]];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSArray *channels=[_parser parseChannels:responseStr];
             DBOperator *db_operator=[_db_manager aOperator];
             if([channels count]>0){
                 [db_operator removeAllChannels];
@@ -172,12 +171,12 @@
                     successBlock(channels);
                 }
             });
-//        });
-//    } errorHandler:^(NSError *error) {
-//        if(errorBlock){
-//            errorBlock(error);
-//        }
-//    }];
+        });
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     //NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
@@ -270,13 +269,17 @@
 -(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kOneArticleURL,articleID,[DeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        Article *article=[_parser parseOneArticle:responseStr];
-        DBOperator *db_operator=[_db_manager aOperator];
-        [db_operator addArticle:article];
-        [db_operator save];
-        if(successBlock){
-            successBlock(article);
-        }
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            Article *article=[_parser parseOneArticle:responseStr];
+            DBOperator *db_operator=[_db_manager aOperator];
+            [db_operator addArticle:article];
+            [db_operator save];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(successBlock){
+                    successBlock(article);
+                }
+            });
+        });
     } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);

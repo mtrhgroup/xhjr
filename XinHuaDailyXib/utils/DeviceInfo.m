@@ -7,10 +7,11 @@
 //
 
 #import "DeviceInfo.h"
+#import "OpenUDID.h"
 #import <sys/utsname.h>
 @implementation DeviceInfo
 +(NSString *)udid{
-    return @"a6677859-8570-4427-8903-981c0293be1c";
+    return [NSString stringWithFormat:@"LNFB_%@",[OpenUDID value]];
 }
 +(NSString *)osVersion{
     return [[UIDevice currentDevice] systemVersion];
