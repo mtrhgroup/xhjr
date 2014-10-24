@@ -10,6 +10,8 @@
 #import "NavigationController.h"
 #import "UIWindow+YzdHUD.h"
 #import "RefreshTouchView.h"
+#import "AMBlurView.h"
+#import "FeedBackToEditorViewController.h"
 @interface ArticleViewController (){
     Article *_article;
     Service *_service;
@@ -28,6 +30,7 @@
 @property(nonatomic,strong)UIButton *collect_btn;
 @property(nonatomic,assign)BOOL isAD;
 @property(nonatomic,strong)Article *ad_article;
+@property (nonatomic,strong)AMBlurView *bottom_view;
 @end
 
 @implementation ArticleViewController
@@ -80,6 +83,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor=[UIColor whiteColor];
     self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.webView.delegate=self;
     [self.view addSubview:self.webView];
@@ -114,30 +118,30 @@
     //    self.popupMenuView.favor_status=_article.is_collected;
     //    [self.view addSubview:self.popupMenuView];
     if(!self.isAD){
-        UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,60,30)];
-        _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 30, 20)];
+        UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,68,34)];
+        _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
         _like_number_label.text=@"123";
         _like_number_label.textAlignment=NSTextAlignmentRight;
         _like_number_label.textColor=[UIColor grayColor];
         _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
-        _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(30,0,30,30)];
+        _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
         [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
         [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
         [like_view addSubview:_like_btn];
         [like_view addSubview:_like_number_label];
         
         
-        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-        
-        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-        if(_article.is_collected){
-            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
-        }else{
-            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
-        }
-        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
+//        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+//        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
+//        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+//        if(_article.is_collected){
+//            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
+//        }else{
+//            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+//        }
+//        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
         
         UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         if(lessiOS7){
@@ -146,13 +150,54 @@
             negativeSpacer.width=-10;
         }
         UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_view];
-        UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
-        UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
-        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,star_btn_item,share_btn_item,like_btn_item,nil] animated:YES];
+//        UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
+//        UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
+        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,like_btn_item,nil] animated:YES];
+        
+        //self.webView.frame=CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44);
+        self.bottom_view=[AMBlurView new];
+        self.bottom_view.frame=CGRectMake(0, self.view.bounds.size.height-44, 320, 44);
+        //[self.bottom_view setAlpha:0.6];
+        [self.bottom_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        [self.bottom_view setBlurTintColor:nil];
+        [self.view addSubview:self.bottom_view];
+        
+        UIButton *feedback_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        feedback_btn.frame = CGRectMake(5, 5, 200, 34);
+        [feedback_btn setTitle:@"有话对编辑说" forState:UIControlStateNormal];
+        feedback_btn.backgroundColor=[UIColor whiteColor];
+        feedback_btn.tintColor=[UIColor grayColor];
+        [feedback_btn.layer setMasksToBounds:YES];
+        [feedback_btn.layer setCornerRadius:10.0];
+        [feedback_btn.layer setBorderWidth:0.2];
+        feedback_btn.tintColor=[UIColor blackColor];
+        [feedback_btn addTarget:self action:@selector(feedback) forControlEvents:UIControlEventTouchUpInside];
+        [self.bottom_view addSubview:feedback_btn];
+        
+        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34-34,5,34,34)];
+        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
+        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+        [self.bottom_view addSubview:share_btn];
+        
+        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34,5,34,34)];
+        if(_article.is_collected){
+            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
+        }else{
+            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+        }
+        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
+        [self.bottom_view addSubview:_collect_btn];
+        
+        
+        
     }
     isFirst=YES;
 }
-
+-(void)feedback{
+    FeedBackToEditorViewController *controller=[[FeedBackToEditorViewController alloc] init];
+    controller.articleId=_article.article_id;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 -(void)back{
     if(self.isAD)
         [self.navigationController popViewControllerAnimated:YES];
@@ -213,9 +258,11 @@ BOOL isFirst=YES;
     [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
     NSString *js_insert_visit_number=@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:345';";
     NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.thumbnail_url];
+    NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
 
     [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
     [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
+    [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
     }
 }
 -(void)showMenu{

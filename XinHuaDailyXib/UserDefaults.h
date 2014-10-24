@@ -14,4 +14,5 @@
 @property(nonatomic,strong)NSString *fontSize;
 @property(nonatomic,strong)NSString *cacheArticleNumber;
 @property(readonly,assign)BOOL is_authorized;
+@property(nonatomic,assign)BOOL can_enter_system;
 @end

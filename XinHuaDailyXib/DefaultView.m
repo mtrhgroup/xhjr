@@ -35,51 +35,22 @@
         }
         [self addSubview:defaultImageView];
         _startup_time=[NSDate date];
-        if([self isFirstStartup]){
-            [self firstStartup];
+        [self setupCoverImage];
+        UIButton *enterBtn=[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-100,20,88,40)];
+        [enterBtn setBackgroundImage:[UIImage imageNamed:@"skip.png"] forState:UIControlStateNormal];
+        [enterBtn addTarget:self action:@selector(skip) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:enterBtn];
+        [self loadDataForMainVC];
+        NSTimeInterval need_waiting_ms=_lasting_ms-[self consumedTime];
+        if(need_waiting_ms>0){
+            [self performSelector:@selector(hide) withObject:nil afterDelay:need_waiting_ms];
         }else{
-            [self setupCoverImage];
-            UIButton *enterBtn=[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-100,20,88,40)];
-            [enterBtn setBackgroundImage:[UIImage imageNamed:@"skip.png"] forState:UIControlStateNormal];
-            [enterBtn addTarget:self action:@selector(skip) forControlEvents:UIControlEventTouchUpInside];
-            [self addSubview:enterBtn];
-            [self loadDataForMainVC];
-            NSTimeInterval need_waiting_ms=_lasting_ms-[self consumedTime];
-            if(need_waiting_ms>0){
-                [self performSelector:@selector(hide) withObject:nil afterDelay:need_waiting_ms];
-            }else{
-                [self hide];
-            }
+            [self hide];
         }
     }
     return self;
 }
--(void)firstStartup{
-    [service registerDevice:^(BOOL isOK) {
-        if(isOK){
-            [service fetchChannelsFromNET:^(NSArray *channels) {
-                if([channels count]>0){
-                    [self markFirstStartupSuccess];
-                    [self loadDataForMainVC];
-                    NSTimeInterval need_waiting_ms=_lasting_ms-[self consumedTime];
-                    if(need_waiting_ms>0){
-                        [self performSelector:@selector(hide) withObject:nil afterDelay:need_waiting_ms];
-                    }else{
-                        [self hide];
-                    }
-                }else{
-                    [self errorReport];
-                }
-            } errorHandler:^(NSError *error) {
-                [self errorReport];
-            }];
-        }else{
-            [self errorReport];
-        }
-    } errorHandler:^(NSError * error){
-        [self errorReport];
-    }];
-}
+
 -(void)setupCoverImage{
     [service fetchAppInfo:^(AppInfo *app_info) {
         if(coverimageView==nil)
@@ -93,20 +64,6 @@
        // <#code#>
     }];
 
-}
--(void)errorReport{
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"初始化错误，请检查网络稍后重试！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [alert show];
-}
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    exit(0);
-}
--(BOOL)isFirstStartup{
-    BOOL startuped=[[NSUserDefaults standardUserDefaults]  boolForKey:@"startuped"];
-    return !startuped;
-}
--(void)markFirstStartupSuccess{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"startuped"] ;
 }
 -(NSTimeInterval)consumedTime{
     NSDate *now=[NSDate date];

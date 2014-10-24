@@ -8,9 +8,10 @@
 
 #import "RegisterViewController.h"
 #import "NavigationController.h"
+#import "AMBlurView.h"
 #define kDuration 0.3
 @interface RegisterViewController ()
-
+@property (nonatomic,strong) AMBlurView *blurView;
 @end
 /*
  * notification : KShowToast           "显示后台任务的执行反馈"      userInfo:data  (NSString *) "执行反馈的文本信息"
@@ -43,16 +44,28 @@ NSString *collageCode;
     [super viewDidLoad];
     self.title=@"用户认证";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
-    UITextField* phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(20, 30+44, 180, 40)];
+    [self setBlurView:[AMBlurView new]];
+    [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 110)];
+    [self.blurView.layer setMasksToBounds:YES];
+    [self.blurView.layer setCornerRadius:10];
+    //[self.blurView setAlpha:0.6];
+    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    [self.view addSubview:[self blurView]];
+    
+    UITextField* phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(20, 50+44, 180, 40)];
     phone_number_input.placeholder = @" 输入手机号码";
-    phone_number_input.background = [UIImage imageNamed:@"reg_input.png"];
+    phone_number_input.backgroundColor=[UIColor clearColor];
+    phone_number_input.layer.cornerRadius = 10.0f;
     phone_number_input.textAlignment = NSTextAlignmentLeft;
+    phone_number_input.keyboardType=UIKeyboardTypePhonePad;
     phone_number_input.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [phone_number_input becomeFirstResponder];
+    phone_number_input.layer.borderWidth = 1.0f;
+    phone_number_input.layer.borderColor = [[UIColor grayColor] CGColor];
     self.snInput=phone_number_input;
     [self.view addSubview:phone_number_input];
     UIButton *verify_get_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    verify_get_btn.frame = CGRectMake(210, 30+44, 90, 40);
+    verify_get_btn.frame = CGRectMake(210, 50+44, 90, 40);
     [verify_get_btn setTitle:@"获取验证码" forState:UIControlStateNormal];
     verify_get_btn.backgroundColor=[UIColor whiteColor];
     [verify_get_btn.layer setMasksToBounds:YES];
@@ -62,12 +75,15 @@ NSString *collageCode;
     [verify_get_btn addTarget:self action:@selector(registger:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:verify_get_btn];
     
-    UITextField* tf = [[UITextField alloc] initWithFrame:CGRectMake(20, 80+44, 180, 40)];
+    UITextField* tf = [[UITextField alloc] initWithFrame:CGRectMake(20, 100+44, 280, 40)];
     tf.placeholder = @" 输入验证码";
-    tf.background = [UIImage imageNamed:@"reg_input.png"];
+    tf.backgroundColor=[UIColor clearColor];
     tf.textAlignment = NSTextAlignmentLeft;
+    tf.layer.cornerRadius = 10.0f;
     tf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [tf becomeFirstResponder];
+    tf.layer.borderWidth = 1.0f;
+    tf.layer.borderColor = [[UIColor grayColor] CGColor];
     self.snInput=tf;
     [self.view addSubview:tf];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
