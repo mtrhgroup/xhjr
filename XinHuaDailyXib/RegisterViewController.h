@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface RegisterViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate>
+@interface RegisterViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate,UIAlertViewDelegate>
 @property (strong, nonatomic) UITextField *phone_number_input;
 @property (strong, nonatomic) UITextField *verify_code_input;
 @property (strong, nonatomic) UIButton *regBtn;

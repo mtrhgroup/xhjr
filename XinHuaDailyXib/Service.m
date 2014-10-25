@@ -419,8 +419,11 @@
                 successBlock(YES);
             }
         }else{
-            if(successBlock){
-                successBlock(NO);
+            NSString *error_decription=[responseStr substringFromIndex:3];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error_decription forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:SXTErrorDomain code:XRegisterFailed userInfo:userInfo];
+            if(errorBlock){
+                errorBlock(error);
             }
         }
     } errorHandler:^(NSError *error) {
@@ -437,8 +440,11 @@
                 successBlock(YES);
             }
         }else{
-            if(successBlock){
-                successBlock(NO);
+            NSString *error_decription=[responseStr substringFromIndex:3];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error_decription forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:SXTErrorDomain code:XRegisterFailed userInfo:userInfo];
+            if(errorBlock){
+                errorBlock(error);
             }
         }
     } errorHandler:^(NSError *error) {

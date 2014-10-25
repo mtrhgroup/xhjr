@@ -19,4 +19,11 @@
 #define kNotificationAppVersionReceived @"notification_app_version_received"
 #define KSettingChange @"fontchange"
 #define KDisplayMode @"DisplayMode"
+#define SXTErrorDomain @"com.xinhuanet.sxt"
+typedef enum {
+    XDefultFailed = -1000,
+    XRegisterFailed,
+    XConnectFailed,
+    XParserFailed
+}SXTErrorFailed;
 #endif

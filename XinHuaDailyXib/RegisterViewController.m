@@ -8,22 +8,25 @@
 
 #import "RegisterViewController.h"
 #import "NavigationController.h"
+#import "VerifyCodeSubmitViewController.h"
 #import "AMBlurView.h"
+#import "UIWindow+YzdHUD.h"
 #define kDuration 0.3
 @interface RegisterViewController ()
 @property (nonatomic,strong) AMBlurView *blurView;
 @property(nonatomic,strong)Service *service;
+@property(nonatomic,strong)NSTimer *timer;
+@property(nonatomic,strong)UIAlertView *confirm_phone_number_alert;
 @end
-/*
- * notification : KShowToast           "显示后台任务的执行反馈"      userInfo:data  (NSString *) "执行反馈的文本信息"
- *                KBindleSnOK          "授权码注册成功"           
- */
+
 @implementation RegisterViewController
 @synthesize phone_number_input=_phone_number_input;
 @synthesize verify_code_input=_verify_code_input;
 @synthesize regBtn;
 @synthesize waitingAlert;
 @synthesize service=_service;
+@synthesize timer=_timer;
+@synthesize confirm_phone_number_alert=_confirm_phone_number_alert;
 
 - (id)init
 {
@@ -45,7 +48,7 @@
     self.title=@"用户认证";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 110)];
+    [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 60)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
     //[self.blurView setAlpha:0.6];
@@ -53,7 +56,7 @@
     [self.view addSubview:[self blurView]];
     
     _phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(20, 50+44, 180, 40)];
-    _phone_number_input.placeholder = @" 输入手机号码";
+    _phone_number_input.placeholder = @" 请输入手机号码";
     _phone_number_input.backgroundColor=[UIColor clearColor];
     _phone_number_input.layer.cornerRadius = 10.0f;
     _phone_number_input.textAlignment = NSTextAlignmentLeft;
@@ -71,21 +74,19 @@
     [verify_get_btn.layer setCornerRadius:10.0];
     [verify_get_btn.layer setBorderWidth:0.2];
     verify_get_btn.tintColor=[UIColor blackColor];
-    [verify_get_btn addTarget:self action:@selector(requestVerifyCode) forControlEvents:UIControlEventTouchUpInside];
+    [verify_get_btn addTarget:self action:@selector(verifyGetBtnClickHandler) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:verify_get_btn];
-    
-    _verify_code_input = [[UITextField alloc] initWithFrame:CGRectMake(20, 100+44, 280, 40)];
-    _verify_code_input.placeholder = @" 输入验证码";
-    _verify_code_input.backgroundColor=[UIColor clearColor];
-    _verify_code_input.textAlignment = NSTextAlignmentLeft;
-    _verify_code_input.layer.cornerRadius = 10.0f;
-    _verify_code_input.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [_verify_code_input becomeFirstResponder];
-    _verify_code_input.layer.borderWidth = 1.0f;
-    _verify_code_input.layer.borderColor = [[UIColor grayColor] CGColor];
-    [self.view addSubview:_verify_code_input];
+
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"cloudcheck.png"] target:self action:@selector(bindPhoneNumber) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void)verifyGetBtnClickHandler{ 
+    self.confirm_phone_number_alert=[[UIAlertView alloc] initWithTitle:@"确认手机号码"  message:[NSString stringWithFormat:@"我们将发送验证码短信到这个号码：%@",_phone_number_input.text] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好", nil];
+    [self.confirm_phone_number_alert show];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(buttonIndex==1){
+        [self requestVerifyCode];
+    }
 }
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
@@ -95,9 +96,6 @@
 
 }
 
--(void)returnclick:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -113,25 +111,17 @@
 
 -(void)requestVerifyCode{
     [self.service requestVerifyCodeWithPhoneNumber:_phone_number_input.text successHandler:^(BOOL is_ok) {
-       // <#code#>
+        VerifyCodeSubmitViewController *controller=[[VerifyCodeSubmitViewController alloc]init];
+        controller.service=self.service;
+        controller.phone_number=self.phone_number_input.text;
+        [self.navigationController pushViewController:controller animated:YES];
+
     } errorHandler:^(NSError *error) {
-       // <#code#>
+        NSLog(@"%@",error.localizedDescription);
+       [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
 
--(void)bindPhoneNumber{
-    [self.service registerPhoneNumberWithPhoneNumber:_phone_number_input.text verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
-        //<#code#>
-    } errorHandler:^(NSError *error) {
-       // <#code#>
-    }];
-}
--(void)valueChanged:(id)sender {
-//    UITextField* textField = (UITextField*)sender;    
-//    UIButton* button = (UIButton*)self.regBtn;
-//    button.enabled = textField.text.length > 0;
-    
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
 //    if (theTextField == self.snInput) {
@@ -139,9 +129,6 @@
 //    }
    return YES;
 }
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
+
 
 @end
