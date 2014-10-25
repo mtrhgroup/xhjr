@@ -52,18 +52,21 @@
 }
 
 -(void)setupCoverImage{
-    [service fetchAppInfo:^(AppInfo *app_info) {
+    if(AppDelegate.user_defaults.appInfo.startImgUrl!=nil||[AppDelegate.user_defaults.appInfo.startImgUrl isEqualToString:@""]){
         if(coverimageView==nil)
             coverimageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-100)];
-        coverimageView.imageURL = app_info.advPagePath;
+        coverimageView.imageURL = AppDelegate.user_defaults.appInfo.startImgUrl;
         [self addSubview:coverimageView];
         coverimageView.userInteractionEnabled=YES;
         UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openAD)];
         [coverimageView addGestureRecognizer:singleTap];
+    }
+    [service fetchAppInfo:^(AppInfo *app_info) {
+        coverimageView.imageURL = AppDelegate.user_defaults.appInfo.startImgUrl;
     } errorHandler:^(NSError *error) {
-       // <#code#>
+        // <#code#>
     }];
-
+    
 }
 -(NSTimeInterval)consumedTime{
     NSDate *now=[NSDate date];

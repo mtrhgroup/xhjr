@@ -195,7 +195,7 @@
 }
 -(void)feedback{
     FeedBackToEditorViewController *controller=[[FeedBackToEditorViewController alloc] init];
-    controller.articleId=_article.article_id;
+    controller.article=_article;
     [self.navigationController pushViewController:controller animated:YES];
 }
 -(void)back{

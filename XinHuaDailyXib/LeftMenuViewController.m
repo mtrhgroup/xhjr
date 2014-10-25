@@ -57,6 +57,12 @@
     self.title_label.font = [UIFont fontWithName:@"Arial" size:20];
     self.title_label.backgroundColor=[UIColor clearColor];
     [self.view addSubview:self.title_label];
+//    self.sub_title_label=[[UILabel alloc]initWithFrame:CGRectMake(10, 30, self.view.bounds.size.width, 30)];
+//    self.sub_title_label.textColor=[UIColor whiteColor];
+//    self.sub_title_label.text=@"辽宁发布 新华";
+//    self.sub_title_label.font = [UIFont fontWithName:@"Arial" size:20];
+//    self.sub_title_label.backgroundColor=[UIColor clearColor];
+//    [self.view addSubview:self.sub_title_label];
 
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 80, 300, self.view.bounds.size.height-44)];
     self.tableView.delegate=self;

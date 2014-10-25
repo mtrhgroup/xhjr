@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 @interface RegisterViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate>
-@property (strong, nonatomic) UITextField *snInput;
+@property (strong, nonatomic) UITextField *phone_number_input;
+@property (strong, nonatomic) UITextField *verify_code_input;
 @property (strong, nonatomic) UIButton *regBtn;
-@property (strong,nonatomic) UIButton *collageBtn;
 @property (strong,nonatomic)UIAlertView *waitingAlert;
 @end

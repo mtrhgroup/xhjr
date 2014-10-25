@@ -8,13 +8,24 @@
 
 #import "Communicator.h"
 #import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 #import "NetStreamStatistics.h"
 #import "ZipArchive.h"
 #import "URLDefine.h"
 #import "DeviceInfo.h"
 @implementation Communicator
+- (NSString *)URLEncodedStringWith:(NSString *)original_url
+{
+    NSString *encoded_url =CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                            (CFStringRef)original_url,
+                                            (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                            NULL,
+                                            kCFStringEncodingUTF8));
+    return encoded_url;
+}
 -(BOOL)synBindDevice{
     NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
+    url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     [request startSynchronous];
     NSError *error = [request error];
@@ -40,6 +51,7 @@
 }
 -(void)fetchStringAtURL:(NSString *)url successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     if(![self check])return;
+    url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
     [request setCompletionBlock:^{
@@ -61,6 +73,7 @@
     [request startAsynchronous];
 }
 -(void)fetchFileAtURL:(NSString *)url toPath:(NSString *)path successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
     [request setShouldAttemptPersistentConnection:NO];
@@ -87,6 +100,30 @@
     [request startAsynchronous];
 }
 -(void)postVariablesToURL:(NSString *)url variables:(NSDictionary *)variables successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    
+    ASIFormDataRequest *_request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    __weak ASIFormDataRequest* request=_request;
+    NSEnumerator * enumerator = [variables keyEnumerator];
+    id object;
+    while(object = [enumerator nextObject])
+    {
+        id objectValue = [variables objectForKey:object];
+        if(objectValue != nil)
+        {
+            [request setPostValue:objectValue forKey:object];
+        }
+    }
+    [request setCompletionBlock:^{
+        NSString *responseString = [request responseString];
+                if(successBlock!=nil){
+                    successBlock(responseString);
+                }
+    }];
+    [request setFailedBlock:^{
+        if(errorBlock!=nil){
+            NSError *error = [request error];
+            errorBlock(error);
+        }
+    }];
+    [request startAsynchronous];
 }
 @end

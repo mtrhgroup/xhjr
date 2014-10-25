@@ -58,12 +58,11 @@
         }
     }];
 }
--(void)registerSNWithSN:(NSString *)SN successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *tempURL=[NSString stringWithFormat:kBindleSNURL,[DeviceInfo udid],SN,[DeviceInfo osVersion]];
-    NSString *url=[tempURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+-(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kBindleSNURL,phone_number,[DeviceInfo udid],verify_code,[DeviceInfo phoneModel],[DeviceInfo osVersion]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        if([responseStr rangeOfString:@"SUCCESSED"].location!=NSNotFound){
-            AppDelegate.user_defaults.sn=SN;
+        if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
+            AppDelegate.user_defaults.sn=phone_number;
             if(successBlock){
                 successBlock(YES);
             }
@@ -144,8 +143,22 @@
         AppInfo *app_info=[_parser parseAppInfo:responseStr];
         AppDelegate.user_defaults.appInfo=app_info;
         [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationAppVersionReceived object: nil];
-        if(successBlock){
-            successBlock(app_info);
+        if(app_info.gid!=nil||![app_info.gid isEqualToString:@""]){
+            [self fetchOneArticleWithArticleID:app_info.gid successHandler:^(Article *article) {
+                [self fetchArticleContentWithArticle:article successHandler:^(BOOL is_ok) {
+                    app_info.advPagePath=article.page_path;
+                    app_info.advPath=article.zip_path;
+                    app_info.startImgUrl=article.thumbnail_url;
+                    AppDelegate.user_defaults.appInfo=app_info;
+                    if(successBlock){
+                        successBlock(app_info);
+                    }
+                } errorHandler:^(NSError *error) {
+                  //  <#code#>
+                }];
+            } errorHandler:^(NSError *error) {
+                //
+            }];
         }
     } errorHandler:^(NSError *error) {
         if(errorBlock){
@@ -180,8 +193,7 @@
     }];
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    //NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
-    NSString *url=@"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=a6677859-8570-4427-8903-981c0293be1c&n=10&pid=274";
+    NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
@@ -380,5 +392,59 @@
 }
 -(void)shareArticleWithArticle:(Article *)article{
     
+}
+-(void)feedbackArticleWithContent:(NSString *)content article:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kArticleFeedBack,[DeviceInfo udid],AppDelegate.user_defaults.sn,article.article_id,content];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else{
+            if(successBlock){
+                successBlock(NO);
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+-(void)feedbackAppWithContent:(NSString *)content email:(NSString *)email successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kAppFeedBack,[DeviceInfo udid],AppDelegate.user_defaults.sn,email,content];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else{
+            if(successBlock){
+                successBlock(NO);
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+-(void)requestVerifyCodeWithPhoneNumber:(NSString *)phone_number successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kMMSVeriyCodeURL,[DeviceInfo udid],phone_number];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
+            if(successBlock){
+                successBlock(YES);
+            }
+        }else{
+            if(successBlock){
+                successBlock(NO);
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
 }
 @end

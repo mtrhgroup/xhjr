@@ -14,13 +14,15 @@
 
 @interface FeedBackToEditorViewController ()
 @property (nonatomic,strong) AMBlurView *blurView;
+@property(nonatomic,strong)Service *service;
 @end
 
 @implementation FeedBackToEditorViewController
 @synthesize contentTV;
-@synthesize articleId;
+@synthesize article=_article;
 @synthesize waitingAlert;
 @synthesize mode;
+@synthesize service=_service;
 
 -(void)showToast:(NSNotification*) notification{
 //    [self.view hideToastActivity];
@@ -106,9 +108,11 @@
         [self showAlertText:@"请输入内容"];
         return;
     }
-//    [self.view makeToastActivity:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
-//    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
-//    [[NewsFeedBackTask sharedInstance] feedbackArticleOpinion:authcode articelid:self.articleId contentStr:contentStr];
+   [self.service feedbackArticleWithContent:contentStr article:self.article successHandler:^(BOOL is_ok) {
+     
+   } errorHandler:^(NSError *error) {
+      
+   }];
 }
 - (void)showAlertText:(NSString*)string
 {

@@ -21,14 +21,14 @@
 
 /*---------------------
  绑定授权码URL
- 参数个数 3
- 参数列表 imei（设备唯一标示）       sn（授权码）      osversion（软件型号）
+ 参数个数 5
+ 参数列表 imei（设备唯一标示） phone(手机号码)  code（短信验证码）  model（手机型号）    osversion（软件型号）
  请求类型 GET
  返回类型 TEXT
  返回示例 此终端未注册或授权码不存在（已经绑定） OK（绑定成功）
  备注
  ---------------------*/
-#define kBindleSNURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/sjb_bindsn.ashx?imei=%@&sn=%@&osversion=iOS%@&appid=lnfb"
+#define kBindleSNURL @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/lnfb_bindsn.ashx?phone=%@&imei=%@&code=%@&model=%@&osversion=%@"
 
 
 /*---------------------
@@ -52,9 +52,8 @@
  返回示例 periodicallist|periodical@id@name|item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:summary:thumbnail:pid:coverimg:visit:video
  备注
  ---------------------*/
-///#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&n=%d&pid=%@&order=asc"
+#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&n=%d&pid=%@&order=asc"
 
-#define kLatestArticlesURL @"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_newperiodicals.ashx?imei=%@&n=%d&pid=%@"
 
 /*---------------------
  封面信息URL
@@ -89,7 +88,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kAppFeedBack @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/lnfb_feedback.ashx?imei=%@&sn=&email=%@&content=%@"
+#define kAppFeedBack @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/lnfb_feedback.ashx?imei=%@&sn=%@&email=%@&content=%@"
 
 
 /*---------------------
@@ -101,7 +100,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kArticleFeedBack @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/lnfb_literfeedback.ashx?imei=%@&sn=&literid=%@&content=%@"
+#define kArticleFeedBack @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/lnfb_literfeedback.ashx?imei=%@&sn=%@&literid=%@&content=%@"
 
 
 /*---------------------
@@ -186,3 +185,14 @@
  备注
  ---------------------*/
 #define kUserActionsURL @"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_literread.ashx"
+
+/*---------------------
+ 用户行为URL
+ 参数个数 2
+ 参数列表 imei（设备唯一标示）  phone (手机号码)
+ 请求类型 GET
+ 返回类型 TEXT
+ 返回示例 OK（操作成功）ERROR:XXX(错误原因)
+ 备注
+ ---------------------*/
+#define kMMSVeriyCodeURL @"http://mis.xinhuanet.com/SXTV2/mobile/interface/lnfb_mmscode.ashx?imei=%@&phone=%@"

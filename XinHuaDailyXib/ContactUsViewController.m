@@ -13,7 +13,8 @@
 #import "NavigationController.h"
 #import "AMBlurView.h"
 @interface ContactUsViewController ()
-@property (nonatomic,strong) AMBlurView *blurView;
+@property (nonatomic,strong)AMBlurView *blurView;
+@property(nonatomic,strong)Service *service;
 @end
 
 @implementation ContactUsViewController
@@ -22,11 +23,13 @@
 @synthesize emailTF;
 @synthesize waitingAlert;
 @synthesize mode;
+@synthesize service;
 - (id)init
 {
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showToast:) name:kNotificationMessage object:nil];
+        self.service=AppDelegate.service;
     }
     return self;
 }
@@ -132,9 +135,11 @@
         return;
     }
     [self.view.window showHUDWithText:@"" Type:ShowLoading Enabled:YES];
-    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
-    [[NSUserDefaults  standardUserDefaults] setValue:emailStr forKey:@"email"];
-    //[[NewsFeedBackTask sharedInstance] execute:authcode emailStr:emailStr contentStr:contentStr];
+    [self.service feedbackAppWithContent:contentStr email:emailStr successHandler:^(BOOL is_ok) {
+       
+    } errorHandler:^(NSError *error) {
+       
+    }];
 }
 - (void)showAlertText:(NSString*)string
 {
