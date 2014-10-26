@@ -15,7 +15,7 @@
 #import "NavigationController.h"
 
 @interface SettingViewController ()
-
+@property(nonatomic,strong)NSTimer *timer;
 @end
 
 @implementation SettingViewController
@@ -25,6 +25,7 @@
 @synthesize labFont;
 @synthesize byteslostLabel;
 @synthesize waitingAlert;
+@synthesize timer=_timer;
 
 - (id)init
 {
@@ -78,7 +79,7 @@
     if(section==0){
         return 2;
     }else if(section==1){
-        return 1;//2:夜间模式
+        return 2;//2:夜间模式
     }else if(section==2){
         return 1;
     }else if(section==3){
@@ -106,6 +107,9 @@
       cell.textLabel.textColor = [UIColor blackColor];
       cell.textLabel.font = [UIFont fontWithName:@"System" size:17.0];
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+
     if(indexPath.section==0){
         if (indexPath.row == 0){
             
@@ -145,10 +149,14 @@
         }else if(indexPath.row==1){
             NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
             if(displayMode==nil)
-                cell.textLabel.text = @"日间模式";
+                cell.textLabel.text = @"夜间模式";
             else
                 cell.textLabel.text=displayMode;
             cell.accessoryType=UITableViewCellAccessoryNone;
+            UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
+            cell.accessoryView = switchView;
+            [switchView setOn:NO animated:YES];
+            [switchView addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         }
     }else if(indexPath.section==2){
         if(indexPath.row==0){
@@ -206,20 +214,7 @@
             NewsFontSettingViewController* nsv = [[NewsFontSettingViewController alloc] init];
             [self.navigationController pushViewController:nsv animated:YES];
         }else if(indexPath.row==1){
-            NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
-            if(displayMode==nil||[displayMode isEqualToString:@"日间模式"]){
-                [[NSUserDefaults standardUserDefaults] setObject:@"夜间模式" forKey:@"displayMode"];
-                [[NSNotificationCenter defaultCenter] postNotificationName: KDisplayMode
-                                                                    object: self];
-                [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
-                                                                    object: self];
-            }else{
-                [[NSUserDefaults standardUserDefaults] setObject:@"日间模式" forKey:@"displayMode"];
-                [[NSNotificationCenter defaultCenter] postNotificationName: KDisplayMode
-                                                                    object: self];
-                [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
-                                                                    object: self];
-            }
+            
         }
     }else if(indexPath.section==2){
         if(indexPath.row==0){
@@ -239,8 +234,38 @@
         }
     }
 }
-
-
+- (void) switchChanged:(id)sender {
+    UISwitch* switchControl = sender;
+    if(switchControl.on){
+        [[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(turnToNightMode:) userInfo:nil repeats:YES] fire];
+    }else{
+        [[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(turnToDayMode:) userInfo:nil repeats:YES] fire];
+    }
+    [self.timer fire];
+    NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
+}
+-(void)turnToNightMode:(id)sender{
+    NSTimer *timer=sender;
+    NSLog(@"ddd");
+    if([UIScreen mainScreen].brightness>0.1){
+        NSLog(@"%f",[UIScreen mainScreen].brightness);
+        [UIScreen mainScreen].brightness-=0.1;
+    }else{
+        [timer invalidate];
+        timer=nil;
+    }
+}
+-(void)turnToDayMode:(id)sender{
+    NSTimer *timer=sender;
+    NSLog(@"kkk");
+    if([UIScreen mainScreen].brightness<1.0){
+        NSLog(@"%f",[UIScreen mainScreen].brightness);
+        [UIScreen mainScreen].brightness+=0.1;
+    }else{
+        [timer invalidate];
+        timer=nil;
+    }
+}
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex) {
         [self showWaitingAlert];

@@ -7,8 +7,11 @@
 //
 
 #import "DBOperator.h"
+@interface DBOperator()
+@property(strong,nonatomic)NSManagedObjectContext *context;
+@end
 @implementation DBOperator
-NSManagedObjectContext *_context;
+@synthesize context=_context;
 static NSString * const E_CHANNEL = @"E_CHANNEL";
 static NSString * const E_ARTICLE = @"E_ARTICLE";
 -(id)initWithContext:(NSManagedObjectContext *)context{

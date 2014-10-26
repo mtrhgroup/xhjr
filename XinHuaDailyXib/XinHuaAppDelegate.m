@@ -42,6 +42,7 @@
         [self.main_vc presentArticleContentVCWithPushArticleID:[pushInfo valueForKey:@"id"]];
     }
     [self performSelectorInBackground:@selector(initBaiduFrontia) withObject:nil];
+
     return YES;
 }
 -(void)setupApp{

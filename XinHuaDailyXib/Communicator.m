@@ -27,6 +27,7 @@
     NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
     url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+     [request setResponseEncoding:NSUTF8StringEncoding];
     [request startSynchronous];
     NSError *error = [request error];
     if (!error)
@@ -54,6 +55,7 @@
     url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
+    [request setResponseEncoding:NSUTF8StringEncoding];
     [request setCompletionBlock:^{
         int toAdd=(int)request.totalBytesRead;
         [[NetStreamStatistics sharedInstance] appendBytesToDictionary:toAdd];
@@ -76,6 +78,7 @@
     url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
+    [request setResponseEncoding:NSUTF8StringEncoding];
     [request setShouldAttemptPersistentConnection:NO];
     [request setTimeOutSeconds:30];
     request.downloadDestinationPath = path;
@@ -102,6 +105,7 @@
 -(void)postVariablesToURL:(NSString *)url variables:(NSDictionary *)variables successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     ASIFormDataRequest *_request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
     __weak ASIFormDataRequest* request=_request;
+    [request setResponseEncoding:NSUTF8StringEncoding];
     NSEnumerator * enumerator = [variables keyEnumerator];
     id object;
     while(object = [enumerator nextObject])
