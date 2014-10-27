@@ -65,8 +65,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [[UIScreen mainScreen] setBrightness:self.user_defaults.outside_brightness_value];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -83,9 +82,10 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-//    //每次醒来都需要去判断是否得到device token
-//    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(registerForRemoteNotificationToGetToken) userInfo:nil repeats:NO];
-    
+    self.user_defaults.outside_brightness_value=[[UIScreen mainScreen] brightness];
+    if(self.user_defaults.is_night_mode_on){
+        [UIScreen mainScreen].brightness=0.1;
+    }
     [_service reportActionsToServer:^(BOOL ok) {
         //<#code#>
     } errorHandler:^(NSError *error) {

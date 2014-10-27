@@ -20,7 +20,7 @@
 
 @implementation SettingViewController
 
-@synthesize table;
+@synthesize table_view;
 @synthesize labBuff;
 @synthesize labFont;
 @synthesize byteslostLabel;
@@ -44,14 +44,17 @@
     [super viewDidLoad];
     self.title=@"管理设置";
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+    table_view = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
     
-    table.delegate = self;
-    table.dataSource = self;
-    [self.view addSubview:table];
+    table_view.delegate = self;
+    table_view.dataSource = self;
+    [self.view addSubview:table_view];
     [self makeWaitingAlert];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self.table_view reloadData];
 }
 -(void)back{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -97,36 +100,22 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     static NSString* str = @"cellid";
-    UITableViewCell* cell = [table dequeueReusableCellWithIdentifier:str];
+    UITableViewCell* cell = [table_view dequeueReusableCellWithIdentifier:str];
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
        
     }
-    
-      cell.textLabel.textColor = [UIColor blackColor];
-      cell.textLabel.font = [UIFont fontWithName:@"System" size:17.0];
-      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     if(indexPath.section==0){
         if (indexPath.row == 0){
             
-            labBuff = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-            NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
-            if (setdate == NULL || [setdate intValue] == 30) {
-                labBuff.text = @"30条";        
-            }else if([setdate  intValue] ==  20){
-                labBuff.text =  @"20条";        
-            }else if([setdate intValue] == 10){
-                labBuff.text = @"10条";
-            }
-            labBuff.textColor = [UIColor blackColor];
-            labBuff.font = [UIFont fontWithName:@"System" size:17];
-            labBuff.backgroundColor = [UIColor clearColor];
-            [cell addSubview:labBuff];
-            cell.textLabel.text = @"保留数据条数";
+            UILabel *cache_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-100,0,  60, 44)];
+            cache_lbl.text=AppDelegate.user_defaults.cache_article_number;
+            cache_lbl.textColor=[UIColor grayColor];
+            cache_lbl.textAlignment=NSTextAlignmentRight;
+            [[cell contentView] addSubview:cache_lbl];
+            cell.textLabel.text = @"缓存资讯条数";
             
         }else if(indexPath.row == 1){
             cell.textLabel.text = @"清理缓存";    
@@ -134,17 +123,10 @@
         }
     }else if(indexPath.section==1){
         if(indexPath.row==0){
-            labFont = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-            NSString* strFontSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"FONTSIZE"];
-            if(strFontSize==nil){
-                labFont.text=@"中";
-            }else{
-                labFont.text=strFontSize;
-            }
-            labFont.textColor = [UIColor blackColor];
-            labFont.font = [UIFont fontWithName:@"System" size:17];
-            labFont.backgroundColor = [UIColor clearColor];
-            [cell addSubview:labFont];
+            labFont = [[UILabel alloc] initWithFrame:CGRectZero];
+            labFont.text=AppDelegate.user_defaults.font_size;
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            cell.accessoryView=labFont;
             cell.textLabel.text = @"字体大小"; 
         }else if(indexPath.row==1){
             NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
@@ -155,7 +137,7 @@
             cell.accessoryType=UITableViewCellAccessoryNone;
             UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
             cell.accessoryView = switchView;
-            [switchView setOn:NO animated:YES];
+            [switchView setOn:AppDelegate.user_defaults.is_night_mode_on animated:YES];
             [switchView addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         }
     }else if(indexPath.section==2){
@@ -203,8 +185,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==0){
         if (indexPath.row == 0){
-            NewsBufferSettingViewController* nsv = [[NewsBufferSettingViewController alloc] init];
-            [self.navigationController pushViewController:nsv animated:YES];
+//            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"保存资讯条数"
+//                                                                     delegate:self
+//                                                            cancelButtonTitle:@"取消"
+//                                                       destructiveButtonTitle:nil
+//                                                            otherButtonTitles:@"10条", @"20条", @"50条",nil];
+//            [actionSheet showInView:self.view];
+            NewsBufferSettingViewController *controller=[[NewsBufferSettingViewController alloc]init];
+            [self.navigationController pushViewController:controller animated:YES];
         }else if(indexPath.row == 1){
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"清除缓存提醒！" message:@"您确定清除缓存吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
@@ -242,26 +230,24 @@
         [[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(turnToDayMode:) userInfo:nil repeats:YES] fire];
     }
     [self.timer fire];
-    NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
+    AppDelegate.user_defaults.is_night_mode_on=switchControl.on;
 }
 -(void)turnToNightMode:(id)sender{
     NSTimer *timer=sender;
-    NSLog(@"ddd");
     if([UIScreen mainScreen].brightness>0.1){
-        NSLog(@"%f",[UIScreen mainScreen].brightness);
         [UIScreen mainScreen].brightness-=0.1;
     }else{
+        [UIScreen mainScreen].brightness=0.1;
         [timer invalidate];
         timer=nil;
     }
 }
 -(void)turnToDayMode:(id)sender{
     NSTimer *timer=sender;
-    NSLog(@"kkk");
-    if([UIScreen mainScreen].brightness<1.0){
-        NSLog(@"%f",[UIScreen mainScreen].brightness);
+    if([UIScreen mainScreen].brightness<AppDelegate.user_defaults.outside_brightness_value){
         [UIScreen mainScreen].brightness+=0.1;
     }else{
+        [UIScreen mainScreen].brightness=AppDelegate.user_defaults.outside_brightness_value;
         [timer invalidate];
         timer=nil;
     }
@@ -273,6 +259,32 @@
         [self hideWaitingAlert];      
     }
 }
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSLog(@"%i", buttonIndex);
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    }
+    switch (buttonIndex) {
+        case 0: {
+            AppDelegate.user_defaults.cache_article_number=@"10条";
+            
+            break;
+        }
+        case 1: {
+            AppDelegate.user_defaults.cache_article_number=@"20条";
+            break;
+        }
+        case 2: {
+            AppDelegate.user_defaults.cache_article_number=@"50条";
+            break;
+        }
+            
+    }
+    NSLog(@"%@",AppDelegate.user_defaults.cache_article_number);
+    [self.table_view reloadData];
+    
+}
+
 -(void)clearfilesWithXdailys:(NSMutableArray *)array{
 
 }
@@ -301,7 +313,7 @@
     }else{
         byteslostLabel.text=[self bytesFormater:bytesLostOfThisMonth];
     }
-    [table reloadData];
+    [table_view reloadData];
 }
 -(void)returnclick:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];

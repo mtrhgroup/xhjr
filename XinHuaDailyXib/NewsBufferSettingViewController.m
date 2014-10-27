@@ -9,15 +9,11 @@
 #import "NewsBufferSettingViewController.h"
 #import "NavigationController.h"
 @interface NewsBufferSettingViewController ()
-
+@property(nonatomic,assign)NSInteger currentIndex;
 @end
 
 @implementation NewsBufferSettingViewController
-
-
-@synthesize uivaa;
-@synthesize uivbb;
-@synthesize uivcc;
+@synthesize currentIndex;
 @synthesize table;
 
 
@@ -31,38 +27,18 @@
     table.delegate = self;
     table.dataSource = self;
     [self.view addSubview:table];
-    
-    
-    
-    UIImage* imag = [UIImage imageNamed:@"round_ok.png"];
-    
-    uivaa = [[UIImageView alloc] initWithFrame:CGRectMake(280, 15, 15, 15)];
-    uivaa.image = imag;
-    uivaa.tag = 10;
-    uivaa.hidden = YES;
-    
-    uivbb = [[UIImageView alloc] initWithFrame:CGRectMake(280, 15, 15, 15)];
-    uivbb.image = imag;
-    uivbb.tag = 20;
-    uivbb.hidden = YES;
-    
-    uivcc = [[UIImageView alloc] initWithFrame:CGRectMake(280, 15, 15, 15)];
-    uivcc.image = imag;
-    uivcc.tag = 30;
-    uivcc.hidden = YES;
-    
-    
-    NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
-    
-    if ([setdate intValue] == 30 || setdate == NULL) {
-        uivcc.hidden = NO;
-    }else if([setdate intValue] == 10){
-        uivaa.hidden = NO;
-    }else if([setdate intValue] == 20){
-        uivbb.hidden = NO;
-    }
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"%@",AppDelegate.user_defaults.font_size);
+    if([AppDelegate.user_defaults.cache_article_number isEqualToString:@"10条"]){
+        self.currentIndex=0;
+    }else if([AppDelegate.user_defaults.cache_article_number isEqualToString:@"20条"]){
+        self.currentIndex=1;
+    }else if([AppDelegate.user_defaults.cache_article_number isEqualToString:@"50条"]){
+        self.currentIndex=2;
+    }
 }
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
@@ -93,58 +69,56 @@
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell.accessoryType=UITableViewCellAccessoryCheckmark;
     
-
     if ( cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
-
     if (indexPath.row == 0) {
         cell.textLabel.text = @"10条";
-        [cell addSubview:uivaa];
-        
     }else if (indexPath.row == 1){
         cell.textLabel.text = @"20条";
-        [cell addSubview:uivbb];
-        
     }else if (indexPath.row == 2){
-        cell.textLabel.text = @"30条";
-        [cell addSubview:uivcc];
-        
+        cell.textLabel.text = @"50条";
     }
-    
-
     return cell;
 }
 
 #pragma mark - Table view delegate
-
+- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row==self.currentIndex){
+        return UITableViewCellAccessoryCheckmark;
+    }
+    else{
+        return UITableViewCellAccessoryNone;
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    uivaa.hidden = YES;
-    uivbb.hidden = YES;
-    uivcc.hidden = YES;
-    
-    
-    UIImageView* imv = (UIImageView*)[self.view viewWithTag:(indexPath.row+1)*10];
-    imv.hidden = NO;
-    
-  NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];
-    
-    if (setdate != NULL) {
-        
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SETDATE"];
-        [[NSUserDefaults  standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",(indexPath.row+1)*10] forKey:@"SETDATE"];
-  
-    }else {
-        
-        [[NSUserDefaults  standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",(indexPath.row+1)*10] forKey:@"SETDATE"];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if(indexPath.row==self.currentIndex){
+        return;
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
-                                                        object: self];
+    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:self.currentIndex
+                                                   inSection:0];
+    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+    if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+        newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+    if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+        oldCell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    self.currentIndex=indexPath.row;
+    if (indexPath.row == 0) {
+        AppDelegate.user_defaults.cache_article_number = @"10条";
+    }else if (indexPath.row == 1){
+        AppDelegate.user_defaults.cache_article_number = @"20条";
+    }else if (indexPath.row == 2){
+        AppDelegate.user_defaults.cache_article_number = @"50条";
+    }
 }
 
 

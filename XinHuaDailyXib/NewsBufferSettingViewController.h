@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @interface NewsBufferSettingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
-     UIImageView* uivaa;
-     UIImageView* uivbb;
-     UIImageView* uivcc;
      UITableView* table;
    
 }

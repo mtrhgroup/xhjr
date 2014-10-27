@@ -9,6 +9,8 @@
 #import "UserDefaults.h"
 
 @implementation UserDefaults
+@synthesize  outside_brightness_value;
+@synthesize is_night_mode_on;
 -(void)setHas_bind_device_to_server:(BOOL)has_bind_device_to_server{
     [[NSUserDefaults standardUserDefaults] setBool:has_bind_device_to_server forKey:@"has_bind_device_to_server"];
 }
@@ -32,19 +34,19 @@
     if(app_info==nil)app_info=[[AppInfo alloc]init];
     return app_info;
 }
--(void)setFontSize:(NSString *)fontSize{
+-(void)setFont_size:(NSString *)fontSize{
     [[NSUserDefaults standardUserDefaults] setObject:fontSize forKey:@"fontSize"];
 }
--(NSString *)fontSize{
+-(NSString *)font_size{
     NSString *fontSize=[[NSUserDefaults standardUserDefaults] objectForKey:@"fontSize"];
     if(fontSize==nil)return @"正常";
     else return fontSize;
 }
--(void)setCacheArticleNumber:(NSString *)cacheArticleNumber{
+-(void)setCache_article_number:(NSString *)cacheArticleNumber{
     [[NSUserDefaults standardUserDefaults] setObject:cacheArticleNumber forKey:@"cacheArticleNumber"];
 }
--(NSString *)cacheArticleNumber{
-    NSString *numbers=[[NSUserDefaults standardUserDefaults] objectForKey:@"fontSize"];
+-(NSString *)cache_article_number{
+    NSString *numbers=[[NSUserDefaults standardUserDefaults] objectForKey:@"cacheArticleNumber"];
     if(numbers==nil)return @"20条";
     else return numbers;
 }
