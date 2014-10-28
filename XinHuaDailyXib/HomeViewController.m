@@ -33,25 +33,26 @@
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
-    self.headerView=[[HomeHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.headerView=[[HomeHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width*0.618)];
     self.headerView.articles=self.channels_for_hvc.header_channel.articles;
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadArticlesFromDB) name:kNotificationArticleReceived object:nil];
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
-    [self reloadArticlesFromDB];
+    [self reloadArticlesFromNET  ];
 }
 -(void)reloadArticlesFromNET{
     [self.service fetchHomeArticlesFromNET:^(NSArray *channels) {
         [self reloadArticlesFromDB];
+        [self.tableView headerEndRefreshing];
     } errorHandler:^(NSError *error) {
-        //<#code#>
+        [self.tableView headerEndRefreshing];
     }];
 }
 -(void)reloadArticlesFromDB{
     if(self.channels_for_hvc.header_channel.articles!=nil){
-        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[HomeHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 160)];
+        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[HomeHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, self.view.bounds.size.width*0.618)];
         ((HomeHeader *)self.tableView.tableHeaderView).articles=self.channels_for_hvc.header_channel.articles;
         ((HomeHeader *)self.tableView.tableHeaderView).delegate=self;
     }else{

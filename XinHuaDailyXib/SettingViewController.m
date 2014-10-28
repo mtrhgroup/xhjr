@@ -109,11 +109,12 @@
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     if(indexPath.section==0){
         if (indexPath.row == 0){
-            
-            UILabel *cache_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-100,0,  60, 44)];
+            UILabel *cache_lbl=(UILabel *)[[cell contentView] viewWithTag:1];
+            if(cache_lbl==nil)cache_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
             cache_lbl.text=AppDelegate.user_defaults.cache_article_number;
             cache_lbl.textColor=[UIColor grayColor];
             cache_lbl.textAlignment=NSTextAlignmentRight;
+            cache_lbl.tag=1;
             [[cell contentView] addSubview:cache_lbl];
             cell.textLabel.text = @"缓存资讯条数";
             
@@ -123,10 +124,13 @@
         }
     }else if(indexPath.section==1){
         if(indexPath.row==0){
-            labFont = [[UILabel alloc] initWithFrame:CGRectZero];
-            labFont.text=AppDelegate.user_defaults.font_size;
-            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-            cell.accessoryView=labFont;
+            UILabel *font_lbl=(UILabel *)[[cell contentView] viewWithTag:1];
+            if(font_lbl==nil)font_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
+            font_lbl.text=AppDelegate.user_defaults.font_size;
+            font_lbl.textColor=[UIColor grayColor];
+            font_lbl.textAlignment=NSTextAlignmentRight;
+            font_lbl.tag=1;
+            [[cell contentView] addSubview:font_lbl];
             cell.textLabel.text = @"字体大小"; 
         }else if(indexPath.row==1){
             NSString *displayMode=[[NSUserDefaults standardUserDefaults] objectForKey:@"displayMode"];
@@ -141,20 +145,15 @@
             [switchView addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
         }
     }else if(indexPath.section==2){
-        if(indexPath.row==0){
-            byteslostLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-            NSDictionary *byteslostDic= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
-            int bytesLostOfThisMonth=((NSString *)[byteslostDic objectForKey:[self currentMonth]]).intValue;
-            if(bytesLostOfThisMonth==0){
-                byteslostLabel.text=@"无";
-            }else{
-                byteslostLabel.text=[self bytesFormater:bytesLostOfThisMonth];
-            }
-            byteslostLabel.textColor = [UIColor blackColor];
-            byteslostLabel.font = [UIFont fontWithName:@"System" size:17];
-            byteslostLabel.backgroundColor = [UIColor clearColor];
-            [cell addSubview:byteslostLabel];
-            cell.textLabel.text =  @"本月2G/3G流量";
+        if(indexPath.row==0){;
+            cell.textLabel.text =  @"本月蜂窝数据流量";
+            UILabel *bytes_lost_lbl=(UILabel *)[[cell contentView] viewWithTag:1];
+            if(bytes_lost_lbl==nil)bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
+            bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_cell_this_month;
+            bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
+            bytes_lost_lbl.tag=1;
+            [[cell contentView] addSubview:bytes_lost_lbl];
         }
     }else if(indexPath.section==3){
         if(indexPath.row==0){
@@ -163,23 +162,6 @@
     }
 
    return cell;
-}
--(NSString *)currentMonth{
-    NSCalendar *calendar=[NSCalendar currentCalendar];
-    NSDateComponents *components=[calendar components:NSMonthCalendarUnit fromDate:[NSDate date]];
-    return [NSString stringWithFormat:@"%d",components.month];
-}
--(NSString *)bytesFormater:(int)bytes{
-    NSString * str=@"";
-    NSLog(@"bytesFormater %d",bytes);
-    if(bytes>1024*1024){
-        str=[NSString stringWithFormat:@"%.2f M",bytes/(1024.0*1024.0)];
-    }else if(bytes>1024){
-        str=[NSString stringWithFormat:@"%.2f K",bytes/1024.0];   
-    }else{
-        str=[NSString stringWithFormat:@"%d B",bytes];   
-    }
-    return str;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -267,7 +249,6 @@
     switch (buttonIndex) {
         case 0: {
             AppDelegate.user_defaults.cache_article_number=@"10条";
-            
             break;
         }
         case 1: {
@@ -306,13 +287,8 @@
     [self performSelectorInBackground:@selector(delNewsWithSettingLimit) withObject:nil];
     NSString* strFontSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"FONTSIZE"];
     labFont.text = strFontSize;
-    NSDictionary *byteslostDic= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
-    int bytesLostOfThisMonth=((NSString *)[byteslostDic objectForKey:[self currentMonth]]).intValue;
-    if(bytesLostOfThisMonth==0){
-        byteslostLabel.text=@"无";
-    }else{
-        byteslostLabel.text=[self bytesFormater:bytesLostOfThisMonth];
-    }
+
+
     [table_view reloadData];
 }
 -(void)returnclick:(id)sender{

@@ -43,16 +43,7 @@
     [self.view addSubview:self.slideSwitchView];
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"000000"];
     self.slideSwitchView.tabItemSelectedColor = [SUNSlideSwitchView colorFromHexRGB:@"ff0000"];
-    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"custom_tab_indicator.png"]
-                                        stretchableImageWithLeftCapWidth:66.0f topCapHeight:0.0f];
-    
-    
-    UIButton *rightSideButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightSideButton setImage:[UIImage imageNamed:@"icon_rightarrow.png"] forState:UIControlStateNormal];
-    [rightSideButton setImage:[UIImage imageNamed:@"icon_rightarrow.png"] forState:UIControlStateHighlighted];
-    rightSideButton.frame = CGRectMake(0, 0, 20.0f, 44.0f);
-    rightSideButton.userInteractionEnabled = NO;
-    self.slideSwitchView.rigthSideButton = rightSideButton;
+    self.slideSwitchView.rigthSideButton = nil;
     [self rebuildUI];
 }
 -(void)rebuildUI{

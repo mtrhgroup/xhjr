@@ -47,6 +47,7 @@
 		1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881F0ED19F5E81D00AD52CC /* ChannelCell.m */; };
 		1881F0F119F645DC00AD52CC /* title_menu_btn_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */; };
 		1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */; };
+		1886AAE919FF7A5900222E38 /* heise.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886AAE819FF7A5900222E38 /* heise.png */; };
 		1887389718FCD3B00032CF2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474AF15672D0000081C82 /* main.m */; };
 		1887389818FCD3B00032CF2C /* XinHuaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474B315672D0000081C82 /* XinHuaAppDelegate.m */; };
 		188738A018FCD3B00032CF2C /* db.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 182583AF158D842900A493B9 /* db.xcdatamodeld */; };
@@ -124,7 +125,6 @@
 		1887396118FCD3B00032CF2C /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FCA21D163A255100D6A645 /* flag.png */; };
 		1887396218FCD3B00032CF2C /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FCA21E163A255100D6A645 /* grayArrow.png */; };
 		1887396318FCD3B00032CF2C /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FCA21F163A255100D6A645 /* grayArrow@2x.png */; };
-		1887396418FCD3B00032CF2C /* heise.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FCA220163A255100D6A645 /* heise.png */; };
 		1887396518FCD3B00032CF2C /* startup_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 188C76F118EE413500F167C5 /* startup_logo.png */; };
 		1887396618FCD3B00032CF2C /* History.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FCA221163A255100D6A645 /* History.png */; };
 		1887396718FCD3B00032CF2C /* History@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FCA222163A255100D6A645 /* History@2x.png */; };
@@ -380,6 +380,7 @@
 		1882D8ED18321A0600485B6B /* KeychainAccessGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeychainAccessGroups.plist; sourceTree = SOURCE_ROOT; };
 		1882D8F418321B5000485B6B /* lnzw_inhouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = lnzw_inhouse.entitlements; path = lnzw_inhouse/lnzw_inhouse.entitlements; sourceTree = "<group>"; };
 		1882D8F518321C2000485B6B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1886AAE819FF7A5900222E38 /* heise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heise.png; sourceTree = "<group>"; };
 		188739C218FCD3B00032CF2C /* hnzw_inhouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hnzw_inhouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188C76F118EE413500F167C5 /* startup_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startup_logo.png; sourceTree = "<group>"; };
 		1892C9E619E614ED00F26945 /* DBOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBOperator.h; sourceTree = "<group>"; };
@@ -488,7 +489,6 @@
 		18FCA21D163A255100D6A645 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag.png; sourceTree = "<group>"; };
 		18FCA21E163A255100D6A645 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
 		18FCA21F163A255100D6A645 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
-		18FCA220163A255100D6A645 /* heise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heise.png; sourceTree = "<group>"; };
 		18FCA221163A255100D6A645 /* History.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = History.png; sourceTree = "<group>"; };
 		18FCA222163A255100D6A645 /* History@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "History@2x.png"; sourceTree = "<group>"; };
 		18FCA225163A255100D6A645 /* mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail.png; sourceTree = "<group>"; };
@@ -1120,6 +1120,7 @@
 				18FD6D8A1744B42C00D80D79 /* font_txt@2x.png */,
 				18FD6D8B1744B42D00D80D79 /* opinion_pic@2x.png */,
 				18FD6D8C1744B42D00D80D79 /* opinion_txt@2x.png */,
+				1886AAE819FF7A5900222E38 /* heise.png */,
 				18FD6D8D1744B42D00D80D79 /* popbg@2x.png */,
 				18FD6D8E1744B42D00D80D79 /* segline@2x.png */,
 				18FD6D8F1744B42D00D80D79 /* share_pic@2x.png */,
@@ -1157,7 +1158,6 @@
 				18FCA21D163A255100D6A645 /* flag.png */,
 				18FCA21E163A255100D6A645 /* grayArrow.png */,
 				18FCA21F163A255100D6A645 /* grayArrow@2x.png */,
-				18FCA220163A255100D6A645 /* heise.png */,
 				18FCA221163A255100D6A645 /* History.png */,
 				18FCA222163A255100D6A645 /* History@2x.png */,
 				18FCA225163A255100D6A645 /* mail.png */,
@@ -1702,7 +1702,6 @@
 				1887396218FCD3B00032CF2C /* grayArrow.png in Resources */,
 				1887396318FCD3B00032CF2C /* grayArrow@2x.png in Resources */,
 				1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */,
-				1887396418FCD3B00032CF2C /* heise.png in Resources */,
 				1887396518FCD3B00032CF2C /* startup_logo.png in Resources */,
 				1887396618FCD3B00032CF2C /* History.png in Resources */,
 				1887396718FCD3B00032CF2C /* History@2x.png in Resources */,
@@ -1788,6 +1787,7 @@
 				188739A918FCD3B00032CF2C /* arrow_00@2x.png in Resources */,
 				47C6C8BE19E824DB002CD14C /* red_line_and_shadow@2x.png in Resources */,
 				471B9F9819F2C30D0025F896 /* Default-568h@2x.png in Resources */,
+				1886AAE919FF7A5900222E38 /* heise.png in Resources */,
 				188739AA18FCD3B00032CF2C /* arrow_01@2x.png in Resources */,
 				188739AB18FCD3B00032CF2C /* arrow_02@2x.png in Resources */,
 				1877652919F75DE800D84604 /* periodicals.xml in Resources */,

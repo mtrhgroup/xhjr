@@ -54,7 +54,7 @@
     if(lessiOS7){
         negativeSpacer.width=0;
     }else{
-        negativeSpacer.width=-10;
+        negativeSpacer.width=-20;
     }
     negativeSpacer.width=0;
     UIBarButtonItem *right_btn_item=[[UIBarButtonItem alloc] initWithCustomView:right_btn];

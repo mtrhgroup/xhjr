@@ -46,55 +46,6 @@
     table.delegate = self;
     table.dataSource = self;
     [self.view addSubview:table];
-	// Do any additional setup after loading the view.
-    
-    NSDictionary *cellbytesDict= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
-    NSDictionary *wifibytesDict= [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFIBYTES"];
-    
-    self.currentMonth3G = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-    int cellOfThisMonth=((NSString *)[cellbytesDict objectForKey:[self currentMonth]]).intValue;
-    if(cellOfThisMonth==0){
-        currentMonth3G.text=@"无";
-    }else{
-        currentMonth3G.text=[self bytesFormater:cellOfThisMonth];
-    }
-    currentMonth3G.textColor = [UIColor blackColor];
-    currentMonth3G.font = [UIFont fontWithName:@"System" size:17];
-    currentMonth3G.backgroundColor = [UIColor clearColor];
-    
-    self.currentMonthWifi = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-    int wifiOfThisMonth=((NSString *)[wifibytesDict objectForKey:[self currentMonth]]).intValue;
-    if(wifiOfThisMonth==0){
-        currentMonthWifi.text=@"无";
-    }else{
-        currentMonthWifi.text=[self bytesFormater:wifiOfThisMonth];
-    }  
-    currentMonthWifi.textColor = [UIColor blackColor];
-    currentMonthWifi.font = [UIFont fontWithName:@"System" size:17];
-    currentMonthWifi.backgroundColor = [UIColor clearColor];
-    
-    self.lastMonth3G = [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-    int cellOflastMonth=((NSString *)[cellbytesDict objectForKey:[self lastMonth]]).intValue;
-    if(cellOflastMonth==0){
-        lastMonth3G.text=@"无";
-    }else{
-        lastMonth3G.text=[self bytesFormater:cellOflastMonth];
-    }      
-    lastMonth3G.textColor = [UIColor blackColor];
-    lastMonth3G.font = [UIFont fontWithName:@"System" size:17];
-    lastMonth3G.backgroundColor = [UIColor clearColor];
-    
-    self.lastMonthWifi= [[UILabel alloc] initWithFrame:CGRectMake(200, 0, 90, 44)];
-    int wifiOflastMonth=((NSString *)[wifibytesDict objectForKey:[self lastMonth]]).intValue;
-    if(wifiOflastMonth==0){
-        lastMonthWifi.text=@"无";
-    }else{
-        lastMonthWifi.text=[self bytesFormater:wifiOflastMonth];
-    }
-    lastMonthWifi.textColor = [UIColor blackColor];
-    lastMonthWifi.font = [UIFont fontWithName:@"System" size:17];
-    lastMonthWifi.backgroundColor = [UIColor clearColor];
-    
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -139,20 +90,36 @@
     cell.textLabel.font = [UIFont fontWithName:@"System" size:17.0];
     cell.accessoryType = UITableViewCellAccessoryNone;
     if(indexPath.section==0){
-        if (indexPath.row == 0){            
-            [cell addSubview:currentMonth3G];
-            cell.textLabel.text = @"本月2G/3G流量";            
+        if (indexPath.row == 0){
+            UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
+            bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_cell_this_month;
+            bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
+            cell.accessoryView=bytes_lost_lbl;
+            cell.textLabel.text = @"本月蜂窝数据流量";
         }else if(indexPath.row == 1){
-            [cell addSubview:currentMonthWifi];
+            UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
+            bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_wifi_this_month;
+            bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
+            cell.accessoryView=bytes_lost_lbl;
             cell.textLabel.text = @"本月Wifi流量";  
         }
     }else if(indexPath.section==1){
         if (indexPath.row == 0){
-            [cell addSubview:lastMonth3G];
-            cell.textLabel.text = @"上月2G/3G流量";
+            UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
+            bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_cell_last_month;
+            bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
+            cell.accessoryView=bytes_lost_lbl;
+            cell.textLabel.text = @"上月蜂窝数据流量";
             
         }else if(indexPath.row == 1){
-            [cell addSubview:lastMonthWifi];
+            UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
+            bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_wifi_lost_month;
+            bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
+            cell.accessoryView=bytes_lost_lbl;
             cell.textLabel.text = @"上月Wifi流量";  
         }
     }else if(indexPath.section==2){
@@ -189,39 +156,7 @@
     return str;
 }
 -(void)update{
-    NSDictionary *byteslostDicby3G= [[NSUserDefaults standardUserDefaults] objectForKey:@"CELLBYTES"];
-    NSDictionary *byteslostDicbyWifi= [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFIBYTES"];
-
-    int bytesLostOfThisMonthBy3G=((NSString *)[byteslostDicby3G objectForKey:[self currentMonth]]).intValue;
-    if(bytesLostOfThisMonthBy3G==0){
-        currentMonth3G.text=@"无";
-    }else{
-        currentMonth3G.text=[self bytesFormater:bytesLostOfThisMonthBy3G];
-    }
-    int bytesLostOflastMonthBy3G=((NSString *)[byteslostDicby3G objectForKey:[self lastMonth]]).intValue;
-    if(bytesLostOflastMonthBy3G==0){
-        lastMonth3G.text=@"无";
-    }else{
-        lastMonth3G.text=[self bytesFormater:bytesLostOflastMonthBy3G];
-    }  
-    
-
-    int bytesLostOfThisMonthByWifi=((NSString *)[byteslostDicbyWifi objectForKey:[self currentMonth]]).intValue;
-    if(bytesLostOfThisMonthByWifi==0){
-        currentMonthWifi.text=@"无";
-    }else{
-        currentMonthWifi.text=[self bytesFormater:bytesLostOfThisMonthByWifi];
-    }
-    
-    int bytesLostOflastMonthByWifi=((NSString *)[byteslostDicbyWifi objectForKey:[self lastMonth]]).intValue;
-    if(bytesLostOflastMonthByWifi==0){
-        lastMonthWifi.text=@"无";
-    }else{
-        lastMonthWifi.text=[self bytesFormater:bytesLostOflastMonthByWifi];
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName: KSettingChange
-                                                        object: self];
+    [self.table reloadData];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -17,4 +17,8 @@
 @property(nonatomic,assign)BOOL has_bind_device_to_server;
 @property(nonatomic,assign)float outside_brightness_value;
 @property(nonatomic,assign)BOOL is_night_mode_on;
+@property(nonatomic,readonly)NSString *bytes_lost_of_cell_this_month;
+@property(nonatomic,readonly)NSString *bytes_lost_of_cell_last_month;
+@property(nonatomic,readonly)NSString *bytes_lost_of_wifi_this_month;
+@property(nonatomic,readonly)NSString *bytes_lost_of_wifi_lost_month;
 @end
