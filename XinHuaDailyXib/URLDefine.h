@@ -76,7 +76,7 @@
  返回示例 123（点赞数量）
  备注
  ---------------------*/
-#define kLikeURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&literid=%@"
+#define kLikeURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_litercommend.ashx?imei=%@&literid=%@"
 
 
 /*---------------------

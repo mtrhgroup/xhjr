@@ -111,7 +111,7 @@
    [self.service feedbackArticleWithContent:contentStr article:self.article successHandler:^(BOOL is_ok) {
      
    } errorHandler:^(NSError *error) {
-      
+      [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
    }];
 }
 - (void)showAlertText:(NSString*)string

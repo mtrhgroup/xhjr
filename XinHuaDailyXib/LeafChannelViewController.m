@@ -47,6 +47,7 @@
         _time_stamp=[NSDate date];
     } errorHandler:^(NSError *error) {
         [self endRefresh];
+        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
 -(void)loadMoreArticlesFromNET{

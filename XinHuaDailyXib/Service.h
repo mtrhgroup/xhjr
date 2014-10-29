@@ -11,7 +11,9 @@
 #import "Article.h"
 #import "AppInfo.h"
 #import "UserDefaults.h"
+#import "FSManager.h"
 @interface Service : NSObject
+@property(nonatomic,strong)FSManager *fs_manager;
 //网络
 -(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -37,6 +39,7 @@
 -(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected;
 -(void)markArticleReadWithArticle:(Article *)article;
+-(void)markArticleLikeWithArticle:(Article *)article;
 -(Article *)fetchADArticleFromDB;
 -(NSArray *)fetchPushArticlesFromDB;
 -(ChannelsForHVC *)fetchHomeArticlesFromDB;
@@ -44,5 +47,4 @@
 
 -(BOOL)authorize;
 -(BOOL)hasAuthorized;
-
 @end

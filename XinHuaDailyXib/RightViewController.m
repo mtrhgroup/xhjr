@@ -17,14 +17,14 @@
 #define HEADER_COLOR	 [UIColor colorWithRed:88.0/255.0 green:88.0/255.0 blue:88.0/255.0 alpha:1.0]
 
 @interface RightViewController ()
-
+@property(nonatomic,strong)UILabel *sn_lbl;
 @end
 
 @implementation RightViewController{
     UITableView *_tableView;
     UIView *_bottomView;
 }
-
+@synthesize sn_lbl=_sn_lbl;
 - (void) viewDidLayoutSubviews {
     // only works for iOS 7+
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
@@ -37,6 +37,13 @@
         // shrink the bounds of your view to compensate for the offset
         //viewBounds.size.height = viewBounds.size.height -20;
         self.view.bounds = viewBounds;
+    }
+}
+-(void)viewWillAppear:(BOOL)animated{
+    if(AppDelegate.user_defaults.sn.length==0){
+        _sn_lbl.hidden=YES;
+    }else{
+        _sn_lbl.text=AppDelegate.user_defaults.sn;
     }
 }
 - (void)viewDidLoad
@@ -53,13 +60,13 @@
     topView.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
     [scrollView addSubview:topView];
     NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 12, 220, 40)];
-    label.text = [NSString stringWithFormat:@"授权码：%@",authcode];
-    label.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:14];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor grayColor];
-    [topView addSubview:label];
+    _sn_lbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 12, 220, 40)];
+    _sn_lbl.text = [NSString stringWithFormat:@"授权码：%@",authcode];
+    _sn_lbl.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:14];
+    _sn_lbl.textAlignment = NSTextAlignmentCenter;
+    _sn_lbl.backgroundColor = [UIColor clearColor];
+    _sn_lbl.textColor = [UIColor grayColor];
+    [topView addSubview:_sn_lbl];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, 220, 330)];
     _tableView.backgroundColor=[UIColor clearColor];
     _tableView.separatorColor=[UIColor clearColor];

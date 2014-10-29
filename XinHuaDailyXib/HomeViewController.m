@@ -40,7 +40,7 @@
     [self.view addSubview:self.tableView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadArticlesFromDB) name:kNotificationArticleReceived object:nil];
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
-    [self reloadArticlesFromNET  ];
+    [self reloadArticlesFromNET];
 }
 -(void)reloadArticlesFromNET{
     [self.service fetchHomeArticlesFromNET:^(NSArray *channels) {
@@ -48,6 +48,7 @@
         [self.tableView headerEndRefreshing];
     } errorHandler:^(NSError *error) {
         [self.tableView headerEndRefreshing];
+        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
 -(void)reloadArticlesFromDB{

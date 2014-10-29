@@ -10,7 +10,7 @@
 #import "NavigationController.h"
 #import "VerifyCodeSubmitViewController.h"
 #import "AMBlurView.h"
-#import "UIWindow+YzdHUD.h"
+
 #define kDuration 0.3
 @interface RegisterViewController ()
 @property (nonatomic,strong) AMBlurView *blurView;
@@ -115,7 +115,6 @@
         controller.service=self.service;
         controller.phone_number=self.phone_number_input.text;
         [self.navigationController pushViewController:controller animated:YES];
-
     } errorHandler:^(NSError *error) {
         NSLog(@"%@",error.localizedDescription);
        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];

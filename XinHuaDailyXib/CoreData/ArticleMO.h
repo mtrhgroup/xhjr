@@ -29,5 +29,6 @@
 @property (nonatomic, retain) NSNumber * a_visit_number;
 @property (nonatomic, retain) NSString * a_zip_url;
 @property (nonatomic, retain) NSNumber * a_is_collected;
+@property (nonatomic,retain)  NSNumber * a_is_like;
 
 @end

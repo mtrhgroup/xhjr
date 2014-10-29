@@ -119,8 +119,15 @@
             cell.textLabel.text = @"缓存资讯条数";
             
         }else if(indexPath.row == 1){
-            cell.textLabel.text = @"清理缓存";    
+            UILabel *font_lbl=(UILabel *)[[cell contentView] viewWithTag:1];
+            if(font_lbl==nil)font_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
+            font_lbl.text=[AppDelegate.service.fs_manager sizeOfArticleCache];
+            font_lbl.textColor=[UIColor grayColor];
+            font_lbl.textAlignment=NSTextAlignmentRight;
+            font_lbl.tag=1;
+            cell.textLabel.text = @"清理缓存";
             cell.accessoryType=UITableViewCellAccessoryNone;
+            cell.accessoryView = font_lbl;
         }
     }else if(indexPath.section==1){
         if(indexPath.row==0){
@@ -167,12 +174,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==0){
         if (indexPath.row == 0){
-//            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"保存资讯条数"
-//                                                                     delegate:self
-//                                                            cancelButtonTitle:@"取消"
-//                                                       destructiveButtonTitle:nil
-//                                                            otherButtonTitles:@"10条", @"20条", @"50条",nil];
-//            [actionSheet showInView:self.view];
             NewsBufferSettingViewController *controller=[[NewsBufferSettingViewController alloc]init];
             [self.navigationController pushViewController:controller animated:YES];
         }else if(indexPath.row == 1){
@@ -273,7 +274,8 @@
 
 }
 -(void)delAllNews{
-
+    [AppDelegate.service.fs_manager clearArticleCache];
+    [self.table_view reloadData];
 }
 -(void)update{
     NSString* setdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"SETDATE"];

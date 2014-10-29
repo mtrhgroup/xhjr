@@ -13,6 +13,7 @@
 #import "ZipArchive.h"
 #import "URLDefine.h"
 #import "DeviceInfo.h"
+#import "NetworkLostError.h"
 @implementation Communicator
 - (NSString *)URLEncodedStringWith:(NSString *)original_url
 {
@@ -34,12 +35,13 @@
     {
         NSString *responseStr = [request responseString];
         if([responseStr rangeOfString:@"OLD"].location!=NSNotFound||[responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+            AppDelegate.user_defaults.has_bind_device_to_server=YES;
             return YES;
         }
     }
     return NO;
 }
--(BOOL)check{
+-(BOOL)checkBinding{
     if(AppDelegate.user_defaults.has_bind_device_to_server){
         return YES;
     }else{
@@ -50,9 +52,16 @@
         }
     }
 }
+
 -(void)fetchStringAtURL:(NSString *)url successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    if(![self check])return;
+    if(![self checkBinding]){
+        if(errorBlock!=nil){
+            errorBlock([NetworkLostError aError]);
+        }
+        return;
+    }
     url=[self URLEncodedStringWith:url];
+    NSLog(@"%@",url);
     ASIHTTPRequest* _request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     __weak ASIHTTPRequest* request=_request;
     [request setResponseEncoding:NSUTF8StringEncoding];
@@ -68,8 +77,7 @@
     }];
     [request setFailedBlock:^{
         if(errorBlock!=nil){
-            NSError *error = [request error];
-            errorBlock(error);
+           errorBlock([NetworkLostError aError]);
         }
     }];
     [request startAsynchronous];
@@ -96,8 +104,7 @@
     }];
     [request setFailedBlock:^{
         if(errorBlock!=nil){
-            NSError *error = [request error];
-            errorBlock(error);
+            errorBlock([NetworkLostError aError]);
         }
     }];
     [request startAsynchronous];
@@ -124,8 +131,7 @@
     }];
     [request setFailedBlock:^{
         if(errorBlock!=nil){
-            NSError *error = [request error];
-            errorBlock(error);
+            errorBlock([NetworkLostError aError]);
         }
     }];
     [request startAsynchronous];

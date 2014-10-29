@@ -26,6 +26,7 @@
 -(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN;
 -(NSArray *)fetchFavorArticles;
 -(void)markArticleReadWithArticleID:(NSString *)articleID;
+-(void)markArticleLikeWithArticleID:(NSString *)articleID;
 -(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected;
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID;
 -(Article *)fetchArticleWithArticleID:(NSString *)articleID;

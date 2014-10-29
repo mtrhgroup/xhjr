@@ -145,7 +145,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
 }
 -(NSArray *)fetchArticlesThatIncludeCoverImage{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_thumbnail_url<>%@",0];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_cover_image_url<>%@",0];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
     [frq setPredicate:p];
@@ -183,7 +183,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
 }
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
-    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_thumbnail_url<>%@", channel.channel_id,nil];
+    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_cover_image_url<>%@", channel.channel_id,nil];
     NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
@@ -262,7 +262,19 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
         e_article=[result objectAtIndex:0];
         e_article.a_is_collected=[NSNumber numberWithBool:is_collected];
     }
-    
+}
+-(void)markArticleLikeWithArticleID:(NSString *)articleID{
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@", articleID];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    ArticleMO *e_article;
+    if([result count]==1){
+        e_article=[result objectAtIndex:0];
+        e_article.a_is_like=[NSNumber numberWithBool:YES];
+    }
 }
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];

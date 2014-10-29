@@ -114,13 +114,11 @@
     int page = _pagecontrol.currentPage; // 获取当前的page
     [_scrollview scrollRectToVisible:CGRectMake(320*(page+1),0,320,460) animated:NO]; // 触摸pagecontroller那个点点 往后翻一页 +1
 }
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat pageWidth = self.frame.size.width;
     int page = floor((_scrollview.contentOffset.x - pageWidth/([_articles count]+2))/pageWidth)+1;
-    page--;  // 默认从第二页开始
-//    if(page<0)page=0;
-//    if(page==[_articles count])page=1
+    page--;
+    if(page<0||page==[_articles count])page=0;
     _pagecontrol.currentPage = page;
     _picTitleLabel.text=((Article *)self.articles[page]).article_title;
 }

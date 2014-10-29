@@ -20,10 +20,11 @@
 #define KSettingChange @"fontchange"
 #define KDisplayMode @"DisplayMode"
 #define SXTErrorDomain @"com.xinhuanet.sxt"
+#import "UIWindow+YzdHUD.h"
 typedef enum {
     XDefultFailed = -1000,
-    XRegisterFailed,
-    XConnectFailed,
+    XBindingFailed,
+    XNetworkLost,
     XParserFailed
 }SXTErrorFailed;
 #endif

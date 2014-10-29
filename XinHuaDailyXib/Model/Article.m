@@ -7,7 +7,7 @@
 //
 
 #import "Article.h"
-
+#import "FSManager.h"
 @implementation Article
 @synthesize  article_id=_article_id;
 @synthesize  article_title=_article_title;
@@ -26,17 +26,17 @@
 @synthesize  video_url=_video_url;
 @synthesize  visit_number=_visit_number;
 @synthesize  like_number=_like_number;
+@synthesize  is_like=_is_like;
 
 -(NSString *)page_path{
     NSString *dir_path=[self.zip_path stringByDeletingPathExtension];
     NSString *page_file_name=[self.page_url lastPathComponent];
+    NSLog(@"%@",[NSString stringWithFormat:@"%@/%@",dir_path,page_file_name]);
     return [NSString stringWithFormat:@"%@/%@",dir_path,page_file_name];
 }
 -(NSString *)zip_path{
     NSString* zip_file_name = [self.zip_url lastPathComponent];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentpath = ([paths count] > 0)? [paths objectAtIndex:0] : nil;
-    return [NSString stringWithFormat:@"%@/%@",documentpath,zip_file_name];
+    return [NSString stringWithFormat:@"%@/%@",AppDelegate.service.fs_manager.article_cache_dir_path,zip_file_name];
 }
 -(BOOL)is_cached{
     return [[NSFileManager defaultManager] fileExistsAtPath:self.page_path];
@@ -61,6 +61,7 @@
         self.video_url=articleMO.a_video_url;
         self.visit_number=articleMO.a_visit_number;
         self.like_number=articleMO.a_like_number;
+        self.is_like=[articleMO.a_is_like boolValue];
         
     }
     return self;
@@ -83,6 +84,7 @@
     articleMO.a_video_url=self.video_url;
     articleMO.a_visit_number=self.visit_number;
     articleMO.a_like_number=self.like_number;
+    articleMO.a_is_like=[NSNumber numberWithBool:self.is_like];
 }
 @end
 @implementation ArticlesForCVC
