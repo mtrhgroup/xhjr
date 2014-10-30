@@ -27,11 +27,12 @@
     if (self) {
         self.lasting_ms=5.0f;
         self.service=AppDelegate.service;
+        self.backgroundColor=[UIColor whiteColor];
         UIImageView *defaultImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         if(frame.size.height==568.0){
-            defaultImageView.image=[UIImage imageNamed:@"Default~iphone.png"] ;
+            defaultImageView.image=[UIImage imageNamed:@"Default-568h@2x.png"] ;
         }else{
-            defaultImageView.image=[UIImage imageNamed:@"Default.png"] ;
+            defaultImageView.image=[UIImage imageNamed:@"Default@2x.png"] ;
         }
         [self addSubview:defaultImageView];
         _startup_time=[NSDate date];

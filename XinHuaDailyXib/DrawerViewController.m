@@ -76,7 +76,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
     UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
     if(![channel.parent_id isEqualToString:@"0"]){
-        [self.nav_slideswitch_vc presentViewController:nav_vc animated:YES completion:nil];
+        [self presentViewController:nav_vc animated:YES completion:nil];
     }else{
         [self presentViewController:nav_vc animated:YES completion:nil];
     }

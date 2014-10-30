@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="14A238x" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A283o" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="E_ARTICLE" representedClassName="ArticleMO" syncable="YES">
         <attribute name="a_article_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_article_title" optional="YES" attributeType="String" syncable="YES"/>
@@ -8,6 +8,7 @@
         <attribute name="a_channel_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_cover_image_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_is_collected" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="a_is_like" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <attribute name="a_is_push" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="a_is_read" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="a_like_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -31,7 +32,7 @@
         <attribute name="a_sort_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="298"/>
+        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="315"/>
         <element name="E_CHANNEL" positionX="-81" positionY="-25" width="128" height="178"/>
     </elements>
 </model>

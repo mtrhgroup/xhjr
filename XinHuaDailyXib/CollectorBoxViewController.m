@@ -41,7 +41,7 @@
     self.title=@"收藏夹";
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];

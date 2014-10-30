@@ -11,21 +11,28 @@
 #import "Parser.h"
 #import "DBManager.h"
 #import "DBOperator.h"
+#import "FSManager.h"
 #import "URLDefine.h"
 #import "DeviceInfo.h"
 #import "UserDefaults.h"
 #import "Command.h"
 #import "UserActions.h"
+#import "NetworkLostError.h"
+#import "DefaultError.h"
+#import "ParserFailedError.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
     DBManager *_db_manager;
+    FSManager *_fs_manager;
     UserActions *_userActions;
 }
+@synthesize fs_manager=_fs_manager;
 -(id)init{
     if(self=[super init]){
         _communicator=[[Communicator alloc]init];
         _db_manager=[[DBManager alloc] init];
+        _fs_manager=[[FSManager alloc] init];
         _parser=[[Parser alloc] init];
         _userActions=[[UserActions alloc]initWithCommunicator:_communicator];
     }
@@ -35,21 +42,17 @@
     NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
     url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
-            if(responseStr.length>3){
-                NSString *snStr=[responseStr substringFromIndex:4];
-                AppDelegate.user_defaults.sn=snStr;
-            }
-            if(successBlock){
-                successBlock(YES);
-            }
-        }else if([responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound||[responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+//            if(responseStr.length>3){
+//                NSString *snStr=[responseStr substringFromIndex:4];
+//                AppDelegate.user_defaults.sn=snStr;
+//            }
             if(successBlock){
                 successBlock(YES);
             }
         }else{
-            if(successBlock){
-                successBlock(NO);
+            if(errorBlock){
+                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
             }
         }
     } errorHandler:^(NSError *error) {
@@ -67,7 +70,9 @@
                 successBlock(YES);
             }
         }else{
-            //[[NotificationCenter center] postMessageNotificationWithMessage:responseStr];
+            if(errorBlock){
+                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
+            }
         }
     } errorHandler:^(NSError *error) {
         if(errorBlock){
@@ -96,13 +101,12 @@
     NSArray *other_channels=[db_operator fetchHomeChannels];
     NSMutableArray *home_channels=[[NSMutableArray alloc]init];
     if(pic_channel!=nil){
-    [home_channels addObject:pic_channel];
+        [home_channels addObject:pic_channel];
     }
     [home_channels addObjectsFromArray:other_channels];
     for(Channel *channel in home_channels){
         int topN=(int)fabs([channel.home_number intValue]);
         NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id];
-        NSLog(@"%@",url);
         [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 NSArray *articles=[_parser parseArticles:responseStr];
@@ -154,10 +158,14 @@
                         successBlock(app_info);
                     }
                 } errorHandler:^(NSError *error) {
-                  //  <#code#>
+                    if(errorBlock){
+                        errorBlock(error);
+                    }
                 }];
             } errorHandler:^(NSError *error) {
-                //
+                if(errorBlock){
+                    errorBlock(error);
+                }
             }];
         }
     } errorHandler:^(NSError *error) {
@@ -354,6 +362,11 @@
     [db_operator markArticleReadWithArticleID:article.article_id];
     [db_operator save];
 }
+-(void)markArticleLikeWithArticle:(Article *)article{
+    DBOperator *db_operator=[_db_manager aOperator];
+    [db_operator markArticleLikeWithArticleID:article.article_id];
+    [db_operator save];
+}
 -(Article *)fetchADArticleFromDB{
     DBOperator *db_operator=[_db_manager aOperator];
     Channel* channel=[db_operator fetchADChannel];
@@ -384,6 +397,7 @@
         if(successBlock){
             successBlock(responseStr);
         }
+        
     } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);
@@ -401,8 +415,8 @@
                 successBlock(YES);
             }
         }else{
-            if(successBlock){
-                successBlock(NO);
+            if(errorBlock){
+                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
             }
         }
     } errorHandler:^(NSError *error) {
@@ -419,11 +433,8 @@
                 successBlock(YES);
             }
         }else{
-            NSString *error_decription=[responseStr substringFromIndex:3];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error_decription forKey:NSLocalizedDescriptionKey];
-            NSError *error = [NSError errorWithDomain:SXTErrorDomain code:XRegisterFailed userInfo:userInfo];
             if(errorBlock){
-                errorBlock(error);
+                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
             }
         }
     } errorHandler:^(NSError *error) {
@@ -440,16 +451,13 @@
                 successBlock(YES);
             }
         }else{
-            NSString *error_decription=[responseStr substringFromIndex:3];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error_decription forKey:NSLocalizedDescriptionKey];
-            NSError *error = [NSError errorWithDomain:SXTErrorDomain code:XRegisterFailed userInfo:userInfo];
             if(errorBlock){
-                errorBlock(error);
+                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
             }
         }
     } errorHandler:^(NSError *error) {
         if(errorBlock){
-            errorBlock(error);
+            errorBlock([NetworkLostError aError]);
         }
     }];
 }

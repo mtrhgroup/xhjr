@@ -45,7 +45,8 @@
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
-    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 160)];
+    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width*0.618)];
     self.headerView.article=self.articles_for_cvc.header_article;
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
@@ -90,7 +91,7 @@ NSString *TileCellID = @"TileCellID";
 }
 -(void)refreshUI{
     if(self.articles_for_cvc.header_article!=nil){
-        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 160)];
+        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, self.view.bounds.size.width*0.618)];
         ((ChannelHeader *)self.tableView.tableHeaderView).article=self.articles_for_cvc.header_article;
         ((ChannelHeader *)self.tableView.tableHeaderView).delegate=self;
     }else{

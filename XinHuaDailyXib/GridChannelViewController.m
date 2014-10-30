@@ -30,7 +30,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
     flowLayout.itemSize=cell_size;
     flowLayout.minimumLineSpacing=0;
     flowLayout.minimumInteritemSpacing=0;
-    flowLayout.headerReferenceSize=CGSizeMake(320, 160);
+    flowLayout.headerReferenceSize=CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.width*0.618);
     if(![self.channel.parent_id isEqualToString:@"0"]){
         if(lessiOS7){
             self.collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView) collectionViewLayout:flowLayout];
@@ -65,7 +65,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 
 -(void)calculateCellSize{
     CGFloat width=self.view.bounds.size.width/2-20;
-    CGFloat height=width/4*3+20;
+    CGFloat height=width*0.618+20;
     cell_size=CGSizeMake(width, height);
 }
 

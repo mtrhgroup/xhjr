@@ -49,6 +49,8 @@
 @property(nonatomic,readonly)NSString*    zip_path;
 //计算属性 是否有缓存
 @property(nonatomic,readonly)BOOL         is_cached;
+//是否点赞
+@property(nonatomic,assign)BOOL           is_like;
 
 -(id)initWithArticleMO:(ArticleMO *)articleMO;
 -(void)toArticleMO:(ArticleMO *)articleMO;

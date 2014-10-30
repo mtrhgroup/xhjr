@@ -77,9 +77,8 @@
     return self;
 }
 -(void)touchViewClicked{
-    
+    [self loadArticleContentFromNet];
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -111,7 +110,7 @@
     self.fontAlertView = [[ZSYPopoverListView alloc] initWithFrame:CGRectMake(0, 0, 200, 240)];
     self.fontAlertView.titleName.text = @"选择字体大小";
     self.fontAlertView.web_delegate=self;
-    [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.fontSize];
+    [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.font_size];
     
     //    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     //    self.popupMenuView.delegate=self;
@@ -120,7 +119,7 @@
     if(!self.isAD){
         UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,68,34)];
         _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
-        _like_number_label.text=@"123";
+        _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
         _like_number_label.textAlignment=NSTextAlignmentRight;
         _like_number_label.textColor=[UIColor grayColor];
         _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
@@ -129,20 +128,10 @@
         [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
         [like_view addSubview:_like_btn];
         [like_view addSubview:_like_number_label];
-        
-        
-//        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-//        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-//        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-//        if(_article.is_collected){
-//            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
-//        }else{
-//            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
-//        }
-//        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
-        
+        if(_article.is_like){
+            _like_btn.enabled=NO;
+            [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
+        }
         UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         if(lessiOS7){
             negativeSpacer.width=0;
@@ -150,14 +139,10 @@
             negativeSpacer.width=-10;
         }
         UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_view];
-//        UIBarButtonItem *share_btn_item=[[UIBarButtonItem alloc] initWithCustomView:share_btn];
-//        UIBarButtonItem *star_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
         [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,like_btn_item,nil] animated:YES];
-        
-        //self.webView.frame=CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44);
+
         self.bottom_view=[AMBlurView new];
         self.bottom_view.frame=CGRectMake(0, self.view.bounds.size.height-44, 320, 44);
-        //[self.bottom_view setAlpha:0.6];
         [self.bottom_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.bottom_view setBlurTintColor:nil];
         [self.view addSubview:self.bottom_view];
@@ -230,6 +215,7 @@
         NSLog(@"%@",_article.page_path);
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_article.page_path]]];
         [self.waitingView hide];
+        [self.touchView hide];
     } errorHandler:^(NSError *error) {
         [self.waitingView hide];
         [self.touchView show];
@@ -255,14 +241,17 @@ BOOL isFirst=YES;
     if(isFirst){
         isFirst=NO;
         NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {bridge = event.bridge;bridge.init(function(message,responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')};});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response',responseData);});}, false);";
-    [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
-    NSString *js_insert_visit_number=@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:345';";
-    NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.thumbnail_url];
-    NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
-
-    [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
-    [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
-    [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
+        [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
+        NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue];
+        NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.thumbnail_url];
+        NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
+        
+        [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
+        if(_ad_article!=nil){
+            [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
+        }
+        [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
+        [self changeWebContentWithWebView:webView];
     }
 }
 -(void)showMenu{
@@ -276,7 +265,8 @@ BOOL isFirst=YES;
 
 
 #pragma mark - fond size change
--(void)changeWebContentFontSize:(NSString *)strFontSize webView:(UIWebView *)webView{
+-(void)changeWebContentWithWebView:(UIWebView *)webView{
+    NSString *strFontSize=AppDelegate.user_defaults.font_size;
     if([strFontSize isEqualToString:@"特大"]){
         [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '200%'"];
     }else if([strFontSize isEqualToString:@"较大"]){
@@ -288,8 +278,8 @@ BOOL isFirst=YES;
     }
 }
 -(void)changeFontWithFontSize:(NSString *)fontSize{
-    [self changeWebContentFontSize:fontSize webView:self.webView];
-    AppDelegate.user_defaults.fontSize=fontSize;
+   // [self changeWebContentFontSize:fontSize webView:self.webView];
+    AppDelegate.user_defaults.font_size=fontSize;
 }
 -(void)font{
     [self.fontAlertView show];
@@ -352,10 +342,12 @@ BOOL isFirst=YES;
 }
 #pragma mark - like article
 -(void)likeArticle{
-    [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
     [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
         _like_number_label.text=like_number;
         [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
+        _like_btn.enabled=NO;
+        _article.is_like=YES;
+        [_service markArticleLikeWithArticle:_article];
     } errorHandler:^(NSError *error) {
         //<#code#>
     }];

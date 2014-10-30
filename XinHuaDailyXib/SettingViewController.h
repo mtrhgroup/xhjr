@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface SettingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
+@interface SettingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,UIActionSheetDelegate>{
     
-    UITableView* table;
+    UITableView* table_view;
     UILabel* labcell;
     
     
 }
 
 
-@property (nonatomic,strong) UITableView* table;
+@property (nonatomic,strong) UITableView* table_view;
 @property (nonatomic,strong)UILabel *labBuff;
 @property (nonatomic,strong)UILabel *labFont;
 @property (nonatomic,strong)UILabel *byteslostLabel;

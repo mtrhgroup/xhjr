@@ -50,6 +50,7 @@ NSString *pushnewscellReuseIdentifier =@"pushnewscellReuseIdentifier";
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 416+(iPhone5?88:0)) style:UITableViewStylePlain];
     table.delegate = self;
     table.dataSource = self;
+    table.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.view addSubview:table];
     self.articles=nil;
     [table reloadData];
