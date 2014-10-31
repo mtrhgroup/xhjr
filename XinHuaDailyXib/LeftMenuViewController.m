@@ -11,6 +11,7 @@
 @property(nonatomic,strong)NSArray *leftChannels;
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)Service *service;
+@property(nonatomic,strong)ChannelViewController *pic_vc;
 @end
 
 @implementation LeftMenuViewController{
@@ -20,6 +21,7 @@
 @synthesize tableView=_tableView;
 @synthesize service=_service;
 @synthesize home_vc=_home_vc;
+@synthesize pic_vc=_pic_vc;
 #pragma mark - 控制器初始化方法
 - (id)init
 {
@@ -36,7 +38,6 @@
     Channel *homeChannel=[[Channel alloc] init];
     homeChannel.channel_name=@"首页";
     homeChannel.channel_id=@"0";
-    homeChannel.has_new_article=NO;
     homeChannel.need_be_authorized=NO;
     self.home_vc=[[HomeViewController alloc]init];
     self.home_vc.channel=homeChannel;
@@ -73,8 +74,9 @@
     [self.view addSubview:self.tableView];
     [self rebuildUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsUpdate object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(markNewToChannel:) name:kNotificationArticleReceived object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:kNotificationLeftChannelsRefresh object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAppVersion) name:kNotificationAppVersionReceived object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPicChannel:) name:kNotificationShowPicChannel object:nil];
 }
 -(void)viewDidUnload{
     [super viewDidUnload];
@@ -82,13 +84,7 @@
 -(void)updateAppVersion{
     self.title_label.text=AppDelegate.user_defaults.appInfo.groupTitle;
 }
--(void)markNewToChannel:(NSNotification *)notification{
-    NSString *channel_id=[notification object];
-    for(ChannelViewController *cvc in self.leftChannelVCs){
-        if([cvc.channel.channel_id isEqualToString:channel_id]){
-            cvc.channel.has_new_article=YES;
-        }
-    }
+-(void)refreshUI{
     [self.tableView reloadData];
 }
 -(void)rebuildUI{
@@ -96,12 +92,13 @@
     while([self.leftChannelVCs count]>1){
         [self.leftChannelVCs removeLastObject];
     }
+    NSString *pic_channel_id=@"";
     for(Channel *channel in self.leftChannels){
         ChannelViewController  *cvc;
         if(channel.is_leaf){
             if(channel.show_type==List){
                 cvc=[[ListChannelViewController alloc] init];
-                cvc.channel=channel; 
+                cvc.channel=channel;
             }else if(channel.show_type==Tile){
                 cvc=[[TileChannelViewController alloc]init];
                 cvc.channel=channel;
@@ -113,16 +110,21 @@
             cvc=[[TrunkChannelViewController alloc]init];
             cvc.channel=channel;
         }
+
         cvc.service=AppDelegate.service;
         [self.leftChannelVCs addObject:cvc];
-        
     }
     [self.tableView reloadData];
+    for(ChannelViewController *vc in self.leftChannelVCs){
+        if([vc.channel.channel_id isEqualToString:pic_channel_id]){
+            self.pic_vc=vc;
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ChannelViewController *cvc= [self.leftChannelVCs objectAtIndex:indexPath.row];
-    cvc.channel.has_new_article=NO;
+    cvc.channel.access_timestamp=[_service markAccessTimeStampWithChannel:cvc.channel];
     [self.tableView reloadData];
     NavigationController *nv=[[NavigationController alloc]initWithRootViewController:cvc];
     [AppDelegate.main_vc setCenterViewController:nv
@@ -147,6 +149,19 @@ NSString *LeftSideCellId = @"LeftSideCellId";
     cell.channel=vc.channel;   
     return  cell;
 }
-
+-(void)showPicChannel:(NSNotification *)notification{
+    Channel *channel=[notification object];
+    ChannelViewController *pic_vc;
+    for(ChannelViewController *cvc in self.leftChannelVCs){
+        if([cvc.channel.channel_id isEqualToString:channel.channel_id]||[cvc.channel.channel_id isEqualToString:channel.parent_id]){
+            pic_vc=cvc;
+        }
+    }
+    pic_vc.channel.access_timestamp=[_service markAccessTimeStampWithChannel:pic_vc.channel];
+    [self.tableView reloadData];
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:pic_vc];
+    [AppDelegate.main_vc setCenterViewController:nv
+                              withCloseAnimation:YES completion:nil];
+}
 
 @end

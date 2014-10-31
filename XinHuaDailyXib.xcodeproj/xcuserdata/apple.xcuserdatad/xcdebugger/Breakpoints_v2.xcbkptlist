@@ -160,11 +160,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "521"
-            endingLineNumber = "521">
+            startingLineNumber = "525"
+            endingLineNumber = "525">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -174,11 +174,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533">
+            startingLineNumber = "537"
+            endingLineNumber = "537">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -188,11 +188,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "539"
-            endingLineNumber = "539">
+            startingLineNumber = "543"
+            endingLineNumber = "543">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282">
+            startingLineNumber = "286"
+            endingLineNumber = "286">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497">
+            startingLineNumber = "501"
+            endingLineNumber = "501">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -230,11 +230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505">
+            startingLineNumber = "509"
+            endingLineNumber = "509">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -244,11 +244,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "507"
-            endingLineNumber = "507">
+            startingLineNumber = "511"
+            endingLineNumber = "511">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -258,39 +258,39 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "512"
+            endingLineNumber = "512">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
+            timestampString = "436328393.664946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "517"
+            endingLineNumber = "517">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "508"
             endingLineNumber = "508">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -404,11 +404,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "544"
-            endingLineNumber = "544">
+            startingLineNumber = "548"
+            endingLineNumber = "548">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -514,11 +514,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412">
+            startingLineNumber = "416"
+            endingLineNumber = "416">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -528,11 +528,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "548"
-            endingLineNumber = "548">
+            startingLineNumber = "552"
+            endingLineNumber = "552">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -542,11 +542,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379">
+            startingLineNumber = "383"
+            endingLineNumber = "383">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -556,11 +556,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284">
+            startingLineNumber = "288"
+            endingLineNumber = "288">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -780,11 +780,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522">
+            startingLineNumber = "526"
+            endingLineNumber = "526">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -794,11 +794,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534">
+            startingLineNumber = "538"
+            endingLineNumber = "538">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -872,21 +872,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "552"
-            endingLineNumber = "552">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "556"
@@ -900,11 +886,25 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456">
+            startingLineNumber = "560"
+            endingLineNumber = "560">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
+            timestampString = "436328393.664946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "460"
+            endingLineNumber = "460">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2014,11 +2014,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391">
+            startingLineNumber = "395"
+            endingLineNumber = "395">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2028,11 +2028,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383">
+            startingLineNumber = "387"
+            endingLineNumber = "387">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2218,11 +2218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408">
+            startingLineNumber = "412"
+            endingLineNumber = "412">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2232,11 +2232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402">
+            startingLineNumber = "406"
+            endingLineNumber = "406">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2246,11 +2246,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330">
+            startingLineNumber = "334"
+            endingLineNumber = "334">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2260,11 +2260,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360">
+            startingLineNumber = "364"
+            endingLineNumber = "364">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5518,11 +5518,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390">
+            startingLineNumber = "394"
+            endingLineNumber = "394">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5861,11 +5861,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388">
+            startingLineNumber = "392"
+            endingLineNumber = "392">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6115,11 +6115,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413">
+            startingLineNumber = "417"
+            endingLineNumber = "417">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6129,11 +6129,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "417"
-            endingLineNumber = "417">
+            startingLineNumber = "421"
+            endingLineNumber = "421">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6981,11 +6981,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291">
+            startingLineNumber = "295"
+            endingLineNumber = "295">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -6995,11 +6995,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289">
+            startingLineNumber = "293"
+            endingLineNumber = "293">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -8489,11 +8489,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "436085078.646862"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "-registerForRemoteNotificationToGetToken"
             landmarkType = "5">
             <Locations>
@@ -8612,22 +8612,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/LeftMenuViewController.m"
-            timestampString = "435548818.748231"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "-rebuildUI"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ChannelCell.m"
             timestampString = "435549697.874438"
             startingColumnNumber = "9223372036854775807"
@@ -8645,11 +8629,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/LeftMenuViewController.m"
-            timestampString = "435549204.991755"
+            timestampString = "436435732.354362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -8725,12 +8709,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/CoreData/DBOperator.m"
-            timestampString = "435563728.138293"
+            timestampString = "436432126.485768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "-fetchArticlesThatIncludeCoverImage"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "-fetchADChannel"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -8788,45 +8772,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/LeftMenuViewController.m"
-            timestampString = "435563162.04295"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "-markNewToChannel:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/LeftMenuViewController.m"
-            timestampString = "435563225.650521"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-rebuildUI"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/CoreData/DBOperator.m"
             timestampString = "435563728.138293"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
             endingLineNumber = "65"
-            landmarkName = "-fetchLeafChannelsWithTrunkChannel:"
+            landmarkName = "-fetchAllChannels"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -9089,11 +9041,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ChannelViewController.m"
-            timestampString = "435652439.915324"
+            timestampString = "436431244.181349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9105,11 +9057,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ChannelViewController.m"
-            timestampString = "435652439.915324"
+            timestampString = "436431244.181349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9121,11 +9073,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ChannelViewController.m"
-            timestampString = "435652439.915324"
+            timestampString = "436431244.181349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9137,11 +9089,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ChannelViewController.m"
-            timestampString = "435652439.915324"
+            timestampString = "436431244.181349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9153,27 +9105,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ChannelViewController.m"
-            timestampString = "435652439.915324"
+            timestampString = "436431244.181349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "-authorize"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/ChannelViewController.m"
-            timestampString = "435652439.915324"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9185,7 +9121,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436266261.976699"
+            timestampString = "436429905.570294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "292"
@@ -9201,11 +9137,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436264207.816822"
+            timestampString = "436327411.569918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9217,11 +9153,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436264207.816822"
+            timestampString = "436327411.569918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -9281,11 +9217,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "-initBaiduFrontia"
             landmarkType = "5">
             <Locations>
@@ -9327,74 +9263,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "-initBaiduFrontia"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-application:supportedInterfaceOrientationsForWindow:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[XinHuaAppDelegate prepareEnterSystem]"
-                  moduleName = "hnzw_inhouse"
-                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/XinHuaAppDelegate.m"
-                  timestampString = "435829058.254239"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "173">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__39-[XinHuaAppDelegate prepareEnterSystem]_block_invoke"
-                  moduleName = "hnzw_inhouse"
-                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/XinHuaAppDelegate.m"
-                  timestampString = "435829058.254413"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
-                  offsetFromSymbolStart = "30">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "-application:supportedInterfaceOrientationsForWindow:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -9421,11 +9295,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "-initBaiduFrontia"
             landmarkType = "5">
          </BreakpointContent>
@@ -9437,43 +9311,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
+            timestampString = "436328393.664946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "-initBaiduFrontia"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
+            timestampString = "436328393.664946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-initBaiduFrontia"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
+            timestampString = "436328393.664946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "-initBaiduFrontia"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "-initBaiduFrontia"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
             landmarkName = "-applicationWillResignActive:"
             landmarkType = "5">
          </BreakpointContent>
@@ -9485,7 +9359,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
+            timestampString = "436326491.798272"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
+            timestampString = "436326491.798272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
@@ -9501,27 +9391,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833677.045622"
+            timestampString = "436326491.798272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/XinHuaAppDelegate.m"
-            timestampString = "435833751.48917"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
             landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "5">
          </BreakpointContent>
@@ -9549,11 +9423,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436266261.976699"
+            timestampString = "436429905.570294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "-webViewDidFinishLoad:"
             landmarkType = "5">
          </BreakpointContent>
@@ -9565,28 +9439,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436264207.816822"
+            timestampString = "436327411.569918"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "-viewDidLoad"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/CoreData/DBOperator.m"
-            timestampString = "436266063.081476"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
-            landmarkName = "-markArticleLikeWithArticleID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

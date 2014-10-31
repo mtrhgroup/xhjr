@@ -43,6 +43,19 @@
         [[self contentView] addSubview:summary_label];
         
     }
+    UIImageView *dot_line_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 69, self.bounds.size.width, 1)];
+    [self addSubview:dot_line_view];
+    UIGraphicsBeginImageContext(dot_line_view.frame.size);   //开始画线
+    [dot_line_view.image drawInRect:CGRectMake(0, 0, dot_line_view.frame.size.width, 1)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);  //设置线条终点形状
+    float lengths[] = {4,4};
+    CGContextRef line = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(line, [UIColor lightGrayColor].CGColor);
+    CGContextSetLineDash(line, 0, lengths, 2);  //画虚线
+    CGContextMoveToPoint(line, 0.0, 0.0);    //开始画线
+    CGContextAddLineToPoint(line, self.bounds.size.width, 0.0);
+    CGContextStrokePath(line);
+    dot_line_view.image = UIGraphicsGetImageFromCurrentImageContext();
     return self;
 }
 -(Article *)artilce{

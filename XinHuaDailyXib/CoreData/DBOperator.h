@@ -18,6 +18,7 @@
 -(Channel *)fetchADChannel;
 -(Channel *)fetchPicChannel;
 -(NSArray *)fetchHomeChannels;
+-(NSArray *)fetchAllChannels;
 -(NSArray *)fetchArticlesThatIsPushed;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 -(void)removeAllChannels;
@@ -25,6 +26,8 @@
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN;
 -(NSArray *)fetchFavorArticles;
+-(NSDate *)markChannelAccessTimeStampWithChannel:(Channel *)channel;
+-(NSDate *)markChannelReceiveNewArticlesTimeStampWithChannelID:(NSString *)channel_id;
 -(void)markArticleReadWithArticleID:(NSString *)articleID;
 -(void)markArticleLikeWithArticleID:(NSString *)articleID;
 -(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected;

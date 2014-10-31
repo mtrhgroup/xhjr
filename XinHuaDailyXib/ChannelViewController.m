@@ -19,6 +19,24 @@
 @synthesize channel=_channel;
 @synthesize authorization_cover_view=_authorization_cover_view;
 @synthesize service=_service;
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChannelAccessStamp:) name:kNotificationArticleReceived object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeCoverView) name:kNotificationBindSNSuccess object:nil];
+    }
+    return self;
+}
+-(void)updateChannelAccessStamp:(NSNotification *)notification{
+    NSString *channel_id=[notification object];
+    if([channel_id isEqualToString:self.channel.channel_id]){
+        self.channel.receive_new_articles_timestamp=[[notification userInfo] valueForKey:@"timestamp"];
+        if(self.channel.has_new_articles){
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationLeftChannelsRefresh object:nil];
+        }
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=self.channel.channel_name;
@@ -26,7 +44,7 @@
     _authorization_cover_view=[[AuthorizationTouchView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     _authorization_cover_view.delegate=self;
     [self.view addSubview:_authorization_cover_view];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeCoverView) name:@"" object:nil];
+    
     if(_channel.need_be_authorized){
         if([self.service hasAuthorized]){
             [_authorization_cover_view hide];
@@ -48,9 +66,6 @@
 
 -(void)buildUI{
     
-}
--(BOOL)authorize{
-    return [_service authorize];
 }
 -(void)removeCoverView{
     [_authorization_cover_view hide];

@@ -78,12 +78,25 @@ NSString *HomeListCellID = @"HomeListCellID";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     headerView.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.6];
-    UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(3, 1, 300, 18)];
+    UILabel *titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(6, 6, 300, 18)];
     titleLabel.text=((Channel *)[self.channels_for_hvc.other_channels objectAtIndex:section]).channel_name;
     titleLabel.backgroundColor=[UIColor clearColor];
     titleLabel.textColor=[UIColor grayColor];
     titleLabel.font=[UIFont fontWithName:@"TrebuchetMS-Bold" size:12];
     [headerView addSubview:titleLabel];
+    UIImageView *line_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 29, 320, 1)];
+    [headerView addSubview:line_view];
+    UIGraphicsBeginImageContext(line_view.frame.size);   //开始画线
+    [line_view.image drawInRect:CGRectMake(0, 0, line_view.frame.size.width, 1)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);  //设置线条终点形状
+    //float lengths[] = {5,5};
+    CGContextRef line = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(line, [UIColor lightGrayColor].CGColor);
+    //CGContextSetLineDash(line, 0, lengths, 2);  //画虚线
+    CGContextMoveToPoint(line, 0.0, 0.0);    //开始画线
+    CGContextAddLineToPoint(line, 320, 0.0);
+    CGContextStrokePath(line);
+    line_view.image = UIGraphicsGetImageFromCurrentImageContext();
     return headerView;
 }
 
@@ -118,5 +131,8 @@ NSString *HomeListCellID = @"HomeListCellID";
 }
 -(void)triggerRefresh{
     [self reloadArticlesFromNET];
+}
+-(void)touchViewClicked{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationShowPicChannel object:self.channels_for_hvc.header_channel];
 }
 @end

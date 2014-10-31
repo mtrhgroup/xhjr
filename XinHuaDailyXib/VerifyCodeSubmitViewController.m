@@ -54,7 +54,7 @@
 }
 -(void)bindPhoneNumber{
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
-        //<#code#>
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } errorHandler:^(NSError *error) {
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];

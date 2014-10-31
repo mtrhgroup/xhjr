@@ -19,6 +19,7 @@
 @synthesize prepare_error_alert=_prepare_error_alert;
 @synthesize push_article_alert=_push_article_alert;
 @synthesize user_defaults=_user_defaults;
+@synthesize is_full=_is_full;
 #define DeviceTokenRegisteredKEY @"DeviceTokenStringKEY"
 #define DeviceTokenStringKEY @"DeviceTokenStringKEY"
 + (void)initialize
@@ -183,4 +184,11 @@ Article *push_article;
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+//    if(self.is_full)
+        return UIInterfaceOrientationMaskAll;
+//    else
+//        return UIInterfaceOrientationMaskPortrait;
+}
+
 @end

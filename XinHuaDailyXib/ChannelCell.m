@@ -36,7 +36,7 @@
     self.textLabel.text=channel.channel_name;
     CGPoint lastPoint=[self lastPointWithLabel:self.textLabel];
     _new_view.frame=CGRectMake(lastPoint.x, 5, 16, 16);
-    if(_channel.has_new_article){
+    if(_channel.has_new_articles){
         _new_view.hidden=NO;
     }else{
         _new_view.hidden=YES;

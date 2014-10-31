@@ -38,34 +38,36 @@
     }
     return self;
 }
--(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
-    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound||[responseStr rangeOfString:@"NEW"].location!=NSNotFound){
-//            if(responseStr.length>3){
-//                NSString *snStr=[responseStr substringFromIndex:4];
-//                AppDelegate.user_defaults.sn=snStr;
+//-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+//    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
+//    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+//        if([responseStr rangeOfString:@"OLD"].location!=NSNotFound||[responseStr rangeOfString:@"NEW"].location!=NSNotFound){
+////            if(responseStr.length>3){
+////                NSString *snStr=[responseStr substringFromIndex:4];
+////                AppDelegate.user_defaults.sn=snStr;
+////            }
+//            if(successBlock){
+//                successBlock(YES);
 //            }
-            if(successBlock){
-                successBlock(YES);
-            }
-        }else{
-            if(errorBlock){
-                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
-            }
-        }
-    } errorHandler:^(NSError *error) {
-        if(errorBlock){
-            errorBlock(error);
-        }
-    }];
-}
+//        }else{
+//            if(errorBlock){
+//                errorBlock([DefaultError aErrorWithMessage:[responseStr substringFromIndex:3]]);
+//            }
+//        }
+//    } errorHandler:^(NSError *error) {
+//        if(errorBlock){
+//            errorBlock(error);
+//        }
+//    }];
+//}
 -(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    
     NSString *url=[NSString stringWithFormat:kBindleSNURL,phone_number,[DeviceInfo udid],verify_code,[DeviceInfo phoneModel],[DeviceInfo osVersion]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             AppDelegate.user_defaults.sn=phone_number;
+            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationBindSNSuccess object:nil];
             if(successBlock){
                 successBlock(YES);
             }
@@ -86,10 +88,10 @@
     DBOperator *db_operator=[_db_manager aOperator];
     NSArray *home_channels=[db_operator fetchHomeChannels];
     for(Channel *channel in home_channels){
-       channel.articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:nil topN:channel.home_number.intValue];
+       channel.articles=[db_operator fetchArticlesWithChannel:channel exceptArticle:nil topN:channel.home_number];
     }
     Channel *pic_channel=[db_operator fetchPicChannel];
-    int topN=(int)fabs(pic_channel.home_number.intValue);
+    int topN=(int)fabs(pic_channel.home_number);
     pic_channel.articles=[db_operator fetchArticlesWithChannel:pic_channel exceptArticle:nil topN:topN];
     channels_for_hvc.header_channel=pic_channel;
     channels_for_hvc.other_channels=home_channels;
@@ -97,15 +99,13 @@
 }
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     DBOperator *db_operator=[_db_manager aOperator];
-    Channel *pic_channel=[db_operator fetchPicChannel];
-    NSArray *other_channels=[db_operator fetchHomeChannels];
-    NSMutableArray *home_channels=[[NSMutableArray alloc]init];
-    if(pic_channel!=nil){
-        [home_channels addObject:pic_channel];
-    }
-    [home_channels addObjectsFromArray:other_channels];
-    for(Channel *channel in home_channels){
-        int topN=(int)fabs([channel.home_number intValue]);
+    NSArray *channels=[db_operator fetchAllChannels];
+    for(Channel *channel in channels){
+        if(!channel.is_leaf)continue;
+        if(channel.need_be_authorized&&!AppDelegate.user_defaults.is_authorized)continue;
+        int topN=5;//默认下载5条
+        if([channel.parent_id isEqualToString:@"-1"])topN=1;//广告下载1条
+        topN=(int)fabs(channel.home_number);//首页显示几条，下载几条
         NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id];
         [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -113,9 +113,16 @@
                 for(Article *article in articles){
                     if(![db_operator doesArticleExistWithArtilceID:article.article_id]){
                         [db_operator addArticle:article];
-                        [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationArticleReceived object: article.channel_id ];
+                        channel.receive_new_articles_timestamp=[db_operator markChannelReceiveNewArticlesTimeStampWithChannelID:channel.channel_id];
+                        NSDictionary *dict = [NSDictionary dictionaryWithObject:channel.receive_new_articles_timestamp forKey:@"timestamp"];
+                        if(channel.parent_id.intValue>0){
+                            [db_operator markChannelReceiveNewArticlesTimeStampWithChannelID:channel.parent_id];
+                            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationArticleReceived object: channel.parent_id userInfo:dict];
+                        }else{
+                            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationArticleReceived object: channel.channel_id userInfo:dict];
+                        }
                     }
-                    if(!article.is_cached){
+                    if(!article.is_cached&&channel.is_auto_cache){
                         [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
                             // <#code#>
                             //TODO ssss
@@ -321,9 +328,14 @@
     }
     return res;
 }
--(NSArray *)fetchHomeChannelsFromDB{
-    return [[_db_manager aOperator] fetchHomeChannels];
+
+-(NSDate *)markAccessTimeStampWithChannel:(Channel *)channel{
+    DBOperator *db_operator=[_db_manager aOperator];
+    NSDate *timestamp=[db_operator markChannelAccessTimeStampWithChannel:channel];
+    [db_operator save];
+    return timestamp;
 }
+
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel{
     DBOperator *db_operator=[_db_manager aOperator];
     return [db_operator fetchLeafChannelsWithTrunkChannel:channel];
@@ -337,20 +349,7 @@
     articles_for_cvc.other_articles=other_articles;
     return articles_for_cvc;
 }
--(BOOL)hasNewerArticlesThanArticle:(Article *)article in_channel:(Channel *)in_channel{
-    DBOperator *db_operator=[_db_manager aOperator];
-    NSArray *articles=[db_operator fetchArticlesWithChannel:in_channel exceptArticle:nil topN:1];
-    if([articles count]>0){
-    Article *latest_article=[articles objectAtIndex:0];
-    if([latest_article.article_id isEqualToString:article.article_id]){
-        return YES;
-    }else{
-        return NO;
-    }
-    }else{
-        return NO;
-    }
-}
+
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected{
     DBOperator *db_operator=[_db_manager aOperator];
     [db_operator markArticleFavorWithArticleID:article.article_id is_collected:is_collected];
@@ -385,11 +384,10 @@
     NSArray *articles=[[_db_manager aOperator] fetchArticlesThatIncludeCoverImage];
     return articles;
 }
--(BOOL)authorize{
-    return NO;
-}
+
 -(BOOL)hasAuthorized{
-    return NO;
+    NSLog(@"%@",AppDelegate.user_defaults.sn);
+    return AppDelegate.user_defaults.sn.length>0;
 }
 -(void)likeArticleWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kLikeURL,[DeviceInfo udid],article.article_id];
@@ -461,4 +459,5 @@
         }
     }];
 }
+
 @end

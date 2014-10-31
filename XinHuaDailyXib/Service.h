@@ -15,7 +15,7 @@
 @interface Service : NSObject
 @property(nonatomic,strong)FSManager *fs_manager;
 //网络
--(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
+//-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -37,6 +37,7 @@
 -(NSArray *)fetchTrunkChannelsFromDB;
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel;
 -(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
+-(NSDate *)markAccessTimeStampWithChannel:(Channel *)channel;
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected;
 -(void)markArticleReadWithArticle:(Article *)article;
 -(void)markArticleLikeWithArticle:(Article *)article;
@@ -45,6 +46,5 @@
 -(ChannelsForHVC *)fetchHomeArticlesFromDB;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 
--(BOOL)authorize;
 -(BOOL)hasAuthorized;
 @end
