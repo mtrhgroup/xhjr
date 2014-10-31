@@ -22,6 +22,8 @@
 {
     self = [super initWithFrame:frameRect];
     if (self) {
+        // 定时器 循环
+        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(runTimePage) userInfo:nil repeats:YES];
         _scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frameRect.size.width, frameRect.size.height)];
         _scrollview.contentSize = CGSizeMake(frameRect.size.width, frameRect.size.height);
         _scrollview.showsVerticalScrollIndicator = NO;
@@ -126,7 +128,7 @@
 {
     int page = _pagecontrol.currentPage; // 获取当前的page
     page++;
-    page = page > 3 ? 0 : page ;
+    page = page > 2 ? 0 : page ;
     _pagecontrol.currentPage = page;
     [self turnPage];
 }

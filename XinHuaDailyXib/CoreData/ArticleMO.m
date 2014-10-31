@@ -28,5 +28,6 @@
 @dynamic a_visit_number;
 @dynamic a_zip_url;
 @dynamic a_is_collected;
+@dynamic a_is_like;
 
 @end

@@ -20,6 +20,7 @@
 @property(nonatomic,strong)UIAlertView *prepare_error_alert;
 @property(nonatomic,strong)UIAlertView *push_article_alert;
 @property(nonatomic,strong)FrontiaShare *share;
+@property (nonatomic,assign)BOOL is_full;
 
 
 @end

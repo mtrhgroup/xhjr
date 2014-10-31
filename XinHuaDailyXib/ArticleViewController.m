@@ -51,12 +51,14 @@
         _article=article;
         _isAD=NO;
         fonts=[NSArray arrayWithObjects:@"特大",@"较大",@"正常",@"较小",nil];
-
+        
         if(lessiOS7){
             offset=44;
         }else{
             offset=0;
         }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreen:) name:@"UIMoviePlayerControllerDidEnterFullscreenNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreen:) name:@"UIMoviePlayerControllerDidExitFullscreenNotification" object:nil];
     }
     return self;
 }
@@ -84,6 +86,7 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    [self.webView setAllowsInlineMediaPlayback:YES];
     self.webView.delegate=self;
     [self.view addSubview:self.webView];
     [self initBridge];
@@ -111,11 +114,6 @@
     self.fontAlertView.titleName.text = @"选择字体大小";
     self.fontAlertView.web_delegate=self;
     [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.font_size];
-    
-    //    self.popupMenuView=[[PopupMenuView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    //    self.popupMenuView.delegate=self;
-    //    self.popupMenuView.favor_status=_article.is_collected;
-    //    [self.view addSubview:self.popupMenuView];
     if(!self.isAD){
         UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,68,34)];
         _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
@@ -243,14 +241,16 @@ BOOL isFirst=YES;
         NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {bridge = event.bridge;bridge.init(function(message,responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')};});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response',responseData);});}, false);";
         [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
         NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue];
-        NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.thumbnail_url];
+        NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.cover_image_url];
         NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
+        NSString *js_video=@"var video_element=document.getElementsByTagName('video')[0]; video_element.setAttribute('webkit-playsinline','true')";
         
         [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
         if(_ad_article!=nil){
             [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
         }
         [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
+        [webView stringByEvaluatingJavaScriptFromString:js_video];
         [self changeWebContentWithWebView:webView];
     }
 }
@@ -354,5 +354,22 @@ BOOL isFirst=YES;
 }
 
 #pragma mark - visit_numner insert
+- (void)enterFullScreen:(NSNotification *)notification {// 开始播放
+    NSLog(@"videoStarted");
+    AppDelegate.is_full = YES;
+}
+- (void)exitFullScreen:(NSNotification *)notification {//完成播放
+    NSLog(@"videoFinished");
+    AppDelegate.is_full =NO;
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        [invocation setSelector:selector];
+        [invocation setTarget:[UIDevice currentDevice]];
+        int val =UIInterfaceOrientationPortrait;
+        [invocation setArgument:&val atIndex:2];
+        [invocation invoke];
+    }
+}
 
 @end

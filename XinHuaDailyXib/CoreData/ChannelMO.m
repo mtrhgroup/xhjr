@@ -20,5 +20,8 @@
 @dynamic a_show_type;
 @dynamic a_sort_number;
 @dynamic a_authorize;
+@dynamic a_access_timestamp;
+@dynamic a_receive_new_articles_timestamp;
+@dynamic a_is_auto_cache;
 
 @end

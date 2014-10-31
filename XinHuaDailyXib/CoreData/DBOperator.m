@@ -50,6 +50,21 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     }
     [channel toChannelMO:e_channel];
 }
+-(NSArray *)fetchAllChannels{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    NSMutableArray *trunk_channels=[NSMutableArray array];
+    for(ChannelMO *amo in result){
+        [trunk_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
+        NSLog(@"%d",amo.a_show_type.intValue);
+    }
+    return trunk_channels;
+}
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
     NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %@ ",trunk_channel.channel_id];
@@ -85,10 +100,39 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     }
     return trunk_channels;
 }
+-(NSDate *)markChannelAccessTimeStampWithChannel:(Channel *)channel{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_channel_id = %@", channel.channel_id];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    ChannelMO *e_channel;
+    if([result count]>0){
+        e_channel=[result objectAtIndex:0];
+        e_channel.a_access_timestamp=[NSDate date];
+    }
+    
+    return e_channel.a_access_timestamp;
+}
+-(NSDate *)markChannelReceiveNewArticlesTimeStampWithChannelID:(NSString *)channel_id{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_channel_id = %@", channel_id];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    ChannelMO *e_channel;
+    if([result count]>0){
+        e_channel=[result objectAtIndex:0];
+        e_channel.a_receive_new_articles_timestamp=[NSDate date];
+    }
+    return e_channel.a_receive_new_articles_timestamp;
+}
 -(NSArray *)fetchHomeChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_is_leaf = %d and a_parent_id = %@",YES,@"0"];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_is_leaf = %d && a_home_number > %d",YES,0];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_authorize" ascending:NSOrderedAscending];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];
@@ -198,7 +242,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
         return nil;
     }
 }
--(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN{
+-(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(NSInteger)topN{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate *  p;
     if(exceptArticle!=nil){

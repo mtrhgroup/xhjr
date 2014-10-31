@@ -21,5 +21,8 @@
 @property (nonatomic, retain) NSNumber * a_show_type;
 @property (nonatomic, retain) NSNumber * a_sort_number;
 @property (nonatomic, retain) NSNumber * a_authorize;
+@property (nonatomic, retain) NSDate   * a_access_timestamp;
+@property (nonatomic, retain) NSDate   * a_receive_new_articles_timestamp;
+@property (nonatomic, retain) NSNumber * a_is_auto_cache;
 
 @end

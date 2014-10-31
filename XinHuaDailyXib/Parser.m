@@ -24,8 +24,8 @@
         channel.channel_id = [xml findValueFrom:item nodeName:@"id" ];
         channel.channel_name = [xml findValueFrom:item nodeName:@"name"];
         channel.description = [xml findValueFrom:item nodeName:@"description"];
-        channel.sort_number = [f numberFromString:[xml findValueFrom:item nodeName:@"sort"]];
-        channel.home_number=[f numberFromString:[xml findValueFrom:item nodeName:@"homenum"]];
+        channel.sort_number = [[f numberFromString:[xml findValueFrom:item nodeName:@"sort"]] integerValue];
+        channel.home_number=[[f numberFromString:[xml findValueFrom:item nodeName:@"homenum"]] integerValue];
         NSString *type=[xml findValueFrom:item nodeName:@"type"];
         if([type isEqualToString:@"child"]){
             channel.is_leaf=YES;
@@ -80,7 +80,9 @@
             NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
             article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
             NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
-            article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            if(raw_coverimage_url.length!=0){
+                article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            }
             article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
             article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
             NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
@@ -116,7 +118,9 @@
         NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
         article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
         NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
-        article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        if(raw_coverimage_url.length!=0){
+            article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        }
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
         NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
@@ -149,7 +153,9 @@
         NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
         article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
         NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
+        if(raw_coverimage_url.length!=0){
         article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        }
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
         NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];

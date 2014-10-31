@@ -21,18 +21,21 @@
         <attribute name="a_zip_url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="E_CHANNEL" representedClassName="ChannelMO" syncable="YES">
+        <attribute name="a_access_timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="a_authorize" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_channel_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_channel_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_home_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="a_is_auto_cache" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <attribute name="a_is_leaf" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="a_parent_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="a_receive_new_articles_timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="a_show_type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_sort_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
         <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="315"/>
-        <element name="E_CHANNEL" positionX="-81" positionY="-25" width="128" height="178"/>
+        <element name="E_CHANNEL" positionX="-81" positionY="-25" width="128" height="225"/>
     </elements>
 </model>
