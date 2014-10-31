@@ -51,7 +51,10 @@
         _article=article;
         _isAD=NO;
         fonts=[NSArray arrayWithObjects:@"特大",@"较大",@"正常",@"较小",nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoStarted:) name:@"UIMovieViewPlaybackStateDidChangeNotification" object:nil];// 播放器即将播放通知
+        
+        
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(videoFinished:) name:@"UIMoviePlayerControllerWillExitFullscreenNotification" object:nil];// 播放器即将退出通知
         if(lessiOS7){
             offset=44;
         }else{
@@ -59,6 +62,79 @@
         }
     }
     return self;
+}
+- (void)videoStarted:(NSNotification *)notification {// 开始播放
+    
+
+    
+    
+}
+
+
+
+- (void)videoFinished:(NSNotification *)notification {//完成播放
+    
+    
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        
+        SEL selector = NSSelectorFromString(@"setOrientation:");
+        
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+        
+        [invocation setSelector:selector];
+        
+        [invocation setTarget:[UIDevice currentDevice]];
+        
+        int val =UIInterfaceOrientationPortrait;
+        
+        [invocation setArgument:&val atIndex:2];
+        
+        [invocation invoke];
+        
+    }
+    
+    // NSLog(@"videoFinished %@", self.view.window.rootViewController.view);
+    
+    //
+    
+    // NSLog(@"a == %f", self.view.window.rootViewController.view.transform.a);
+    
+    // NSLog(@"b == %f", self.view.window.rootViewController.view.transform.b);
+    
+    // NSLog(@"c == %f", self.view.window.rootViewController.view.transform.c);
+    
+    // NSLog(@"d == %f", self.view.window.rootViewController.view.transform.d);
+    
+    // if (self.view.window.rootViewController.view.transform.c == 1 || self.view.window.rootViewController.view.transform.c == -1 ) {
+    
+    // CGAffineTransform transform;
+    
+    // //设置旋转度数
+    
+    // // transform = CGAffineTransformRotate(self.view.window.rootViewController.view.transform, M_PI / 2);
+    
+    // transform = CGAffineTransformIdentity;
+    
+    // [UIView beginAnimations:@"rotate" context:nil ];
+    
+    // [UIView setAnimationDuration:0.1];
+    
+    // [UIView setAnimationDelegate:self];
+    
+    // [self.view.window.rootViewController.view setTransform:transform];
+    
+    // [UIView commitAnimations];
+    
+    //
+    
+    // self.view.window.rootViewController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height );
+    
+    // }
+    
+    //
+    
+    // [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
+    
 }
 -(id)initWithPushArticleID:(NSString *)articleID{
     self = [super init];
@@ -85,6 +161,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.webView.delegate=self;
+    self.webView.allowsInlineMediaPlayback=YES;
     [self.view addSubview:self.webView];
     [self initBridge];
     self.waitingView=[[WaitingView alloc]initWithFrame:self.view.bounds];
@@ -231,8 +308,17 @@
     }];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    NSLog(@"webViewDidStartLoad");
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType {
+    if (navigationType == UIWebViewNavigationTypeOther) {
+        NSLog(@"shouldStartLoadWithRequest");
+        
+    }
+    return YES;
+}
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    NSLog(@"open player viewWillLayoutSubviews");
 }
 BOOL isFirst=YES;
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -245,12 +331,13 @@ BOOL isFirst=YES;
         NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue];
         NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.thumbnail_url];
         NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
-        
+        NSString *js_video=@"var video_element=document.getElementsByTagName('video')[0]; video_element.setAttribute('webkit-playsinline','true')";
         [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
         if(_ad_article!=nil){
             [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
         }
         [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
+        [webView stringByEvaluatingJavaScriptFromString:js_video];
         [self changeWebContentWithWebView:webView];
     }
 }
