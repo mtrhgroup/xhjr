@@ -8,13 +8,17 @@
 
 #import "ListCell.h"
 #import "ALImageView.h"
+@interface ListCell()
+@property(nonatomic,strong)UIImageView *movie_image_view;
+@end
+
 @implementation ListCell{
     ALImageView *thumbnail_view;
     UILabel *title_label;
     UILabel *summary_label;
     Article *_article;
 }
-
+@synthesize movie_image_view=_movie_image_view;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -41,6 +45,11 @@
         summary_label.numberOfLines=2;
         summary_label.textColor=[UIColor grayColor];
         [[self contentView] addSubview:summary_label];
+        
+        _movie_image_view=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"moviemaker.png"]];
+        _movie_image_view.frame=CGRectMake(self.bounds.size.width-20, (70-16)/2, 16, 16);
+        _movie_image_view.hidden=YES;
+        [[self contentView] addSubview:_movie_image_view];
         
     }
     UIImageView *dot_line_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 69, self.bounds.size.width, 1)];
@@ -81,7 +90,9 @@
         }else{
             summary_label.text=article.summary;
         }
-        
+        if(_article.video_url!=nil){
+            _movie_image_view.hidden=NO;
+        }
     }
     if(article.is_read){
         title_label.textColor=[UIColor grayColor];

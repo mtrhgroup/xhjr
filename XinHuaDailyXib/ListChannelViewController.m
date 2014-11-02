@@ -11,9 +11,12 @@
 #import "GlobalVariablesDefine.h"
 #import "NavigationController.h"
 #import "MJRefresh.h"
+#import "ListFooterView.h"
+#import "Reachability.h"
 @interface ListChannelViewController ()
 @property(nonatomic,strong)ChannelHeader *headerView;
 @property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic,strong)ListFooterView *footerView;
 
 @end
 
@@ -56,10 +59,12 @@
     self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width*0.618)];
     self.headerView.article=self.articles_for_cvc.header_article;
     self.headerView.delegate=self;
+    self.footerView=[[ListFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+    self.footerView.delegate=self;
     [self.view addSubview:self.tableView];
     
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
-    [self.tableView addFooterWithTarget:self action:@selector(loadMoreArticlesFromNET)];
+    //[self.tableView addFooterWithTarget:self action:@selector(loadMoreArticlesFromNET)];
 }
 
 #pragma mark - 表格视图数据源代理方法
@@ -107,19 +112,28 @@ NSString *ListCellID = @"ListCellID";
     }
     [self.tableView reloadData];
 }
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.row==[self.articles_for_cvc.other_articles count]-1){
+        if([self.articles_for_cvc.other_articles count]>1){
+            [self addTableFooter];
+        }else{
+            [self removeTableFooter];
+        }
+    }
+}
 -(void)removeTableFooter{
     self.tableView.tableFooterView=nil;
 }
-- (void) createTableFooter
-{
+- (void)addTableFooter{
     if([self.articles_for_cvc.other_articles count]==0)return;
-    self.tableView.tableFooterView = nil;
-    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 40.0f)];
-    UILabel *loadMoreText = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 116.0f, 40.0f)];
-    [loadMoreText setCenter:tableFooterView.center];
-    [loadMoreText setFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
-    [loadMoreText setText:@"正在加载"];
-    [tableFooterView addSubview:loadMoreText];
-    self.tableView.tableFooterView = tableFooterView;
+    if (([Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) &&
+        ([Reachability reachabilityForLocalWiFi].currentReachabilityStatus == NotReachable)) {
+        return;
+    }
+    self.tableView.tableFooterView = self.footerView;
+    self.footerView.state=Busy;
+}
+-(void)touchViewClicked{
+    [self loadMoreArticlesFromNET];
 }
 @end

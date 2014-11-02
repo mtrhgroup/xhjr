@@ -135,14 +135,16 @@
                 for(Article *article in articles){
                     if(![db_operator doesArticleExistWithArtilceID:article.article_id]){
                         [db_operator addArticle:article];
-                        channel.receive_new_articles_timestamp=[db_operator markChannelReceiveNewArticlesTimeStampWithChannelID:channel.channel_id];
-                        NSDictionary *dict = [NSDictionary dictionaryWithObject:channel.receive_new_articles_timestamp forKey:@"timestamp"];
-                        if(channel.parent_id.intValue>0){
-                            [db_operator markChannelReceiveNewArticlesTimeStampWithChannelID:channel.parent_id];
-                            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationNewArticlesReceived object: channel.parent_id userInfo:dict];
-                        }else{
-                            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationNewArticlesReceived object: channel.channel_id userInfo:dict];
-                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            channel.receive_new_articles_timestamp=[db_operator markChannelReceiveNewArticlesTimeStampWithChannelID:channel.channel_id];
+                            NSDictionary *dict = [NSDictionary dictionaryWithObject:channel.receive_new_articles_timestamp forKey:@"timestamp"];
+                            if(channel.parent_id.intValue>0){
+                                [db_operator markChannelReceiveNewArticlesTimeStampWithChannelID:channel.parent_id];
+                                [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationNewArticlesReceived object: channel.parent_id userInfo:dict];
+                            }else{
+                                [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationNewArticlesReceived object: channel.channel_id userInfo:dict];
+                            }
+                        });
                     }
                     if(!article.is_cached&&channel.is_auto_cache){
                         [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
@@ -215,9 +217,9 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *channels=[_parser parseChannels:responseStr];
             DBOperator *db_operator=[_db_manager aBackgroundOperator];
-            if([channels count]>0){
-                [db_operator removeAllChannels];
-            }
+//            if([channels count]>0){
+//                [db_operator removeAllChannels];
+//            }
             for(Channel *channel in channels){
                 [db_operator addChannel:channel];
             }

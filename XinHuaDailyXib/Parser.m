@@ -89,6 +89,7 @@
             }else{
                 article.cover_image_url=nil;
             }
+            article.video_url=[xml findValueFrom:citem nodeName:@"video"];
             article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
             article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
             NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
@@ -135,6 +136,7 @@
         }
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
+        article.video_url=[xml findValueFrom:citem nodeName:@"video"];
         NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
         if([pn isEqualToString:@"0"]){
             article.is_push=NO;
@@ -174,6 +176,7 @@
         }else{
             article.cover_image_url=nil;
         }
+        article.video_url=[xml findValueFrom:citem nodeName:@"video"];
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
         NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];

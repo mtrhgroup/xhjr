@@ -1647,7 +1647,7 @@
 				LastUpgradeCheck = 0510;
 				TargetAttributes = {
 					1887389418FCD3B00032CF2C = {
-						DevelopmentTeam = W7W98J8J34;
+						DevelopmentTeam = L32HRGLSAZ;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;

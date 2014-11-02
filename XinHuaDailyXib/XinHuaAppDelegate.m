@@ -53,11 +53,6 @@
     self.prepare_error_alert=[[UIAlertView alloc] initWithTitle:@"系统初始化失败"  message:@"请联网后重试！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
 }
 
-
-- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-    return UIInterfaceOrientationMaskAll;
-}
 -(void)initBaiduFrontia{
     self.share=[Frontia getShare];
     [self.share registerQQAppId:@"100358052" enableSSO:NO];
@@ -163,12 +158,8 @@ Article *push_article;
     }
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if([self.prepare_error_alert isEqual:alertView]){
-        exit(0);
-    }else{
     if(buttonIndex==1){
         [self.main_vc presentArtilceContentVCWithArticle:push_article channel:nil];
-    }
     }
 }
 - (void)applicationWillTerminate:(UIApplication *)application
