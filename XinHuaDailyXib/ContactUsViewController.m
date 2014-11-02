@@ -28,16 +28,11 @@
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showToast:) name:kNotificationMessage object:nil];
         self.service=AppDelegate.service;
     }
     return self;
 }
 
--(void)showToast:(NSNotification*) notification{
-    NSString *info=[[notification userInfo] valueForKey:@"data"];
-   [self.view.window showHUDWithText:info Type:ShowLoading Enabled:YES];
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

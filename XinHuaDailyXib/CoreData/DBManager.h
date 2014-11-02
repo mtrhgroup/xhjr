@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DBOperator.h"
 @interface DBManager : NSObject
--(DBOperator *)aOperator;
+-(DBOperator *)theForegroundOperator;
+-(DBOperator *)aBackgroundOperator;
 @end

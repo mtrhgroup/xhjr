@@ -12,16 +12,30 @@
     NSString*   _databasepath;
     NSManagedObjectModel * _managedObjectModel;
     NSPersistentStoreCoordinator * _persistentStoreCoordinator;
+    DBOperator *_foreground_operator;
+    NSManagedObjectContext *_foreground_context;
 }
 -(id)init{
     @synchronized(self){
         if(self=[super init]){
             [self persistentStoreCoordinator];
+            _foreground_context=[[NSManagedObjectContext alloc] init];
+            [_foreground_context setUndoManager:nil];// We're not using undo. By setting it to nil we reduce the memory footprint of the app
+            _foreground_context.persistentStoreCoordinator=_persistentStoreCoordinator;
+            _foreground_operator=[[DBOperator alloc] initWithContext:_foreground_context];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(mergeChanges:)
+                                                         name:NSManagedObjectContextDidSaveNotification
+                                                       object:nil];
         }
     }
     return self;
 }
--(DBOperator *)aOperator{
+-(DBOperator *)theForegroundOperator{
+    return _foreground_operator;
+}
+
+-(DBOperator *)aBackgroundOperator{
     NSManagedObjectContext *context=[[NSManagedObjectContext alloc] init];
     [context setUndoManager:nil];// We're not using undo. By setting it to nil we reduce the memory footprint of the app
     context.persistentStoreCoordinator=_persistentStoreCoordinator;
@@ -63,5 +77,23 @@
     
     return _persistentStoreCoordinator;
 }
+// merge changes to main context,fetchedRequestController will automatically monitor the changes and update tableview.
+- (void)updateMainContext:(NSNotification *)notification {
+    
+    assert([NSThread isMainThread]);
+    [_foreground_context mergeChangesFromContextDidSaveNotification:notification];
+}
 
+// this is called via observing "NSManagedObjectContextDidSaveNotification" from our APLParseOperation
+- (void)mergeChanges:(NSNotification *)notification {
+    
+    if (notification.object != _foreground_context) {
+        [self performSelectorOnMainThread:@selector(updateMainContext:) withObject:notification waitUntilDone:NO];
+    }
+}
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSManagedObjectContextDidSaveNotification
+                                                  object:nil];
+}
 @end

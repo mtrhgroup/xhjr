@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		186BEB961A05FC0F00AA26F0 /* new.png in Resources */ = {isa = PBXBuildFile; fileRef = 186BEB951A05FC0F00AA26F0 /* new.png */; };
+		186BEB9A1A06107100AA26F0 /* periodicals.xml in Resources */ = {isa = PBXBuildFile; fileRef = 186BEB991A06107100AA26F0 /* periodicals.xml */; };
+		186BEB9D1A06279B00AA26F0 /* ListFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BEB9C1A06279B00AA26F0 /* ListFooterView.m */; };
 		186E6D5D19EFAFCC00E3C0D3 /* ArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D5C19EFAFCC00E3C0D3 /* ArticleViewController.m */; };
 		186E6D6019EFB0B600E3C0D3 /* PopupMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D5F19EFB0B600E3C0D3 /* PopupMenuView.m */; };
 		186E6D6319EFB15900E3C0D3 /* FavorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E6D6219EFB15900E3C0D3 /* FavorCell.m */; };
@@ -26,7 +29,6 @@
 		1877651B19F73E3800D84604 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877651A19F73E3800D84604 /* UIPlaceHolderTextView.m */; };
 		1877652119F74BD000D84604 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877652019F74BD000D84604 /* forward.png */; };
 		1877652719F74E9600D84604 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877652619F74E9600D84604 /* RegisterViewController.m */; };
-		1877652919F75DE800D84604 /* periodicals.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1877652819F75DE800D84604 /* periodicals.xml */; };
 		1877652C19F769E600D84604 /* RefreshTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877652B19F769E600D84604 /* RefreshTouchView.m */; };
 		1877652F19F76A3000D84604 /* AuthorizationTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877652E19F76A3000D84604 /* AuthorizationTouchView.m */; };
 		1877653419F778B300D84604 /* click_reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877653319F778B300D84604 /* click_reload.png */; };
@@ -270,7 +272,6 @@
 		4774754319F93516008E589C /* like_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 4774754119F93516008E589C /* like_on.png */; };
 		4774754419F93516008E589C /* star_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 4774754219F93516008E589C /* star_on.png */; };
 		477D2B9619F692A40055C796 /* PushNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 477D2B9519F692A40055C796 /* PushNewsViewController.m */; };
-		47982DE319F3A25D003B6363 /* new.png in Resources */ = {isa = PBXBuildFile; fileRef = 47982DE219F3A25D003B6363 /* new.png */; };
 		479C074419E9752800D946F9 /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 479C074319E9752800D946F9 /* UserDefaults.m */; };
 		47C6C8A419E8242E002CD14C /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47C6C8A119E8242E002CD14C /* iVersion.bundle */; };
 		47C6C8A519E8242E002CD14C /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8A319E8242E002CD14C /* iVersion.m */; };
@@ -313,6 +314,10 @@
 		1847F27B1820A93A008C010D /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		1847F27F1820A989008C010D /* ChannelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelTest.m; sourceTree = "<group>"; };
 		1864FFE618191F170050D95F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = lnzw_inhouse/Images.xcassets; sourceTree = "<group>"; };
+		186BEB951A05FC0F00AA26F0 /* new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new.png; sourceTree = "<group>"; };
+		186BEB991A06107100AA26F0 /* periodicals.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = periodicals.xml; sourceTree = "<group>"; };
+		186BEB9B1A06279B00AA26F0 /* ListFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListFooterView.h; sourceTree = "<group>"; };
+		186BEB9C1A06279B00AA26F0 /* ListFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListFooterView.m; sourceTree = "<group>"; };
 		186E6D5B19EFAFCC00E3C0D3 /* ArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleViewController.h; sourceTree = "<group>"; };
 		186E6D5C19EFAFCC00E3C0D3 /* ArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleViewController.m; sourceTree = "<group>"; };
 		186E6D5E19EFB0B600E3C0D3 /* PopupMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupMenuView.h; sourceTree = "<group>"; };
@@ -351,7 +356,6 @@
 		1877652019F74BD000D84604 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
 		1877652519F74E9600D84604 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		1877652619F74E9600D84604 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		1877652819F75DE800D84604 /* periodicals.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = periodicals.xml; sourceTree = "<group>"; };
 		1877652A19F769E600D84604 /* RefreshTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshTouchView.h; sourceTree = "<group>"; };
 		1877652B19F769E600D84604 /* RefreshTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshTouchView.m; sourceTree = "<group>"; };
 		1877652D19F76A3000D84604 /* AuthorizationTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationTouchView.h; sourceTree = "<group>"; };
@@ -374,7 +378,6 @@
 		187F597419F9DB460050563A /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		187F598A19F9E9520050563A /* FeedBackToEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackToEditorViewController.h; sourceTree = "<group>"; };
 		187F598B19F9E9520050563A /* FeedBackToEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackToEditorViewController.m; sourceTree = "<group>"; };
-		187F598D19FA318F0050563A /* 辽宁发布新增接口.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "辽宁发布新增接口.docx"; sourceTree = "<group>"; };
 		1881F0EC19F5E81D00AD52CC /* ChannelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelCell.h; sourceTree = "<group>"; };
 		1881F0ED19F5E81D00AD52CC /* ChannelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelCell.m; sourceTree = "<group>"; };
 		1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title_menu_btn_normal.png; sourceTree = "<group>"; };
@@ -700,7 +703,6 @@
 		4774754219F93516008E589C /* star_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_on.png; sourceTree = "<group>"; };
 		477D2B9419F692A40055C796 /* PushNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNewsViewController.h; sourceTree = "<group>"; };
 		477D2B9519F692A40055C796 /* PushNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushNewsViewController.m; sourceTree = "<group>"; };
-		47982DE219F3A25D003B6363 /* new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new.png; sourceTree = "<group>"; };
 		479C074219E9752800D946F9 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaults.h; sourceTree = "<group>"; };
 		479C074319E9752800D946F9 /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaults.m; sourceTree = "<group>"; };
 		47C6C8A119E8242E002CD14C /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
@@ -949,6 +951,8 @@
 				18F116FF19E8B6990097A682 /* ChannelHeader.m */,
 				4717628119EFE32B00646857 /* HomeHeader.h */,
 				4717628219EFE32B00646857 /* HomeHeader.m */,
+				186BEB9B1A06279B00AA26F0 /* ListFooterView.h */,
+				186BEB9C1A06279B00AA26F0 /* ListFooterView.m */,
 			);
 			name = header;
 			sourceTree = "<group>";
@@ -1005,8 +1009,7 @@
 		18B2739B19E4E58A00FE3D42 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				187F598D19FA318F0050563A /* 辽宁发布新增接口.docx */,
-				1877652819F75DE800D84604 /* periodicals.xml */,
+				186BEB991A06107100AA26F0 /* periodicals.xml */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -1108,9 +1111,9 @@
 				1877653519F7798100D84604 /* lnfb_click_to_auth.png */,
 				1877653319F778B300D84604 /* click_reload.png */,
 				1877652019F74BD000D84604 /* forward.png */,
+				186BEB951A05FC0F00AA26F0 /* new.png */,
 				1881F0EF19F645DC00AD52CC /* title_menu_btn_normal.png */,
 				1881F0F019F645DC00AD52CC /* title_menu_btn_pressed.png */,
-				47982DE219F3A25D003B6363 /* new.png */,
 				18A5B24B17C472CE00E087F7 /* about.png */,
 				18392D1017CEE36700531381 /* default_image.png */,
 				18392D1117CEE36700531381 /* ext_default_thumbnail.png */,
@@ -1685,7 +1688,6 @@
 				188B28261A007D9000AEDC11 /* Default-568h@2x.png in Resources */,
 				188B28271A007D9000AEDC11 /* Default@2x.png in Resources */,
 				1877654619F7A2FF00D84604 /* like.png in Resources */,
-				47982DE319F3A25D003B6363 /* new.png in Resources */,
 				1887393F18FCD3B00032CF2C /* reg_input.png in Resources */,
 				1887394018FCD3B00032CF2C /* reg_input@2x.png in Resources */,
 				1887394118FCD3B00032CF2C /* regsn_bg.png in Resources */,
@@ -1728,11 +1730,13 @@
 				4774754419F93516008E589C /* star_on.png in Resources */,
 				1887396218FCD3B00032CF2C /* grayArrow.png in Resources */,
 				1887396318FCD3B00032CF2C /* grayArrow@2x.png in Resources */,
+				186BEB9A1A06107100AA26F0 /* periodicals.xml in Resources */,
 				1881F0F219F645DC00AD52CC /* title_menu_btn_pressed.png in Resources */,
 				1887396518FCD3B00032CF2C /* startup_logo.png in Resources */,
 				1887396618FCD3B00032CF2C /* History.png in Resources */,
 				1887396718FCD3B00032CF2C /* History@2x.png in Resources */,
 				1887396818FCD3B00032CF2C /* mail.png in Resources */,
+				186BEB961A05FC0F00AA26F0 /* new.png in Resources */,
 				1887396918FCD3B00032CF2C /* mail@2x.png in Resources */,
 				1887396A18FCD3B00032CF2C /* menu.png in Resources */,
 				1887396B18FCD3B00032CF2C /* menu@2x.png in Resources */,
@@ -1817,7 +1821,6 @@
 				1886AAE919FF7A5900222E38 /* heise.png in Resources */,
 				188739AA18FCD3B00032CF2C /* arrow_01@2x.png in Resources */,
 				188739AB18FCD3B00032CF2C /* arrow_02@2x.png in Resources */,
-				1877652919F75DE800D84604 /* periodicals.xml in Resources */,
 				188739AC18FCD3B00032CF2C /* arrow_03@2x.png in Resources */,
 				188739AD18FCD3B00032CF2C /* arrow_04@2x.png in Resources */,
 				188739AE18FCD3B00032CF2C /* arrow_05@2x.png in Resources */,
@@ -1869,6 +1872,7 @@
 				1877652719F74E9600D84604 /* RegisterViewController.m in Sources */,
 				1892C9EE19E67AFC00F26945 /* DeviceInfo.m in Sources */,
 				188738C018FCD3B00032CF2C /* zip.c in Sources */,
+				186BEB9D1A06279B00AA26F0 /* ListFooterView.m in Sources */,
 				18EECA0D19F8F5B3009FC79F /* WebViewJavascriptBridge_iOS.m in Sources */,
 				188738C118FCD3B00032CF2C /* ZipArchive.mm in Sources */,
 				4710E65519EE9C7900246A1E /* TrunkChannelViewController.m in Sources */,

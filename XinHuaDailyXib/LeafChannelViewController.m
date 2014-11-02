@@ -41,7 +41,10 @@
     [self refreshUI];
 }
 -(void)reloadArticlesFromNET{
-    [self.service  fetchArticlesFromNETWithChannel:self.channel successHandler:^(NSArray *articles) {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
+    [self.service  fetchArticlesFromNETWithChannel:self.channel time:time successHandler:^(NSArray *articles) {
         [self reloadArticlesFromDB];
         [self endRefresh];
         _time_stamp=[NSDate date];
@@ -51,13 +54,22 @@
     }];
 }
 -(void)loadMoreArticlesFromNET{
-    [self.service  fetchMoreArticlesFromNETWithChannel:self.channel last_article:[self.articles_for_cvc.other_articles lastObject]  successHandler:^(NSArray *articles) {
-        NSMutableArray *other_articles=[NSMutableArray arrayWithArray:self.articles_for_cvc.other_articles];
-        [other_articles addObjectsFromArray:articles];
-        self.articles_for_cvc.other_articles=other_articles;
+    if([self.articles_for_cvc.other_articles count]==0)return;
+    NSString *last_article_publishdate=((Article *)[self.articles_for_cvc.other_articles lastObject]).publish_date;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    NSDate *last_date=[dateFormatter dateFromString:last_article_publishdate];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *time=[formatter stringFromDate:last_date];
+    [self.service  fetchArticlesFromNETWithChannel:self.channel time:time successHandler:^(NSArray *articles) {
+        self.articles_for_cvc=[self.service fetchArticlesFromDBWithChannel:self.channel topN:[self.articles_for_cvc.other_articles count]+[articles count]];
+        [self refreshUI];
         [self endRefresh];
+        _time_stamp=[NSDate date];
     } errorHandler:^(NSError *error) {
-        //report error to user
+        [self endRefresh];
+        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
 -(BOOL)shouldTriggerRefresh{

@@ -42,7 +42,6 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     [super viewDidLoad];
     self.cover_view=[[DefaultView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.cover_view];
-    self.cover_view.delegate=self;
 
     //初始化左侧菜单对象
     self.left_menu_vc= [[LeftMenuViewController alloc]init];
@@ -59,11 +58,6 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
         MMDrawerControllerDrawerVisualStateBlock block;
         block = [MMDrawerVisualState parallaxVisualStateBlockWithParallaxFactor:2.0];
         block(drawerController, drawerSide, percentVisible);
-    }];
-    [self.service fetchChannelsFromNET:^(NSArray *channels) {
-      //  <#code#>
-    } errorHandler:^(NSError *error) {
-      //  <#code#>
     }];
 }
 

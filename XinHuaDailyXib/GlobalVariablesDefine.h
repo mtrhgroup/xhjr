@@ -12,16 +12,12 @@
 #define lessiOS7 [[[UIDevice currentDevice] systemVersion] floatValue]<7.0
 #define kHeightOfTopScrollView  35.0f
 #define APP_KEY @"koZZjgSLNSOc5Gdp6WNpCA3i"
-#define KUserDefaultAuthCode  @"AuthCode"
-#define kNotificationMessage @"notification_message"
-#define kNotificationArticleReceived @"notification_article_received"
-#define kNotificationChannelsUpdate @"notification_channel_update"
+#define kNotificationNewArticlesReceived @"notification_new_articles_received"
+#define kNotificationChannelsReceived @"notification_channel_update"
 #define kNotificationLeftChannelsRefresh @"notification_left_channels_refresh"
 #define kNotificationAppVersionReceived @"notification_app_version_received"
 #define kNotificationBindSNSuccess @"kNotificationBindSNSuccess"
 #define kNotificationShowPicChannel @"kNotificationShowPicChannel"
-#define KSettingChange @"fontchange"
-#define KDisplayMode @"DisplayMode"
 #define SXTErrorDomain @"com.xinhuanet.sxt"
 #import "UIWindow+YzdHUD.h"
 typedef enum {

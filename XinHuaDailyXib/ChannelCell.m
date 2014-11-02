@@ -22,7 +22,7 @@
         self.textLabel.textColor=[UIColor whiteColor];
         self.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.0];
         _new_view=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new.png"]];
-        _new_view.frame=CGRectMake(100, 5, 16, 16);
+        _new_view.frame=CGRectMake(100, 5, 8, 8);
         _new_view.hidden=YES;
         [[self contentView] addSubview:_new_view];
     }
@@ -35,7 +35,7 @@
     _channel=channel;
     self.textLabel.text=channel.channel_name;
     CGPoint lastPoint=[self lastPointWithLabel:self.textLabel];
-    _new_view.frame=CGRectMake(lastPoint.x, 5, 16, 16);
+    _new_view.frame=CGRectMake(lastPoint.x, 5, 8, 8);
     if(_channel.has_new_articles){
         _new_view.hidden=NO;
     }else{

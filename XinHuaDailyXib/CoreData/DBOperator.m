@@ -16,11 +16,12 @@ static NSString * const E_CHANNEL = @"E_CHANNEL";
 static NSString * const E_ARTICLE = @"E_ARTICLE";
 -(id)initWithContext:(NSManagedObjectContext *)context{
     if(self=[super init]){
-        _context=context;
+        self.context=context;
     }
     return self;
 
 }
+
 -(BOOL)save{
     BOOL result=NO;
     NSError *error;

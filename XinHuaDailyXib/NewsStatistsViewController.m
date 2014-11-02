@@ -94,6 +94,7 @@
             UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
             bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_cell_this_month;
             bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.backgroundColor=[UIColor clearColor];
             bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
             cell.accessoryView=bytes_lost_lbl;
             cell.textLabel.text = @"本月蜂窝数据流量";
@@ -101,6 +102,7 @@
             UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
             bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_wifi_this_month;
             bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.backgroundColor=[UIColor clearColor];
             bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
             cell.accessoryView=bytes_lost_lbl;
             cell.textLabel.text = @"本月Wifi流量";  
@@ -110,6 +112,7 @@
             UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
             bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_cell_last_month;
             bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.backgroundColor=[UIColor clearColor];
             bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
             cell.accessoryView=bytes_lost_lbl;
             cell.textLabel.text = @"上月蜂窝数据流量";
@@ -118,6 +121,7 @@
             UILabel *bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100, 44)];
             bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_wifi_lost_month;
             bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.backgroundColor=[UIColor clearColor];
             bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
             cell.accessoryView=bytes_lost_lbl;
             cell.textLabel.text = @"上月Wifi流量";  

@@ -9,7 +9,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>0</sort>
+		<sort>10</sort>
 		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>0</cachetype>
@@ -25,7 +25,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>1</sort>
+		<sort>11</sort>
 		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>0</cachetype>
@@ -41,7 +41,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>2</sort>
+		<sort>12</sort>
 		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>0</cachetype>
@@ -57,7 +57,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>3</sort>
+		<sort>13</sort>
 		<parent>0</parent>
 		<showtype>tile</showtype>
 		<cachetype>0</cachetype>
@@ -65,7 +65,7 @@
 		<auth>0</auth>
 	</periodical>
 	<periodical>
-		<id>272</id>
+		<id>376</id>
 		<name>i生活</name>
 		<description>辽宁发布</description>
 		<iconurl/>
@@ -73,7 +73,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>4</sort>
+		<sort>14</sort>
 		<parent>0</parent>
 		<showtype>tile</showtype>
 		<cachetype>0</cachetype>
@@ -81,7 +81,7 @@
 		<auth>0</auth>
 	</periodical>
 	<periodical>
-		<id>274</id>
+		<id>377</id>
 		<name>u赚钱</name>
 		<description>辽宁发布</description>
 		<iconurl/>
@@ -89,7 +89,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>5</sort>
+		<sort>15</sort>
 		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>0</cachetype>
@@ -101,11 +101,11 @@
 		<name>p图文</name>
 		<description>辽宁发布</description>
 		<iconurl/>
-		<homenum>2</homenum>
+		<homenum>0</homenum>
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>6</sort>
+		<sort>16</sort>
 		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>0</cachetype>
@@ -117,13 +117,13 @@
 		<name>发现</name>
 		<description>辽宁发布</description>
 		<iconurl/>
-		<homenum>-2</homenum>
+		<homenum>-3</homenum>
 		<level>1</level>
 		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
+		<subscribe>161</subscribe>
 		<sort>7</sort>
 		<parent>378</parent>
-		<showtype>list</showtype>
+		<showtype>pic</showtype>
 		<cachetype>0</cachetype>
 		<type>child</type>
 		<auth>0</auth>
@@ -137,7 +137,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>8</sort>
+		<sort>162</sort>
 		<parent>378</parent>
 		<showtype>pic</showtype>
 		<cachetype>0</cachetype>
@@ -153,11 +153,43 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>9</sort>
+		<sort>17</sort>
 		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>0</cachetype>
 		<type>parent</type>
+		<auth>1</auth>
+	</periodical>
+	<periodical>
+		<id>247</id>
+		<name>微事件</name>
+		<description>辽宁政务</description>
+		<iconurl></iconurl>
+		<homenum>2</homenum>
+		<level>1</level>
+		<generatetype>0</generatetype>
+		<subscribe>2</subscribe>
+		<sort>1</sort>
+		<parent>381</parent>
+		<showtype>list</showtype>
+		<cachetype>1</cachetype>
+		<type>child</type>
+		<auth>1</auth>
+	</periodical>	
+	<periodical>
+		<id>383</id>
+		<name>微内参</name>
+		<description>辽宁发布</description>
+		<iconurl/>
+		<homenum>2</homenum>
+		<level>1</level>
+		<generatetype>1</generatetype>
+		<subscribe>2</subscribe>
+		<sort>2</sort>
+		<parent>381</parent>
+		<showtype>list</showtype>
+		<cachetype>1</cachetype>
+		<type>child</type>
 		<auth>1</auth>
 	</periodical>
 	<periodical>
@@ -169,107 +201,28 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>12</sort>
+		<sort>3</sort>
 		<parent>381</parent>
 		<showtype>list</showtype>
-		<cachetype>0</cachetype>
+		<cachetype>1</cachetype>
 		<type>child</type>
 		<auth>1</auth>
-	</periodical>
+	</periodical>	
+
 	<periodical>
-		<id>383</id>
-		<name>微内参</name>
-		<description>辽宁发布</description>
-		<iconurl/>
-		<homenum>2</homenum>
-		<level>1</level>
-		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
-		<sort>11</sort>
-		<parent>381</parent>
-		<showtype>list</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>1</auth>
-	</periodical>
-	<periodical>
-		<id>247</id>
-		<name>微事件</name>
-		<description>辽宁政务</description>
-		<iconurl>\Images\Icons\Periodicals\grid4.png</iconurl>
-		<homenum>2</homenum>
-		<level>1</level>
-		<generatetype>0</generatetype>
-		<subscribe>2</subscribe>
-		<sort>10</sort>
-		<parent>381</parent>
-		<showtype>list</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>1</auth>
-	</periodical>
-	<periodical>
-		<id>272</id>
-		<name>辽宁发布广告</name>
+		<id>384</id>
+		<name>广告推广</name>
 		<description>辽宁发布</description>
 		<iconurl/>
 		<homenum>0</homenum>
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>13</sort>
+		<sort>17</sort>
 		<parent>-1</parent>
-		<showtype>list</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>1</auth>
-	</periodical>
-	<periodical>
-		<id>256</id>
-		<name>微快报</name>
-		<description>辽宁发布</description>
-		<iconurl/>
-		<homenum>2</homenum>
-		<level>1</level>
-		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
-		<sort>6</sort>
-		<parent>0</parent>
 		<showtype>list</showtype>
 		<cachetype>1</cachetype>
 		<type>child</type>
-		<auth>0</auth>
-	</periodical>
-	<periodical>
-		<id>256</id>
-		<name>舆情图说</name>
-		<description>辽宁发布</description>
-		<iconurl/>
-		<homenum>-3</homenum>
-		<level>1</level>
-		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
-		<sort>1</sort>
-		<parent>378</parent>
-		<showtype>pic</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>0</auth>
-	</periodical>
-	<periodical>
-		<id>169</id>
-		<name>测试</name>
-		<description>辽宁发布</description>
-		<iconurl/>
-		<homenum>3</homenum>
-		<level>1</level>
-		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
-		<sort>7</sort>
-		<parent>0</parent>
-		<showtype>pic</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>0</auth>
-	</periodical>
+		<auth>1</auth>
+	</periodical>	
 </periodicallist>
