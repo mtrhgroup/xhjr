@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TouchViewDelegate.h"
 typedef NS_ENUM(NSInteger, FooterState)
 {
     Busy = 0,
@@ -15,4 +16,5 @@ typedef NS_ENUM(NSInteger, FooterState)
 };
 @interface ListFooterView : UIView
 @property(nonatomic,assign)FooterState state;
+@property(nonatomic,assign)id<TouchViewDelegate>delegate;
 @end

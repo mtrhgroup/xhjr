@@ -15,16 +15,19 @@
 {
     self = [super initWithFrame:frameRect];
     if (self) {
+        _state=Busy;
 
     }
     return self;
 }
 -(void)setState:(FooterState)state{
     if(state==Busy){
-        
+        _state=Busy;
     }else if(state==Idle){
-        
+        _state=Idle;
     }
 }
-
+-(void)click{
+    [self.delegate touchViewClicked];
+}
 @end
