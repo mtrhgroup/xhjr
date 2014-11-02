@@ -73,13 +73,16 @@
     [self.tableView setScrollEnabled:NO];
     [self.view addSubview:self.tableView];
     [self rebuildUI];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:kNotificationLeftChannelsRefresh object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAppVersion) name:kNotificationAppVersionReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPicChannel:) name:kNotificationShowPicChannel object:nil];
 }
--(void)viewDidUnload{
-    [super viewDidUnload];
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationChannelsReceived object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationLeftChannelsRefresh object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationAppVersionReceived object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationShowPicChannel object:nil];
 }
 -(void)updateAppVersion{
     self.title_label.text=AppDelegate.user_defaults.appInfo.groupTitle;
@@ -111,7 +114,7 @@
             cvc.channel=channel;
         }
 
-        cvc.service=AppDelegate.service;
+        cvc.service=self.service;
         [self.leftChannelVCs addObject:cvc];
     }
     [self.tableView reloadData];

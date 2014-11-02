@@ -87,17 +87,8 @@
     if(self.user_defaults.is_night_mode_on){
         [UIScreen mainScreen].brightness=0.1;
     }
-    [_service reportActionsToServer:^(BOOL ok) {
-        //<#code#>
-    } errorHandler:^(NSError *error) {
-       // <#code#>
-    }];
 
-    [_service fetchHomeArticlesFromNET:^(NSArray *channels) {
-       // <#code#>
-    } errorHandler:^(NSError *error) {
-      //  <#code#>
-    }];
+
 }
 
 //向服务器申请发送token 判断事前有没有发送过

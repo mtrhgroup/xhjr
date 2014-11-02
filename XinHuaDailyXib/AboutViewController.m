@@ -9,10 +9,14 @@
 #import "AboutViewController.h"
 #import "DeviceInfo.h"
 #import "NavigationController.h"
-
+#import "AMBlurView.h"
+@interface AboutViewController()
+@property (nonatomic,strong)AMBlurView *blurView;
+@property(nonatomic,strong)UILabel *sn_lbl;
+@end
 @implementation AboutViewController
-@synthesize table;
-@synthesize mode;
+@synthesize sn_lbl=_sn_lbl;
+@synthesize blurView=_blurView;
 
 - (void) viewDidLayoutSubviews {
     // only works for iOS 7+
@@ -28,7 +32,13 @@
         self.view.bounds = viewBounds;
     }
 }
-#pragma mark - View lifecycle
+-(void)viewWillAppear:(BOOL)animated{
+    if(AppDelegate.user_defaults.sn.length==0){
+        _sn_lbl.text=@"";
+    }else{
+        _sn_lbl.text=[NSString stringWithFormat:@"%@",AppDelegate.user_defaults.sn];
+    }
+}
 
 - (void)viewDidLoad
 {
@@ -37,31 +47,32 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
     UIView* uiv = [[UIView alloc] initWithFrame:CGRectMake(5, 88, 310, 230)];
     uiv.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"about_gray.png"]];
+    [self setBlurView:[AMBlurView new]];
+    [[self blurView] setFrame:CGRectMake(5, 88, 310, 230)];
+    [self.blurView.layer setMasksToBounds:YES];
+    [self.blurView.layer setCornerRadius:10];
+    [self.blurView setBlurTintColor:[UIColor blackColor]];
+    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    [self.view addSubview:[self blurView]];
+    
     UIImageView *logo=[[UIImageView alloc]initWithFrame:CGRectMake(10, 20, 64, 64)];
     logo.image=[UIImage imageNamed:@"Icon@2x.png"];
-    [uiv addSubview:logo];
-    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
+    [self.blurView addSubview:logo];
     NSString* appversion =  [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
     UILabel* lab1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 90, 20)];
     lab1.backgroundColor = [UIColor clearColor];
     lab1.font = [UIFont fontWithName:@"Arial" size:16];
     lab1.textColor = [UIColor whiteColor];
-    lab1.text =  @"序列号:";
-    [uiv addSubview:lab1];
+    lab1.text =  @"授权码:";
+    [self.blurView addSubview:lab1];
     
     
-    UILabel* lab2 = [[UILabel alloc] initWithFrame:CGRectMake(90, 100, 220, 20)];
-    lab2.backgroundColor = [UIColor clearColor];
-    lab2.font = [UIFont fontWithName:@"Arial" size:16];
-    lab2.textColor = [UIColor whiteColor];
-//    lab2.text=[UIDevice customUdid];
-    if (authcode == nil) {
-        lab2.text = @"";
-    }else {
-        lab2.text = authcode;
-    }
-    
-    [uiv addSubview:lab2];
+    self.sn_lbl = [[UILabel alloc] initWithFrame:CGRectMake(90, 100, 220, 20)];
+    self.sn_lbl.backgroundColor = [UIColor clearColor];
+    self.sn_lbl.font = [UIFont fontWithName:@"Arial" size:16];
+    self.sn_lbl.text=AppDelegate.user_defaults.sn;
+    self.sn_lbl.textColor = [UIColor whiteColor];
+    [self.blurView addSubview:self.sn_lbl];
     
     
     UILabel* lab3 = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, 90, 20)];
@@ -69,7 +80,7 @@
     lab3.font = [UIFont fontWithName:@"Arial" size:16];
     lab3.textColor = [UIColor whiteColor];
     lab3.text =  @"版本信息:";
-    [uiv addSubview:lab3];
+    [self.blurView addSubview:lab3];
     
     
     UILabel* lab4 = [[UILabel alloc] initWithFrame:CGRectMake(90, 120, 220, 20)];
@@ -77,19 +88,19 @@
     lab4.font = [UIFont fontWithName:@"Arial" size:16];
     lab4.textColor = [UIColor whiteColor];
     lab4.text =  appversion;
-    [uiv addSubview:lab4];
+    [self.blurView addSubview:lab4];
     UILabel* lab7 = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 90, 20)];
     lab7.backgroundColor = [UIColor clearColor];
     lab7.font = [UIFont fontWithName:@"Arial" size:16];
     lab7.textColor = [UIColor whiteColor];
     lab7.text =  @"客服电话:";
-    [uiv addSubview:lab7];
+    [self.blurView addSubview:lab7];
     UILabel* lab8 = [[UILabel alloc] initWithFrame:CGRectMake(90, 140, 220, 20)];
     lab8.backgroundColor = [UIColor clearColor];
     lab8.font = [UIFont fontWithName:@"Arial" size:16];
     lab8.textColor = [UIColor blueColor];
     lab8.text =  @"024-23822598";
-    [uiv addSubview:lab8];
+    [self.blurView addSubview:lab8];
     lab8.userInteractionEnabled=YES;
     UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(telToMe:)];
     [lab8 addGestureRecognizer:singleTap];
@@ -99,23 +110,19 @@
     labRight.font = [UIFont fontWithName:@"Arial" size:16];
     labRight.textColor = [UIColor whiteColor];
     labRight.text =  @"©新华时讯通移动信息服务平台";
-    [uiv addSubview:labRight];
-    [self.view addSubview:uiv];
+    [self.blurView addSubview:labRight];
+    [self.view addSubview:self.blurView];
     
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 
 }
+
 -(void)back{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)returnclick:(id)sender{
-    if(mode==1){
-        [self.navigationController popViewControllerAnimated:YES];
-    }else{
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -126,71 +133,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return 4;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier];
-        cell.detailTextLabel.numberOfLines = 2;
-        cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0f];
-    }
-    switch (indexPath.row) {
-        case 0:
-        {
-            cell.textLabel.text = @"设备标识";
-            cell.detailTextLabel.text = [DeviceInfo udid];
-            //cell.textLabel.text =  [NSString stringWithFormat:NSLocalizedString(@"device_identify", nil),[UIDevice customUdid]];
-        }
-            break;
-          case 1:
-        {
-            NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
-            cell.textLabel.text = @"授权码";
-            cell.detailTextLabel.text =  authcode;
-        }
-            break;
-        case 2:
-        {
-            NSString* appversion =  [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
-            cell.textLabel.text = @"版本";
-            cell.detailTextLabel.text =  appversion;
-        }
-            break;
-        case 3:
-        {
-            //:010-63076092
-            cell.textLabel.text =  @"联系电话";
-            cell.detailTextLabel.text =  @"024-23828522";
-        }
-            break;
-        default:
-            break;
-
-    }
-    // Configure the cell...
-    
-    return cell;
-}
--(void)telToMe2:(id)sender{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://089868527552"]];
-}
 -(void)telToMe:(id)sender{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://02423828522"]];
 }

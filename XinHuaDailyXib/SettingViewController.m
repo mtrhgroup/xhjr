@@ -27,18 +27,6 @@
 @synthesize waitingAlert;
 @synthesize timer=_timer;
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Custom initialization
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:KSettingChange object:nil];
-        
-        
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -113,6 +101,7 @@
             if(cache_lbl==nil)cache_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
             cache_lbl.text=AppDelegate.user_defaults.cache_article_number;
             cache_lbl.textColor=[UIColor grayColor];
+            cache_lbl.backgroundColor=[UIColor clearColor];
             cache_lbl.textAlignment=NSTextAlignmentRight;
             cache_lbl.tag=1;
             [[cell contentView] addSubview:cache_lbl];
@@ -123,6 +112,7 @@
             if(font_lbl==nil)font_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
             font_lbl.text=[AppDelegate.service.fs_manager sizeOfArticleCache];
             font_lbl.textColor=[UIColor grayColor];
+            font_lbl.backgroundColor=[UIColor clearColor];
             font_lbl.textAlignment=NSTextAlignmentRight;
             font_lbl.tag=1;
             cell.textLabel.text = @"清理缓存";
@@ -135,6 +125,7 @@
             if(font_lbl==nil)font_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
             font_lbl.text=AppDelegate.user_defaults.font_size;
             font_lbl.textColor=[UIColor grayColor];
+            font_lbl.backgroundColor=[UIColor clearColor];
             font_lbl.textAlignment=NSTextAlignmentRight;
             font_lbl.tag=1;
             [[cell contentView] addSubview:font_lbl];
@@ -158,6 +149,7 @@
             if(bytes_lost_lbl==nil)bytes_lost_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.table_view.bounds.size.width-95,0,  60, 44)];
             bytes_lost_lbl.text=AppDelegate.user_defaults.bytes_lost_of_cell_this_month;
             bytes_lost_lbl.textColor=[UIColor grayColor];
+            bytes_lost_lbl.backgroundColor=[UIColor clearColor];
             bytes_lost_lbl.textAlignment=NSTextAlignmentRight;
             bytes_lost_lbl.tag=1;
             [[cell contentView] addSubview:bytes_lost_lbl];
@@ -195,7 +187,6 @@
     }else if(indexPath.section==3){
         if(indexPath.row==1){
             AboutViewController *about=[[AboutViewController alloc]init];
-            about.mode=1;
             [self.navigationController pushViewController:about animated:YES];
         }
         if(indexPath.row==0){

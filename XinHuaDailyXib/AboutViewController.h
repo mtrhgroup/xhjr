@@ -8,14 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AboutViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
-    
-    UINavigationBar* bar;
-    UITableView* table;
-}
-
-@property(nonatomic,strong)  UITableView* table;
-@property int mode;
--(void)returnclick:(id)sender;
-
+@interface AboutViewController : UIViewController
 @end

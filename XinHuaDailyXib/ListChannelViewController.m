@@ -107,5 +107,19 @@ NSString *ListCellID = @"ListCellID";
     }
     [self.tableView reloadData];
 }
-
+-(void)removeTableFooter{
+    self.tableView.tableFooterView=nil;
+}
+- (void) createTableFooter
+{
+    if([self.articles_for_cvc.other_articles count]==0)return;
+    self.tableView.tableFooterView = nil;
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 40.0f)];
+    UILabel *loadMoreText = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 116.0f, 40.0f)];
+    [loadMoreText setCenter:tableFooterView.center];
+    [loadMoreText setFont:[UIFont fontWithName:@"Helvetica Neue" size:14]];
+    [loadMoreText setText:@"正在加载"];
+    [tableFooterView addSubview:loadMoreText];
+    self.tableView.tableFooterView = tableFooterView;
+}
 @end

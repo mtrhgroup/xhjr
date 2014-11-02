@@ -197,6 +197,7 @@
         _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
         _like_number_label.textAlignment=NSTextAlignmentRight;
         _like_number_label.textColor=[UIColor grayColor];
+        _like_number_label.backgroundColor=[UIColor clearColor];
         _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
         _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
         [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];

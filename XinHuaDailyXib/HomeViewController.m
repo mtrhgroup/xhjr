@@ -38,7 +38,6 @@
     self.headerView.articles=self.channels_for_hvc.header_channel.articles;
     self.headerView.delegate=self;
     [self.view addSubview:self.tableView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadArticlesFromDB) name:kNotificationArticleReceived object:nil];
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
     [self reloadArticlesFromNET];
 }
@@ -47,8 +46,11 @@
         [self reloadArticlesFromDB];
         [self.tableView headerEndRefreshing];
     } errorHandler:^(NSError *error) {
-        [self.tableView headerEndRefreshing];
-        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView headerEndRefreshing];
+            [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+        });
+
     }];
 }
 -(void)reloadArticlesFromDB{

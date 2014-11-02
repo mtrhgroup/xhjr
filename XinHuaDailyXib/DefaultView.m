@@ -41,7 +41,6 @@
         [enterBtn setBackgroundImage:[UIImage imageNamed:@"skip.png"] forState:UIControlStateNormal];
         [enterBtn addTarget:self action:@selector(skip) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:enterBtn];
-        [self loadDataForMainVC];
         NSTimeInterval need_waiting_ms=_lasting_ms-[self consumedTime];
         if(need_waiting_ms>0){
             [self performSelector:@selector(hide) withObject:nil afterDelay:need_waiting_ms];
@@ -82,11 +81,7 @@
 //        [self.delegate openADWithURL:_app_info.advPagePath];
 //    }
 }
--(void)loadDataForMainVC{
-    if([self.delegate respondsToSelector:@selector(loadDataForMainVC)]){
-        [self.delegate loadDataForMainVC];
-    }
-}
+
 -(void)show{
     [self setAlpha:1.0];
 }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MMDrawerController+Subclass.h"
 #import "DefaultView.h"
-@interface DrawerViewController : MMDrawerController<CoverViewDelegate>
+@interface DrawerViewController : MMDrawerController
 -(void)presentArtilceContentVCWithArticle:(Article *)article channel:(Channel *)channel;
 -(void)presentArticleContentVCWithPushArticleID:(NSString *)articleID;
 @end

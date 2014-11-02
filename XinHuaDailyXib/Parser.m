@@ -78,10 +78,16 @@
             article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
             article.summary=[xml findValueFrom:citem nodeName:@"summary"];
             NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
-            article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            if(raw_thumbnail_url.length!=0){
+                article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            }else{
+                article.thumbnail_url=nil;
+            }
             NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
             if(raw_coverimage_url.length!=0){
                 article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            }else{
+                article.cover_image_url=nil;
             }
             article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
             article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
@@ -116,10 +122,16 @@
         article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
         article.summary=[xml findValueFrom:citem nodeName:@"summary"];
         NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
-        article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        if(raw_thumbnail_url.length!=0){
+            article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        }else{
+            article.thumbnail_url=nil;
+        }
         NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
         if(raw_coverimage_url.length!=0){
             article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        }else{
+            article.cover_image_url=nil;
         }
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
@@ -151,10 +163,16 @@
         article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
         article.summary=[xml findValueFrom:citem nodeName:@"summary"];
         NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
-        article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        if(raw_thumbnail_url.length!=0){
+            article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        }else{
+            article.thumbnail_url=nil;
+        }
         NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
         if(raw_coverimage_url.length!=0){
-        article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+            article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
+        }else{
+            article.cover_image_url=nil;
         }
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];

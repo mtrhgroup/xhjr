@@ -43,8 +43,13 @@
     if(AppDelegate.user_defaults.sn.length==0){
         _sn_lbl.hidden=YES;
     }else{
-        _sn_lbl.text=AppDelegate.user_defaults.sn;
+        _sn_lbl.text=[NSString stringWithFormat:@"授权码：%@",AppDelegate.user_defaults.sn];
+        _sn_lbl.hidden=NO;
     }
+}
+-(void)showSN{
+    _sn_lbl.text=[NSString stringWithFormat:@"授权码：%@",AppDelegate.user_defaults.sn];
+    _sn_lbl.hidden=NO;
 }
 - (void)viewDidLoad
 {
@@ -59,9 +64,8 @@
     UIImageView* topView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 220, 65)];
     topView.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
     [scrollView addSubview:topView];
-    NSString* authcode = [[NSUserDefaults standardUserDefaults] valueForKey:KUserDefaultAuthCode];
     _sn_lbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 12, 220, 40)];
-    _sn_lbl.text = [NSString stringWithFormat:@"授权码：%@",authcode];
+    _sn_lbl.text = @"";
     _sn_lbl.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:14];
     _sn_lbl.textAlignment = NSTextAlignmentCenter;
     _sn_lbl.backgroundColor = [UIColor clearColor];
@@ -105,8 +109,11 @@
     [_bottomView addSubview:copyrightLbl];
     [scrollView addSubview:_bottomView];
     self.view.backgroundColor=[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSN) name:kNotificationBindSNSuccess object:nil];
 }
-
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationBindSNSuccess object:nil];
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
 }

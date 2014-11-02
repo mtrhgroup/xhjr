@@ -46,13 +46,13 @@
 /*---------------------
  文章列表URL
  参数个数 3
- 参数列表 imei（设备唯一标示）       n（最新N条）      pid（频道ID）
+ 参数列表 imei（设备唯一标示）       n（最新N条）      pid（频道ID）   time(格式:20140923081232)
  请求类型 GET
  返回类型 XML
  返回示例 periodicallist|periodical@id@name|item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:summary:thumbnail:pid:coverimg:visit:video
  备注
  ---------------------*/
-#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&n=%d&pid=%@&order=asc"
+#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/lnfb_newperiodicals.ashx?imei=%@&n=%d&pid=%@&order=desc&time=%@"
 
 
 /*---------------------

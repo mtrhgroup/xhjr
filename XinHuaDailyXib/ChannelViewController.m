@@ -23,12 +23,17 @@
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChannelAccessStamp:) name:kNotificationArticleReceived object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChannelNewArticlesStamp:) name:kNotificationNewArticlesReceived object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeCoverView) name:kNotificationBindSNSuccess object:nil];
     }
     return self;
 }
--(void)updateChannelAccessStamp:(NSNotification *)notification{
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationNewArticlesReceived object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationBindSNSuccess object:nil];
+    
+}
+-(void)updateChannelNewArticlesStamp:(NSNotification *)notification{
     NSString *channel_id=[notification object];
     if([channel_id isEqualToString:self.channel.channel_id]){
         self.channel.receive_new_articles_timestamp=[[notification userInfo] valueForKey:@"timestamp"];
