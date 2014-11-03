@@ -167,10 +167,10 @@ Article *push_article;
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-//    if(self.is_full)
+    if(self.is_full)
         return UIInterfaceOrientationMaskAll;
-//    else
-//        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

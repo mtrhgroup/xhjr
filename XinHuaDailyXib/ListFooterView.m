@@ -20,7 +20,7 @@
         _state=Busy;
         _load_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         _load_btn.frame = CGRectMake(10, 5, frameRect.size.width-20, 34);
-        [_load_btn setTitle:@"显示下20条" forState:UIControlStateNormal];
+        [_load_btn setTitle:@"显示下10条" forState:UIControlStateNormal];
         [_load_btn setTitle:@"正在载入" forState:UIControlStateDisabled];
         _load_btn.backgroundColor=[UIColor whiteColor];
         [_load_btn.layer setMasksToBounds:YES];

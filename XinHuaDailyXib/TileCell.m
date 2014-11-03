@@ -13,6 +13,7 @@
     UILabel *label;
     UILabel *summary_label;
     Article *_article;
+    UIImageView *dot_line_view;
 }
 
 
@@ -36,8 +37,20 @@
         summary_label.numberOfLines=2;
         summary_label.textColor=[UIColor grayColor];
         [[self contentView] addSubview:summary_label];
-        
     }
+    dot_line_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 69, self.bounds.size.width, 1)];
+    [self addSubview:dot_line_view];
+    UIGraphicsBeginImageContext(dot_line_view.frame.size);   //开始画线
+    [dot_line_view.image drawInRect:CGRectMake(0, 0, dot_line_view.frame.size.width, 1)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);  //设置线条终点形状
+    float lengths[] = {4,4};
+    CGContextRef line = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(line, [UIColor lightGrayColor].CGColor);
+    CGContextSetLineDash(line, 0, lengths, 2);  //画虚线
+    CGContextMoveToPoint(line, 0.0, 0.0);    //开始画线
+    CGContextAddLineToPoint(line, self.bounds.size.width, 0.0);
+    CGContextStrokePath(line);
+    dot_line_view.image = UIGraphicsGetImageFromCurrentImageContext();
     return self;
 }
 -(Article *)article{
@@ -47,10 +60,21 @@
     if(_article==nil||![_article.article_id isEqualToString:article.article_id]){
         _article=article;
         label.text=article.article_title;
-        if(article.cover_image_url==nil){
-            alImageView.imageURL=article.thumbnail_url;
+        if(article.cover_image_url==nil&&article.thumbnail_url==nil){
+            alImageView.hidden=YES;
+            label.frame=CGRectMake(8, 8, self.bounds.size.width-16, 22);
+            summary_label.frame=CGRectMake(8, 35, self.bounds.size.width-16, 35);
+            dot_line_view.frame=CGRectMake(0, 69, self.bounds.size.width, 1);
         }else{
-            alImageView.imageURL=article.cover_image_url;
+            alImageView.hidden=NO;
+            label.frame=CGRectMake(10,200 , 320-20, 20);
+            summary_label.frame=CGRectMake(10, 220, 320-20, 20);
+            dot_line_view.frame=CGRectMake(0, 269, self.bounds.size.width, 1);
+            if(article.cover_image_url==nil){
+                alImageView.imageURL=article.thumbnail_url;
+            }else{
+                alImageView.imageURL=article.cover_image_url;
+            }
         }
         if(article.summary==nil||[article.summary isEqualToString:@""]){
             summary_label.text=article.publish_date;

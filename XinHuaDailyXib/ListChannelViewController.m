@@ -36,14 +36,14 @@
     [super viewWillAppear:animated];
 }
 -(void)buildUI{
-//    if([self.channel.parent_id isEqualToString:@"0"])
-//        if(lessiOS7){
-//            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
-//        }else{
-//            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView)];
-//        }
-//    
-//        else{
+    if(![self.channel.parent_id isEqualToString:@"0"])
+        if(lessiOS7){
+            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
+        }else{
+            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView)];
+        }
+    
+        else{
             if(lessiOS7){
                 NSLog(@"%f",self.view.bounds.size.height);
                 self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
@@ -51,7 +51,7 @@
                 self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
             }
             
-//        }
+        }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
@@ -114,26 +114,27 @@ NSString *ListCellID = @"ListCellID";
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row==[self.articles_for_cvc.other_articles count]-1){
-        if([self.articles_for_cvc.other_articles count]>1){
-            [self addTableFooter];
+        if([self.articles_for_cvc.other_articles count]>=10&&[self.articles_for_cvc.other_articles count]<50){
+            [self beginLoadingMore];
         }else{
-            [self removeTableFooter];
+            [self endLoadingMore];
         }
     }
 }
--(void)removeTableFooter{
-    self.tableView.tableFooterView=nil;
-}
-- (void)addTableFooter{
-    if([self.articles_for_cvc.other_articles count]==0)return;
-    if (([Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) &&
-        ([Reachability reachabilityForLocalWiFi].currentReachabilityStatus == NotReachable)) {
-        return;
-    }
+-(void)beginLoadingMore{
     self.tableView.tableFooterView = self.footerView;
     self.footerView.state=Busy;
-}
--(void)touchViewClicked{
     [self loadMoreArticlesFromNET];
+}
+-(void)endLoadingMore{
+    self.tableView.tableFooterView = self.footerView;
+    self.footerView.state=Idle;
+}
+-(void)removeLoadingFooter{
+    self.tableView.tableFooterView=nil;
+}
+
+-(void)touchViewClicked{
+    [self beginLoadingMore];
 }
 @end

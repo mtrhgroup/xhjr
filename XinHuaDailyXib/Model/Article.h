@@ -36,7 +36,7 @@
 //封面图
 @property(nonatomic,strong)NSString*      cover_image_url;
 //文章中视频文件URL
-@property(nonatomic,assign)NSString*      video_url;
+@property(nonatomic,strong)NSString*      video_url;
 //是否为推送文章
 @property(nonatomic,assign)BOOL           is_push;
 //文章访问数量

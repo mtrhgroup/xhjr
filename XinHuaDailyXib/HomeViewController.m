@@ -27,8 +27,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadArticlesFromDB) name:kNotificationNewArticlesReceived object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newArticlesReceivedHandler) name:kNotificationNewArticlesReceived object:nil];
     
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationNewArticlesReceived object:nil];
 }
 -(void)buildUI{
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -54,6 +57,9 @@
         });
 
     }];
+}
+-(void)newArticlesReceivedHandler{
+    [self performSelectorOnMainThread:@selector(reloadArticlesFromDB) withObject:nil waitUntilDone:NO];
 }
 -(void)reloadArticlesFromDB{
     if(self.channels_for_hvc.header_channel.articles!=nil){
