@@ -9,12 +9,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "XinHuaAppDelegate.h"
+#import "DFNAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
+#ifdef LNFB
     @autoreleasepool {
         return UIApplicationMain(argc, argv, @"UIApplication", NSStringFromClass([XinHuaAppDelegate class]));
     }
+#endif
+#ifdef DFN
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, @"UIApplication", NSStringFromClass([DFNAppDelegate class]));
+    }
+#endif
 }
 
