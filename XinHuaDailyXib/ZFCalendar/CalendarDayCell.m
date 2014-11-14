@@ -56,7 +56,7 @@
             [self hidden_YES];
             break;
             
-        case CellDayTypePast://过去的日期
+        case CellDayTypeFutur://将来的日期
             [self hidden_NO];
             
             if (model.holiday) {
@@ -70,7 +70,7 @@
             imgview.hidden = YES;
             break;
             
-        case CellDayTypeFutur://将来的日期
+        case CellDayTypePast://过去的日期
             [self hidden_NO];
             
             if (model.holiday) {

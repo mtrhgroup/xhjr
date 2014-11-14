@@ -15,7 +15,7 @@
 @interface CalendarLogic ()
 {
     NSDate *today;//今天的日期
-    NSDate *before;//之后的日期
+    NSDate *after;//之后的日期
     NSDate *select;//选择的日期
     CalendarDayModel *selectcalendarDay;
 }
@@ -44,29 +44,29 @@
     
     today = date;//起始日期
     
-    before = [date dayInTheFollowingDay:days_number];//计算它days天以后的时间
+    after = [date dayInTheFollowingDay:days_number];//计算它days天以后的时间
     
     select = selectdate;//选择的日期
     
     NSDateComponents *todayDC= [today YMDComponents];
     
-    NSDateComponents *beforeDC= [before YMDComponents];
+    NSDateComponents *beforeDC= [after YMDComponents];
     
     NSInteger todayYear = todayDC.year;
     
     NSInteger todayMonth = todayDC.month;
     
-    NSInteger beforeYear = beforeDC.year;
+    NSInteger afterYear = beforeDC.year;
     
-    NSInteger beforeMonth = beforeDC.month;
+    NSInteger afterMonth = beforeDC.month;
     
-    NSInteger months = (beforeYear-todayYear) * 12 + (beforeMonth - todayMonth);
+    NSInteger months = (todayYear-afterYear) * 12 + (todayMonth-afterMonth);
     
     NSMutableArray *calendarMonth = [[NSMutableArray alloc]init];//每个月的dayModel数组
     
     for (int i = 0; i <= months; i++) {
         
-        NSDate *month = [today dayInTheFollowingMonth:i];
+        NSDate *month = [today dayInTheFollowingMonth:-i];
         NSMutableArray *calendarDays = [[NSMutableArray alloc]init];
         [self calculateDaysInPreviousMonthWithDate:month andArray:calendarDays];
         [self calculateDaysInCurrentMonthWithDate:month andArray:calendarDays];
@@ -153,7 +153,7 @@
 {
     
     NSDateComponents *calendarToDay  = [today YMDComponents];//今天
-    NSDateComponents *calendarbefore = [before YMDComponents];//最后一天
+    NSDateComponents *calendarafter = [after YMDComponents];//最后一天
     NSDateComponents *calendarSelect = [select YMDComponents];//默认选择的那一天
     
     
@@ -169,19 +169,19 @@
     //没被点击选中
     }else{
         
-        //昨天乃至过去的时间设置一个灰度
-        if (calendarToDay.year >= calendarDay.year &
-            calendarToDay.month >= calendarDay.month &
-            calendarToDay.day > calendarDay.day) {
+        //明天及未来的时间设置一个灰度
+        if (calendarToDay.year <= calendarDay.year &
+            calendarToDay.month <= calendarDay.month &
+            calendarToDay.day < calendarDay.day) {
             
-            calendarDay.style = CellDayTypePast;
+            calendarDay.style = CellDayTypeFutur;
           
-        //之后的时间时间段
-        }else if (calendarbefore.year <= calendarDay.year &
-                  calendarbefore.month <= calendarDay.month &
-                  calendarbefore.day <= calendarDay.day) {
-            
-            calendarDay.style = CellDayTypePast;
+//        //之后的时间时间段
+//        }else if (calendarafter.year <= calendarDay.year &
+//                  calendarafter.month <= calendarDay.month &
+//                  calendarafter.day <= calendarDay.day) {
+//            
+//            calendarDay.style = CellDayTypePast;
           
         //需要正常显示的时间段
         }else{
@@ -192,7 +192,7 @@
                 
             //工作日
             }else{
-                calendarDay.style = CellDayTypeFutur;
+                calendarDay.style = CellDayTypePast;
             }
         }
     }
@@ -473,7 +473,7 @@
         
     //工作日
     }else{
-        selectcalendarDay.style = CellDayTypeFutur;
+        selectcalendarDay.style = CellDayTypePast;
     }
     selectcalendarDay = day;
 }

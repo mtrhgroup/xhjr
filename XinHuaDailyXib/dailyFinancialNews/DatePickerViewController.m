@@ -21,6 +21,15 @@
 {
     [super viewDidLoad];
     self.title=@"往期刊物";
+    [self setAirPlaneToDay:-365 ToDateforString:nil];
+    self.calendarblock = ^(CalendarDayModel *model){
+        
+        NSLog(@"\n---------------------------");
+        NSLog(@"1星期 %@",[model getWeek]);
+        NSLog(@"2字符串 %@",[model toString]);
+        NSLog(@"3节日  %@",model.holiday);
+
+    };
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 }
 

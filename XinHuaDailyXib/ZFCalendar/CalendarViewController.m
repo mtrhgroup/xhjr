@@ -51,6 +51,7 @@ static NSString *DayCell = @"DayCell";
     [super viewDidLoad];
     [self initData];
     [self initView];
+
 	// Do any additional setup after loading the view.
     
 }
@@ -156,7 +157,7 @@ static NSString *DayCell = @"DayCell";
     NSMutableArray *month_Array = [self.calendarMonth objectAtIndex:indexPath.section];
     CalendarDayModel *model = [month_Array objectAtIndex:indexPath.row];
 
-    if (model.style == CellDayTypeFutur || model.style == CellDayTypeWeek ||model.style == CellDayTypeClick) {
+    if (model.style == CellDayTypePast || model.style == CellDayTypeWeek ||model.style == CellDayTypeClick) {
        
         [self.Logic selectLogic:model];
         
