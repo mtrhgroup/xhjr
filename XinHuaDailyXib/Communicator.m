@@ -25,7 +25,7 @@
     return encoded_url;
 }
 -(BOOL)synBindDevice{
-    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
+    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion],AppID];
     url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
      [request setResponseEncoding:NSUTF8StringEncoding];

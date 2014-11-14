@@ -73,7 +73,12 @@ NSString *TileCellID = @"TileCellID";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 240;
+    Article *article=[self.articles_for_cvc.other_articles objectAtIndex:(indexPath.row)];
+    if(article.cover_image_url==nil&&article.thumbnail_url==nil){
+        return 70;
+    }else{
+        return 270;
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article * article = [self.articles_for_cvc.other_articles objectAtIndex:indexPath.row];

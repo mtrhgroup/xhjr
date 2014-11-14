@@ -10,6 +10,8 @@
 #import "ALImageView.h"
 @interface ListCell()
 @property(nonatomic,strong)UIImageView *movie_image_view;
+@property(nonatomic,strong)UILabel *visit_number_lbl;
+@property(nonatomic,strong)UILabel *like_number_lbl;
 @end
 
 @implementation ListCell{
@@ -19,7 +21,8 @@
     Article *_article;
 }
 @synthesize movie_image_view=_movie_image_view;
-
+@synthesize visit_number_lbl=_visit_number_lbl;
+@synthesize like_number_lbl=_like_number_lbl;
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -33,23 +36,36 @@
         thumbnail_view.placeholderImage = [UIImage imageNamed:@"placeholder"];
         [[self contentView] addSubview:thumbnail_view];
         
-        title_label = [[UILabel alloc] initWithFrame:CGRectMake(90, 8, 222, 20)];
+        title_label = [[UILabel alloc] initWithFrame:CGRectMake(90, 8, 222, 50)];
         title_label.backgroundColor = [UIColor clearColor];
         title_label.font = [UIFont fontWithName:@"Arial" size:17];
-        title_label.numberOfLines=1;
+        title_label.numberOfLines=2;
         [[self contentView] addSubview:title_label];
         
-        summary_label = [[UILabel alloc] initWithFrame:CGRectMake(90, 25, 222, 35)];
+        summary_label = [[UILabel alloc] initWithFrame:CGRectMake(90, 40, 222, 30)];
         summary_label.backgroundColor = [UIColor clearColor];
-        summary_label.font = [UIFont fontWithName:@"Arial" size:13];
-        summary_label.numberOfLines=2;
+        summary_label.font = [UIFont fontWithName:@"Arial" size:10];
         summary_label.textColor=[UIColor grayColor];
         [[self contentView] addSubview:summary_label];
         
         _movie_image_view=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"moviemaker.png"]];
-        _movie_image_view.frame=CGRectMake(self.bounds.size.width-20, (70-16)/2, 16, 16);
+        _movie_image_view.frame=CGRectMake(self.bounds.size.width-30, (70-16)/2, 16, 16);
         _movie_image_view.hidden=YES;
         [[self contentView] addSubview:_movie_image_view];
+        
+        _visit_number_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width-120, 40, 60, 30)];
+        _visit_number_lbl.backgroundColor = [UIColor clearColor];
+        _visit_number_lbl.font = [UIFont fontWithName:@"Arial" size:10];
+        _visit_number_lbl.textColor=[UIColor grayColor];
+        [[self contentView] addSubview:_visit_number_lbl];
+        
+        _like_number_lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width-60, 40, 60, 30)];
+        _like_number_lbl.backgroundColor = [UIColor clearColor];
+        _like_number_lbl.font = [UIFont fontWithName:@"Arial" size:10];
+        _like_number_lbl.textColor=[UIColor grayColor];
+        [[self contentView] addSubview:_like_number_lbl];
+        
+        
         
     }
     UIImageView *dot_line_view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 69, self.bounds.size.width, 1)];
@@ -74,25 +90,36 @@
     if(_article==nil||![_article.article_id isEqualToString:article.article_id]){
         _article=article;
         if(article.thumbnail_url==nil||[article.thumbnail_url isEqualToString:@""]){
-            title_label.frame=CGRectMake(8, 8, self.bounds.size.width-16, 22);
-            summary_label.frame=CGRectMake(8, 30, self.bounds.size.width-16, 40);
+            title_label.frame=CGRectMake(8, 8, self.bounds.size.width-16, 40);
+            summary_label.frame=CGRectMake(8, 40, self.bounds.size.width-16, 30);
             thumbnail_view.imageURL=@"";
             thumbnail_view.hidden=YES;
         }else{
             thumbnail_view.hidden=NO;
             thumbnail_view.imageURL=article.thumbnail_url;
-            title_label.frame=CGRectMake(90, 8, 222, 22);
-            summary_label.frame=CGRectMake(90, 30, 222, 34);
+            title_label.frame=CGRectMake(90, 8, 222, 40);
+            summary_label.frame=CGRectMake(90, 40, 222, 30);
         }
         title_label.text=article.article_title;
-        if(article.summary==nil||[article.summary isEqualToString:@""]){
-            summary_label.text=article.publish_date;
+        summary_label.text=article.publish_date;
+        if(article.visit_number.integerValue==0){
+            _visit_number_lbl.hidden=YES;
         }else{
-            summary_label.text=article.summary;
+            _visit_number_lbl.hidden=NO;
+            _visit_number_lbl.text=[NSString stringWithFormat:@"访问量：%d",article.visit_number.integerValue];
+        }
+        if(article.like_number.integerValue==0){
+            _like_number_lbl.hidden=YES;
+        }else{
+            _like_number_lbl.hidden=NO;
+            _like_number_lbl.text=[NSString stringWithFormat:@"点赞量：%d",article.like_number.integerValue];
         }
         if(_article.video_url!=nil){
             _movie_image_view.hidden=NO;
+        }else{
+            _movie_image_view.hidden=YES;
         }
+        
     }
     if(article.is_read){
         title_label.textColor=[UIColor grayColor];

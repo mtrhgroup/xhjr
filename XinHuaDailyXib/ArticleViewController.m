@@ -157,6 +157,9 @@
 -(void)touchViewClicked{
     [self loadArticleContentFromNet];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -248,9 +251,6 @@
         }
         [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
         [self.bottom_view addSubview:_collect_btn];
-        
-        
-        
     }
     isFirst=YES;
 }
@@ -433,6 +433,7 @@ BOOL isFirst=YES;
         [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
         _like_btn.enabled=NO;
         _article.is_like=YES;
+        _article.like_number=[NSNumber numberWithInteger:like_number.integerValue];
         [_service markArticleLikeWithArticle:_article];
     } errorHandler:^(NSError *error) {
         //<#code#>

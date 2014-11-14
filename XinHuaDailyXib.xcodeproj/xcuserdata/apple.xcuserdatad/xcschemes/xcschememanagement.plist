@@ -9,15 +9,17 @@
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
-		<key>lnfb 2.xcscheme</key>
+		<key>dfn.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
 		<key>lnfb.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
@@ -60,6 +62,21 @@
 			<true/>
 		</dict>
 		<key>18D4506E17A0C289007F63E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18EF92D71A1457C700891BCE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18EF94201A145BFF00891BCE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>18EF943B1A145C0000891BCE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

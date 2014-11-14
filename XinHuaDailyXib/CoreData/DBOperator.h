@@ -29,7 +29,7 @@
 -(NSDate *)markChannelAccessTimeStampWithChannel:(Channel *)channel;
 -(NSDate *)markChannelReceiveNewArticlesTimeStampWithChannelID:(NSString *)channel_id;
 -(void)markArticleReadWithArticleID:(NSString *)articleID;
--(void)markArticleLikeWithArticleID:(NSString *)articleID;
+-(void)markArticleLikeWithArticleID:(NSString *)articleID likeNumber:(NSNumber *)likeNumber;
 -(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected;
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID;
 -(Article *)fetchArticleWithArticleID:(NSString *)articleID;

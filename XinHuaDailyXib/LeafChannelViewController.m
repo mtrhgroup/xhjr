@@ -53,8 +53,11 @@
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
+BOOL busy=NO;
 -(void)loadMoreArticlesFromNET{
     if([self.articles_for_cvc.other_articles count]==0)return;
+    if(busy)return;
+    busy=YES;
     NSString *last_article_publishdate=((Article *)[self.articles_for_cvc.other_articles lastObject]).publish_date;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
@@ -62,15 +65,27 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
     NSString *time=[formatter stringFromDate:last_date];
+    NSLog(@"%@",time);
     [self.service  fetchArticlesFromNETWithChannel:self.channel time:time successHandler:^(NSArray *articles) {
         self.articles_for_cvc=[self.service fetchArticlesFromDBWithChannel:self.channel topN:[self.articles_for_cvc.other_articles count]+[articles count]];
         [self refreshUI];
-        [self endRefresh];
-        _time_stamp=[NSDate date];
+        [self endLoadingMore];
+        busy=NO;
     } errorHandler:^(NSError *error) {
-        [self endRefresh];
+        busy=NO;
+        [self endLoadingMore];
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+        
     }];
+}
+-(void)beginLoadingMore{
+    
+}
+-(void)endLoadingMore{
+    
+}
+-(void)removeLoadingFooter{
+    
 }
 -(BOOL)shouldTriggerRefresh{
     NSDate *now=[NSDate date];

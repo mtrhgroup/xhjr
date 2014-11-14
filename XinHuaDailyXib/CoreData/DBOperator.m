@@ -308,7 +308,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
         e_article.a_is_collected=[NSNumber numberWithBool:is_collected];
     }
 }
--(void)markArticleLikeWithArticleID:(NSString *)articleID{
+-(void)markArticleLikeWithArticleID:(NSString *)articleID likeNumber:(NSNumber *)likeNumber{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@", articleID];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
@@ -319,6 +319,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     if([result count]==1){
         e_article=[result objectAtIndex:0];
         e_article.a_is_like=[NSNumber numberWithBool:YES];
+        e_article.a_like_number=likeNumber;
     }
 }
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID{

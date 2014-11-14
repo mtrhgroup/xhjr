@@ -131,9 +131,9 @@
     }
     [self.view.window showHUDWithText:@"" Type:ShowLoading Enabled:YES];
     [self.service feedbackAppWithContent:contentStr email:emailStr successHandler:^(BOOL is_ok) {
-       
+        [self.view.window showHUDWithText:@"发送成功" Type:ShowPhotoYes Enabled:YES];
     } errorHandler:^(NSError *error) {
-       
+        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
 - (void)showAlertText:(NSString*)string

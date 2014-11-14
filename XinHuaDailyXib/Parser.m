@@ -74,7 +74,11 @@
             article.zip_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_zip_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
             NSString *raw_page_url =  [xml findValueFrom:citem nodeName:@"pageurl"];
             article.page_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_page_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
-            article.publish_date = [xml findValueFrom:citem nodeName:@"inserttime"];
+            NSString *raw_date_str=[xml findValueFrom:citem nodeName:@"inserttime"];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            NSDate* raw_date=[formatter dateFromString:raw_date_str];
+            article.publish_date=[formatter stringFromDate:raw_date];
             article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
             article.summary=[xml findValueFrom:citem nodeName:@"summary"];
             NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
@@ -89,6 +93,7 @@
             }else{
                 article.cover_image_url=nil;
             }
+            NSLog(@"%@",[xml findValueFrom:citem nodeName:@"video"]);
             article.video_url=[xml findValueFrom:citem nodeName:@"video"];
             article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
             article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];

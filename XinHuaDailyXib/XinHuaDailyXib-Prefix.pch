@@ -18,7 +18,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#import "XinHuaAppDelegate.h"
+
+
 #import "GlobalVariablesDefine.h"
 
 
@@ -30,7 +31,16 @@ alpha:((c)&0xFF)/255.0]
 
 #define __DEBUG__
 //#define __CRACK__
-#define AppDelegate ((XinHuaAppDelegate*)[[UIApplication sharedApplication] delegate])
+#ifdef LNFB
+#import "XinHuaAppDelegate.h"
+#define AppDelegate ((XinHuaAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define AppID @"LNFB"
+#endif
+#ifdef DFN
+#import "DFNAppDelegate.h"
+#define AppDelegate ((DFNAppDelegate *)[[UIApplication sharedApplication] delegate])
+#define AppID @"DFN"
+#endif
 
 #ifdef __DEBUG__
 #define LoggerSimple(format,...) NSLog(format, ##__VA_ARGS__);
