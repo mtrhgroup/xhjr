@@ -1,15 +1,15 @@
 //
 //  RegisterViewController.h
-//  XinHuaDailyXib
+//  NewsLetter
 //
-//  Created by apple on 14/11/13.
-//
+//  Created by apple on 12-4-23.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-
-@interface RegisterViewController : UIViewController
+@interface RegisterViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate,UIAlertViewDelegate>
+@property (strong, nonatomic) UITextField *phone_number_input;
 @property (strong, nonatomic) UITextField *verify_code_input;
-@property(strong,nonatomic)NSString *phone_number;
-@property(strong,nonatomic)Service *service;
+@property (strong, nonatomic) UIButton *regBtn;
+@property (strong,nonatomic)UIAlertView *waitingAlert;
 @end

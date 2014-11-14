@@ -52,7 +52,7 @@
  返回示例 periodicallist|periodical@id@name|item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:summary:thumbnail:pid:coverimg:visit:video
  备注
  ---------------------*/
-#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_newperiodicals.ashx?imei=%@n=%@&order=asc&pid=%@&time=%@&appid=%@"
+#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_newperiodicals.ashx?imei=%@n=%d&order=asc&pid=%@&time=%@&appid=%@"
 
 
 /*---------------------
@@ -64,7 +64,7 @@
  返回示例 config|sn_sate:sn_msg:group_title:group_sub_title:startimage:gid
  备注
  ---------------------*/
-#define kAppInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_config.ashx?appid=%@&imei=%@"
+#define kAppInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_config.ashx?imei=%@&appid=%@"
 
 
 /*---------------------
@@ -154,13 +154,13 @@
 /*---------------------
  单个文章URL
  参数个数 2
- 参数列表 imei（设备唯一标示）       gid（文章ID）
+ 参数列表 imei（设备唯一标示）       gid（文章ID）    appid(软件ID)
  请求类型 GET
  返回类型 XML
  返回示例 item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:pid:summary:thumbnail
  备注
  ---------------------*/
-#define kOneArticleURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/sjb_periodicalitem.ashx?gid=%@&imei=%@"
+#define kOneArticleURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/sjb_periodicalitem.ashx?gid=%@&imei=%@&appid=%@"
 
 
 

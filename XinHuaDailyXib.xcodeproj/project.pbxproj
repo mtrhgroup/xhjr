@@ -248,6 +248,7 @@
 		18AC322D1A15DE76007CA2D8 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AC32221A15DE76007CA2D8 /* CalendarViewController.m */; };
 		18AC322E1A15DE76007CA2D8 /* chack.png in Resources */ = {isa = PBXBuildFile; fileRef = 18AC32231A15DE76007CA2D8 /* chack.png */; };
 		18AC322F1A15DE76007CA2D8 /* NSDate+WQCalendarLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AC32261A15DE76007CA2D8 /* NSDate+WQCalendarLogic.m */; };
+		18AC32331A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AC32321A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m */; };
 		18B273A219E4E75900FE3D42 /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273A119E4E75900FE3D42 /* Communicator.m */; };
 		18B273A519E4E77500FE3D42 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273A419E4E77500FE3D42 /* Parser.m */; };
 		18B273AD19E4EADC00FE3D42 /* Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273AC19E4EADC00FE3D42 /* Service.m */; };
@@ -825,6 +826,9 @@
 		18AC32241A15DE76007CA2D8 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
 		18AC32251A15DE76007CA2D8 /* NSDate+WQCalendarLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+WQCalendarLogic.h"; sourceTree = "<group>"; };
 		18AC32261A15DE76007CA2D8 /* NSDate+WQCalendarLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+WQCalendarLogic.m"; sourceTree = "<group>"; };
+		18AC32301A15F4FA007CA2D8 /* 新版接口201411141046.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "新版接口201411141046.docx"; sourceTree = "<group>"; };
+		18AC32311A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VerifyCodeSubmitViewController.h; path = dailyFinancialNews/VerifyCodeSubmitViewController.h; sourceTree = "<group>"; };
+		18AC32321A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VerifyCodeSubmitViewController.m; path = dailyFinancialNews/VerifyCodeSubmitViewController.m; sourceTree = "<group>"; };
 		18B273A019E4E75900FE3D42 /* Communicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communicator.h; sourceTree = "<group>"; };
 		18B273A119E4E75900FE3D42 /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		18B273A319E4E77500FE3D42 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
@@ -1694,6 +1698,8 @@
 		18AC32121A15D01B007CA2D8 /* center */ = {
 			isa = PBXGroup;
 			children = (
+				18AC32311A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.h */,
+				18AC32321A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m */,
 				18EF92A11A143D2000891BCE /* RegisterViewController.h */,
 				18EF92A21A143D2000891BCE /* RegisterViewController.m */,
 				18EF92A41A143D3400891BCE /* TagListViewController.h */,
@@ -1753,6 +1759,7 @@
 		18B2739B19E4E58A00FE3D42 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				18AC32301A15F4FA007CA2D8 /* 新版接口201411141046.docx */,
 				186BEB991A06107100AA26F0 /* periodicals.xml */,
 			);
 			name = data;
@@ -2861,6 +2868,7 @@
 				18EF93031A1457C700891BCE /* ParserFailedError.m in Sources */,
 				18EF93051A1457C700891BCE /* dom.c in Sources */,
 				18EF93061A1457C700891BCE /* RightViewController.m in Sources */,
+				18AC32331A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m in Sources */,
 				18EF93071A1457C700891BCE /* FavorCell.m in Sources */,
 				18EF93081A1457C700891BCE /* iks.c in Sources */,
 				18EF93091A1457C700891BCE /* ikstack.c in Sources */,
