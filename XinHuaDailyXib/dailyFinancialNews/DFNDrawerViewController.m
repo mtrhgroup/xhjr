@@ -44,7 +44,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     [super viewDidLoad];
     self.cover_view=[[DFNDefaultView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.cover_view];
-    
+    self.view.backgroundColor=[UIColor whiteColor];
     //初始化左侧菜单对象
     self.left_menu_vc= [[LeftViewController alloc]init];
     self.right_vc=[[RightViewController alloc] init];

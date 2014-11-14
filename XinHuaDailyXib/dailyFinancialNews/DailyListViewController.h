@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface DailyListViewController : UIViewController
+#import "NLMainTableViewController.h"
+@interface DailyListViewController :NLMainTableViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end

@@ -591,6 +591,12 @@
 		4727ACB819ED646B000B625A /* ALImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727ACB519ED646B000B625A /* ALImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4727ACB919ED646B000B625A /* img_pld.png in Resources */ = {isa = PBXBuildFile; fileRef = 4727ACB619ED646B000B625A /* img_pld.png */; };
 		4727ACBA19ED646B000B625A /* img_pld@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4727ACB719ED646B000B625A /* img_pld@2x.png */; };
+		47313D4C1A163D38009DECB9 /* NLMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47313D3C1A163D38009DECB9 /* NLMainTableViewController.m */; };
+		47313D4D1A163D38009DECB9 /* NLPullDownRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47313D3E1A163D38009DECB9 /* NLPullDownRefreshView.m */; };
+		47313D4E1A163D38009DECB9 /* NLPullUpRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47313D401A163D38009DECB9 /* NLPullUpRefreshView.m */; };
+		47313D4F1A163D38009DECB9 /* NLSubTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47313D421A163D38009DECB9 /* NLSubTableViewController.m */; };
+		47313D501A163D38009DECB9 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 47313D441A163D38009DECB9 /* arrow.png */; };
+		47313D531A164424009DECB9 /* OtherDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47313D521A164424009DECB9 /* OtherDailyViewController.m */; };
 		4732501119FBB0CB0060F863 /* VerifyCodeSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4732501019FBB0CB0060F863 /* VerifyCodeSubmitViewController.m */; };
 		4732501819FBCCB90060F863 /* HUD_YES.png in Resources */ = {isa = PBXBuildFile; fileRef = 4732501419FBCCB90060F863 /* HUD_YES.png */; };
 		4732501919FBCCB90060F863 /* HUD_YES@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4732501519FBCCB90060F863 /* HUD_YES@2x.png */; };
@@ -1100,6 +1106,17 @@
 		4727ACB519ED646B000B625A /* ALImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALImageView.m; sourceTree = "<group>"; };
 		4727ACB619ED646B000B625A /* img_pld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_pld.png; sourceTree = "<group>"; };
 		4727ACB719ED646B000B625A /* img_pld@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_pld@2x.png"; sourceTree = "<group>"; };
+		47313D3B1A163D38009DECB9 /* NLMainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLMainTableViewController.h; sourceTree = "<group>"; };
+		47313D3C1A163D38009DECB9 /* NLMainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLMainTableViewController.m; sourceTree = "<group>"; };
+		47313D3D1A163D38009DECB9 /* NLPullDownRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLPullDownRefreshView.h; sourceTree = "<group>"; };
+		47313D3E1A163D38009DECB9 /* NLPullDownRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLPullDownRefreshView.m; sourceTree = "<group>"; };
+		47313D3F1A163D38009DECB9 /* NLPullUpRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLPullUpRefreshView.h; sourceTree = "<group>"; };
+		47313D401A163D38009DECB9 /* NLPullUpRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLPullUpRefreshView.m; sourceTree = "<group>"; };
+		47313D411A163D38009DECB9 /* NLSubTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSubTableViewController.h; sourceTree = "<group>"; };
+		47313D421A163D38009DECB9 /* NLSubTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSubTableViewController.m; sourceTree = "<group>"; };
+		47313D441A163D38009DECB9 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		47313D511A164424009DECB9 /* OtherDailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherDailyViewController.h; sourceTree = "<group>"; };
+		47313D521A164424009DECB9 /* OtherDailyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherDailyViewController.m; sourceTree = "<group>"; };
 		4732500F19FBB0CB0060F863 /* VerifyCodeSubmitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerifyCodeSubmitViewController.h; sourceTree = "<group>"; };
 		4732501019FBB0CB0060F863 /* VerifyCodeSubmitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyCodeSubmitViewController.m; sourceTree = "<group>"; };
 		4732501419FBCCB90060F863 /* HUD_YES.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HUD_YES.png; sourceTree = "<group>"; };
@@ -1698,6 +1715,8 @@
 		18AC32121A15D01B007CA2D8 /* center */ = {
 			isa = PBXGroup;
 			children = (
+				47313D511A164424009DECB9 /* OtherDailyViewController.h */,
+				47313D521A164424009DECB9 /* OtherDailyViewController.m */,
 				18AC32311A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.h */,
 				18AC32321A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m */,
 				18EF92A11A143D2000891BCE /* RegisterViewController.h */,
@@ -2112,6 +2131,31 @@
 			path = ALImageView;
 			sourceTree = "<group>";
 		};
+		47313D2E1A163D38009DECB9 /* BouncePagination */ = {
+			isa = PBXGroup;
+			children = (
+				47313D3B1A163D38009DECB9 /* NLMainTableViewController.h */,
+				47313D3C1A163D38009DECB9 /* NLMainTableViewController.m */,
+				47313D3D1A163D38009DECB9 /* NLPullDownRefreshView.h */,
+				47313D3E1A163D38009DECB9 /* NLPullDownRefreshView.m */,
+				47313D3F1A163D38009DECB9 /* NLPullUpRefreshView.h */,
+				47313D401A163D38009DECB9 /* NLPullUpRefreshView.m */,
+				47313D411A163D38009DECB9 /* NLSubTableViewController.h */,
+				47313D421A163D38009DECB9 /* NLSubTableViewController.m */,
+				47313D431A163D38009DECB9 /* resources */,
+			);
+			name = BouncePagination;
+			path = DemoBouncePagination;
+			sourceTree = "<group>";
+		};
+		47313D431A163D38009DECB9 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				47313D441A163D38009DECB9 /* arrow.png */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 		4753276519F279520081A0F5 /* toast */ = {
 			isa = PBXGroup;
 			children = (
@@ -2187,6 +2231,7 @@
 		47CA0CEA19D1A31C00D19AE8 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				47313D2E1A163D38009DECB9 /* BouncePagination */,
 				18AC32141A15DE76007CA2D8 /* ZFCalendar */,
 				187F597019F9DB460050563A /* blur */,
 				18EECA0619F8F5B3009FC79F /* WebViewJavascriptBridge_iOS */,
@@ -2682,6 +2727,7 @@
 				18EF940E1A1457C700891BCE /* button_calendar_arrowr_default.png in Resources */,
 				18EF940F1A1457C700891BCE /* ext_feedback.png in Resources */,
 				18EF94101A1457C700891BCE /* favor.png in Resources */,
+				47313D501A163D38009DECB9 /* arrow.png in Resources */,
 				18EF94111A1457C700891BCE /* menu_refresh.png in Resources */,
 				18EF94121A1457C700891BCE /* settings.png in Resources */,
 				18AC322E1A15DE76007CA2D8 /* chack.png in Resources */,
@@ -2829,6 +2875,7 @@
 				18EF946B1A149B9000891BCE /* CollectorCell.m in Sources */,
 				18EF94651A14942100891BCE /* LeftFunctionCell.m in Sources */,
 				18EF94511A147E8600891BCE /* WaitingView.m in Sources */,
+				47313D4E1A163D38009DECB9 /* NLPullUpRefreshView.m in Sources */,
 				18EF94531A147E8600891BCE /* CoverTouchView.m in Sources */,
 				18EF94551A147E8600891BCE /* RefreshTouchView.m in Sources */,
 				18AC32101A15CC59007CA2D8 /* ContactUsViewController.m in Sources */,
@@ -2837,6 +2884,7 @@
 				18EF92DE1A1457C700891BCE /* MJRefreshBaseView.m in Sources */,
 				18AC322B1A15DE76007CA2D8 /* CalendarMonthCollectionViewLayout.m in Sources */,
 				18EF92DF1A1457C700891BCE /* YzdHUDLabel.m in Sources */,
+				47313D4F1A163D38009DECB9 /* NLSubTableViewController.m in Sources */,
 				18EF92E01A1457C700891BCE /* db.xcdatamodeld in Sources */,
 				18EF92E21A1457C700891BCE /* YzdHUDIndicator.m in Sources */,
 				18EF92E31A1457C700891BCE /* MJRefreshConst.m in Sources */,
@@ -2852,6 +2900,7 @@
 				18EF92EE1A1457C700891BCE /* LeftViewController.m in Sources */,
 				18EF92F01A1457C700891BCE /* DeviceInfo.m in Sources */,
 				18EF92F11A1457C700891BCE /* ArticleViewController.m in Sources */,
+				47313D531A164424009DECB9 /* OtherDailyViewController.m in Sources */,
 				18EF92F21A1457C700891BCE /* zip.c in Sources */,
 				18EF92F31A1457C700891BCE /* ListFooterView.m in Sources */,
 				18EF92F41A1457C700891BCE /* WebViewJavascriptBridge_iOS.m in Sources */,
@@ -2872,6 +2921,7 @@
 				18EF93071A1457C700891BCE /* FavorCell.m in Sources */,
 				18EF93081A1457C700891BCE /* iks.c in Sources */,
 				18EF93091A1457C700891BCE /* ikstack.c in Sources */,
+				47313D4C1A163D38009DECB9 /* NLMainTableViewController.m in Sources */,
 				18EF930A1A1457C700891BCE /* NSIks.mm in Sources */,
 				18EF930B1A1457C700891BCE /* RequestViewController.m in Sources */,
 				18EF930C1A1457C700891BCE /* sax.c in Sources */,
@@ -2914,6 +2964,7 @@
 				18EF93371A1457C700891BCE /* HomeHeader.m in Sources */,
 				18EF93391A1457C700891BCE /* AppInfo.m in Sources */,
 				18AC320D1A15B0FF007CA2D8 /* NewsFontSettingViewController.m in Sources */,
+				47313D4D1A163D38009DECB9 /* NLPullDownRefreshView.m in Sources */,
 				18EF933B1A1457C700891BCE /* ALImageView.m in Sources */,
 				18EF933C1A1457C700891BCE /* iVersion.m in Sources */,
 				18AC32281A15DE76007CA2D8 /* CalendarDayModel.m in Sources */,
