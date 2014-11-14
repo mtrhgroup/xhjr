@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface DatePickerViewController : UIViewController
+#import "CalendarViewController.h"
+@interface DatePickerViewController : CalendarViewController
 
 @end

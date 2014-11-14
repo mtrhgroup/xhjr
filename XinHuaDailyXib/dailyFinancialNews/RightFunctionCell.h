@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RightFunctionCell : UITableViewCell
-
+@property(nonatomic,strong)UIImage *icon_image;
+@property(nonatomic,strong)NSString *label_text;
 @end

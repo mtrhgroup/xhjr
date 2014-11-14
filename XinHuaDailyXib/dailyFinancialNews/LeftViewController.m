@@ -8,6 +8,10 @@
 
 #import "LeftViewController.h"
 #import "LeftFunctionCell.h"
+#import "CollectorBoxViewController.h"
+#import "RequestViewController.h"
+#import "DatePickerViewController.h"
+#import "NavigationController.h"
 #import "TagCell.h"
 #import "TagHeaderView.h"
 @interface LeftViewController ()
@@ -147,11 +151,17 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section==0){
         if (indexPath.row == 0){
-
+            RequestViewController *vc=[[RequestViewController alloc]init];
+            NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+            [self presentViewController:nv animated:YES completion:nil];
         }else if(indexPath.row == 1){
-
+            DatePickerViewController *vc=[[DatePickerViewController alloc]init];
+            NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+            [self presentViewController:nv animated:YES completion:nil];
         }else if(indexPath.row ==2){
-            
+            CollectorBoxViewController *vc=[[CollectorBoxViewController alloc]init];
+            NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+            [self presentViewController:nv animated:YES completion:nil];
         }
     }
 }

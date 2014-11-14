@@ -6,18 +6,18 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "RequestViewController.h"
+#import "ContactUsViewController.h"
 #import "UIPlaceHolderTextView.h"
 #import "ASIFormDataRequest.h"
 #import "UIWindow+YzdHUD.h"
 #import "NavigationController.h"
 #import "AMBlurView.h"
-@interface RequestViewController ()
+@interface ContactUsViewController ()
 @property (nonatomic,strong)AMBlurView *blurView;
 @property(nonatomic,strong)Service *service;
 @end
 
-@implementation RequestViewController
+@implementation ContactUsViewController
 
 @synthesize contentTV;
 @synthesize emailTF;
@@ -48,7 +48,7 @@
     [self.view addSubview:[self blurView]];
     
     UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50+44, 280, 100)];
-    // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
+   // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
     content.layer.cornerRadius = 10.0f;
     [content setFont:[UIFont systemFontOfSize:17 ]];
     content.layer.borderWidth = 1.0f;
@@ -74,7 +74,7 @@
     email.textAlignment = NSTextAlignmentLeft;
     email.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     if(lastEmail!=nil){
-        email.text=lastEmail;
+       email.text=lastEmail;
     }
     self.emailTF=email;
     [self.view addSubview:email];
@@ -90,27 +90,27 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)makeWaitingAlert{
-    self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待"
-                                                  message:nil
-                                                 delegate:nil
-                                        cancelButtonTitle:nil
-                                        otherButtonTitles:nil];
+    self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待" 
+                                                   message:nil                         
+                                                  delegate:nil   
+                                         cancelButtonTitle:nil                     
+                                         otherButtonTitles:nil];  
     
 }
 -(void)showWaitingAlert{
     [self.waitingAlert show];
-    UIActivityIndicatorView*activeView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    activeView.center = CGPointMake(waitingAlert.bounds.size.width/2.0f, waitingAlert.bounds.size.height-40.0f);
-    [activeView startAnimating];
-    [waitingAlert addSubview:activeView];
+    UIActivityIndicatorView*activeView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];    
+    activeView.center = CGPointMake(waitingAlert.bounds.size.width/2.0f, waitingAlert.bounds.size.height-40.0f);      
+    [activeView startAnimating];      
+    [waitingAlert addSubview:activeView];         
 }
 -(void)hideWaitingAlert{
     [self.waitingAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 - (BOOL)validateEmailWithString:(NSString*)email
 {
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"; 
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex]; 
     return [emailTest evaluateWithObject:email];
 }
 
@@ -151,4 +151,5 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 @end

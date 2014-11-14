@@ -1,14 +1,14 @@
 //
-//  RequestViewController.h
+//  ContactUsViewController.h
 //  XinHuaDailyXib
 //
-//  Created by apple on 14/11/13.
-//
+//  Created by apple on 12-8-22.
+//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface RequestViewController : UIViewController
+@interface ContactUsViewController : UIViewController
 @property(nonatomic,strong)UITextField *emailTF;
 @property(nonatomic,strong)UITextView *contentTV;
 @property (strong,nonatomic)UIAlertView *waitingAlert;
