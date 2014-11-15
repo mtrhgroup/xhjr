@@ -97,6 +97,7 @@
             article.video_url=[xml findValueFrom:citem nodeName:@"video"];
             article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
             article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
+            article.key_words=[xml findValueFrom:citem nodeName:@"keywords"];
             NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
             if([pn isEqualToString:@"0"]){
                 article.is_push=NO;
@@ -111,49 +112,7 @@
     }
     return result;
 }
--(NSArray *)parseMoreArticles:(NSString *)xmlstring{
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
-    iks*  citem =   [xml firstTagFrom:xml.xmlObject];
-    while (citem)
-    {
-        Article*  article = [[Article alloc] init];
-        article.article_id=[xml findValueFrom:citem nodeName:@"id"];
-        article.article_title = [xml findValueFrom:citem nodeName:@"title"];
-        NSString *raw_zip_url = [xml findValueFrom:citem nodeName:@"zipurl"];
-        article.zip_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_zip_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
-        NSString *raw_page_url =  [xml findValueFrom:citem nodeName:@"pageurl"];
-        article.page_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_page_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
-        article.publish_date = [xml findValueFrom:citem nodeName:@"inserttime"];
-        article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
-        article.summary=[xml findValueFrom:citem nodeName:@"summary"];
-        NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
-        if(raw_thumbnail_url.length!=0){
-            article.thumbnail_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_thumbnail_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
-        }else{
-            article.thumbnail_url=nil;
-        }
-        NSString *raw_coverimage_url=[xml findValueFrom:citem nodeName:@"coverimg"];
-        if(raw_coverimage_url.length!=0){
-            article.cover_image_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_coverimage_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
-        }else{
-            article.cover_image_url=nil;
-        }
-        article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
-        article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
-        article.video_url=[xml findValueFrom:citem nodeName:@"video"];
-        NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
-        if([pn isEqualToString:@"0"]){
-            article.is_push=NO;
-        }else{
-            article.is_push=YES;
-        }
-        article.is_read=NO;
-        [result addObject:article];
-        citem = [xml nextTagFrom:citem];
-    }
-    return result;
-}
+
 -(Article *)parseOneArticle:(NSString *)xmlstring{
     NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
     iks*  citem  =  xml.xmlObject;
@@ -184,6 +143,7 @@
         article.video_url=[xml findValueFrom:citem nodeName:@"video"];
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
+        article.key_words=[xml findValueFrom:citem nodeName:@"keywords"];
         NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
         if([pn isEqualToString:@"0"]){
             article.is_push=NO;

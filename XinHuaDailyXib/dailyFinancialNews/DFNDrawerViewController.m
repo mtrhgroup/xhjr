@@ -49,6 +49,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     self.left_menu_vc= [[LeftViewController alloc]init];
     self.right_vc=[[RightViewController alloc] init];
     self.center_vc=[[DailyListViewController alloc] init];
+    self.center_vc.service=self.service;
     //    //初始化抽屉视图对象
 
     NavigationController *nv=[[NavigationController alloc]initWithRootViewController:self.center_vc];
@@ -78,12 +79,6 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     }else{
         [self presentViewController:nav_vc animated:YES completion:nil];
     }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

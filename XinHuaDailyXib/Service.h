@@ -17,8 +17,10 @@
 //网络
 //-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
+-(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
+-(void)fetchDailyArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchAppInfo:(void(^)(AppInfo *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)reportActionsToServer:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -35,6 +37,7 @@
 -(NSArray *)fetchTrunkChannelsFromDB;
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel;
 -(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
+-(NSArray *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date;
 -(NSDate *)markAccessTimeStampWithChannel:(Channel *)channel;
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected;
 -(void)markArticleReadWithArticle:(Article *)article;
@@ -44,5 +47,7 @@
 -(ChannelsForHVC *)fetchHomeArticlesFromDB;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 
+-(Channel *)fetchMRCJChannelFromDB;
+-(void)becomeAcitveHandler;
 -(BOOL)hasAuthorized;
 @end

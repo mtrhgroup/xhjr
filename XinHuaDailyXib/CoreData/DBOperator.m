@@ -160,6 +160,20 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     
     return nil;
 }
+-(Channel *)fetchMRCJChannel{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_channel_id = %@",@"388"];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+        Channel *ad_channel=[[Channel alloc] initWithChannelMO:result[0]];
+        return ad_channel;
+    }
+    
+    return nil;
+}
 
 -(NSArray *)fetchArticlesThatIsPushed{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
@@ -266,6 +280,22 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     return articles;
 }
 
+-(NSArray *)fetchDailyArticlesWithChannel:(Channel *)channel date:(NSString *)date{
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate *p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_publish_date BEGINSWITH[cd] %@", channel.channel_id,date];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    NSMutableArray *articles=[NSMutableArray array];
+    for(ArticleMO *amo in result){
+        [articles addObject:[[Article alloc] initWithArticleMO:amo]];
+    }
+    return articles;
+}
 -(NSArray *)fetchFavorArticles{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate * p = [NSPredicate predicateWithFormat:@"a_is_collected = %d",YES];

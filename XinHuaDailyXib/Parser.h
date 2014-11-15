@@ -12,7 +12,6 @@
 @interface Parser : NSObject
 -(NSArray *)parseChannels:(NSString *) xmlstring;
 -(NSArray *)parseArticles:(NSString *)xmlstring;
--(NSArray *)parseMoreArticles:(NSString *)xmlstring;
 -(Article *)parseOneArticle:(NSString *)xmlstring;
 -(AppInfo *)parseAppInfo:(NSString *)xmlstring;
 -(NSArray *)parseCommands:(NSString *)xmlstring;

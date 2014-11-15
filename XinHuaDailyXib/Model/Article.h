@@ -51,6 +51,8 @@
 @property(nonatomic,readonly)BOOL         is_cached;
 //是否点赞
 @property(nonatomic,assign)BOOL           is_like;
+//关键词
+@property(nonatomic,assign)NSString *key_words;
 
 -(id)initWithArticleMO:(ArticleMO *)articleMO;
 -(void)toArticleMO:(ArticleMO *)articleMO;

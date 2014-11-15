@@ -559,6 +559,7 @@
 		18EF94691A149B9000891BCE /* TagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF945A1A14861200891BCE /* TagCell.m */; };
 		18EF946A1A149B9000891BCE /* RightFunctionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF94601A14870B00891BCE /* RightFunctionCell.m */; };
 		18EF946B1A149B9000891BCE /* CollectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF94631A14873C00891BCE /* CollectorCell.m */; };
+		18F0471D1A16F737008C5F12 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92A21A143D2000891BCE /* RegisterViewController.m */; };
 		18F116F719E8B4C60097A682 /* ListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F619E8B4C60097A682 /* ListCell.m */; };
 		18F116FA19E8B5150097A682 /* TileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F919E8B5150097A682 /* TileCell.m */; };
 		18F116FD19E8B5310097A682 /* GridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116FC19E8B5310097A682 /* GridCell.m */; };
@@ -2870,6 +2871,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18F0471D1A16F737008C5F12 /* RegisterViewController.m in Sources */,
 				18EF94691A149B9000891BCE /* TagCell.m in Sources */,
 				18EF946A1A149B9000891BCE /* RightFunctionCell.m in Sources */,
 				18EF946B1A149B9000891BCE /* CollectorCell.m in Sources */,

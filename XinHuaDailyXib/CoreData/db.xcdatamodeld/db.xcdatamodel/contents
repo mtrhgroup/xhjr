@@ -11,6 +11,7 @@
         <attribute name="a_is_like" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <attribute name="a_is_push" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="a_is_read" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="a_key_words" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_like_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_page_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_publish_date" optional="YES" attributeType="String" syncable="YES"/>
@@ -35,7 +36,7 @@
         <attribute name="a_sort_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="315"/>
+        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="330"/>
         <element name="E_CHANNEL" positionX="-81" positionY="-25" width="128" height="225"/>
     </elements>
 </model>

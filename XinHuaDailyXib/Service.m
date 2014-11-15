@@ -42,6 +42,7 @@
     }
     return self;
 }
+#ifdef DFN
 -(void)becomeAcitveHandler{
     [self reportActionsToServer:^(BOOL ok) {
         //<#code#>
@@ -49,15 +50,32 @@
         // <#code#>
     }];
     [self fetchChannelsFromNET:^(NSArray *channels) {
-       [self fetchHomeArticlesFromNET:^(NSArray *articles) {
-           //
-       } errorHandler:^(NSError *error) {
-           //
-       }];
+        AppDelegate.channel=[self fetchMRCJChannelFromDB];
     } errorHandler:^(NSError *error) {
-       // 
+        //
     }];
 }
+#endif
+#ifdef LNFB
+-(void)becomeAcitveHandler{
+    [self reportActionsToServer:^(BOOL ok) {
+        //<#code#>
+    } errorHandler:^(NSError *error) {
+        // <#code#>
+    }];
+    [self fetchChannelsFromNET:^(NSArray *channels) {
+        [self fetchHomeArticlesFromNET:^(NSArray *articles) {
+            //
+        } errorHandler:^(NSError *error) {
+            //
+        }];
+    } errorHandler:^(NSError *error) {
+        //
+    }];
+}
+#endif
+
+
 //-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
 //    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
 //    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -260,6 +278,29 @@
         }
     }];
 }
+
+-(void)fetchDailyArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kDailyArticlesURL,[DeviceInfo udid],channel.channel_id,time,AppID];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSArray *articles=[_parser parseArticles:responseStr];
+            DBOperator *db_operator=[_db_manager aBackgroundOperator];
+            for(Article *article in articles){
+                [db_operator addArticle:article];
+            }
+            [db_operator save];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(successBlock){
+                    successBlock(articles);
+                }
+            });
+        });
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
 -(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     [_communicator fetchFileAtURL:article.zip_url toPath:article.zip_path successHandler:^(BOOL is_ok) {
         if(is_ok){
@@ -368,6 +409,8 @@
     DBOperator *db_operator=[_db_manager theForegroundOperator];
     return [db_operator fetchLeafChannelsWithTrunkChannel:channel];
 }
+
+
 -(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN{
     DBOperator *db_operator=[_db_manager theForegroundOperator];
     Article *header_article=[db_operator fetchHeaderArticleWithChannel:channel];
@@ -376,6 +419,11 @@
     articles_for_cvc.header_article=header_article;
     articles_for_cvc.other_articles=other_articles;
     return articles_for_cvc;
+}
+
+-(NSArray *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date{
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    return [db_operator fetchDailyArticlesWithChannel:channel date:date];
 }
 
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected{
@@ -403,6 +451,10 @@
     }else{
         return nil;
     }
+}
+-(Channel *)fetchMRCJChannelFromDB{
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    return [db_operator fetchMRCJChannel];
 }
 -(NSArray *)fetchPushArticlesFromDB{
     NSArray *articles=[[_db_manager theForegroundOperator] fetchArticlesThatIsPushed];

@@ -16,6 +16,7 @@
 -(NSArray *)fetchTrunkChannels;
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel;
 -(Channel *)fetchADChannel;
+-(Channel *)fetchMRCJChannel;
 -(Channel *)fetchPicChannel;
 -(NSArray *)fetchHomeChannels;
 -(NSArray *)fetchAllChannels;
@@ -25,6 +26,7 @@
 -(void)addArticle:(Article *)article;
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN;
+-(NSArray *)fetchDailyArticlesWithChannel:(Channel *)channel date:(NSString *)date;
 -(NSArray *)fetchFavorArticles;
 -(NSDate *)markChannelAccessTimeStampWithChannel:(Channel *)channel;
 -(NSDate *)markChannelReceiveNewArticlesTimeStampWithChannelID:(NSString *)channel_id;
