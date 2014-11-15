@@ -37,7 +37,8 @@
 -(NSArray *)fetchTrunkChannelsFromDB;
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel;
 -(ArticlesForCVC *)fetchArticlesFromDBWithChannel:(Channel *)channel topN:(int)topN;
--(NSArray *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date;
+-(DailyArticles *)fetchLatestDailyArticlesFromDBWithChannel:(Channel *)channel;
+-(DailyArticles *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date;
 -(NSDate *)markAccessTimeStampWithChannel:(Channel *)channel;
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected;
 -(void)markArticleReadWithArticle:(Article *)article;

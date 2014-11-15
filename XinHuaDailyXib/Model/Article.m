@@ -94,3 +94,9 @@
 @synthesize header_article=_header_article;
 @synthesize other_articles=_other_articles;
 @end
+@implementation DailyArticles
+@synthesize date;
+@synthesize articles;
+@synthesize previous_date;
+@synthesize next_date;
+@end

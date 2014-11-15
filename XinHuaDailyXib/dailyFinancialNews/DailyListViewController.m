@@ -8,34 +8,41 @@
 
 #import "DailyListViewController.h"
 #import "OtherDailyViewController.h"
+#import "TileCell.h"
+#import "DailyHeader.h"
 @interface DailyListViewController ()
-@property(nonatomic,strong)NSString *date;
-@property(nonatomic, strong)NSArray *articles;
+@property(nonatomic, strong)DailyArticles *daily_articles;
 @end
 
 @implementation DailyListViewController
 @synthesize service=_service;
-@synthesize date=_date;
-@synthesize articles=_articles;
+@synthesize daily_articles=_daily_articles;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.date=@"20141114";
     [self fetchArticlesFromNET];
-    self.subTableViewController = [[OtherDailyViewController alloc] init];
+    //self.subTableViewController = [[OtherDailyViewController alloc] init];
 }
 -(void)fetchArticlesFromNET{
-    [self.service fetchDailyArticlesFromNETWithChannel:AppDelegate.channel time:self.date successHandler:^(NSArray *articles) {
-        self.articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:@"2014-11-14"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
+    [self.service fetchArticlesFromNETWithChannel:AppDelegate.channel time:time successHandler:^(NSArray *articles) {
+        self.daily_articles=[self.service fetchLatestDailyArticlesFromDBWithChannel:AppDelegate.channel];
+        super.tableView.tableHeaderView=[[DailyHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width,40)];
+        if(self.daily_articles.date.length==10){
+            ((DailyHeader *)self.tableView.tableHeaderView).date=self.daily_articles.date;
+        }
         [super.tableView reloadData];
     } errorHandler:^(NSError *error) {
-        // <#code#>
+        //
     }];
 }
 -(void)fetchArticlesFromDB{
-    self.articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:self.date];
+    self.daily_articles=[self.service fetchLatestDailyArticlesFromDBWithChannel:AppDelegate.channel];
+    [super.tableView reloadData];
 }
 #pragma mark - Table view data source
 
@@ -46,23 +53,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.articles count];
+    return [self.daily_articles.articles count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50.f;
+    return 280;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"cellname";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    static NSString *TileCellID = @"cellname";
+    TileCell *cell=nil;
+    cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
+    if(cell==nil){
+        cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
     }
-    cell.textLabel.text=((Article *)[self.articles objectAtIndex:indexPath.row]).article_title;
+    cell.article=[self.daily_articles.articles objectAtIndex:indexPath.row];
     return cell;
 }
 @end

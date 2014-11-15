@@ -420,10 +420,24 @@
     articles_for_cvc.other_articles=other_articles;
     return articles_for_cvc;
 }
-
--(NSArray *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date{
+-(DailyArticles *)fetchLatestDailyArticlesFromDBWithChannel:(Channel *)channel{
     DBOperator *db_operator=[_db_manager theForegroundOperator];
-    return [db_operator fetchDailyArticlesWithChannel:channel date:date];
+    NSString *date=[db_operator queryLatestAvailableDateWithChannel:channel];
+    if(date.length!=0){
+        return [self fetchDailyArticlesFromDBWithChannel:channel date:date];
+    }else{
+        return nil;
+    }
+}
+
+-(DailyArticles *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date{
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    DailyArticles *das=[[DailyArticles alloc] init];
+    das.date=date;
+    das.articles=[db_operator fetchDailyArticlesWithChannel:channel date:date];
+    das.previous_date=[db_operator queryPreviousAvailableDateWithChannel:channel date:date];
+    das.next_date=[db_operator queryNextAvailableDateWithChannel:channel date:date];
+    return das;
 }
 
 -(void)markArticleCollectedWithArticle:(Article *)article is_collected:(BOOL)is_collected{

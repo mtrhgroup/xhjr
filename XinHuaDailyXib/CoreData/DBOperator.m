@@ -296,6 +296,56 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     }
     return articles;
 }
+-(NSString *)queryPreviousAvailableDateWithChannel:(Channel *)channel date:(NSString *)date{
+    NSString *complete_date=[NSString stringWithFormat:@"%@ 00:00:00",date];
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate *p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_publish_date < %@", channel.channel_id,complete_date];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+        return [((ArticleMO *)result[0]).a_publish_date substringToIndex:10];
+    }else{
+        return @"";
+    }
+}
+-(NSString *)queryNextAvailableDateWithChannel:(Channel *)channel date:(NSString *)date{
+    NSString *complete_date=[NSString stringWithFormat:@"%@ 23:59:59",date];
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate *p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_publish_date > %@", channel.channel_id,complete_date];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+        return [((ArticleMO *)result[0]).a_publish_date substringToIndex:10];
+    }else{
+        return @"";
+    }
+}
+-(NSString *)queryLatestAvailableDateWithChannel:(Channel *)channel{
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate *p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@", channel.channel_id];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+        return [((ArticleMO *)result[0]).a_publish_date substringToIndex:10];
+    }else{
+        return @"";
+    }
+}
 -(NSArray *)fetchFavorArticles{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate * p = [NSPredicate predicateWithFormat:@"a_is_collected = %d",YES];

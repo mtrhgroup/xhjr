@@ -347,7 +347,6 @@
 		18EF93481A1457C700891BCE /* NetworkLostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B281E1A006EEB00AEDC11 /* NetworkLostError.m */; };
 		18EF934A1A1457C700891BCE /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892C9EA19E62C9C00F26945 /* DBManager.m */; };
 		18EF934C1A1457C700891BCE /* CollectorBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92AE1A143DC700891BCE /* CollectorBoxViewController.m */; };
-		18EF934D1A1457C700891BCE /* TileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F116F919E8B5150097A682 /* TileCell.m */; };
 		18EF934E1A1457C700891BCE /* FeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92B11A143E0D00891BCE /* FeedBackViewController.m */; };
 		18EF93501A1457C700891BCE /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E68819EEA40C00246A1E /* Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18EF93511A1457C700891BCE /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727ACA419ED6218000B625A /* MJRefreshHeaderView.m */; };
@@ -580,6 +579,9 @@
 		4710E6A819EEA40C00246A1E /* libWeChatSDK in Frameworks */ = {isa = PBXBuildFile; fileRef = 4710E69D19EEA40C00246A1E /* libWeChatSDK */; };
 		4710E6AB19EEA77100246A1E /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4710E6AA19EEA77100246A1E /* NavigationController.m */; };
 		4717628319EFE32B00646857 /* HomeHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4717628219EFE32B00646857 /* HomeHeader.m */; };
+		471BFB9E1A179E4C008CDB9D /* TileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 471BFB9D1A179E4C008CDB9D /* TileCell.m */; };
+		471BFBA11A17A080008CDB9D /* DailyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 471BFBA01A17A080008CDB9D /* DailyHeader.m */; };
+		471BFBA31A17B021008CDB9D /* dfn-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 471BFBA21A17B021008CDB9D /* dfn-Info.plist */; };
 		4727AC9919ED47A1000B625A /* LeafChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727AC9819ED47A1000B625A /* LeafChannelViewController.m */; };
 		4727ACAB19ED6218000B625A /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4727AC9B19ED6218000B625A /* MJRefresh.bundle */; };
 		4727ACAC19ED6218000B625A /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4727AC9E19ED6218000B625A /* MJRefreshBaseView.m */; };
@@ -892,7 +894,6 @@
 		18EF92CD1A1456E700891BCE /* DFNDefaultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFNDefaultView.h; path = dailyFinancialNews/DFNDefaultView.h; sourceTree = "<group>"; };
 		18EF92CE1A1456E700891BCE /* DFNDefaultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DFNDefaultView.m; path = dailyFinancialNews/DFNDefaultView.m; sourceTree = "<group>"; };
 		18EF941B1A1457C700891BCE /* dfn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dfn.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		18EF941C1A1457C700891BCE /* dfn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "dfn-Info.plist"; path = "/Users/apple/Documents/dailyinfo/dfn-Info.plist"; sourceTree = "<absolute>"; };
 		18EF944A1A146CA600891BCE /* GlobalVariablesDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalVariablesDefine.h; path = dailyFinancialNews/GlobalVariablesDefine.h; sourceTree = "<group>"; };
 		18EF94591A14861200891BCE /* TagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagCell.h; path = dailyFinancialNews/TagCell.h; sourceTree = "<group>"; };
 		18EF945A1A14861200891BCE /* TagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagCell.m; path = dailyFinancialNews/TagCell.m; sourceTree = "<group>"; };
@@ -1085,6 +1086,11 @@
 		4717628119EFE32B00646857 /* HomeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
 		4717628219EFE32B00646857 /* HomeHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeHeader.m; sourceTree = "<group>"; };
 		4717628419EFF05100646857 /* TouchViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TouchViewDelegate.h; sourceTree = "<group>"; };
+		471BFB9C1A179E4C008CDB9D /* TileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileCell.h; path = dailyFinancialNews/TileCell.h; sourceTree = "<group>"; };
+		471BFB9D1A179E4C008CDB9D /* TileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TileCell.m; path = dailyFinancialNews/TileCell.m; sourceTree = "<group>"; };
+		471BFB9F1A17A080008CDB9D /* DailyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyHeader.h; path = dailyFinancialNews/DailyHeader.h; sourceTree = "<group>"; };
+		471BFBA01A17A080008CDB9D /* DailyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyHeader.m; path = dailyFinancialNews/DailyHeader.m; sourceTree = "<group>"; };
+		471BFBA21A17B021008CDB9D /* dfn-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "dfn-Info.plist"; sourceTree = "<group>"; };
 		4727AC9719ED47A1000B625A /* LeafChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeafChannelViewController.h; sourceTree = "<group>"; };
 		4727AC9819ED47A1000B625A /* LeafChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeafChannelViewController.m; sourceTree = "<group>"; };
 		4727AC9B19ED6218000B625A /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
@@ -1682,6 +1688,8 @@
 		1893882B1A0B66C40007F62F /* v */ = {
 			isa = PBXGroup;
 			children = (
+				471BFB9C1A179E4C008CDB9D /* TileCell.h */,
+				471BFB9D1A179E4C008CDB9D /* TileCell.m */,
 				18EF92CD1A1456E700891BCE /* DFNDefaultView.h */,
 				18EF92CE1A1456E700891BCE /* DFNDefaultView.m */,
 				18EF94591A14861200891BCE /* TagCell.h */,
@@ -1694,6 +1702,8 @@
 				18EF94631A14873C00891BCE /* CollectorCell.m */,
 				18EF94661A14974900891BCE /* TagHeaderView.h */,
 				18EF94671A14974900891BCE /* TagHeaderView.m */,
+				471BFB9F1A17A080008CDB9D /* DailyHeader.h */,
+				471BFBA01A17A080008CDB9D /* DailyHeader.m */,
 			);
 			name = v;
 			sourceTree = "<group>";
@@ -1945,8 +1955,8 @@
 		2BE4749415672CFF00081C82 = {
 			isa = PBXGroup;
 			children = (
+				471BFBA21A17B021008CDB9D /* dfn-Info.plist */,
 				18AC106818FCDCC300FBC603 /* lnzw_inhouse-Info.plist */,
-				18EF941C1A1457C700891BCE /* dfn-Info.plist */,
 				1882D8F418321B5000485B6B /* lnzw_inhouse.entitlements */,
 				1864FFE618191F170050D95F /* Images.xcassets */,
 				1804A5E7164A0D6600A74272 /* MessageUI.framework */,
@@ -2357,7 +2367,7 @@
 						};
 					};
 					18EF92D71A1457C700891BCE = {
-						DevelopmentTeam = W7W98J8J34;
+						DevelopmentTeam = L32HRGLSAZ;
 					};
 				};
 			};
@@ -2607,6 +2617,7 @@
 				18EF93951A1457C700891BCE /* img_pld.png in Resources */,
 				18EF93961A1457C700891BCE /* blueArrow.png in Resources */,
 				18EF93971A1457C700891BCE /* blueArrow@2x.png in Resources */,
+				471BFBA31A17B021008CDB9D /* dfn-Info.plist in Resources */,
 				18EF93981A1457C700891BCE /* button_off_pressdown.png in Resources */,
 				18EF93991A1457C700891BCE /* bottombg.png in Resources */,
 				18EF939A1A1457C700891BCE /* cellbackground.png in Resources */,
@@ -2929,6 +2940,7 @@
 				18EF930C1A1457C700891BCE /* sax.c in Sources */,
 				18EF930D1A1457C700891BCE /* JSONKit.m in Sources */,
 				18EF930E1A1457C700891BCE /* utility.c in Sources */,
+				471BFB9E1A179E4C008CDB9D /* TileCell.m in Sources */,
 				18EF930F1A1457C700891BCE /* YzdHUDBackgroundView.m in Sources */,
 				18AC322A1A15DE76007CA2D8 /* CalendarLogic.m in Sources */,
 				18AC322C1A15DE76007CA2D8 /* CalendarMonthHeaderView.m in Sources */,
@@ -2954,6 +2966,7 @@
 				18EF93281A1457C700891BCE /* WebViewJavascriptBridgeAbstract.m in Sources */,
 				18EF93291A1457C700891BCE /* DailyListViewController.m in Sources */,
 				18EF932A1A1457C700891BCE /* DFNDefaultView.m in Sources */,
+				471BFBA11A17A080008CDB9D /* DailyHeader.m in Sources */,
 				18EF932B1A1457C700891BCE /* NetStreamStatistics.m in Sources */,
 				18EF932C1A1457C700891BCE /* DBOperator.m in Sources */,
 				18EF932F1A1457C700891BCE /* UIView+Extension.m in Sources */,
@@ -2980,7 +2993,6 @@
 				18AC322D1A15DE76007CA2D8 /* CalendarViewController.m in Sources */,
 				18EF934A1A1457C700891BCE /* DBManager.m in Sources */,
 				18EF934C1A1457C700891BCE /* CollectorBoxViewController.m in Sources */,
-				18EF934D1A1457C700891BCE /* TileCell.m in Sources */,
 				18EF934E1A1457C700891BCE /* FeedBackViewController.m in Sources */,
 				18EF93501A1457C700891BCE /* Base64.m in Sources */,
 				18EF93511A1457C700891BCE /* MJRefreshHeaderView.m in Sources */,
@@ -3142,7 +3154,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = dfn;
-				PROVISIONING_PROFILE = "C090A4CE-C94A-4879-A5AF-0CE8EECA8F02";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos8.1;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3186,7 +3198,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = dfn;
-				PROVISIONING_PROFILE = "C090A4CE-C94A-4879-A5AF-0CE8EECA8F02";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos8.1;
 				TARGETED_DEVICE_FAMILY = 1;

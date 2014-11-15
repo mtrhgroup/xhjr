@@ -52,7 +52,7 @@
 //是否点赞
 @property(nonatomic,assign)BOOL           is_like;
 //关键词
-@property(nonatomic,assign)NSString *key_words;
+@property(nonatomic,strong)NSString *key_words;
 
 -(id)initWithArticleMO:(ArticleMO *)articleMO;
 -(void)toArticleMO:(ArticleMO *)articleMO;
@@ -60,4 +60,10 @@
 @interface ArticlesForCVC : NSObject
 @property(nonatomic,strong)Article *header_article;
 @property(nonatomic,strong)NSArray *other_articles;
+@end
+@interface DailyArticles:NSObject
+@property(nonatomic,strong)NSString *date;
+@property(nonatomic,strong)NSArray *articles;
+@property(nonatomic,strong)NSString *previous_date;
+@property(nonatomic,strong)NSString *next_date;
 @end
