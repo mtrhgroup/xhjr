@@ -9,21 +9,33 @@
 #import "DailyListViewController.h"
 #import "OtherDailyViewController.h"
 @interface DailyListViewController ()
-@property(nonatomic, strong)NSMutableArray *dataListOne;
+@property(nonatomic,strong)NSString *date;
+@property(nonatomic, strong)NSArray *articles;
 @end
 
 @implementation DailyListViewController
+@synthesize service=_service;
+@synthesize date=_date;
+@synthesize articles=_articles;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.dataListOne = [NSMutableArray array];
-    for (int i = 0; i<10; i++) {
-        [self.dataListOne addObject:[NSString stringWithFormat:@"Page one text %d", i]];
-    }
-    
+    self.date=@"20141114";
+    [self fetchArticlesFromNET];
     self.subTableViewController = [[OtherDailyViewController alloc] init];
+}
+-(void)fetchArticlesFromNET{
+    [self.service fetchDailyArticlesFromNETWithChannel:AppDelegate.channel time:self.date successHandler:^(NSArray *articles) {
+        self.articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:@"2014-11-14"];
+        [super.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        // <#code#>
+    }];
+}
+-(void)fetchArticlesFromDB{
+    self.articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:self.date];
 }
 #pragma mark - Table view data source
 
@@ -34,7 +46,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataListOne count];
+    return [self.articles count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -44,22 +56,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellId = @"cellname";
+    static NSString *cellId = @"cellname";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
-    
-    cell.backgroundColor = [UIColor clearColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 40)];
-    cellLabel.backgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
-    cellLabel.text = [self.dataListOne objectAtIndex:indexPath.row];
-    cellLabel.textAlignment = NSTextAlignmentCenter;
-    
-    [cell.contentView addSubview:cellLabel];
-    
+    cell.textLabel.text=((Article *)[self.articles objectAtIndex:indexPath.row]).article_title;
     return cell;
 }
 @end

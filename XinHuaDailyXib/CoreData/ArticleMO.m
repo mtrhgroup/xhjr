@@ -29,5 +29,6 @@
 @dynamic a_zip_url;
 @dynamic a_is_collected;
 @dynamic a_is_like;
+@dynamic a_key_words;
 
 @end

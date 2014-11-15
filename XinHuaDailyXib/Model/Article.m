@@ -27,6 +27,7 @@
 @synthesize  visit_number=_visit_number;
 @synthesize  like_number=_like_number;
 @synthesize  is_like=_is_like;
+@synthesize  key_words=_key_words;
 
 -(NSString *)page_path{
     NSString *dir_path=[self.zip_path stringByDeletingPathExtension];
@@ -62,6 +63,7 @@
         self.visit_number=articleMO.a_visit_number;
         self.like_number=articleMO.a_like_number;
         self.is_like=[articleMO.a_is_like boolValue];
+        self.key_words=articleMO.a_key_words;
         
     }
     return self;
@@ -85,6 +87,7 @@
     articleMO.a_visit_number=self.visit_number;
     articleMO.a_like_number=self.like_number;
     articleMO.a_is_like=[NSNumber numberWithBool:self.is_like];
+    articleMO.a_key_words=self.key_words;
 }
 @end
 @implementation ArticlesForCVC

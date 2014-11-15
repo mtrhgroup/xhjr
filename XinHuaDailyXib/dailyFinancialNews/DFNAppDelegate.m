@@ -9,12 +9,16 @@
 #import "DFNAppDelegate.h"
 #import "DFNDrawerViewController.h"
 #import "NavigationController.h"
+#import "RegisterViewController.h"
 #import <Frontia/FrontiaPush.h>
 #import <Frontia/Frontia.h>
 #import "iVersion.h"
 @implementation DFNAppDelegate
 @synthesize service=_service;
-@synthesize  share=_share;
+@synthesize channel=_channel;
+@synthesize share=_share;
+@synthesize main_vc=_main_vc;
+@synthesize reg_vc=_reg_vc;
 @synthesize prepare_error_alert=_prepare_error_alert;
 @synthesize push_article_alert=_push_article_alert;
 @synthesize user_defaults=_user_defaults;
@@ -34,8 +38,15 @@
     [FrontiaPush setupChannel:launchOptions];
     [self setupApp];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.window setRootViewController:self.main_vc];
-    [self.window makeKeyAndVisible];
+    if(self.user_defaults.is_authorized){
+         AppDelegate.channel=[self.service fetchMRCJChannelFromDB];
+        [self.window setRootViewController:self.main_vc];
+        [self.window makeKeyAndVisible];
+    }else{
+        NavigationController *nav_vc=[[NavigationController alloc] initWithRootViewController:self.reg_vc];
+        [self.window setRootViewController:nav_vc];
+        [self.window makeKeyAndVisible];
+    }
     if (launchOptions) {
         //截取apns推送的消息
         NSDictionary* pushInfo = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
@@ -47,8 +58,9 @@
 }
 -(void)setupApp{
     self.service=[[Service alloc] init];
+    self.user_defaults=[[UserDefaults alloc] init];
     self.main_vc=[[DFNDrawerViewController alloc] init];
-    self.user_defaults=[[UserDefaults alloc] init];;
+    self.reg_vc=[[RegisterViewController alloc] init];
     self.prepare_error_alert=[[UIAlertView alloc] initWithTitle:@"系统初始化失败"  message:@"请联网后重试！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
 }
 

@@ -45,7 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title=@"用户认证";
+    self.title=@"账号绑定";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
     [self setBlurView:[AMBlurView new]];
     [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 60)];
@@ -77,7 +77,7 @@
     [verify_get_btn addTarget:self action:@selector(verifyGetBtnClickHandler) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:verify_get_btn];
 
-    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    //[((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)verifyGetBtnClickHandler{ 
     self.confirm_phone_number_alert=[[UIAlertView alloc] initWithTitle:@"确认手机号码"  message:[NSString stringWithFormat:@"我们将发送验证码短信到这个号码：%@",_phone_number_input.text] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好", nil];
