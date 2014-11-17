@@ -9,5 +9,6 @@
 #import "NLSubTableViewController.h"
 
 @interface OtherDailyViewController : NLSubTableViewController<UITableViewDataSource, UITableViewDelegate>
-
+@property(nonatomic,strong)Service *service;
+@property(nonatomic,strong)NSString *date;
 @end

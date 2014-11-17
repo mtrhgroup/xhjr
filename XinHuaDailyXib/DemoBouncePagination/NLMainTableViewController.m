@@ -39,7 +39,17 @@
     }
    
     // TODO: edgeInsetTop 要放到上层去设置
-    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(20
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   , 0, 0, 0);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.isResponseToScroll = YES;
@@ -88,6 +98,7 @@
     // 上拉分页动画
     [UIView animateWithDuration:0.3 animations:^{
         self.tableView.contentInset = UIEdgeInsetsMake(-self.tableView.contentSize.height-20+100, 0, 0, 0);
+        
     }];
     self.isResponseToScroll = NO;
     self.tableView.bounces = NO;
@@ -100,11 +111,12 @@
     [self.subTableViewController.pullFreshView stopLoading];
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         // maintable重绘之后，contentsize要重新加上offset
         self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height + 100.f);
     }];
-    self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, self.tableView.contentOffset.y + 100.f);
+   // self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, self.tableView.contentOffset.y + 100.f);
+    self.tableView.contentOffset=CGPointMake(self.tableView.contentOffset.x, 0);
     self.tableView.bounces = YES;
     self.isResponseToScroll = YES;
     self.pullFreshView.hidden = NO;
