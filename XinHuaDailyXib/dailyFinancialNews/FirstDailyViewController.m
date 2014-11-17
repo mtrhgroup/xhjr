@@ -6,15 +6,16 @@
 //
 //
 
-#import "DailyListViewController.h"
+#import "FirstDailyViewController.h"
 #import "OtherDailyViewController.h"
+#import "ArticleViewController.h"
 #import "TileCell.h"
 #import "DailyHeader.h"
-@interface DailyListViewController ()
+@interface FirstDailyViewController ()
 @property(nonatomic, strong)DailyArticles *daily_articles;
 @end
 
-@implementation DailyListViewController
+@implementation FirstDailyViewController
 @synthesize service=_service;
 @synthesize daily_articles=_daily_articles;
 
@@ -23,13 +24,10 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     [self fetchArticlesFromNET];
-    //self.subTableViewController = [[OtherDailyViewController alloc] init];
+    self.subTableViewController = [[OtherDailyViewController alloc] init];
 }
 -(void)fetchArticlesFromNET{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyyMMddHHmmss";
-    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
-    [self.service fetchArticlesFromNETWithChannel:AppDelegate.channel time:time successHandler:^(NSArray *articles) {
+    [self.service fetchLatestArticlesFromNETWithChannel:AppDelegate.channel successHandler:^(NSArray *articles) {
         self.daily_articles=[self.service fetchLatestDailyArticlesFromDBWithChannel:AppDelegate.channel];
         super.tableView.tableHeaderView=[[DailyHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width,40)];
         if(self.daily_articles.date.length==10){
@@ -71,5 +69,10 @@
     }
     cell.article=[self.daily_articles.articles objectAtIndex:indexPath.row];
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    Article * article = [self.daily_articles.articles objectAtIndex:indexPath.row];
+    ArticleViewController *vc=[[ArticleViewController alloc] initWithAritcle:article];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

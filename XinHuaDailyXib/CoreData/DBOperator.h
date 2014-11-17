@@ -27,6 +27,7 @@
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN;
 -(NSArray *)fetchDailyArticlesWithChannel:(Channel *)channel date:(NSString *)date;
+-(NSArray *)fetchArticlesWithTag:(NSString *)tag;
 -(NSString *)queryNextAvailableDateWithChannel:(Channel *)channel date:(NSString *)date;
 -(NSString *)queryPreviousAvailableDateWithChannel:(Channel *)channel date:(NSString *)date;
 -(NSString *)queryLatestAvailableDateWithChannel:(Channel *)channel;

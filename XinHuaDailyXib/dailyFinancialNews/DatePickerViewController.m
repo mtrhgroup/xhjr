@@ -1,5 +1,6 @@
 #import "DatePickerViewController.h"
 #import "NavigationController.h"
+#import "DailyViewController.h"
 #import "Color.h"
 
 @interface DatePickerViewController ()
@@ -23,7 +24,6 @@
     self.title=@"往期刊物";
     [self setAirPlaneToDay:-365 ToDateforString:nil];
     self.calendarblock = ^(CalendarDayModel *model){
-        
         NSLog(@"\n---------------------------");
         NSLog(@"1星期 %@",[model getWeek]);
         NSLog(@"2字符串 %@",[model toString]);
@@ -31,6 +31,11 @@
 
     };
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void)showDailyWithDate:(NSString *)date{
+    NSLog(@"show daily :%@",date);
+    DailyViewController *vc=[[DailyViewController alloc]initWithService:AppDelegate.service date:date];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,7 +59,9 @@
 }
 
 
-
+-(void)selectedDate:(NSString *)date{
+    [self showDailyWithDate:date];
+}
 
 
 #pragma mark - 逻辑代码初始化

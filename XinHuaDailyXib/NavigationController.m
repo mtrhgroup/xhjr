@@ -60,5 +60,19 @@
     UIBarButtonItem *right_btn_item=[[UIBarButtonItem alloc] initWithCustomView:right_btn];
     [self.visibleViewController.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,right_btn_item,nil] animated:YES];
 }
+-(void)setRightButtonWithString:(NSString *)string target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents{
+    UIButton *right_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,40)];
+    [right_btn setTitle:string forState:UIControlStateNormal];
+    [right_btn addTarget:target action:action forControlEvents:controlEvents];
+    UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    if(lessiOS7){
+        negativeSpacer.width=0;
+    }else{
+        negativeSpacer.width=-20;
+    }
+    negativeSpacer.width=0;
+    UIBarButtonItem *right_btn_item=[[UIBarButtonItem alloc] initWithCustomView:right_btn];
+    [self.visibleViewController.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,right_btn_item,nil] animated:YES];
+}
 
 @end

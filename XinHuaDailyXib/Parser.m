@@ -10,7 +10,9 @@
 #import "NSIks.h"
 #import "Channel.h"
 #import "Article.h"
+#import "Comment.h"
 #import "Command.h"
+
 @implementation Parser
 -(NSArray*)parseChannels:(NSString *) xmlstring{
     NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -154,6 +156,22 @@
         return article;
     }
     return nil;
+}
+-(NSArray *)parseComments:(NSString *)xmlstring{
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
+    iks*  item =   [xml firstTagFrom:xml.xmlObject];
+    while (item)
+    {
+        Comment*  comment = [[Comment alloc] init];
+        comment.comment_id = [xml findValueFrom:item nodeName:@"id"];
+        comment.comment_source=[xml findValueFrom:item nodeName:@"sn"];
+        comment.comment_time=[xml findValueFrom:item nodeName:@"time"];
+        comment.comment_content=[xml findValueFrom:item nodeName:@"content"];
+        [result addObject:comment];
+        item = [xml nextTagFrom:item];
+    }
+    return result;
 }
 -(AppInfo *)parseAppInfo:(NSString *)xmlstring{
     if(xmlstring.length<70)return nil;

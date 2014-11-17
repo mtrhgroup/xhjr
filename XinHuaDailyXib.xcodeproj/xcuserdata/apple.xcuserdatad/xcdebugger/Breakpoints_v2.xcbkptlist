@@ -9026,54 +9026,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436586533.951137"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "-loadArticleContentFromNet"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436327411.569918"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "-videoFinished:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436327411.569918"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-videoFinished:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/WebViewJavascriptBridge/WebViewJavascriptBridge.m"
             timestampString = "435742984.962123"
             startingColumnNumber = "9223372036854775807"
@@ -9328,28 +9280,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/ArticleViewController.m"
-            timestampString = "436327411.569918"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "-videoFinished:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/Parser.m"
-            timestampString = "436693227.892731"
+            timestampString = "437904754.361249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "-parseArticles:"
             landmarkType = "5">
          </BreakpointContent>
@@ -9389,32 +9325,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/VerifyCodeSubmitViewController.m"
-            timestampString = "437733922.552966"
+            filePath = "XinHuaDailyXib/dailyFinancialNews/FirstDailyViewController.m"
+            timestampString = "437880776.458839"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "-bindPhoneNumber"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/DailyListViewController.m"
-            timestampString = "437734561.843705"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-fetchArticlesFromNET"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -9424,13 +9344,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/DailyListViewController.m"
-            timestampString = "437734616.035095"
+            filePath = "XinHuaDailyXib/dailyFinancialNews/LeftViewController.m"
+            timestampString = "437882655.703475"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "-reloadTagsFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -25,8 +25,8 @@
 @property(nonatomic,strong)RefreshTouchView *touchView;
 @property(nonatomic,strong)PopupMenuView *popupMenuView;
 @property(nonatomic,strong)ZSYPopoverListView *fontAlertView;
-@property(nonatomic,strong)UIButton *like_btn;
-@property(nonatomic,strong)UILabel *like_number_label;
+@property(nonatomic,strong)UIButton *comment_btn;
+@property(nonatomic,strong)UILabel *comment_number_label;
 @property(nonatomic,strong)UIButton *collect_btn;
 @property(nonatomic,assign)BOOL isAD;
 @property(nonatomic,strong)Article *ad_article;
@@ -38,8 +38,8 @@
 @synthesize popupMenuView=_popupMenuView;
 @synthesize fontAlertView=_fontAlertView;
 @synthesize isAD=_isAD;
-@synthesize like_btn=_like_btn;
-@synthesize like_number_label=_like_number_label;
+@synthesize comment_btn=_comment_btn;
+@synthesize comment_number_label=_comment_number_label;
 @synthesize collect_btn=_collect_btn;
 @synthesize bridge=_bridge;
 @synthesize ad_article=_ad_article;
@@ -158,7 +158,7 @@
     [self loadArticleContentFromNet];
 }
 -(void)viewDidAppear:(BOOL)animated{
-    _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+    _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
 }
 - (void)viewDidLoad
 {
@@ -196,20 +196,20 @@
     [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.font_size];
     if(!self.isAD){
         UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,68,34)];
-        _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
-        _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
-        _like_number_label.textAlignment=NSTextAlignmentRight;
-        _like_number_label.textColor=[UIColor grayColor];
-        _like_number_label.backgroundColor=[UIColor clearColor];
-        _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
-        _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
-        [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
-        [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
-        [like_view addSubview:_like_btn];
-        [like_view addSubview:_like_number_label];
+        _comment_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
+        _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+        _comment_number_label.textAlignment=NSTextAlignmentRight;
+        _comment_number_label.textColor=[UIColor grayColor];
+        _comment_number_label.backgroundColor=[UIColor clearColor];
+        _comment_number_label.font = [UIFont fontWithName:@"Arial" size:10];
+        _comment_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
+        [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
+        [_comment_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
+        [like_view addSubview:_comment_btn];
+        [like_view addSubview:_comment_number_label];
         if(_article.is_like){
-            _like_btn.enabled=NO;
-            [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
+            _comment_btn.enabled=NO;
+            [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
         }
         UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         if(lessiOS7){
@@ -427,11 +427,11 @@ BOOL isFirst=YES;
     [share showShareMenuWithShareContent:content displayPlatforms:platforms supportedInterfaceOrientations:UIInterfaceOrientationMaskPortrait isStatusBarHidden:NO targetViewForPad:self.view cancelListener:onCancel failureListener:onFailure resultListener:onResult];
 }
 #pragma mark - like article
--(void)likeArticle{
+-(void)showComments{
     [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
-        _like_number_label.text=like_number;
-        [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
-        _like_btn.enabled=NO;
+        _comment_number_label.text=like_number;
+        [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
+        _comment_btn.enabled=NO;
         _article.is_like=YES;
         _article.like_number=[NSNumber numberWithInteger:like_number.integerValue];
         [_service markArticleLikeWithArticle:_article];

@@ -229,4 +229,4 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_comment_list.ashx?imei=%@&sn=%@&appid=%@"
+#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_comment_list.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=asc"

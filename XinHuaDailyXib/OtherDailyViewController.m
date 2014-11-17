@@ -7,13 +7,14 @@
 //
 
 #import "OtherDailyViewController.h"
-
+#import "ArticleViewController.h"
 @interface OtherDailyViewController ()
-
+@property(nonatomic, strong)DailyArticles *daily_articles;
 @end
 
 @implementation OtherDailyViewController
-
+@synthesize service=_service;
+@synthesize daily_articles=_daily_articles;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -50,5 +51,9 @@
     
     return cell;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    Article * article = [self.daily_articles.articles objectAtIndex:indexPath.row];
+    ArticleViewController *vc=[[ArticleViewController alloc] initWithAritcle:article];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

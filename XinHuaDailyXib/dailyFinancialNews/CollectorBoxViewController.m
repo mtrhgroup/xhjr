@@ -11,12 +11,12 @@
 #import "FavorCell.h"
 #import "NavigationController.h"
 @interface CollectorBoxViewController ()
-
+@property(nonatomic,strong)UIButton *mode_btn;
 @end
 
 @implementation CollectorBoxViewController
 @synthesize items=_items;
-    
+@synthesize mode_btn=_mode_btn;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,13 +32,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self setupTableView];
     // Do any additional setup after loading the view.
 }
 - (void)setupTableView
 {
-    self.title=@"收藏夹";
+    self.title=@"我的收藏";
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -47,6 +46,21 @@
     self.tableView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:self.tableView];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    self.mode_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,50,30)];
+    [self.mode_btn setTitle:@"编辑" forState:UIControlStateNormal];
+    [self.mode_btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.mode_btn addTarget:self action:@selector(toggleToEditMode) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    if(lessiOS7){
+        negativeSpacer.width=0;
+    }else{
+        negativeSpacer.width=-20;
+    }
+    negativeSpacer.width=0;
+    UIBarButtonItem *right_btn_item=[[UIBarButtonItem alloc] initWithCustomView:self.mode_btn];
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,right_btn_item,nil] animated:YES];
+}
+-(void)toggleToEditMode{
     
 }
 -(void)back{
@@ -58,8 +72,7 @@
     [self.tableView reloadData];
     
 }
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

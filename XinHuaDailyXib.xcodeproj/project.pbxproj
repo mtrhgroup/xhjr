@@ -49,6 +49,12 @@
 		1877654A19F7A2FF00D84604 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877654219F7A2FF00D84604 /* share.png */; };
 		1877654B19F7A2FF00D84604 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877654319F7A2FF00D84604 /* star.png */; };
 		1877654C19F7A2FF00D84604 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877654419F7A2FF00D84604 /* tag.png */; };
+		187D35691A199186003CF5E9 /* DailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187D35681A199186003CF5E9 /* DailyViewController.m */; };
+		187D356C1A19C60F003CF5E9 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187D356B1A19C60F003CF5E9 /* CommentsViewController.m */; };
+		187D356E1A19C8C1003CF5E9 /* comment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 187D356D1A19C8C1003CF5E9 /* comment.xml */; };
+		187D35711A19C98A003CF5E9 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187D35701A19C98A003CF5E9 /* CommentCell.m */; };
+		187D35741A19C9C2003CF5E9 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 187D35731A19C9C2003CF5E9 /* Comment.m */; };
+		187D35751A19C9C2003CF5E9 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 187D35731A19C9C2003CF5E9 /* Comment.m */; };
 		187F598119F9DB460050563A /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187F597419F9DB460050563A /* AMBlurView.m */; };
 		187F598C19F9E9520050563A /* FeedBackToEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187F598B19F9E9520050563A /* FeedBackToEditorViewController.m */; };
 		1881F0EE19F5E81D00AD52CC /* ChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881F0ED19F5E81D00AD52CC /* ChannelCell.m */; };
@@ -261,7 +267,7 @@
 		18EF92A61A143D3400891BCE /* TagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92A51A143D3400891BCE /* TagListViewController.m */; };
 		18EF92B21A143E0D00891BCE /* FeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92B11A143E0D00891BCE /* FeedBackViewController.m */; };
 		18EF92B81A143E5600891BCE /* DatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92B71A143E5600891BCE /* DatePickerViewController.m */; };
-		18EF92C11A14498600891BCE /* DailyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92C01A14498600891BCE /* DailyListViewController.m */; };
+		18EF92C11A14498600891BCE /* FirstDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92C01A14498600891BCE /* FirstDailyViewController.m */; };
 		18EF92C41A14540C00891BCE /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92C31A14540C00891BCE /* RequestViewController.m */; };
 		18EF92D41A1456E700891BCE /* DFNDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92CE1A1456E700891BCE /* DFNDefaultView.m */; };
 		18EF92D91A1457C700891BCE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE474AF15672D0000081C82 /* main.m */; };
@@ -324,7 +330,7 @@
 		18EF93261A1457C700891BCE /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCA2EE163A278600D6A645 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18EF93271A1457C700891BCE /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCA2F0163A278600D6A645 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18EF93281A1457C700891BCE /* WebViewJavascriptBridgeAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EECA0C19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m */; };
-		18EF93291A1457C700891BCE /* DailyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92C01A14498600891BCE /* DailyListViewController.m */; };
+		18EF93291A1457C700891BCE /* FirstDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92C01A14498600891BCE /* FirstDailyViewController.m */; };
 		18EF932A1A1457C700891BCE /* DFNDefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF92CE1A1456E700891BCE /* DFNDefaultView.m */; };
 		18EF932B1A1457C700891BCE /* NetStreamStatistics.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F9078163E6C790011B104 /* NetStreamStatistics.m */; };
 		18EF932C1A1457C700891BCE /* DBOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1892C9E719E614ED00F26945 /* DBOperator.m */; };
@@ -718,6 +724,15 @@
 		1877654319F7A2FF00D84604 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		1877654419F7A2FF00D84604 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
 		187852AF1742350F00C249B0 /* btn_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_share.png; sourceTree = "<group>"; };
+		187D35671A199186003CF5E9 /* DailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyViewController.h; path = dailyFinancialNews/DailyViewController.h; sourceTree = "<group>"; };
+		187D35681A199186003CF5E9 /* DailyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyViewController.m; path = dailyFinancialNews/DailyViewController.m; sourceTree = "<group>"; };
+		187D356A1A19C60F003CF5E9 /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentsViewController.h; path = dailyFinancialNews/CommentsViewController.h; sourceTree = "<group>"; };
+		187D356B1A19C60F003CF5E9 /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentsViewController.m; path = dailyFinancialNews/CommentsViewController.m; sourceTree = "<group>"; };
+		187D356D1A19C8C1003CF5E9 /* comment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = comment.xml; sourceTree = "<group>"; };
+		187D356F1A19C98A003CF5E9 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		187D35701A19C98A003CF5E9 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
+		187D35721A19C9C2003CF5E9 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		187D35731A19C9C2003CF5E9 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		187F597319F9DB460050563A /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
 		187F597419F9DB460050563A /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		187F598A19F9E9520050563A /* FeedBackToEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackToEditorViewController.h; sourceTree = "<group>"; };
@@ -885,8 +900,8 @@
 		18EF92B71A143E5600891BCE /* DatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerViewController.m; path = dailyFinancialNews/DatePickerViewController.m; sourceTree = "<group>"; };
 		18EF92BC1A143FF200891BCE /* DFNAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFNAppDelegate.h; path = dailyFinancialNews/DFNAppDelegate.h; sourceTree = "<group>"; };
 		18EF92BD1A143FF200891BCE /* DFNAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DFNAppDelegate.m; path = dailyFinancialNews/DFNAppDelegate.m; sourceTree = "<group>"; };
-		18EF92BF1A14498600891BCE /* DailyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DailyListViewController.h; path = dailyFinancialNews/DailyListViewController.h; sourceTree = "<group>"; };
-		18EF92C01A14498600891BCE /* DailyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DailyListViewController.m; path = dailyFinancialNews/DailyListViewController.m; sourceTree = "<group>"; };
+		18EF92BF1A14498600891BCE /* FirstDailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstDailyViewController.h; path = dailyFinancialNews/FirstDailyViewController.h; sourceTree = "<group>"; };
+		18EF92C01A14498600891BCE /* FirstDailyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirstDailyViewController.m; path = dailyFinancialNews/FirstDailyViewController.m; sourceTree = "<group>"; };
 		18EF92C21A14540C00891BCE /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestViewController.h; path = dailyFinancialNews/RequestViewController.h; sourceTree = "<group>"; };
 		18EF92C31A14540C00891BCE /* RequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestViewController.m; path = dailyFinancialNews/RequestViewController.m; sourceTree = "<group>"; };
 		18EF92C51A14562400891BCE /* DFNDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DFNDrawerViewController.h; path = dailyFinancialNews/DFNDrawerViewController.h; sourceTree = "<group>"; };
@@ -1271,6 +1286,8 @@
 				189A7B7217B4808100D95048 /* AppInfo.m */,
 				18A5B25217C4BBF700E087F7 /* Command.h */,
 				18A5B25317C4BBF700E087F7 /* Command.m */,
+				187D35721A19C9C2003CF5E9 /* Comment.h */,
+				187D35731A19C9C2003CF5E9 /* Comment.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1704,6 +1721,8 @@
 				18EF94671A14974900891BCE /* TagHeaderView.m */,
 				471BFB9F1A17A080008CDB9D /* DailyHeader.h */,
 				471BFBA01A17A080008CDB9D /* DailyHeader.m */,
+				187D356F1A19C98A003CF5E9 /* CommentCell.h */,
+				187D35701A19C98A003CF5E9 /* CommentCell.m */,
 			);
 			name = v;
 			sourceTree = "<group>";
@@ -1734,10 +1753,14 @@
 				18EF92A21A143D2000891BCE /* RegisterViewController.m */,
 				18EF92A41A143D3400891BCE /* TagListViewController.h */,
 				18EF92A51A143D3400891BCE /* TagListViewController.m */,
-				18EF92BF1A14498600891BCE /* DailyListViewController.h */,
-				18EF92C01A14498600891BCE /* DailyListViewController.m */,
+				18EF92BF1A14498600891BCE /* FirstDailyViewController.h */,
+				18EF92C01A14498600891BCE /* FirstDailyViewController.m */,
 				18EF92A71A143D4900891BCE /* ArticleViewController.h */,
 				18EF92A81A143D4900891BCE /* ArticleViewController.m */,
+				187D35671A199186003CF5E9 /* DailyViewController.h */,
+				187D35681A199186003CF5E9 /* DailyViewController.m */,
+				187D356A1A19C60F003CF5E9 /* CommentsViewController.h */,
+				187D356B1A19C60F003CF5E9 /* CommentsViewController.m */,
 			);
 			name = center;
 			sourceTree = "<group>";
@@ -1789,6 +1812,7 @@
 		18B2739B19E4E58A00FE3D42 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				187D356D1A19C8C1003CF5E9 /* comment.xml */,
 				18AC32301A15F4FA007CA2D8 /* 新版接口201411141046.docx */,
 				186BEB991A06107100AA26F0 /* periodicals.xml */,
 			);
@@ -2586,6 +2610,7 @@
 				18EF93761A1457C700891BCE /* mail2.png in Resources */,
 				18EF93771A1457C700891BCE /* WebViewJavascriptBridge.js.txt in Resources */,
 				18EF93781A1457C700891BCE /* icon_rightarrow@2x.png in Resources */,
+				187D356E1A19C8C1003CF5E9 /* comment.xml in Resources */,
 				18EF93791A1457C700891BCE /* button_calendar_pressdown.png in Resources */,
 				18EF937A1A1457C700891BCE /* about_log.png in Resources */,
 				18EF937B1A1457C700891BCE /* about_tel.png in Resources */,
@@ -2767,6 +2792,7 @@
 				188738A018FCD3B00032CF2C /* db.xcdatamodeld in Sources */,
 				1877650519F731AA00D84604 /* AboutViewController.m in Sources */,
 				4753277319F279520081A0F5 /* YzdHUDIndicator.m in Sources */,
+				187D35741A19C9C2003CF5E9 /* Comment.m in Sources */,
 				4727ACAD19ED6218000B625A /* MJRefreshConst.m in Sources */,
 				18B273AD19E4EADC00FE3D42 /* Service.m in Sources */,
 				47C6C8C519E826EB002CD14C /* HomeViewController.m in Sources */,
@@ -2831,7 +2857,7 @@
 				188738D618FCD3B00032CF2C /* ASIInputStream.m in Sources */,
 				188738D718FCD3B00032CF2C /* ASINetworkQueue.m in Sources */,
 				18EECA0F19F8F5B3009FC79F /* WebViewJavascriptBridgeAbstract.m in Sources */,
-				18EF92C11A14498600891BCE /* DailyListViewController.m in Sources */,
+				18EF92C11A14498600891BCE /* FirstDailyViewController.m in Sources */,
 				18EF92D41A1456E700891BCE /* DFNDefaultView.m in Sources */,
 				188738D818FCD3B00032CF2C /* NetStreamStatistics.m in Sources */,
 				1892C9E819E614ED00F26945 /* DBOperator.m in Sources */,
@@ -2900,6 +2926,7 @@
 				47313D4F1A163D38009DECB9 /* NLSubTableViewController.m in Sources */,
 				18EF92E01A1457C700891BCE /* db.xcdatamodeld in Sources */,
 				18EF92E21A1457C700891BCE /* YzdHUDIndicator.m in Sources */,
+				187D35691A199186003CF5E9 /* DailyViewController.m in Sources */,
 				18EF92E31A1457C700891BCE /* MJRefreshConst.m in Sources */,
 				18EF92E41A1457C700891BCE /* Service.m in Sources */,
 				18EF92E61A1457C700891BCE /* GzipCompressor.m in Sources */,
@@ -2928,6 +2955,7 @@
 				18EF93011A1457C700891BCE /* ListCell.m in Sources */,
 				18EF93021A1457C700891BCE /* PopupMenuView.m in Sources */,
 				18EF93031A1457C700891BCE /* ParserFailedError.m in Sources */,
+				187D35711A19C98A003CF5E9 /* CommentCell.m in Sources */,
 				18EF93051A1457C700891BCE /* dom.c in Sources */,
 				18EF93061A1457C700891BCE /* RightViewController.m in Sources */,
 				18AC32331A15FC5F007CA2D8 /* VerifyCodeSubmitViewController.m in Sources */,
@@ -2950,6 +2978,7 @@
 				18EF93151A1457C700891BCE /* DatePickerViewController.m in Sources */,
 				18EF93171A1457C700891BCE /* AuthorizationTouchView.m in Sources */,
 				18AC320A1A15AB4F007CA2D8 /* NavigationController.m in Sources */,
+				187D35751A19C9C2003CF5E9 /* Comment.m in Sources */,
 				18EF93181A1457C700891BCE /* ASIDownloadCache.m in Sources */,
 				18EF931A1A1457C700891BCE /* UIScrollView+MJRefresh.m in Sources */,
 				18EF931B1A1457C700891BCE /* ASIFormDataRequest.m in Sources */,
@@ -2964,7 +2993,7 @@
 				18EF93261A1457C700891BCE /* ASIInputStream.m in Sources */,
 				18EF93271A1457C700891BCE /* ASINetworkQueue.m in Sources */,
 				18EF93281A1457C700891BCE /* WebViewJavascriptBridgeAbstract.m in Sources */,
-				18EF93291A1457C700891BCE /* DailyListViewController.m in Sources */,
+				18EF93291A1457C700891BCE /* FirstDailyViewController.m in Sources */,
 				18EF932A1A1457C700891BCE /* DFNDefaultView.m in Sources */,
 				471BFBA11A17A080008CDB9D /* DailyHeader.m in Sources */,
 				18EF932B1A1457C700891BCE /* NetStreamStatistics.m in Sources */,
@@ -2982,6 +3011,7 @@
 				47313D4D1A163D38009DECB9 /* NLPullDownRefreshView.m in Sources */,
 				18EF933B1A1457C700891BCE /* ALImageView.m in Sources */,
 				18EF933C1A1457C700891BCE /* iVersion.m in Sources */,
+				187D356C1A19C60F003CF5E9 /* CommentsViewController.m in Sources */,
 				18AC32281A15DE76007CA2D8 /* CalendarDayModel.m in Sources */,
 				18EF933F1A1457C700891BCE /* AboutViewController.m in Sources */,
 				18EF93411A1457C700891BCE /* TagListViewController.m in Sources */,

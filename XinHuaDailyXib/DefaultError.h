@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @interface DefaultError : NSError
 +(id)aErrorWithMessage:(NSString *)message;
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "CalendarViewController.h"
 @interface DatePickerViewController : CalendarViewController
-
+-(void)selectedDate:(NSString *)date;
 @end

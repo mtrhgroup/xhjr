@@ -15,4 +15,5 @@
 -(Article *)parseOneArticle:(NSString *)xmlstring;
 -(AppInfo *)parseAppInfo:(NSString *)xmlstring;
 -(NSArray *)parseCommands:(NSString *)xmlstring;
+-(NSArray *)parseComments:(NSString *)xmlstring;
 @end

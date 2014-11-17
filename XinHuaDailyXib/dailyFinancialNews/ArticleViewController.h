@@ -14,6 +14,11 @@
 #import "ZSYPopoverListView.h"
 #import "RefreshTouchView.h"
 #import "ArticleViewDelegate.h"
+typedef NS_ENUM(NSInteger, PresentType)
+{
+    Present = 0,
+    Push = 1,
+};
 @interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate>
 - (id)initWithAritcle:(Article *)article;
 -(id)initWithPushArticleID:(NSString *)articleID;

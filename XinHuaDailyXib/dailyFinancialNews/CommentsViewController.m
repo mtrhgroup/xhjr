@@ -1,25 +1,22 @@
 //
-//  ListViewController.m
+//  CommentsViewController.m
 //  XinHuaDailyXib
 //
-//  Created by apple on 14/11/13.
+//  Created by apple on 14/11/17.
 //
 //
 
-#import "TagListViewController.h"
-#import "TileCell.h"
+#import "CommentsViewController.h"
 #import "NavigationController.h"
-#import "ArticleViewController.h"
-@interface TagListViewController ()
-@property(nonatomic, strong)NSArray *articles;
+#import "CommentCell.h"
+#import "Comment.h"
+@interface CommentsViewController ()
+@property(nonatomic,strong)NSArray *comments;
 @property(nonatomic,strong)UITableView *tableView;
 @end
 
-@implementation TagListViewController
-@synthesize tag=_tag;
-@synthesize articles=_articles;
-@synthesize service=_service;
-@synthesize tableView=_tableView;
+@implementation CommentsViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
@@ -33,24 +30,39 @@
     self.tableView.backgroundColor=[UIColor clearColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
+    [self reloadCommentsFromNET];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 }
--(void)back{
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadArticlesFromDB];
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(void)reloadArticlesFromDB{
-    self.articles=[self.service fetchArticlesFromDBWithTag:self.tag];
-    [self.tableView reloadData];
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (id)initWithService:(Service *)service article:(Article *)article{
+    self = [super init];
+    if (self) {
+        self.service=service;
+        self.article=article;
+    }
+    return self;
+}
+
+-(void)reloadCommentsFromNET{
+    [self.service fetchLatestCommentsFromNETWithArticle:self.article successHandler:^(NSArray *comments) {
+        self.comments=comments;
+        [self.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        // <#code#>
+    }];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -60,28 +72,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.articles count];
+    return [self.comments count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 280;
+    return 50;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *TileCellID = @"cellname";
-    TileCell *cell=nil;
+    CommentCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
     if(cell==nil){
-        cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
+        cell=[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
     }
-    cell.article=[self.articles objectAtIndex:indexPath.row];
+    cell.comment=[self.comments objectAtIndex:indexPath.row];
     return cell;
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Article * article = [self.articles objectAtIndex:indexPath.row];
-    ArticleViewController *vc=[[ArticleViewController alloc] initWithAritcle:article];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
