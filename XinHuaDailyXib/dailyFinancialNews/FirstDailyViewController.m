@@ -12,7 +12,7 @@
 #import "TileCell.h"
 #import "DailyHeader.h"
 #import "MJRefresh.h"
-@interface DailyListViewController ()
+@interface FirstDailyViewController ()
 @property(nonatomic, strong)DailyArticles *daily_articles;
 @end
 

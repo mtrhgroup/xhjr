@@ -8,15 +8,17 @@
 
 #import "CollectorBoxViewController.h"
 #import "ArticleViewController.h"
-#import "FavorCell.h"
+#import "CollectorCell.h"
 #import "NavigationController.h"
 @interface CollectorBoxViewController ()
 @property(nonatomic,strong)UIButton *mode_btn;
+@property(nonatomic,assign)BOOL *is_editable;
 @end
 
 @implementation CollectorBoxViewController
 @synthesize items=_items;
 @synthesize mode_btn=_mode_btn;
+@synthesize is_editable=_is_editable;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.is_editable=NO;
     [self setupTableView];
     // Do any additional setup after loading the view.
 }
@@ -61,7 +64,12 @@
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,right_btn_item,nil] animated:YES];
 }
 -(void)toggleToEditMode{
-    
+    self.is_editable=self.is_editable==YES?NO:YES;
+    if(_is_editable){
+        [self.mode_btn setTitle:@"编辑" forState:UIControlStateNormal];
+    }else{
+        [self.mode_btn setTitle:@"完成" forState:UIControlStateNormal];
+    }
 }
 -(void)back{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -87,11 +95,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *favorCellID=@"favorCellID";
-    FavorCell *cell = [tableView dequeueReusableCellWithIdentifier:favorCellID];
+     CollectorCell*cell = [tableView dequeueReusableCellWithIdentifier:favorCellID];
     if(!cell){
-        cell=[[FavorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:favorCellID];
+        cell=[[CollectorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:favorCellID];
     }
     [cell setArticle:[_items objectAtIndex:indexPath.row]];
+    cell.is_editable=self.is_editable;
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

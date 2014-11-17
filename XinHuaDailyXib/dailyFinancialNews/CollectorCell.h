@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CollectorCell : UITableViewCell
-
+@property(nonatomic,strong)Article *article;
+@property(nonatomic,assign)BOOL is_editable;
 @end
