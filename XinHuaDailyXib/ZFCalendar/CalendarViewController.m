@@ -164,8 +164,9 @@ static NSString *DayCell = @"DayCell";
         if (self.calendarblock) {
             
             self.calendarblock(model);//传递数组给上级
+            [self selectedDate:model.toString];
             
-            timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(onTimer) userInfo:nil repeats:YES];
+           // timer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(onTimer) userInfo:nil repeats:YES];
         }
         [self.collectionView reloadData];
     }
@@ -177,7 +178,9 @@ static NSString *DayCell = @"DayCell";
     return YES;
 }
 
-
+-(void)selectedDate:(NSString *)date{
+    
+}
 
 
 //定时器方法

@@ -40,8 +40,16 @@ alpha:((c)&0xFF)/255.0]
 #import "DFNAppDelegate.h"
 #define AppDelegate ((DFNAppDelegate *)[[UIApplication sharedApplication] delegate])
 #define AppID @"MRCJ"
+#define kNotificationNewArticlesReceived @"notification_new_articles_received"
+#define kNotificationLatestDailyReceived @"kNotificationLatestDailyReceived"
+#define kNotificationLeftChannelsRefresh @"notification_left_channels_refresh"
+#define kNotificationAppVersionReceived @"notification_app_version_received"
+#define kNotificationBindSNSuccess @"kNotificationBindSNSuccess"
+#define kNotificationShowPicChannel @"kNotificationShowPicChannel"
+#define SXTErrorDomain @"com.xinhuanet.sxt"
+#import "UIWindow+YzdHUD.h"
 #endif
-
+#import "GlobalVariablesDefine.h"
 #ifdef __DEBUG__
 #define LoggerSimple(format,...) NSLog(format, ##__VA_ARGS__);
 #define Logger(format, ...)NSLog((@"%s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -60,6 +68,5 @@ alpha:((c)&0xFF)/255.0]
 #define HaloAssert(e)
 #define HaloNSAssert(condition,desc)
 #endif
-
-
 #endif
+

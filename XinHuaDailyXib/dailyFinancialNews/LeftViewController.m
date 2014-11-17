@@ -11,6 +11,7 @@
 #import "CollectorBoxViewController.h"
 #import "RequestViewController.h"
 #import "DatePickerViewController.h"
+#import "TagListViewController.h"
 #import "NavigationController.h"
 #import "TagCell.h"
 #import "TagHeaderView.h"
@@ -28,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.tags=[NSArray arrayWithObjects:@"人事变动",@"银行业",@"地方投资",@"欧洲峰会",nil];
+    self.tags=[self.service fetchLatestDailyTagsFromDBWithChannel:AppDelegate.channel];
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     flowLayout.minimumLineSpacing=10;
     flowLayout.minimumInteritemSpacing=5;
@@ -46,8 +47,12 @@
     self.func_table.backgroundColor=[UIColor clearColor];
     self.func_table.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.func_table];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTagsFromDB) name:kNotificationLatestDailyReceived object:nil];
 }
-
+-(void)reloadTagsFromDB{
+    self.tags=[self.service fetchLatestDailyTagsFromDBWithChannel:AppDelegate.channel];
+    [self.tag_collection reloadData];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -71,7 +76,12 @@
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSString *tag=[self.tags objectAtIndex:indexPath.row];
+    TagListViewController *vc=[[TagListViewController alloc]init];
+    vc.tag=tag;
+    vc.service=self.service;
+    NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
+    [self presentViewController:nv animated:YES completion:nil];
     
 }
 //返回这个UICollectionView是否可以被选择

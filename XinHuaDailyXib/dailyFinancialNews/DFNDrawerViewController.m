@@ -15,7 +15,7 @@
 #import "SettingViewController.h"
 #import "RightViewController.h"
 #import "HomeViewController.h"
-#import "DailyListViewController.h"
+#import "FirstDailyViewController.h"
 @interface DFNDrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)DFNDefaultView *cover_view;
@@ -23,7 +23,7 @@
 @property (nonatomic, strong)  UINavigationController *nav_comm_vc;
 @property (nonatomic,strong)   LeftViewController *left_menu_vc;
 @property(nonatomic,strong)    RightViewController *right_vc;
-@property(nonatomic,strong)    DailyListViewController *center_vc;
+@property(nonatomic,strong)    FirstDailyViewController *center_vc;
 @end
 
 @implementation DFNDrawerViewController
@@ -47,8 +47,9 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     self.view.backgroundColor=[UIColor whiteColor];
     //初始化左侧菜单对象
     self.left_menu_vc= [[LeftViewController alloc]init];
+    self.left_menu_vc.service=self.service;
     self.right_vc=[[RightViewController alloc] init];
-    self.center_vc=[[DailyListViewController alloc] init];
+    self.center_vc=[[FirstDailyViewController alloc] init];
     self.center_vc.service=self.service;
     //    //初始化抽屉视图对象
 

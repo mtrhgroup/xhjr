@@ -6,8 +6,9 @@
 //
 //
 
-#import "DailyListViewController.h"
+#import "FirstDailyViewController.h"
 #import "OtherDailyViewController.h"
+#import "ArticleViewController.h"
 #import "TileCell.h"
 #import "DailyHeader.h"
 #import "MJRefresh.h"
@@ -15,7 +16,7 @@
 @property(nonatomic, strong)DailyArticles *daily_articles;
 @end
 
-@implementation DailyListViewController
+@implementation FirstDailyViewController
 @synthesize service=_service;
 @synthesize daily_articles=_daily_articles;
 

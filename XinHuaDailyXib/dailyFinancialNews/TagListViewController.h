@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TagListViewController : UIViewController
-
+@interface TagListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@property(nonatomic,strong)Service *service;
+@property(nonatomic,strong)NSString *tag;
 @end

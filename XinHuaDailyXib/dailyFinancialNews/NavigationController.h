@@ -11,4 +11,5 @@
 @interface NavigationController : UINavigationController
 -(void)setLeftButtonWithImage:(UIImage *)img target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 -(void)setRightButtonWithImage:(UIImage *)img target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
+-(void)setRightButtonWithString:(NSString *)string target:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents;
 @end

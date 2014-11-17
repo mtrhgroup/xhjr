@@ -256,6 +256,21 @@
         });
     }];
 }
+-(void)fetchLatestArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
+    [self fetchArticlesFromNETWithChannel:channel time:time successHandler:^(NSArray *articles) {
+        if(successBlock){
+            successBlock(articles);
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
+    } errorHandler:^(NSError *error){
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id,time,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
@@ -279,8 +294,8 @@
     }];
 }
 
--(void)fetchDailyArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kDailyArticlesURL,[DeviceInfo udid],channel.channel_id,time,AppID];
+-(void)fetchDailyArticlesFromNETWithChannel:(Channel *)channel date:(NSString *)date successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kDailyArticlesURL,[DeviceInfo udid],channel.channel_id,date,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
@@ -290,6 +305,7 @@
             }
             [db_operator save];
             dispatch_async(dispatch_get_main_queue(), ^{
+                
                 if(successBlock){
                     successBlock(articles);
                 }
@@ -320,6 +336,45 @@
     }];
 }
 
+-(void)fetchCommentsFromNETWithArticle:(Article *)article time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+//    NSString *url=[NSString stringWithFormat:kCommentListURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,AppID,20,article.article_id,time];
+//    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            NSArray *comments=[_parser parseComments:responseStr];
+//            dispatch_async(dispatch_get_main_queue(), ^{     
+//                if(successBlock){
+//                    successBlock(comments);
+//                }
+//            });
+//        });
+//    } errorHandler:^(NSError *error) {
+//        if(errorBlock){
+//            errorBlock(error);
+//        }
+//    }];
+    NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"comment.xml"];
+    NSError* err=nil;  
+    NSString *testxml= [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&err];
+    NSArray *comments=[_parser parseComments:testxml];
+    if(successBlock){
+        successBlock(comments);
+    }
+
+}
+-(void)fetchLatestCommentsFromNETWithArticle:(Article *)article successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
+    [self fetchCommentsFromNETWithArticle:article time:time successHandler:^(NSArray *comments) {
+        if(successBlock){
+            successBlock(comments);
+        }
+    } errorHandler:^(NSError *error){
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
 -(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kCommandsURL,[DeviceInfo udid],AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
@@ -429,7 +484,23 @@
         return nil;
     }
 }
-
+-(NSArray *)fetchLatestDailyTagsFromDBWithChannel:(Channel *)channel{
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    NSString *date=[db_operator queryLatestAvailableDateWithChannel:channel];
+    NSArray *articles=[db_operator fetchDailyArticlesWithChannel:channel date:date];
+    NSMutableSet *tags=[[NSMutableSet alloc] init];
+    for(Article *article in articles){
+        NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];
+        for(NSString *tag in keywords){
+            [tags addObject:tag];
+        }
+    }
+    return [tags allObjects];
+}
+-(NSArray *)fetchArticlesFromDBWithTag:(NSString *)tag{
+   DBOperator *db_operator=[_db_manager theForegroundOperator];
+    return  [db_operator fetchArticlesWithTag:tag];
+}
 -(DailyArticles *)fetchDailyArticlesFromDBWithChannel:(Channel *)channel date:(NSString *)date{
     DBOperator *db_operator=[_db_manager theForegroundOperator];
     DailyArticles *das=[[DailyArticles alloc] init];
