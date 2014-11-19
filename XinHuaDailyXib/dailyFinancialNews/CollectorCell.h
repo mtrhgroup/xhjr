@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CollectorCell : UITableViewCell
-
+@property(nonatomic,strong)Article *article;
 @end

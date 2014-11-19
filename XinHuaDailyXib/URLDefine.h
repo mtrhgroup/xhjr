@@ -215,7 +215,7 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kCommentURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_litercomment.ashx?imei=%@&sn=%@&literid=%@&content=%@&appid=%@"
+#define kCommentURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_SetComment.ashx?imei=%@&sn=%@&literid=%@&content=%@&appid=%@"
 
 
 
@@ -229,4 +229,4 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_comment_list.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=asc"
+#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_LiterComment.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=asc"

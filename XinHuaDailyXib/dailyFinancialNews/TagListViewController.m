@@ -10,6 +10,7 @@
 #import "TileCell.h"
 #import "NavigationController.h"
 #import "ArticleViewController.h"
+#import "GlobalVariablesDefine.h"
 @interface TagListViewController ()
 @property(nonatomic, strong)NSArray *articles;
 @property(nonatomic,strong)UITableView *tableView;
@@ -22,7 +23,8 @@
 @synthesize tableView=_tableView;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.title=self.tag;
+    self.view.backgroundColor=VC_BG_COLOR;
     if(lessiOS7){
         self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     }else{
@@ -65,17 +67,24 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 280;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *TileCellID = @"cellname";
     TileCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
     if(cell==nil){
         cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
     }
+    cell.article=[self.articles objectAtIndex:indexPath.row];
+    return [cell preferHeight];
+}
+static NSString *TileCellID = @"cellname";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    TileCell *cell=nil;
+    cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
+    if(cell==nil){
+        cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
+    }
+    cell.type=Wraped_Date;
     cell.article=[self.articles objectAtIndex:indexPath.row];
     return cell;
 }

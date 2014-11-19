@@ -8,15 +8,17 @@
 
 #import "CollectorBoxViewController.h"
 #import "ArticleViewController.h"
-#import "FavorCell.h"
+#import "CollectorCell.h"
 #import "NavigationController.h"
 @interface CollectorBoxViewController ()
 @property(nonatomic,strong)UIButton *mode_btn;
+@property(nonatomic,assign)BOOL is_editable;
 @end
 
 @implementation CollectorBoxViewController
 @synthesize items=_items;
 @synthesize mode_btn=_mode_btn;
+@synthesize is_editable=_is_editable;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.is_editable=NO;
     [self setupTableView];
     // Do any additional setup after loading the view.
 }
@@ -40,7 +43,6 @@
     self.title=@"我的收藏";
     self.view.backgroundColor=[UIColor whiteColor];
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
@@ -61,14 +63,21 @@
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,right_btn_item,nil] animated:YES];
 }
 -(void)toggleToEditMode{
-    
+    self.is_editable=!self.is_editable;
+    if(_is_editable){
+        [self.mode_btn setTitle:@"完成" forState:UIControlStateNormal];
+        [self.tableView setEditing:YES animated:YES];
+    }else{
+        [self.mode_btn setTitle:@"编辑" forState:UIControlStateNormal];
+        [self.tableView setEditing:NO animated:YES];
+    }
 }
 -(void)back{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)reloadDataFromDB{
-    [_items removeAllObjects];
-    [_items addObjectsFromArray:[self.service fetchFavorArticlesFromDB]];
+
+    _items=[NSMutableArray arrayWithArray:[self.service fetchFavorArticlesFromDB]];
     [self.tableView reloadData];
     
 }
@@ -87,21 +96,32 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *favorCellID=@"favorCellID";
-    FavorCell *cell = [tableView dequeueReusableCellWithIdentifier:favorCellID];
+     CollectorCell*cell = [tableView dequeueReusableCellWithIdentifier:favorCellID];
     if(!cell){
-        cell=[[FavorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:favorCellID];
+        cell=[[CollectorCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:favorCellID];
     }
     [cell setArticle:[_items objectAtIndex:indexPath.row]];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 44;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article * article = [self.items objectAtIndex:indexPath.row];
-    ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
-    UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
-    [self presentViewController:nav_vc animated:YES completion:nil];
+        ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
+        UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav_vc animated:YES completion:nil];
+}
+-(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editingStyle==UITableViewCellEditingStyleDelete)
+    {
+         Article * article = [self.items objectAtIndex:indexPath.row];
+        [self.items removeObjectAtIndex:indexPath.row];
+        [self.service  markArticleCollectedWithArticle:article is_collected:NO];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]withRowAnimation:UITableViewRowAnimationFade];
+        [tableView reloadData];
+    }
 }
 @end

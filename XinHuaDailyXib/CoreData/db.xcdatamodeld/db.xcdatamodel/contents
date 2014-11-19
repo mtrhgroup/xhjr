@@ -6,6 +6,7 @@
         <attribute name="a_attachments" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_channel_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_channel_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="a_comments_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_cover_image_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_is_collected" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_is_like" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
@@ -36,7 +37,7 @@
         <attribute name="a_sort_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="330"/>
+        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="345"/>
         <element name="E_CHANNEL" positionX="-81" positionY="-25" width="128" height="225"/>
     </elements>
 </model>

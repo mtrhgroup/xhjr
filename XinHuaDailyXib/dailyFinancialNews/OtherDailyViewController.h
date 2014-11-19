@@ -10,4 +10,6 @@
 
 @interface OtherDailyViewController : NLSubTableViewController<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic,strong)Service *service;
+@property(nonatomic,strong)NSString *date;
+@property(nonatomic, strong)DailyArticles *daily_articles;
 @end

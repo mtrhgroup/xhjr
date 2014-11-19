@@ -11,13 +11,18 @@
 #import "UIPlaceHolderTextView.h"
 #import "UIWindow+YzdHUD.h"
 #import "AMBlurView.h"
+#import "GlobalVariablesDefine.h"
+#import "UIButton+Bootstrap.h"
 
 @interface FeedBackViewController ()
 @property (nonatomic,strong) AMBlurView *blurView;
 @property(nonatomic,strong)Service *service;
 @end
 
-@implementation FeedBackViewController
+@implementation FeedBackViewController{
+    UIButton *send_btn;
+}
+
 @synthesize contentTV;
 @synthesize article=_article;
 @synthesize waitingAlert;
@@ -50,9 +55,9 @@
     [super viewDidLoad];
     
     
-    self.title=@"稿件反馈";
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
-    
+    self.title=@"写评论";
+    self.view.backgroundColor=VC_BG_COLOR;
+    self.service=AppDelegate.service;
     [self setBlurView:[AMBlurView new]];
     [[self blurView] setFrame:CGRectMake(10.f, 10, 300, 140)];
     [self.blurView.layer setMasksToBounds:YES];
@@ -69,16 +74,21 @@
     content.layer.borderWidth = 0.2f;
     content.backgroundColor=[UIColor clearColor];
     content.layer.borderColor = [[UIColor grayColor] CGColor];
-    content.placeholder = @"输入对稿件的反馈意见发送给新华社";
+    content.placeholder = @"请文明发言";
     content.placeholderColor=[UIColor colorWithRed:150/255.0 green:150/255.0 blue:150/255.0 alpha:0.5];
+    content.delegate=self;
     content.contentInset = UIEdgeInsetsMake(2,2,2,2);
     self.contentTV=content;
     [self.view addSubview:content];
     [self.contentTV becomeFirstResponder];
-    
+    send_btn=[[UIButton alloc] initWithFrame:CGRectMake(10, self.blurView.frame.origin.y+self.blurView.frame.size.height+5, self.blurView.frame.size.width, 40)];
+    [send_btn dangerStyle];
+    [send_btn setTitle:@"发送" forState:UIControlStateNormal];
+    [send_btn addTarget:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
+    send_btn.enabled=NO;
+    [self.view addSubview:send_btn];
     [self makeWaitingAlert];
-    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"forward.png"] target:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
+    [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)makeWaitingAlert{
     self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待"
@@ -109,7 +119,7 @@
         return;
     }
     [self.service feedbackArticleWithContent:contentStr article:self.article successHandler:^(BOOL is_ok) {
-        
+        [self.view.window showHUDWithText:@"发送成功" Type:ShowPhotoYes Enabled:YES];
     } errorHandler:^(NSError *error) {
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
@@ -123,6 +133,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)textViewDidChangeSelection:(UITextView *)textView{
+    NSString *contentStr=self.contentTV.text;
+    if(contentStr==nil||[contentStr isEqualToString:@""]){
+        [self showAlertText:@"请输入内容"];
+        send_btn.enabled=NO;
+        return;
+    }
+    send_btn.enabled=YES;
 }
 
 @end

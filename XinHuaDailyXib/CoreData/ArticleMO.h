@@ -31,5 +31,6 @@
 @property (nonatomic, retain) NSNumber * a_is_collected;
 @property (nonatomic, retain)  NSNumber * a_is_like;
 @property (nonatomic, retain) NSString * a_key_words;
+@property (nonatomic, retain) NSNumber * a_comments_number;
 
 @end

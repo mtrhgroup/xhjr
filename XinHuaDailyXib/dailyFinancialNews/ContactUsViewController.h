@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ContactUsViewController : UIViewController
+@interface ContactUsViewController : UIViewController<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *emailTF;
 @property(nonatomic,strong)UITextView *contentTV;
 @property (strong,nonatomic)UIAlertView *waitingAlert;

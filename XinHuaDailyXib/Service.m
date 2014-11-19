@@ -337,34 +337,34 @@
 }
 
 -(void)fetchCommentsFromNETWithArticle:(Article *)article time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-//    NSString *url=[NSString stringWithFormat:kCommentListURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,AppID,20,article.article_id,time];
-//    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            NSArray *comments=[_parser parseComments:responseStr];
-//            dispatch_async(dispatch_get_main_queue(), ^{     
-//                if(successBlock){
-//                    successBlock(comments);
-//                }
-//            });
-//        });
-//    } errorHandler:^(NSError *error) {
-//        if(errorBlock){
-//            errorBlock(error);
-//        }
-//    }];
-    NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"comment.xml"];
-    NSError* err=nil;  
-    NSString *testxml= [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&err];
-    NSArray *comments=[_parser parseComments:testxml];
-    if(successBlock){
-        successBlock(comments);
-    }
+    NSString *url=[NSString stringWithFormat:kCommentListURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,AppID,20,article.article_content_id,time];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSArray *comments=[_parser parseComments:responseStr];
+            dispatch_async(dispatch_get_main_queue(), ^{     
+                if(successBlock){
+                    successBlock(comments);
+                }
+            });
+        });
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+//    NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"comment.xml"];
+//    NSError* err=nil;  
+//    NSString *testxml= [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&err];
+//    NSArray *comments=[_parser parseComments:testxml];
+//    if(successBlock){
+//        successBlock(comments);
+//    }
 
 }
 -(void)fetchLatestCommentsFromNETWithArticle:(Article *)article successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
-    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
+    NSString *time=[formatter stringFromDate:[[NSDate date] dateByAddingTimeInterval:1000]];
     [self fetchCommentsFromNETWithArticle:article time:time successHandler:^(NSArray *comments) {
         if(successBlock){
             successBlock(comments);
@@ -488,14 +488,22 @@
     DBOperator *db_operator=[_db_manager theForegroundOperator];
     NSString *date=[db_operator queryLatestAvailableDateWithChannel:channel];
     NSArray *articles=[db_operator fetchDailyArticlesWithChannel:channel date:date];
-    NSMutableSet *tags=[[NSMutableSet alloc] init];
+    NSMutableArray *tags=[[NSMutableArray alloc] init];
     for(Article *article in articles){
         NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];
         for(NSString *tag in keywords){
-            [tags addObject:tag];
+            BOOL has=NO;
+            for(NSString *item in tags){
+                if([item isEqualToString:tag]){
+                    has=YES;
+                }
+            }
+            if(!has){
+                [tags addObject:tag];
+            }
         }
     }
-    return [tags allObjects];
+    return tags;
 }
 -(NSArray *)fetchArticlesFromDBWithTag:(NSString *)tag{
    DBOperator *db_operator=[_db_manager theForegroundOperator];
@@ -571,7 +579,7 @@
     
 }
 -(void)feedbackArticleWithContent:(NSString *)content article:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kArticleFeedBack,[DeviceInfo udid],AppDelegate.user_defaults.sn,article.article_id,content,AppID];
+    NSString *url=[NSString stringWithFormat:kCommentURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,article.article_content_id,content,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             if(successBlock){

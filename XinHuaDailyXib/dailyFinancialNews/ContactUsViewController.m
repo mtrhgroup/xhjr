@@ -12,12 +12,18 @@
 #import "UIWindow+YzdHUD.h"
 #import "NavigationController.h"
 #import "AMBlurView.h"
+#import "GlobalVariablesDefine.h"
+#import "UIButton+Bootstrap.h"
 @interface ContactUsViewController ()
 @property (nonatomic,strong)AMBlurView *blurView;
 @property(nonatomic,strong)Service *service;
 @end
 
-@implementation ContactUsViewController
+@implementation ContactUsViewController{
+    UIButton *send_btn;
+    UITextField* email;
+}
+
 
 @synthesize contentTV;
 @synthesize emailTF;
@@ -36,8 +42,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title=@"反馈意见";
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
+    self.title=@"写反馈";
+    self.view.backgroundColor=VC_BG_COLOR;
     
     [self setBlurView:[AMBlurView new]];
     [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 170)];
@@ -48,7 +54,7 @@
     [self.view addSubview:[self blurView]];
     
     UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50+44, 280, 100)];
-   // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
+    // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
     content.layer.cornerRadius = 10.0f;
     [content setFont:[UIFont systemFontOfSize:17 ]];
     content.layer.borderWidth = 1.0f;
@@ -60,7 +66,7 @@
     self.contentTV=content;
     [self.view addSubview:content];
     NSString *lastEmail=[[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
-    UITextField* email = [[UITextField alloc] initWithFrame:CGRectMake(20, 160+44, 280, 40)];
+    email = [[UITextField alloc] initWithFrame:CGRectMake(20, 160+44, 280, 40)];
     email.layer.borderWidth = 1.0f;
     email.layer.borderColor = [[UIColor grayColor] CGColor];
     UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 25)];
@@ -70,48 +76,54 @@
     paddingView.backgroundColor = [UIColor clearColor];
     email.leftView = paddingView;
     email.leftViewMode = UITextFieldViewModeAlways;
-    email.placeholder = @"便于我们给您反馈";
+    email.placeholder = @"便于我们联系";
     email.textAlignment = NSTextAlignmentLeft;
+    email.delegate=self;
+    email.returnKeyType = UIReturnKeyDone;
     email.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     if(lastEmail!=nil){
-       email.text=lastEmail;
+        email.text=lastEmail;
     }
     self.emailTF=email;
     [self.view addSubview:email];
-    
+    send_btn=[[UIButton alloc] initWithFrame:CGRectMake(10, self.blurView.frame.origin.y+self.blurView.frame.size.height+5, self.blurView.frame.size.width, 40)];
+    [send_btn dangerStyle];
+    [send_btn setTitle:@"发送" forState:UIControlStateNormal];
+    [send_btn addTarget:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
+    send_btn.enabled=NO;
+    [self.view addSubview:send_btn];
     [self.contentTV becomeFirstResponder];
     
     [self makeWaitingAlert];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"forward.png"] target:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
     
 }
 -(void)back{
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)makeWaitingAlert{
-    self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待" 
-                                                   message:nil                         
-                                                  delegate:nil   
-                                         cancelButtonTitle:nil                     
-                                         otherButtonTitles:nil];  
+    self.waitingAlert = [[UIAlertView alloc]initWithTitle:@"请等待"
+                                                  message:nil
+                                                 delegate:nil
+                                        cancelButtonTitle:nil
+                                        otherButtonTitles:nil];
     
 }
 -(void)showWaitingAlert{
     [self.waitingAlert show];
-    UIActivityIndicatorView*activeView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];    
-    activeView.center = CGPointMake(waitingAlert.bounds.size.width/2.0f, waitingAlert.bounds.size.height-40.0f);      
-    [activeView startAnimating];      
-    [waitingAlert addSubview:activeView];         
+    UIActivityIndicatorView*activeView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activeView.center = CGPointMake(waitingAlert.bounds.size.width/2.0f, waitingAlert.bounds.size.height-40.0f);
+    [activeView startAnimating];
+    [waitingAlert addSubview:activeView];
 }
 -(void)hideWaitingAlert{
     [self.waitingAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
-- (BOOL)validateEmailWithString:(NSString*)email
+- (BOOL)validateEmailWithString:(NSString*)email_content
 {
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"; 
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex]; 
-    return [emailTest evaluateWithObject:email];
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email_content];
 }
 
 -(void)send_Message{
@@ -136,10 +148,87 @@
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
     }];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.view.frame = CGRectMake(0.f, 0.f, self.view.frame.size.width, self.view.frame.size.height);
+        
+    }completion:nil];
+    return YES;
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    if ([textField isEqual:email]) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            
+            self.view.frame = CGRectMake(0.f, -35.f, self.view.frame.size.width, self.view.frame.size.height);
+            
+        }completion:nil] ;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    NSString *contentStr=self.contentTV.text;
+    NSString *emailStr=self.emailTF.text;
+    if(contentStr==nil||[contentStr isEqualToString:@""]){
+        [self showAlertText:@"请输入内容"];
+        send_btn.enabled=NO;
+        return;
+    }
+    if(emailStr==nil||[emailStr isEqualToString:@""]){
+        [self showAlertText:@"请输入您的邮箱地址"];
+        send_btn.enabled=NO;
+        return;
+    }
+    if(![self validateEmailWithString:emailStr]){
+        [self showAlertText:@"请输入有效邮箱地址"];
+        send_btn.enabled=NO;
+        return;
+    }
+    send_btn.enabled=YES;
+    
+}
 - (void)showAlertText:(NSString*)string
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:string delegate:nil cancelButtonTitle:NSLocalizedString(@"确定", nil) otherButtonTitles:nil];
     [alert show];
+}
+/**
+ *	@brief	键盘出现
+ *
+ *	@param 	aNotification 	参数
+ */
+- (void)keyboardWillShow:(NSNotification *)aNotification
+
+{
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.view.frame = CGRectMake(0.f, -35.f, self.view.frame.size.width, self.view.frame.size.height);
+        
+    }completion:nil] ;
+    
+}
+
+/**
+ *	@brief	键盘消失
+ *
+ *	@param 	aNotification 	参数
+ */
+- (void)keyboardWillHide:(NSNotification *)aNotification
+
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.view.frame = CGRectMake(0.f, 0.f, self.view.frame.size.width, self.view.frame.size.height);
+        
+    }completion:nil];
+    
 }
 - (void)viewDidUnload
 {
@@ -151,5 +240,4 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 @end

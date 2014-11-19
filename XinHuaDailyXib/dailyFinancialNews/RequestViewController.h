@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RequestViewController : UIViewController
+@interface RequestViewController : UIViewController<UITextFieldDelegate>
 @property(nonatomic,strong)UITextField *emailTF;
 @property(nonatomic,strong)UITextView *contentTV;
 @property (strong,nonatomic)UIAlertView *waitingAlert;

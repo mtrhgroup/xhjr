@@ -100,6 +100,10 @@
             article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
             article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
             article.key_words=[xml findValueFrom:citem nodeName:@"keywords"];
+            article.comments_number=[xml findValueIntFrom:citem nodeName:@"comment"];
+            if(article.comments_number==nil){
+                article.comments_number=[NSNumber numberWithInt:0];
+            }
             NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
             if([pn isEqualToString:@"0"]){
                 article.is_push=NO;
@@ -146,6 +150,7 @@
         article.visit_number=[xml findValueIntFrom:citem nodeName:@"visit"];
         article.like_number=[xml findValueIntFrom:citem nodeName:@"like"];
         article.key_words=[xml findValueFrom:citem nodeName:@"keywords"];
+        article.comments_number=[xml findValueIntFrom:citem nodeName:@"comment"];
         NSString *pn=[xml findValueFrom:citem nodeName:@"pn"];
         if([pn isEqualToString:@"0"]){
             article.is_push=NO;

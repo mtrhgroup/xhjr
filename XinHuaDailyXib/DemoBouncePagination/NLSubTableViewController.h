@@ -14,5 +14,5 @@
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, weak) UITableViewController *mainTableViewController;
 @property(nonatomic, strong) NLPullDownRefreshView *pullFreshView;
-
+@property(nonatomic, strong) NLSubTableViewController *subTableViewController;
 @end

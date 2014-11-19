@@ -28,6 +28,7 @@
 @synthesize  like_number=_like_number;
 @synthesize  is_like=_is_like;
 @synthesize  key_words=_key_words;
+@synthesize comments_number=_comments_number;
 
 -(NSString *)page_path{
     NSString *dir_path=[self.zip_path stringByDeletingPathExtension];
@@ -38,6 +39,10 @@
 -(NSString *)zip_path{
     NSString* zip_file_name = [self.zip_url lastPathComponent];
     return [NSString stringWithFormat:@"%@/%@",AppDelegate.service.fs_manager.article_cache_dir_path,zip_file_name];
+}
+-(NSString *)article_content_id{
+    NSString *page_file_name=[self.page_url lastPathComponent];
+    return [page_file_name stringByDeletingPathExtension];
 }
 -(BOOL)is_cached{
     return [[NSFileManager defaultManager] fileExistsAtPath:self.page_path];
@@ -64,6 +69,7 @@
         self.like_number=articleMO.a_like_number;
         self.is_like=[articleMO.a_is_like boolValue];
         self.key_words=articleMO.a_key_words;
+        self.comments_number=articleMO.a_comments_number;
         
     }
     return self;
@@ -75,7 +81,7 @@
     articleMO.a_zip_url=self.zip_url;
     articleMO.a_publish_date=self.publish_date;
     articleMO.a_is_read=[NSNumber numberWithBool:self.is_read];
-    articleMO.a_is_collected=[NSNumber numberWithBool:self.is_collected];
+    //articleMO.a_is_collected=[NSNumber numberWithBool:self.is_collected];
     articleMO.a_channel_id=self.channel_id;
     articleMO.a_channel_name=self.channel_name;
     articleMO.a_attachments=self.attachments;
@@ -86,8 +92,9 @@
     articleMO.a_video_url=self.video_url;
     articleMO.a_visit_number=self.visit_number;
     articleMO.a_like_number=self.like_number;
-    articleMO.a_is_like=[NSNumber numberWithBool:self.is_like];
+    //articleMO.a_is_like=[NSNumber numberWithBool:self.is_like];
     articleMO.a_key_words=self.key_words;
+    articleMO.a_comments_number=self.comments_number;
 }
 @end
 @implementation ArticlesForCVC

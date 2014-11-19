@@ -296,6 +296,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     return articles;
 }
 -(NSArray *)fetchDailyArticlesWithChannel:(Channel *)channel date:(NSString *)date{
+    if(date.length==0)return [NSArray new];
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate *p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_publish_date BEGINSWITH[cd] %@", channel.channel_id,date];
     NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];

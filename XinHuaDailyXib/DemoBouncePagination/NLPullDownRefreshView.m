@@ -8,7 +8,7 @@
 
 #import "NLPullDownRefreshView.h"
 
-#define REFRESH_PULL_UP_STATUS @"下拉可以回到上一期"
+#define REFRESH_PULL_UP_STATUS @"下拉回到上一期"
 #define REFRESH_RELEASED_STATUS @"可以松开了"
 // 加载中
 #define REFRESH_LOADING_STATUS @""

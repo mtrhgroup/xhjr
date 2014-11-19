@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 noahlu<codedancerhua@gmail.com>. All rights reserved.
 //
 
-#define REFRESH_PULL_UP_STATUS @"上拉可以阅读下一期"
+#define REFRESH_PULL_UP_STATUS @"上拉阅读下一期"
 #define REFRESH_RELEASED_STATUS @"可以松开了"
 // 加载中
 #define REFRESH_LOADING_STATUS @""

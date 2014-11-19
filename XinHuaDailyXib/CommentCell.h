@@ -10,4 +10,5 @@
 #import "Comment.h"
 @interface CommentCell : UITableViewCell
 @property(nonatomic,strong)Comment *comment;
+-(float)preferHeight;
 @end

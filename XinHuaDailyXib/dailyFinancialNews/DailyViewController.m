@@ -105,17 +105,24 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 280;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *TileCellID = @"cellname";
     TileCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
     if(cell==nil){
         cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
     }
+    cell.article=[self.daily_articles.articles objectAtIndex:indexPath.row];
+    return [cell preferHeight];
+}
+static NSString *TileCellID = @"cellname";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    TileCell *cell=nil;
+    cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
+    if(cell==nil){
+        cell=[[TileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
+    }
+    cell.type=None;
     cell.article=[self.daily_articles.articles objectAtIndex:indexPath.row];
     return cell;
 }

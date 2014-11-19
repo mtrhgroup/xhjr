@@ -27,3 +27,5 @@ typedef enum {
     XParserFailed
 }SXTErrorFailed;
 #endif
+
+#define VC_BG_COLOR ([UIColor colorWithRed:0xF0/256.0  green:0xEF/256.0 blue:0xF5/256.0 alpha:1])//去哪儿绿

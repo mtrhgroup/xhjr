@@ -53,6 +53,8 @@
 @property(nonatomic,assign)BOOL           is_like;
 //关键词
 @property(nonatomic,strong)NSString *key_words;
+@property(nonatomic,strong)NSNumber *comments_number;
+@property(nonatomic,readonly)NSString *article_content_id;
 
 -(id)initWithArticleMO:(ArticleMO *)articleMO;
 -(void)toArticleMO:(ArticleMO *)articleMO;

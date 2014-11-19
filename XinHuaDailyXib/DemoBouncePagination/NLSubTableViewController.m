@@ -32,7 +32,23 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addRefreshView];
 }
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+   // [self addRefreshView];
+    //[self addNextPage];
+    
+    self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height + 100.f);
+}
+- (void)addNextPage
+{
+    if (!self.subTableViewController) {
+        return;
+    }
+    self.subTableViewController.mainTableViewController = self;
+    self.subTableViewController.tableView.frame = CGRectMake(0, self.tableView.contentSize.height+50, self.view.frame.size.width, self.view.frame.size.height);
+    [self.tableView addSubview:self.subTableViewController.tableView];
+}
 - (void)addRefreshView {
     if (self.pullFreshView == nil) {
         self.pullFreshView = [[NLPullDownRefreshView alloc]initWithFrame:CGRectMake(0, -50.f, self.view.frame.size.width, 50.f)];

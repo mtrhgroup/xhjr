@@ -150,8 +150,8 @@
 -(void)touchViewClicked{
     [self loadArticleContentFromNet];
 }
--(void)viewDidAppear:(BOOL)animated{
-    _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+-(void)viewWillAppear:(BOOL)animated{
+    _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.comments_number.intValue];
 }
 - (void)viewDidLoad
 {
@@ -188,18 +188,20 @@
     self.fontAlertView.web_delegate=self;
     [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.font_size];
     if(!self.isAD){
-        UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,68,34)];
-        _comment_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
+        UIButton *like_btn=[[UIButton alloc] initWithFrame:CGRectMake(0,0,68,34)];
+        _comment_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, 48, 34)];
         _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
         _comment_number_label.textAlignment=NSTextAlignmentRight;
-        _comment_number_label.textColor=[UIColor grayColor];
+        _comment_number_label.textColor=[UIColor redColor];
         _comment_number_label.backgroundColor=[UIColor clearColor];
-        _comment_number_label.font = [UIFont fontWithName:@"Arial" size:10];
-        _comment_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
-        [_comment_btn setBackgroundImage:[UIImage imageNamed:@"button_review_default.png"] forState:UIControlStateNormal];
-        [_comment_btn addTarget:self action:@selector(showComments) forControlEvents:UIControlEventTouchUpInside];
-        [like_view addSubview:_comment_btn];
-        [like_view addSubview:_comment_number_label];
+        _comment_number_label.font = [UIFont fontWithName:@"Arial" size:24];
+        [like_btn addSubview:_comment_number_label];
+        UIImageView *icon=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_review_default.png"]];
+        icon.frame=CGRectMake(48,5,20,20);
+        [like_btn addSubview:icon];
+        [like_btn addTarget:self action:@selector(showComments) forControlEvents:UIControlEventTouchUpInside];
+        
+        
         if(_article.is_like){
             _comment_btn.enabled=NO;
             [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
@@ -210,7 +212,7 @@
         }else{
             negativeSpacer.width=-10;
         }
-        UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_view];
+        UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:like_btn];
         [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,like_btn_item,nil] animated:YES];
         
         self.bottom_view=[AMBlurView new];
@@ -221,7 +223,7 @@
         
         UIButton *feedback_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         feedback_btn.frame = CGRectMake(5, 5, 200, 34);
-        [feedback_btn setTitle:@"有话对编辑说" forState:UIControlStateNormal];
+        [feedback_btn setTitle:@"说两句呗" forState:UIControlStateNormal];
         feedback_btn.backgroundColor=[UIColor whiteColor];
         feedback_btn.tintColor=[UIColor grayColor];
         [feedback_btn.layer setMasksToBounds:YES];
@@ -231,10 +233,10 @@
         [feedback_btn addTarget:self action:@selector(feedback) forControlEvents:UIControlEventTouchUpInside];
         [self.bottom_view addSubview:feedback_btn];
         
-        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34-34,5,34,34)];
-        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-        [self.bottom_view addSubview:share_btn];
+//        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34-34,5,34,34)];
+//        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
+//        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+//        [self.bottom_view addSubview:share_btn];
         
         _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34,5,34,34)];
         if(_article.is_collected){
@@ -249,7 +251,7 @@
 }
 -(void)feedback{
     FeedBackViewController *controller=[[FeedBackViewController alloc] init];
-    //controller.article=_article;
+    controller.article=_article;
     [self.navigationController pushViewController:controller animated:YES];
 }
 -(void)back{
@@ -326,9 +328,9 @@ BOOL isFirst=YES;
         NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
         NSString *js_video=@"var video_element=document.getElementsByTagName('video')[0]; video_element.setAttribute('webkit-playsinline','true')";
         [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
-        if(_ad_article!=nil){
-            [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
-        }
+//        if(_ad_article!=nil){
+//            [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
+//        }
         [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
         [webView stringByEvaluatingJavaScriptFromString:js_video];
         [self changeWebContentWithWebView:webView];

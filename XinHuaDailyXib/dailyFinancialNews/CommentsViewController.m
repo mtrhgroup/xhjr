@@ -28,7 +28,6 @@
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.tableView.backgroundColor=[UIColor clearColor];
-    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     [self reloadCommentsFromNET];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -77,12 +76,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    CommentCell *cell=nil;
+    cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
+    if(cell==nil){
+        cell=[[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
+    }
+    cell.comment=[self.comments objectAtIndex:indexPath.row];
+    return [cell preferHeight];
 }
-
+static NSString *TileCellID = @"cellname";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *TileCellID = @"cellname";
+    
     CommentCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
     if(cell==nil){

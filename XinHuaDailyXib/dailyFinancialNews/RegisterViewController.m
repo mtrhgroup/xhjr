@@ -10,7 +10,8 @@
 #import "NavigationController.h"
 #import "VerifyCodeSubmitViewController.h"
 #import "AMBlurView.h"
-
+#import "GlobalVariablesDefine.h"
+#import "UIButton+Bootstrap.h"
 #define kDuration 0.3
 @interface RegisterViewController ()
 @property (nonatomic,strong) AMBlurView *blurView;
@@ -19,7 +20,9 @@
 @property(nonatomic,strong)UIAlertView *confirm_phone_number_alert;
 @end
 
-@implementation RegisterViewController
+@implementation RegisterViewController{
+    UIButton *verify_get_btn;
+}
 @synthesize phone_number_input=_phone_number_input;
 @synthesize verify_code_input=_verify_code_input;
 @synthesize regBtn;
@@ -46,7 +49,7 @@
 {
     [super viewDidLoad];
     self.title=@"账号绑定";
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"regsn_bg.png"]];
+    self.view.backgroundColor=VC_BG_COLOR;
     [self setBlurView:[AMBlurView new]];
     [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 60)];
     [self.blurView.layer setMasksToBounds:YES];
@@ -65,8 +68,9 @@
     [_phone_number_input becomeFirstResponder];
     _phone_number_input.layer.borderWidth = 1.0f;
     _phone_number_input.layer.borderColor = [[UIColor grayColor] CGColor];
+    [_phone_number_input addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.view addSubview:_phone_number_input];
-    UIButton *verify_get_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    verify_get_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     verify_get_btn.frame = CGRectMake(210, 50+44, 90, 40);
     [verify_get_btn setTitle:@"获取验证码" forState:UIControlStateNormal];
     verify_get_btn.backgroundColor=[UIColor whiteColor];
@@ -74,9 +78,13 @@
     [verify_get_btn.layer setCornerRadius:10.0];
     [verify_get_btn.layer setBorderWidth:0.2];
     verify_get_btn.tintColor=[UIColor blackColor];
+    verify_get_btn.enabled=NO;
     [verify_get_btn addTarget:self action:@selector(verifyGetBtnClickHandler) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:verify_get_btn];
-
+    UILabel *tip=[[UILabel alloc] initWithFrame:CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y+self.blurView.frame.size.height+10, self.blurView.frame.size.width, 40)];
+    tip.text=@"订购热线：8868585转8";
+    tip.textAlignment=NSTextAlignmentCenter;
+    [self.view addSubview:tip];
     //[((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)verifyGetBtnClickHandler{ 
@@ -128,6 +136,12 @@
 //    }
    return YES;
 }
-
+-(void)textFieldDidChange:(UITextField *)textField{
+    if(_phone_number_input.text.length==11){
+        verify_get_btn.enabled=YES;
+    }else{
+        verify_get_btn.enabled=NO;
+    }
+}
 
 @end

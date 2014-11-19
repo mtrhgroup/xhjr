@@ -15,6 +15,7 @@
 #import "NavigationController.h"
 #import "TagCell.h"
 #import "TagHeaderView.h"
+#import "GlobalVariablesDefine.h"
 @interface LeftViewController ()
 @property(nonatomic,strong)UITableView *func_table;
 @property(nonatomic,strong)UICollectionView *tag_collection;
@@ -28,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=VC_BG_COLOR;
     self.tags=[self.service fetchLatestDailyTagsFromDBWithChannel:AppDelegate.channel];
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     flowLayout.minimumLineSpacing=10;
@@ -41,6 +42,9 @@
     self.tag_collection.dataSource=self;
     self.tag_collection.delegate=self;
     [self.view addSubview:self.tag_collection];
+    UIView *black_line=[[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-44*3-1, 240, 1)];
+    black_line.backgroundColor=[UIColor grayColor];
+    [self.view addSubview:black_line];
     self.func_table=[[UITableView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-44*3, 240, 44*3)];
     self.func_table.delegate=self;
     self.func_table.dataSource=self;
@@ -140,6 +144,7 @@
         cell = [[LeftFunctionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         
     }
+    cell.backgroundColor=[UIColor clearColor];
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     if(indexPath.section==0){
         if (indexPath.row == 0){

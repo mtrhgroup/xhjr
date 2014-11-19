@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VerifyCodeSubmitViewController : UIViewController
+@interface VerifyCodeSubmitViewController : UIViewController<UITextFieldDelegate>
 @property (strong, nonatomic) UITextField *verify_code_input;
 @property(strong,nonatomic)NSString *phone_number;
 @property(strong,nonatomic)Service *service;

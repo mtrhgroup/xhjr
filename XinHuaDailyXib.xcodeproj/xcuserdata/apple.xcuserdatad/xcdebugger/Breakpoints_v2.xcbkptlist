@@ -8360,22 +8360,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/TileCell.m"
-            timestampString = "436678335.166076"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "-initWithStyle:reuseIdentifier:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/GridChannelViewController.m"
             timestampString = "435567159.408132"
             startingColumnNumber = "9223372036854775807"
@@ -9328,30 +9312,106 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/FirstDailyViewController.m"
-            timestampString = "437880776.458839"
+            filePath = "XinHuaDailyXib/dailyFinancialNews/LeftViewController.m"
+            timestampString = "438054945.256363"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-numberOfSectionsInTableView:"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-reloadTagsFromDB"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/LeftViewController.m"
-            timestampString = "437882655.703475"
+            filePath = "XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
+            timestampString = "438062874.320107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-reloadTagsFromDB"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "-keyboardWillShow:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[RequestViewController keyboardWillShow:]"
+                  moduleName = "dfn"
+                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
+                  timestampString = "438080403.288094"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "210"
+                  endingLineNumber = "210"
+                  offsetFromSymbolStart = "92">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__42-[RequestViewController keyboardWillShow:]_block_invoke"
+                  moduleName = "dfn"
+                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
+                  timestampString = "438080403.28829"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "210"
+                  endingLineNumber = "210"
+                  offsetFromSymbolStart = "30">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
+            timestampString = "438062874.320107"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "-keyboardWillHide:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[RequestViewController keyboardWillHide:]"
+                  moduleName = "dfn"
+                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
+                  timestampString = "438080403.289094"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226"
+                  offsetFromSymbolStart = "92">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__42-[RequestViewController keyboardWillHide:]_block_invoke"
+                  moduleName = "dfn"
+                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
+                  timestampString = "438080403.289249"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226"
+                  offsetFromSymbolStart = "30">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
