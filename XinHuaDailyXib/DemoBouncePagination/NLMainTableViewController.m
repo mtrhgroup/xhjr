@@ -11,7 +11,7 @@
 
 @interface NLMainTableViewController ()
 
-@property(nonatomic, strong)NLPullUpRefreshView *pullFreshView;
+
 @property(nonatomic) NSInteger refreshCounter;
 
 @end
@@ -39,7 +39,7 @@
     }
    
     // TODO: edgeInsetTop 要放到上层去设置
-    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.isResponseToScroll = YES;
@@ -48,21 +48,22 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self addRefreshView];
-    [self addNextPage];
+//    [self addRefreshView];
+//    [self addNextPage];
     
     self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height + 100.f);
 }
 
-- (void)addRefreshView {
-    if (self.pullFreshView == nil) {
+- (void)addPullUpView {
+    if (self.pullUpView == nil) {
         float originY = self.tableView.contentSize.height;
-        self.pullFreshView = [[NLPullUpRefreshView alloc]initWithFrame:CGRectMake(0, originY, self.view.frame.size.width, 50.f)];
-        self.pullFreshView.backgroundColor = [UIColor whiteColor];
+        NSLog(@"originY = %f",originY);
+        self.pullUpView = [[NLPullUpRefreshView alloc]initWithFrame:CGRectMake(0, originY, self.view.frame.size.width, 50.f)];
+        self.pullUpView.backgroundColor = [UIColor clearColor];
     }
     
-    if (!self.pullFreshView.superview) {
-        [self.pullFreshView setupWithOwner:self.tableView delegate:self];
+    if (!self.pullUpView.superview) {
+        [self.pullUpView setupWithOwner:self.tableView delegate:self];
     }
 }
 
@@ -73,7 +74,7 @@
     }
     
     self.subTableViewController.mainTableViewController = self;
-    self.subTableViewController.tableView.frame = CGRectMake(0, self.tableView.contentSize.height+50, self.view.frame.size.width, self.view.frame.size.height);
+    self.subTableViewController.tableView.frame = CGRectMake(0, self.tableView.contentSize.height, self.view.frame.size.width, self.view.frame.size.height);
     [self.tableView addSubview:self.subTableViewController.tableView];
 }
 
@@ -87,59 +88,59 @@
     
     // 上拉分页动画
     [UIView animateWithDuration:0.3 animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(-self.tableView.contentSize.height-20+100, 0, 0, 0);
+        self.tableView.contentInset = UIEdgeInsetsMake(-self.tableView.contentSize.height, 0, 0, 0);
         
     }];
     self.isResponseToScroll = NO;
     self.tableView.bounces = NO;
-    [self.pullFreshView stopLoading];
-    self.pullFreshView.hidden = YES;
+    [self.pullUpView stopLoading];
+    //self.pullUpView.hidden = YES;
 }
 
 - (void)pullDownRefreshDidFinish
 {
-    [self.subTableViewController.pullFreshView stopLoading];
+    [self.subTableViewController.pullDownView stopLoading];
     
     [UIView animateWithDuration:0.3 animations:^{
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         // maintable重绘之后，contentsize要重新加上offset
-        self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height + 100.f);
+        self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width, self.tableView.contentSize.height);
     }];
    // self.tableView.contentOffset = CGPointMake(self.tableView.contentOffset.x, self.tableView.contentOffset.y + 100.f);
     self.tableView.contentOffset=CGPointMake(self.tableView.contentOffset.x, 0);
     self.tableView.bounces = YES;
     self.isResponseToScroll = YES;
-    self.pullFreshView.hidden = NO;
+    self.pullUpView.hidden = NO;
     
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (self.isResponseToScroll) {
-        [self.pullFreshView scrollViewWillBeginDragging:scrollView];
+        [self.pullUpView scrollViewWillBeginDragging:scrollView];
     } else {
-        [self.subTableViewController.pullFreshView scrollViewWillBeginDragging:scrollView];
+        [self.subTableViewController.pullDownView scrollViewWillBeginDragging:scrollView];
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (self.isResponseToScroll) {
-        [self.pullFreshView scrollViewDidScroll:scrollView];
+        [self.pullUpView scrollViewDidScroll:scrollView];
     } else {
-        [self.subTableViewController.pullFreshView scrollViewDidScroll:scrollView];
+        [self.subTableViewController.pullDownView scrollViewDidScroll:scrollView];
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (self.isResponseToScroll) {
-        [self.pullFreshView scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+        [self.pullUpView scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     } else {
-        [self.subTableViewController.pullFreshView scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+        [self.subTableViewController.pullDownView scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (self.isResponseToScroll) {
-        [self.pullFreshView scrollViewDidEndDecelerating:scrollView];
+        [self.pullUpView scrollViewDidEndDecelerating:scrollView];
     } else {
     }
 }

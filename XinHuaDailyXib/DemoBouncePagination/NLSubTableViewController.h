@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "NLPullDownRefreshView.h"
-
-@interface NLSubTableViewController : UITableViewController
+#import "NLPullUpRefreshView.h"
+@interface NLSubTableViewController : UITableViewController<NLPullUpRefreshViewDelegate>
 
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, weak) UITableViewController *mainTableViewController;
-@property(nonatomic, strong) NLPullDownRefreshView *pullFreshView;
+@property(nonatomic, strong)NLPullUpRefreshView *pullUpView;
+@property(nonatomic, strong) NLPullDownRefreshView *pullDownView;
 @property(nonatomic, strong) NLSubTableViewController *subTableViewController;
+@property(nonatomic) BOOL isResponseToScroll;
+- (void)addPullUpView;
+- (void)addNextPage;
 @end

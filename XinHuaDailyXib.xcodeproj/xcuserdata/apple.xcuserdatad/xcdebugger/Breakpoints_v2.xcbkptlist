@@ -9329,11 +9329,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-            timestampString = "438062874.320107"
+            timestampString = "438165005.45698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "-keyboardWillShow:"
             landmarkType = "5">
             <Locations>
@@ -9344,11 +9344,11 @@
                   symbolName = "-[RequestViewController keyboardWillShow:]"
                   moduleName = "dfn"
                   urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438080403.288094"
+                  timestampString = "438166522.187536"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "210"
-                  endingLineNumber = "210"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
                   offsetFromSymbolStart = "92">
                </Location>
                <Location
@@ -9358,11 +9358,11 @@
                   symbolName = "__42-[RequestViewController keyboardWillShow:]_block_invoke"
                   moduleName = "dfn"
                   urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438080403.28829"
+                  timestampString = "438166522.187721"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "210"
-                  endingLineNumber = "210"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
                   offsetFromSymbolStart = "30">
                </Location>
             </Locations>
@@ -9375,11 +9375,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-            timestampString = "438062874.320107"
+            timestampString = "438165005.45698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-keyboardWillHide:"
             landmarkType = "5">
             <Locations>
@@ -9390,11 +9390,11 @@
                   symbolName = "-[RequestViewController keyboardWillHide:]"
                   moduleName = "dfn"
                   urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438080403.289094"
+                  timestampString = "438166522.188531"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "226"
-                  endingLineNumber = "226"
+                  startingLineNumber = "228"
+                  endingLineNumber = "228"
                   offsetFromSymbolStart = "92">
                </Location>
                <Location
@@ -9404,11 +9404,11 @@
                   symbolName = "__42-[RequestViewController keyboardWillHide:]_block_invoke"
                   moduleName = "dfn"
                   urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438080403.289249"
+                  timestampString = "438166522.188661"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "226"
-                  endingLineNumber = "226"
+                  startingLineNumber = "228"
+                  endingLineNumber = "228"
                   offsetFromSymbolStart = "30">
                </Location>
             </Locations>

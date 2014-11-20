@@ -48,7 +48,7 @@
 -(void)setComment:(Comment *)comment{
     if(comment.comment_source.length>11){
     NSMutableString *phone_number=[NSMutableString stringWithString:[comment.comment_source substringWithRange:NSMakeRange(comment.comment_source.length-11, 11)]];
-    [phone_number replaceCharactersInRange:NSMakeRange(4, 4) withString:@"****"];
+    [phone_number replaceCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
         source_lbl.text=phone_number;
     }
     content_lbl.text=comment.comment_content;

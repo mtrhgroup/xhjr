@@ -11,7 +11,7 @@
 #import "DailyHeader.h"
 #import "GlobalVariablesDefine.h"
 @interface OtherDailyViewController ()
-
+@property(nonatomic,strong)DailyArticles *previous_daily_articles;
 @end
 
 @implementation OtherDailyViewController
@@ -22,14 +22,14 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor=VC_BG_COLOR;
+    [self addPullUpView];
     self.subTableViewController=[[OtherDailyViewController alloc] init];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self loadCurrentDailyArticlesFromDB];
-   // [self loadNextDailyArticlesFromDB];
+    //[self loadThisDailyFromDB];
 }
--(void)fetchArticlesFromNET{
+-(void)loadThisDailyFromNET{
     NSMutableString *time_mutable=[NSMutableString stringWithString:self.date];
     [time_mutable replaceOccurrencesOfString:@"-" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [self.date length])];
     NSString *time=[time_mutable stringByAppendingString:@"000000"];
@@ -44,13 +44,48 @@
         //
     }];
 }
--(void)loadCurrentDailyArticlesFromDB{
+-(void)loadThisDailyFromDB{
     self.daily_articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:self.date];
+    super.tableView.tableHeaderView=[[DailyHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width,40)];
+    if(self.daily_articles.date.length==10){
+        ((DailyHeader *)self.tableView.tableHeaderView).date=self.daily_articles.date;
+    }
     [super.tableView reloadData];
+    float originY = self.tableView.contentSize.height;
+    self.pullUpView.frame=CGRectMake(0, originY, self.view.frame.size.width, 50.f);
 }
--(void)loadNextDailyArticlesFromDB{
-   ((OtherDailyViewController *)self.subTableViewController).daily_articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:self.daily_articles.next_date];
-    [self.subTableViewController.tableView reloadData];
+-(void)loadPreviousDailyFromNET{
+    NSMutableString *time_mutable=[NSMutableString stringWithString:self.daily_articles.previous_date];
+    [time_mutable replaceOccurrencesOfString:@"-" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, [self.daily_articles.previous_date length])];
+    NSString *time=[time_mutable stringByAppendingString:@"000000"];
+    [self.service fetchArticlesFromNETWithChannel:AppDelegate.channel time:time successHandler:^(NSArray *articles) {
+        self.previous_daily_articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:self.daily_articles.previous_date];
+        OtherDailyViewController *sub= [[OtherDailyViewController alloc] init];
+        sub.service=self.service;
+        sub.date=self.daily_articles.previous_date;
+        sub.mainTableViewController=self;
+        [sub loadThisDailyFromDB];
+        self.subTableViewController =sub;
+        [self addNextPage];
+        [super pullUpRefreshDidFinish];
+    } errorHandler:^(NSError *error) {
+        self.previous_daily_articles=[self.service fetchDailyArticlesFromDBWithChannel:AppDelegate.channel date:self.daily_articles.previous_date];
+        OtherDailyViewController *sub= [[OtherDailyViewController alloc] init];
+        sub.service=self.service;
+        sub.date=self.daily_articles.previous_date;
+        sub.mainTableViewController=self;
+        [sub loadThisDailyFromDB];
+        self.subTableViewController =sub;
+        [self addNextPage];
+        [super pullUpRefreshDidFinish];
+    }];
+}
+- (void)pullUpRefreshDidFinish{
+    if(self.daily_articles.previous_date.length!=0){
+        [self loadPreviousDailyFromNET];
+    }else{
+        [self.pullUpView startLoading];
+    }
 }
 #pragma mark - Table view data source
 

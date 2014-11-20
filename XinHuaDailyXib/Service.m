@@ -579,7 +579,7 @@
     
 }
 -(void)feedbackArticleWithContent:(NSString *)content article:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kCommentURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,article.article_content_id,content,AppID];
+    NSString *url=[NSString stringWithFormat:kCommentURL,[DeviceInfo udid],[NSString stringWithFormat:@"%@_%@",AppID,AppDelegate.user_defaults.sn],article.article_content_id,content,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             if(successBlock){

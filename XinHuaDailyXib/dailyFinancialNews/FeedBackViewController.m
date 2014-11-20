@@ -110,6 +110,7 @@
 }
 
 -(void)back{
+    [contentTV resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)send_Message{
