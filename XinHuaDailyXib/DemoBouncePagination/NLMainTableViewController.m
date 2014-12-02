@@ -94,7 +94,7 @@
     self.isResponseToScroll = NO;
     self.tableView.bounces = NO;
     [self.pullUpView stopLoading];
-    //self.pullUpView.hidden = YES;
+    self.pullUpView.hidden = YES;
 }
 
 - (void)pullDownRefreshDidFinish

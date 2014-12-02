@@ -23,18 +23,17 @@
 @synthesize phone_number=_phone_number;
 @synthesize service=_service;
 @synthesize confirm_back_alert=_confirm_back_alert;
+
 - (void)viewDidLoad
 {
     self.title=@"填写验证码";
     self.view.backgroundColor=VC_BG_COLOR;
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 60)];
+    [[self blurView] setFrame:CGRectMake(10.f, (lessiOS7)?20:20+44, 300, 60)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
-    //[self.blurView setAlpha:0.6];
-    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:[self blurView]];
-    _verify_code_input = [[UITextField alloc] initWithFrame:CGRectMake(20, 50+44, 280, 40)];
+    _verify_code_input = [[UITextField alloc] initWithFrame:CGRectMake(20, (lessiOS7)?30:30+44, 280, 40)];
     _verify_code_input.placeholder = @" 请输入验证码";
     _verify_code_input.backgroundColor=[UIColor clearColor];
     _verify_code_input.textAlignment = NSTextAlignmentLeft;
@@ -68,10 +67,8 @@
 }
 -(void)bindPhoneNumber{
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
-        [self.service fetchChannelsFromNET:^(NSArray *channels) {
-            AppDelegate.channel=[self.service fetchMRCJChannelFromDB];
-
-            [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
+        [self.service fetchFirstRunData:^(BOOL isOK) {
+           [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
         } errorHandler:^(NSError *error) {
             //
         }];

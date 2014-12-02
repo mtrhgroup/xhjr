@@ -63,6 +63,12 @@
 @property(nonatomic,strong)Article *header_article;
 @property(nonatomic,strong)NSArray *other_articles;
 @end
+@interface ArticlesForHVC :NSObject
+@property(nonatomic,strong)Article *header_article;
+@property(nonatomic,strong)NSArray *other_articles;
+-(NSString *)lastPublicDateInChannelWithChannelID:(NSString *)channel_id;
+@end
+
 @interface DailyArticles:NSObject
 @property(nonatomic,strong)NSString *date;
 @property(nonatomic,strong)NSArray *articles;

@@ -29,6 +29,7 @@
     url=[self URLEncodedStringWith:url];
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
      [request setResponseEncoding:NSUTF8StringEncoding];
+    request.shouldAttemptPersistentConnection   = NO;
     [request startSynchronous];
     NSError *error = [request error];
     if (!error)

@@ -222,7 +222,6 @@
 
         self.bottom_view=[AMBlurView new];
         self.bottom_view.frame=CGRectMake(0, self.view.bounds.size.height-44, 320, 44);
-        [self.bottom_view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.bottom_view setBlurTintColor:nil];
         [self.view addSubview:self.bottom_view];
         

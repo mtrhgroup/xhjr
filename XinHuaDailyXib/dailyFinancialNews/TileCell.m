@@ -8,12 +8,13 @@
 
 #import "TileCell.h"
 #import "ALImageView.h"
+#import "YLLabel.h"
 @implementation TileCell{
     Article *_article;
     UIView *bg_view;
     ALImageView *alImageView;
     UILabel *title;
-    UILabel *summary_label;
+    YLLabel *summary_label;
     UILabel *keywords_label;
     UILabel *comments_label;
     UILabel *time_label;
@@ -36,7 +37,14 @@
         bg_view.backgroundColor=[UIColor whiteColor];
         [[self contentView] addSubview:bg_view];
         
-        time_label = [[UILabel alloc] initWithFrame:CGRectMake(10,0, 90, 20)];
+
+        
+        alImageView = [[ALImageView alloc] initWithFrame:CGRectMake(10,0 , 320-20 , 180)];
+        alImageView.placeholderImage = [UIImage imageNamed:@"placeholder"];
+        alImageView.imageURL = @"";
+        [bg_view addSubview:alImageView];
+        
+        time_label = [[UILabel alloc] initWithFrame:CGRectMake(10,180, 90, 20)];
         time_label.backgroundColor = [UIColor clearColor];
         time_label.text = @"";
         time_label.textColor = [UIColor grayColor];
@@ -51,7 +59,7 @@
         keywords_label.font = [UIFont fontWithName:@"Arial" size:15];
         [bg_view addSubview:keywords_label];
         
-
+        
         
         comments_label = [[UILabel alloc] initWithFrame:CGRectMake(300-5-20-40 ,0,40, 20)];
         comments_label.backgroundColor = [UIColor clearColor];
@@ -63,22 +71,16 @@
         comment_icon=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"button_review_default.png"]];
         comment_icon.frame=CGRectMake(300-5-20, 0, 20, 20);
         [bg_view addSubview:comment_icon];
-        
-        alImageView = [[ALImageView alloc] initWithFrame:CGRectMake(10,20 , 320-20 , 180)];
-        alImageView.placeholderImage = [UIImage imageNamed:@"placeholder"];
-        alImageView.imageURL = @"";
-        [bg_view addSubview:alImageView];
         title = [[UILabel alloc] initWithFrame:CGRectMake(10,200 , 320-20, 20)];
         title.backgroundColor = [UIColor clearColor];
         title.text = @"";
         title.textColor = [UIColor blackColor];
-        title.font = [UIFont fontWithName:@"Arial" size:20];
+        title.font = [UIFont fontWithName:@"Arial" size:28];
         title.numberOfLines=2;
         [bg_view addSubview:title];
-        summary_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 220, 320-20, 20)];
+        summary_label = [[YLLabel alloc] initWithFrame:CGRectMake(10, 220, 320-20, 20)];
         summary_label.backgroundColor = [UIColor clearColor];
-        summary_label.font = [UIFont fontWithName:@"Arial" size:15];
-        summary_label.numberOfLines=10;
+        summary_label.font = [UIFont fontWithName:@"Arial" size:22];
         summary_label.textColor=[UIColor grayColor];
         [bg_view addSubview:summary_label];
         self.backgroundColor=[UIColor clearColor];
@@ -95,7 +97,9 @@
         _article=article;
         if(article.key_words.length!=0){
             NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];
-            keywords_label.text=[NSString stringWithFormat:@"[%@]",[keywords componentsJoinedByString:@"]["]];
+            NSMutableString *temp_str=[NSMutableString stringWithFormat:@"[%@]",[keywords componentsJoinedByString:@"]["]];
+            [temp_str replaceOccurrencesOfString:@"[]" withString:@"" options:NSLiteralSearch range:NSMakeRange(0, temp_str.length)];
+            keywords_label.text=temp_str;
             keywords_size=CGSizeMake(290, 20);
         }else{
             keywords_size=CGSizeMake(0, 0);
@@ -115,7 +119,7 @@
             summary_size=CGSizeMake(0, 0);
         }else{
             summary_label.text=article.summary;
-            summary_size= [summary_label.text sizeWithFont:summary_label.font constrainedToSize:CGSizeMake(290, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+            summary_size= [article.summary sizeWithFont:summary_label.font constrainedToSize:CGSizeMake(290, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
         }
         if(article.cover_image_url==nil&&article.thumbnail_url==nil){
             alImageView.hidden=YES;
@@ -129,20 +133,24 @@
                 alImageView.imageURL=article.cover_image_url;
             }
         }
-        if(keywords_size.height>0){
-            keywords_label.frame=CGRectMake(100, 0, 150, 20);
-        }else{
-            keywords_label.frame=CGRectMake(100, 0, 0, 0);
-        }
+        
         if(image_size.height>0){
-            alImageView.frame=CGRectMake(0, keywords_size.height==0?0:keywords_size.height+5, image_size.width, image_size.height);
+            alImageView.frame=CGRectMake(0, 0, image_size.width, image_size.height);
         }else{
-            alImageView.frame=CGRectMake(0, keywords_size.height==0?0:keywords_size.height+5, 0, 0);
+            alImageView.frame=CGRectMake(0, 0, 0, 0);
         }
-        if(title_size.height>0){
-            title.frame=CGRectMake(5, image_size.height==0?alImageView.frame.origin.y:alImageView.frame.origin.y+image_size.height+5, title_size.width, title_size.height);
+        if(keywords_size.height>0){
+            keywords_label.frame=CGRectMake(100, image_size.height==0?0:image_size.height+5, 150, 20);
         }else{
-            title.frame=CGRectMake(5, image_size.height==0?alImageView.frame.origin.y:alImageView.frame.origin.y+image_size.height+5, 0, 0);
+            keywords_label.frame=CGRectMake(100, image_size.height==0?0:image_size.height+5, 0, 0);
+        }
+        time_label.frame=CGRectMake(10,image_size.height==0?0:image_size.height+5, 90, 20);
+        comments_label.frame=CGRectMake(300-5-20-40 ,image_size.height==0?0:image_size.height+5,40, 20);
+        comment_icon.frame=CGRectMake(300-5-20, image_size.height==0?0:image_size.height+5, 20, 20);
+        if(title_size.height>0){
+            title.frame=CGRectMake(5, image_size.height==0?keywords_label.frame.origin.y:keywords_label.frame.origin.y+keywords_size.height+5, title_size.width, title_size.height);
+        }else{
+            title.frame=CGRectMake(5, image_size.height==0?keywords_label.frame.origin.y:keywords_label.frame.origin.y+keywords_size.height+5, 0, 0);
         }
         if(summary_size.height>0){
             summary_label.frame=CGRectMake(5, title_size.height==0?title.frame.origin.y:title.frame.origin.y+title_size.height+5, summary_size.width, summary_size.height);

@@ -240,6 +240,45 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     }
     [article toArticleMO:e_article];
 }
+-(Article *)fetchHeaderArticle{
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_cover_image_url<>%@",nil];
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    [frq setFetchLimit:1];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+        return [[Article alloc] initWithArticleMO:result[0]];
+    }else{
+        return nil;
+    }
+}
+-(NSArray *)fetchOtherArticlesWithExceptArticle:(Article *)exceptArticle topN:(NSInteger)topN{
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate *  p;
+    if(exceptArticle!=nil){
+        p= [NSPredicate predicateWithFormat:@"a_article_id <>%@",exceptArticle.article_id];
+    }else{
+        p= nil;
+    }
+    NSSortDescriptor *sortPublishTimeDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_publish_date" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortPublishTimeDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    [frq setFetchLimit:topN];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    NSMutableArray *articles=[NSMutableArray array];
+    for(ArticleMO *amo in result){
+        [articles addObject:[[Article alloc] initWithArticleMO:amo]];
+    }
+    return articles;
+}
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel{
     NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
     NSPredicate *  p=  [NSPredicate predicateWithFormat:@"a_channel_id = %@ and a_cover_image_url<>%@", channel.channel_id,nil];
@@ -357,6 +396,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     [frq setSortDescriptors:sortDescriptors];
     NSArray *result =[_context executeFetchRequest:frq error:nil];
     if([result count]>0){
+        NSLog(@"##%@",((ArticleMO *)result[0]).a_publish_date);
         return [((ArticleMO *)result[0]).a_publish_date substringToIndex:10];
     }else{
         return @"";
@@ -416,6 +456,19 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
         e_article=[result objectAtIndex:0];
         e_article.a_is_like=[NSNumber numberWithBool:YES];
         e_article.a_like_number=likeNumber;
+    }
+}
+-(void)markArticleCommentsNumberWithArticleID:(NSString *)articleID commentsNumber:(NSNumber *)commentsNumber{
+    NSEntityDescription * e_article_desc = [NSEntityDescription entityForName:E_ARTICLE inManagedObjectContext:_context];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_article_id = %@", articleID];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_article_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    ArticleMO *e_article;
+    if([result count]==1){
+        e_article=[result objectAtIndex:0];
+        e_article.a_comments_number=commentsNumber;
     }
 }
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID{

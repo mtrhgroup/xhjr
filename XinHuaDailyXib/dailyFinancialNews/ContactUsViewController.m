@@ -46,14 +46,12 @@
     self.view.backgroundColor=VC_BG_COLOR;
     
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 170)];
+    [[self blurView] setFrame:CGRectMake(10.f, (lessiOS7)?20:20, 300, 170)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
-    //[self.blurView setAlpha:0.6];
-    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:[self blurView]];
     
-    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50+44, 280, 100)];
+    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, (lessiOS7)?30:30, 280, 100)];
     // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
     content.layer.cornerRadius = 10.0f;
     [content setFont:[UIFont systemFontOfSize:17 ]];
@@ -66,7 +64,7 @@
     self.contentTV=content;
     [self.view addSubview:content];
     NSString *lastEmail=[[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
-    email = [[UITextField alloc] initWithFrame:CGRectMake(20, 160+44, 280, 40)];
+    email = [[UITextField alloc] initWithFrame:CGRectMake(20, (lessiOS7)?140:140, 280, 40)];
     email.layer.borderWidth = 1.0f;
     email.layer.borderColor = [[UIColor grayColor] CGColor];
     UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 25)];
@@ -154,22 +152,22 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     [textField resignFirstResponder];
-    [UIView animateWithDuration:0.25 animations:^{
-        
-        self.view.frame = CGRectMake(0.f, 0.f, self.view.frame.size.width, self.view.frame.size.height);
-        
-    }completion:nil];
+//    [UIView animateWithDuration:0.25 animations:^{
+//        
+//        self.view.frame = CGRectMake(0.f, 0.f, self.view.frame.size.width, self.view.frame.size.height);
+//        
+//    }completion:nil];
     return YES;
 }
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     
     if ([textField isEqual:email]) {
         
-        [UIView animateWithDuration:0.25 animations:^{
-            
-            self.view.frame = CGRectMake(0.f, -35.f, self.view.frame.size.width, self.view.frame.size.height);
-            
-        }completion:nil] ;
+//        [UIView animateWithDuration:0.25 animations:^{
+//            
+//            self.view.frame = CGRectMake(0.f, -10.f, self.view.frame.size.width, self.view.frame.size.height);
+//            
+//        }completion:nil] ;
     }
 }
 
@@ -211,7 +209,7 @@
     
     [UIView animateWithDuration:0.25 animations:^{
         
-        self.view.frame = CGRectMake(0.f, -35.f, self.view.frame.size.width, self.view.frame.size.height);
+        self.view.frame = CGRectMake(0.f, -10.f, self.view.frame.size.width, self.view.frame.size.height);
         
     }completion:nil] ;
     

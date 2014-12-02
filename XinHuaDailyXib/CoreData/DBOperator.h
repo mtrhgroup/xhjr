@@ -24,6 +24,8 @@
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 -(void)removeAllChannels;
 -(void)addArticle:(Article *)article;
+-(Article *)fetchHeaderArticle;
+-(NSArray *)fetchOtherArticlesWithExceptArticle:(Article *)exceptArticle topN:(NSInteger)topN;
 -(Article *)fetchHeaderArticleWithChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesWithChannel:(Channel *)channel exceptArticle:(Article *)exceptArticle topN:(int)topN;
 -(NSArray *)fetchDailyArticlesWithChannel:(Channel *)channel date:(NSString *)date;
@@ -37,6 +39,7 @@
 -(void)markArticleReadWithArticleID:(NSString *)articleID;
 -(void)markArticleLikeWithArticleID:(NSString *)articleID likeNumber:(NSNumber *)likeNumber;
 -(void)markArticleFavorWithArticleID:(NSString *)articleID is_collected:(BOOL)is_collected;
+-(void)markArticleCommentsNumberWithArticleID:(NSString *)articleID commentsNumber:(NSNumber *)commentsNumber;
 -(BOOL)doesArticleExistWithArtilceID:(NSString *)articleID;
 -(Article *)fetchArticleWithArticleID:(NSString *)articleID;
 -(void)updateArticleTimeWithArticleID:(NSString *)articleID newTime:(NSString *)newTime;

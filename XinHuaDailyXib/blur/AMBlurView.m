@@ -12,11 +12,12 @@
 @interface AMBlurView ()
 
 @property (nonatomic, strong) UIToolbar *toolbar;
+@property(nonatomic,strong)UIView *bg_view;
 
 @end
 
 @implementation AMBlurView
-
+@synthesize bg_view=_bg_view;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -45,10 +46,16 @@
 - (void)setup {
     // If we don't clip to bounds the toolbar draws a thin shadow on top
     [self setClipsToBounds:YES];
-    
-    if (![self toolbar]) {
-        [self setToolbar:[[UIToolbar alloc] initWithFrame:[self bounds]]];
-        [self.layer insertSublayer:[self.toolbar layer] atIndex:0];
+    if(lessiOS7){
+        self.backgroundColor=[UIColor whiteColor];
+        _bg_view=[[UIView alloc] initWithFrame:[self bounds]];
+        _bg_view.backgroundColor=[UIColor whiteColor];
+        [self addSubview:_bg_view];
+    }else{
+        if (![self toolbar]) {
+            [self setToolbar:[[UIToolbar alloc] initWithFrame:[self bounds]]];
+            [self.layer insertSublayer:[self.toolbar layer] atIndex:0];
+        }
     }
 }
 
@@ -58,7 +65,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self.toolbar setFrame:[self bounds]];
+    if(lessiOS7){
+        [self.bg_view setFrame:[self bounds]];
+    }else{
+        [self.toolbar setFrame:[self bounds]];
+    }
+    
 }
 
 @end

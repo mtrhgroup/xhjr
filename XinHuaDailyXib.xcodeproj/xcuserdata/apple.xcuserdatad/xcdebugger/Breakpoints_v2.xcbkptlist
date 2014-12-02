@@ -6903,11 +6903,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/PushNewsViewController.m"
-            timestampString = "436259811.78701"
+            timestampString = "438493427.714719"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184">
+            startingLineNumber = "171"
+            endingLineNumber = "171">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -9297,11 +9297,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/CoreData/DBOperator.m"
-            timestampString = "437733171.131405"
+            timestampString = "438756008.889795"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "-fetchArticlesWithChannel:exceptArticle:topN:"
             landmarkType = "5">
          </BreakpointContent>
@@ -9312,13 +9312,75 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/LeftViewController.m"
-            timestampString = "438054945.256363"
+            filePath = "XinHuaDailyXib/OceanInfo/OceanAppDelegate.m"
+            timestampString = "438597434.026723"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "-application:didReceiveRemoteNotification:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/OceanInfo/VerifyCodeSubmitViewController.m"
+            timestampString = "438843191.370269"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "-bindPhoneNumber"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__49-[VerifyCodeSubmitViewController bindPhoneNumber]_block_invoke"
+                  moduleName = "ocean"
+                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/OceanInfo/VerifyCodeSubmitViewController.m"
+                  timestampString = "438843214.630597"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "42">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__49-[VerifyCodeSubmitViewController bindPhoneNumber]_block_invoke_2"
+                  moduleName = "ocean"
+                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/OceanInfo/VerifyCodeSubmitViewController.m"
+                  timestampString = "438843214.630729"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/DefaultView.m"
+            timestampString = "438848730.907704"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
-            landmarkName = "-reloadTagsFromDB"
+            landmarkName = "-setupCoverImage"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -9328,44 +9390,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-            timestampString = "438165005.45698"
+            filePath = "XinHuaDailyXib/DefaultView.m"
+            timestampString = "438848741.6291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "-keyboardWillShow:"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "-setupCoverImage"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[RequestViewController keyboardWillShow:]"
-                  moduleName = "dfn"
-                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438166522.187536"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__42-[RequestViewController keyboardWillShow:]_block_invoke"
-                  moduleName = "dfn"
-                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438166522.187721"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212"
-                  offsetFromSymbolStart = "30">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -9374,44 +9406,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-            timestampString = "438165005.45698"
+            filePath = "XinHuaDailyXib/Service.m"
+            timestampString = "439095386.716505"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
-            landmarkName = "-keyboardWillHide:"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
+            landmarkName = "-fetchDailyArticlesFromNETWithChannel:date:successHandler:errorHandler:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[RequestViewController keyboardWillHide:]"
-                  moduleName = "dfn"
-                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438166522.188531"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "228"
-                  endingLineNumber = "228"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__42-[RequestViewController keyboardWillHide:]_block_invoke"
-                  moduleName = "dfn"
-                  urlString = "file:///Users/apple/Documents/dailyinfo/XinHuaDailyXib/dailyFinancialNews/RequestViewController.m"
-                  timestampString = "438166522.188661"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "228"
-                  endingLineNumber = "228"
-                  offsetFromSymbolStart = "30">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/OceanInfo/FirstDailyViewController.m"
+            timestampString = "439095576.023915"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "-loadPreviousDailyFromNET"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

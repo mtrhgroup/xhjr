@@ -54,6 +54,7 @@
         self.article_title=articleMO.a_article_title;
         self.page_url=articleMO.a_page_url;
         self.zip_url=articleMO.a_zip_url;
+        NSLog(@"%@",articleMO.a_publish_date);
         self.publish_date=articleMO.a_publish_date;
         self.is_read=[articleMO.a_is_read boolValue];
         self.is_collected=[articleMO.a_is_collected boolValue];
@@ -100,6 +101,28 @@
 @implementation ArticlesForCVC
 @synthesize header_article=_header_article;
 @synthesize other_articles=_other_articles;
+@end
+@implementation ArticlesForHVC
+@synthesize header_article=_header_article;
+@synthesize other_articles=_other_articles;
+-(NSString *)lastPublicDateInChannelWithChannelID:(NSString *)channel_id{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *future_time=[formatter stringFromDate:[NSDate distantFuture]];
+    if(_other_articles==nil||[_other_articles count]==0)return future_time;
+    for(int i=[_other_articles count]-1;i>=0;i--){
+        if([((Article *)[_other_articles objectAtIndex:i]).channel_id isEqualToString:channel_id]){
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+            NSDate *last_date=[dateFormatter dateFromString:((Article *)[_other_articles objectAtIndex:i]).publish_date];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *last_one_time=[formatter stringFromDate:last_date];
+            return last_one_time;
+        }
+    }
+    return future_time;
+}
 @end
 @implementation DailyArticles
 @synthesize date;

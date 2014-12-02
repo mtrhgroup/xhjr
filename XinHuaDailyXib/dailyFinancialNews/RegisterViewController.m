@@ -51,14 +51,12 @@
     self.title=@"账号绑定";
     self.view.backgroundColor=VC_BG_COLOR;
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 60)];
+    [[self blurView] setFrame:CGRectMake(10.f, (lessiOS7)?20:20+44, 300, 60)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
-    //[self.blurView setAlpha:0.6];
-    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:[self blurView]];
     
-    _phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(20, 50+44, 180, 40)];
+    _phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(20, (lessiOS7)?30:30+44, 180, 40)];
     _phone_number_input.placeholder = @" 请输入手机号码";
     _phone_number_input.backgroundColor=[UIColor clearColor];
     _phone_number_input.layer.cornerRadius = 10.0f;
@@ -71,7 +69,7 @@
     [_phone_number_input addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.view addSubview:_phone_number_input];
     verify_get_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    verify_get_btn.frame = CGRectMake(210, 50+44, 90, 40);
+    verify_get_btn.frame = CGRectMake(210, (lessiOS7)?30:30+44, 90, 40);
     [verify_get_btn setTitle:@"获取验证码" forState:UIControlStateNormal];
     verify_get_btn.backgroundColor=[UIColor whiteColor];
     [verify_get_btn.layer setMasksToBounds:YES];
@@ -83,6 +81,7 @@
     [self.view addSubview:verify_get_btn];
     UILabel *tip=[[UILabel alloc] initWithFrame:CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y+self.blurView.frame.size.height+10, self.blurView.frame.size.width, 40)];
     tip.text=@"订购热线：8868585转8";
+    tip.backgroundColor=[UIColor clearColor];
     tip.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:tip];
     //[((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];

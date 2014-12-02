@@ -15,6 +15,7 @@
 #import "SettingViewController.h"
 #import "RightViewController.h"
 #import "HomeViewController.h"
+#import "DefaultView.h"
 @interface DrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)DefaultView *cover_view;

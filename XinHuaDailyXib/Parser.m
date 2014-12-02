@@ -131,7 +131,11 @@
         article.zip_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_zip_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
         NSString *raw_page_url =  [xml findValueFrom:citem nodeName:@"pageurl"];
         article.page_url=[NSString stringWithFormat:@"%@%@",@"http://mis.xinhuanet.com/sxtv2/Mobile",[raw_page_url stringByReplacingOccurrencesOfString:@"\\" withString:@"/"]];
-        article.publish_date = [xml findValueFrom:citem nodeName:@"inserttime"];
+        NSString *raw_date_str=[xml findValueFrom:citem nodeName:@"inserttime"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        NSDate* raw_date=[formatter dateFromString:raw_date_str];
+        article.publish_date=[formatter stringFromDate:raw_date];
         article.attachments = [xml findValueFrom:citem nodeName:@"attachments"];
         article.summary=[xml findValueFrom:citem nodeName:@"summary"];
         NSString *raw_thumbnail_url=[xml findValueFrom:citem nodeName:@"thumbnail"];
@@ -203,7 +207,11 @@
     {
         Command*  action = [[Command alloc] init];
         action.f_id = [xml findValueFrom:item nodeName:@"F_ID"];
-        action.f_inserttime=[xml findValueFrom:item nodeName:@"F_InsertTime"];
+        NSString *raw_date_str=[xml findValueFrom:item nodeName:@"F_InsertTime"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        NSDate* raw_date=[formatter dateFromString:raw_date_str];
+        action.f_inserttime=[formatter stringFromDate:raw_date];
         action.f_state=[xml findValueFrom:item nodeName:@"F_State"];
         [result addObject:action];
         item = [xml nextTagFrom:item];

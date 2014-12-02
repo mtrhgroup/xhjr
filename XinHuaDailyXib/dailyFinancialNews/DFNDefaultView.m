@@ -30,18 +30,13 @@
         self.lasting_ms=5.0f;
         self.service=AppDelegate.service;
         self.backgroundColor=[UIColor whiteColor];
-//        UIImageView *logoView=[[UIImageView alloc] initWithFrame:CGRectMake(20, frame.size.height-68-50, 230, 68)];
-//        logoView.image=[UIImage imageNamed:@"logo_start_page.png"] ;
-//        [self addSubview:logoView];
-//        bg_view=[[UIView alloc]initWithFrame:CGRectMake(20, frame.size.height-45, frame.size.width-40, 1)];
-//        bg_view.backgroundColor=[UIColor grayColor];
-//        [self addSubview:bg_view];
-//        copyright_lbl=[[UILabel alloc] initWithFrame:CGRectMake(20, frame.size.height-40, frame.size.width-40, 20)];
-//        copyright_lbl.textColor=[UIColor grayColor];
-//        copyright_lbl.textAlignment=NSTextAlignmentCenter;
-//        copyright_lbl.text=@"Copyright © 2014 Xinhua News Agency All Rights Reserved.";
-//        copyright_lbl.font = [UIFont fontWithName:@"Arial" size:10];
-//        [self addSubview:copyright_lbl];
+        UIImageView *defaultImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        if(frame.size.height==568.0){
+            defaultImageView.image=[UIImage imageNamed:@"Default-568h@2x.png"] ;
+        }else{
+            defaultImageView.image=[UIImage imageNamed:@"Default@2x.png"] ;
+        }
+        [self addSubview:defaultImageView];
         _startup_time=[NSDate date];
         [self setupCoverImage];
         UIButton *enterBtn=[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-100,20,88,40)];
@@ -61,7 +56,7 @@
 -(void)setupCoverImage{
     if(AppDelegate.user_defaults.appInfo.startImgUrl!=nil||[AppDelegate.user_defaults.appInfo.startImgUrl isEqualToString:@""]){
         if(coverimageView==nil)
-            coverimageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-100)];
+            coverimageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-130)];
         coverimageView.imageURL = AppDelegate.user_defaults.appInfo.startImgUrl;
         [self addSubview:coverimageView];
         coverimageView.userInteractionEnabled=YES;

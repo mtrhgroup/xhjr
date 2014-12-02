@@ -31,20 +31,7 @@
 //                duration:2.0
 //                position:[NSValue valueWithCGPoint:CGPointMake(160, 120)]];
 }
-- (void) viewDidLayoutSubviews {
-    // only works for iOS 7+
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        CGRect viewBounds = self.view.bounds;
-        CGFloat topBarOffset = self.topLayoutGuide.length;
-        
-        // snaps the view under the status bar (iOS 6 style)
-        viewBounds.origin.y = topBarOffset*-1;
-        
-        // shrink the bounds of your view to compensate for the offset
-        //viewBounds.size.height = viewBounds.size.height -20;
-        self.view.bounds = viewBounds;
-    }
-}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -57,8 +44,6 @@
     [[self blurView] setFrame:CGRectMake(10.f, 10, 300, 140)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
-    //[self.blurView setAlpha:0.6];
-    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:[self blurView]];
     
     

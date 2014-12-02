@@ -16,6 +16,7 @@
 #import "RightViewController.h"
 #import "HomeViewController.h"
 #import "FirstDailyViewController.h"
+#import "LeftViewController.h"
 @interface DFNDrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)DFNDefaultView *cover_view;

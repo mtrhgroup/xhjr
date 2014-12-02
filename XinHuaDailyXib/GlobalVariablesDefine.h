@@ -14,6 +14,7 @@
 #define APP_KEY @"koZZjgSLNSOc5Gdp6WNpCA3i"
 #define kNotificationNewArticlesReceived @"notification_new_articles_received"
 #define kNotificationChannelsReceived @"notification_channel_update"
+#define kNotificationLatestDailyReceived @"kNotificationLatestDailyReceived"
 #define kNotificationLeftChannelsRefresh @"notification_left_channels_refresh"
 #define kNotificationAppVersionReceived @"notification_app_version_received"
 #define kNotificationBindSNSuccess @"kNotificationBindSNSuccess"

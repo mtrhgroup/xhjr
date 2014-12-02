@@ -21,14 +21,15 @@
 @synthesize articles=_articles;
 @synthesize service=_service;
 @synthesize tableView=_tableView;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=self.tag;
     self.view.backgroundColor=VC_BG_COLOR;
     if(lessiOS7){
-        self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
+     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     }else{
-        self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+      self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20)];
     }
     self.tableView.delegate=self;
     self.tableView.dataSource=self;

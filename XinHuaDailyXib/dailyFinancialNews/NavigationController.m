@@ -28,11 +28,11 @@
     UIColor *color=[UIColor redColor];
     NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys: color,UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0, 0)],UITextAttributeTextShadowOffset,nil];
     self.navigationBar.titleTextAttributes=dict;
-    [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"1.png"] forBarMetrics:UIBarMetricsDefault];
-    UIView *red_line=[[UIView alloc] initWithFrame:CGRectMake(0, 43, self.view.bounds.size.width, 1)];
-    red_line.backgroundColor=[UIColor redColor];
-    [self.navigationBar addSubview:red_line];
-   
+    if(lessiOS7){
+        [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_bg_iOS6.png"] forBarMetrics:UIBarMetricsDefault];
+    }else{
+        [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_bg_iOS7.png"] forBarMetrics:UIBarMetricsDefault];
+    }
 }
 -(void)showLeftMenu{
     [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];

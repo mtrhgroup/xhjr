@@ -43,7 +43,34 @@
     return self;
 }
 #ifdef DFN
+-(void)fetchFirstRunData:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    [self fetchChannelsFromNET:^(NSArray *channels) {
+        AppDelegate.channel=[self fetchMRCJChannelFromDB];
+        [self fetchLatestArticlesFromNETWithChannel:AppDelegate.channel successHandler:^(NSArray *articles) {
+            if([articles count]>0){
+                if(successBlock){
+                    successBlock(YES);
+                }
+            }else{
+                NSError *error;
+                if(errorBlock){
+                    errorBlock(error);
+                }
+            }
+        } errorHandler:^(NSError *error) {
+            if(errorBlock){
+                errorBlock(error);
+            }
+        }];
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+
 -(void)becomeAcitveHandler{
+    if(![self hasAuthorized])return;
     [self reportActionsToServer:^(BOOL ok) {
         //<#code#>
     } errorHandler:^(NSError *error) {
@@ -51,12 +78,28 @@
     }];
     [self fetchChannelsFromNET:^(NSArray *channels) {
         AppDelegate.channel=[self fetchMRCJChannelFromDB];
+        [self fetchLatestArticlesFromNETWithChannel:AppDelegate.channel successHandler:^(NSArray *articles) {
+          //  <#code#>
+        } errorHandler:^(NSError *error) {
+          //  <#code#>
+        }];
     } errorHandler:^(NSError *error) {
         //
     }];
 }
 #endif
 #ifdef LNFB
+-(void)fetchFirstRunData:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    [self fetchChannelsFromNET:^(NSArray *channels) {
+        [self fetchHomeArticlesFromNET:^(NSArray *articles) {
+            //
+        } errorHandler:^(NSError *error) {
+            //
+        }];
+    } errorHandler:^(NSError *error) {
+        //
+    }];
+}
 -(void)becomeAcitveHandler{
     [self reportActionsToServer:^(BOOL ok) {
         //<#code#>
@@ -74,7 +117,41 @@
     }];
 }
 #endif
-
+#ifdef Ocean
+-(void)fetchFirstRunData:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    [self fetchChannelsFromNET:^(NSArray *channels) {
+        [self fetchHomeArticlesFromNET:^(NSArray *articles) {
+            if(successBlock){
+                successBlock(YES);
+            }
+        } errorHandler:^(NSError *error) {
+            if(errorBlock){
+                errorBlock(error);
+            }
+        }];
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
+-(void)becomeAcitveHandler{
+    [self reportActionsToServer:^(BOOL ok) {
+        //<#code#>
+    } errorHandler:^(NSError *error) {
+        // <#code#>
+    }];
+    [self fetchChannelsFromNET:^(NSArray *channels) {
+        [self fetchHomeArticlesFromNET:^(NSArray *articles) {
+            //
+        } errorHandler:^(NSError *error) {
+            //
+        }];
+    } errorHandler:^(NSError *error) {
+        //
+    }];
+}
+#endif
 
 //-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
 //    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion]];
@@ -133,6 +210,70 @@
     channels_for_hvc.header_channel=pic_channel;
     channels_for_hvc.other_channels=home_channels;
     return channels_for_hvc;
+}
+-(void)fetchOceanHomeArticlesFromNETWithAritclesForHVC:(ArticlesForHVC *)aritclesForHVC successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    NSArray *channels=[db_operator fetchAllChannels];
+    for(Channel *channel in channels){
+        if(!channel.is_leaf)continue;
+        if(channel.need_be_authorized&&!AppDelegate.user_defaults.is_authorized)continue;
+        int topN=5;//默认下载5条
+        if([channel.parent_id isEqualToString:@"-1"])topN=1;//广告下载1条
+        NSString *time=[aritclesForHVC lastPublicDateInChannelWithChannelID:channel.channel_id];
+        NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id,time,AppID];
+        [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                DBOperator *db_operator_background=[_db_manager aBackgroundOperator];
+                NSArray *articles=[_parser parseArticles:responseStr];
+                for(Article *article in articles){
+                    if(![db_operator_background doesArticleExistWithArtilceID:article.article_id]){
+                        [db_operator_background addArticle:article];
+                        channel.receive_new_articles_timestamp=[db_operator_background markChannelReceiveNewArticlesTimeStampWithChannelID:channel.channel_id];
+                        NSDictionary *dict = [NSDictionary dictionaryWithObject:channel.receive_new_articles_timestamp forKey:@"timestamp"];
+                        if(channel.parent_id.intValue>0){
+                            [db_operator_background markChannelReceiveNewArticlesTimeStampWithChannelID:channel.parent_id];
+                            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationNewArticlesReceived object: channel.parent_id userInfo:dict];
+                        }else{
+                            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationNewArticlesReceived object: channel.channel_id userInfo:dict];
+                        }
+                    }
+                    if(!article.is_cached&&channel.is_auto_cache){
+                        [self fetchArticleContentWithArticle:article successHandler:^(BOOL ok){
+                            // <#code#>
+                            //TODO ssss
+                        } errorHandler:^(NSError *error) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                if(errorBlock){
+                                    errorBlock(error);
+                                }
+                            });
+                        }];
+                    }
+                }
+                [db_operator_background save];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(successBlock){
+                        successBlock(articles);
+                    }
+                });
+            });
+        } errorHandler:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(errorBlock){
+                    errorBlock(error);
+                }
+            });
+        }];
+    }
+}
+-(ArticlesForHVC *)fetchOceanHomeArticlesFromDBWithTopN:(int)topN{
+    ArticlesForHVC *articles_for_hvc=[[ArticlesForHVC alloc] init];
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    Article *header_article=[db_operator fetchHeaderArticle];
+    NSArray *other_articles=[db_operator fetchOtherArticlesWithExceptArticle:header_article topN:topN];
+    articles_for_hvc.header_article=header_article;
+    articles_for_hvc.other_articles=other_articles;
+    return articles_for_hvc;
 }
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     DBOperator *db_operator=[_db_manager theForegroundOperator];
@@ -204,7 +345,7 @@
                 [self fetchArticleContentWithArticle:article successHandler:^(BOOL is_ok) {
                     app_info.advPagePath=article.page_path;
                     app_info.advPath=article.zip_path;
-                    app_info.startImgUrl=article.thumbnail_url;
+                    app_info.startImgUrl=article.cover_image_url;
                     AppDelegate.user_defaults.appInfo=app_info;
                     if(successBlock){
                         successBlock(app_info);
@@ -261,10 +402,18 @@
     formatter.dateFormat = @"yyyyMMddHHmmss";
     NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
     [self fetchArticlesFromNETWithChannel:channel time:time successHandler:^(NSArray *articles) {
-        if(successBlock){
-            successBlock(articles);
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
+        [self executeServerCommandsWithChannel:channel successHandler:^(BOOL isOK) {
+            if(successBlock){
+                successBlock(articles);
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
+        } errorHandler:^(NSError *error) {
+            if(successBlock){
+                successBlock(articles);
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
+        }];
+        
     } errorHandler:^(NSError *error){
         if(errorBlock){
             errorBlock(error);
@@ -336,6 +485,25 @@
     }];
 }
 
+-(void)fetchCommentsNumberFromNETWith:(Article *)article successHandler:(void(^)(NSNumber *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kCommentsNumberURL,article.article_content_id];
+    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSNumber *comments_number=[NSNumber numberWithInt:[responseStr intValue]];
+            article.comments_number=comments_number;
+            [self markArticleCommentsNumberWithArticle:article];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(successBlock){
+                    successBlock(comments_number);
+                }
+            });
+        });
+    } errorHandler:^(NSError *error) {
+        if(errorBlock){
+            errorBlock(error);
+        }
+    }];
+}
 -(void)fetchCommentsFromNETWithArticle:(Article *)article time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kCommentListURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,AppID,20,article.article_content_id,time];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
@@ -352,14 +520,6 @@
             errorBlock(error);
         }
     }];
-//    NSString *filePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"comment.xml"];
-//    NSError* err=nil;  
-//    NSString *testxml= [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&err];
-//    NSArray *comments=[_parser parseComments:testxml];
-//    if(successBlock){
-//        successBlock(comments);
-//    }
-
 }
 -(void)fetchLatestCommentsFromNETWithArticle:(Article *)article successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -375,8 +535,8 @@
         }
     }];
 }
--(void)executeServerCommands:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kCommandsURL,[DeviceInfo udid],AppID];
+-(void)executeServerCommandsWithChannel:(Channel *)channel successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
+    NSString *url=[NSString stringWithFormat:kCommandsURL,[DeviceInfo udid],channel.channel_id,@"10",AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *commands=[_parser parseCommands:responseStr];
@@ -493,6 +653,7 @@
         NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];
         for(NSString *tag in keywords){
             BOOL has=NO;
+            if([tag isEqualToString:@""])continue;
             for(NSString *item in tags){
                 if([item isEqualToString:tag]){
                     has=YES;
@@ -533,6 +694,11 @@
 -(void)markArticleLikeWithArticle:(Article *)article{
     DBOperator *db_operator=[_db_manager theForegroundOperator];
     [db_operator markArticleLikeWithArticleID:article.article_id likeNumber:article.like_number];
+    [db_operator save];
+}
+-(void)markArticleCommentsNumberWithArticle:(Article *)article{
+    DBOperator *db_operator=[_db_manager theForegroundOperator];
+    [db_operator markArticleCommentsNumberWithArticleID:article.article_id commentsNumber:article.comments_number];
     [db_operator save];
 }
 -(Article *)fetchADArticleFromDB{

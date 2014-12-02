@@ -43,8 +43,6 @@
     [[self blurView] setFrame:CGRectMake(10.f, 40+44, 300, 170)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
-    //[self.blurView setAlpha:0.6];
-    [[self blurView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
     [self.view addSubview:[self blurView]];
     
     UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50+44, 280, 100)];

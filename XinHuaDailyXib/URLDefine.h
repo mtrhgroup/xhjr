@@ -52,7 +52,7 @@
  返回示例 periodicallist|periodical@id@name|item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:summary:thumbnail:pid:coverimg:visit:video
  备注
  ---------------------*/
-#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_newperiodicals.ashx?imei=%@&n=%d&order=asc&pid=%@&time=%@&appid=%@"
+#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_newperiodicals.ashx?imei=%@&n=%d&order=desc&pid=%@&time=%@&appid=%@"
 
 
 /*---------------------
@@ -229,4 +229,14 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_LiterComment.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=asc"
+#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_LiterComment.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=desc"
+/*---------------------
+ 获取评论数量URL
+ 参数个数 2
+ 参数列表 literid(稿件ID)
+ 请求类型 GET
+ 返回类型 TEXT
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#define kCommentsNumberURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_LiterCommentCount.ashx?literid=%@"
