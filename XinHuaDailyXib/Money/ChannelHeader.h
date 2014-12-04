@@ -14,4 +14,5 @@
 @interface ChannelHeader : UICollectionReusableView
 @property(nonatomic,strong)id<HeaderViewDelegate> delegate;
 @property(nonatomic,strong)Article *article;
++(CGFloat)preferHeight;
 @end

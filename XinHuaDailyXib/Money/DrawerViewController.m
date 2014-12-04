@@ -30,7 +30,8 @@
 @implementation DrawerViewController
 @synthesize cover_view;
 @synthesize service;
-static const CGFloat kPublicLeftMenuWidth = 260.0f;
+static const CGFloat kPublicLeftMenuWidth = 280.0f;
+static const CGFloat kPublicRigtMenuWidth = 280.0f;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -51,8 +52,10 @@ static const CGFloat kPublicLeftMenuWidth = 260.0f;
     NavigationController *nv=[[NavigationController alloc]initWithRootViewController:self.left_menu_vc.home_vc];
     [self setCenterViewController:nv];
     [self setLeftDrawerViewController:self.left_menu_vc];
-    [self setRightDrawerViewController:nil];
+    NavigationController *order_nv=[[NavigationController alloc]initWithRootViewController:AppDelegate.order_vc];
+    [self setRightDrawerViewController:order_nv];
     [self setMaximumLeftDrawerWidth:kPublicLeftMenuWidth];
+    [self setMaximumRightDrawerWidth:kPublicRigtMenuWidth];
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     [self setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {

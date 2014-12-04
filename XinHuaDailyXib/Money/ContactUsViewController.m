@@ -85,7 +85,7 @@
     self.emailTF=email;
     [self.view addSubview:email];
     send_btn=[[UIButton alloc] initWithFrame:CGRectMake(10, self.blurView.frame.origin.y+self.blurView.frame.size.height+5, self.blurView.frame.size.width, 40)];
-    [send_btn primaryStyle];
+    [send_btn moneyStyle];
     [send_btn setTitle:@"发送" forState:UIControlStateNormal];
     [send_btn addTarget:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
     send_btn.enabled=NO;

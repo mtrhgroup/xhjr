@@ -12,6 +12,8 @@
 #import "HomeCell.h"
 #import "MJRefresh.h"
 #import "NavigationController.h"
+#import "RegisterViewController.h"
+
 @interface HomeViewController ()
 @property(nonatomic,strong)ChannelHeader *headerView;
 @property(nonatomic,strong)ListFooterView *footerView;
@@ -19,6 +21,7 @@
 @property(nonatomic,strong)ArticlesForHVC *articles_for_hvc;
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)UIImageView *top_title;
+@property(nonatomic,strong)TipTouchView *tip_view;
 @end
 
 @implementation HomeViewController
@@ -28,6 +31,13 @@
 @synthesize headerView=_headerView;
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController.navigationBar addSubview:self.top_title];
+    if([self.service hasAuthorized]){
+        [self.tip_view hide];
+    }else{
+        [self.tip_view show];
+    }
+   [self reloadArticlesFromDB];
+    
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [self.top_title removeFromSuperview];
@@ -37,7 +47,12 @@
     self.articles_for_hvc=[[ArticlesForHVC alloc] init];
     self.top_title=[[UIImageView alloc] initWithFrame:CGRectMake((320-120)/2, 0, 120, 44)];
     self.top_title.image=[UIImage imageNamed:@"logo_top_subject.png"];
+    self.tip_view=[[TipTouchView alloc] init];
+    self.tip_view.delegate=self;
+    [self.view addSubview:self.tip_view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newArticlesReceivedHandler) name:kNotificationNewArticlesReceived object:nil];
+    
+    
     
 }
 -(void)dealloc{
@@ -49,7 +64,7 @@
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 300)];
+    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 200)];
     self.headerView.article=self.articles_for_hvc.header_article;
     self.headerView.delegate=self;
     self.footerView=[[ListFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
@@ -58,16 +73,26 @@
     [self.tableView addHeaderWithTarget:self action:@selector(reloadArticlesFromNET)];
     [self reloadArticlesFromNET];
 }
+-(void)tipTouchViewClicked{
+    RegisterViewController *reg_vc=[[RegisterViewController alloc] init];
+    reg_vc.inside=YES;
+    NavigationController *nav_vc=[[NavigationController alloc] initWithRootViewController:reg_vc];
+    [self presentViewController:nav_vc animated:YES completion:nil];
+}
 -(void)reloadArticlesFromNET{
     [self.service fetchOceanHomeArticlesFromNETWithAritclesForHVC:self.articles_for_hvc successHandler:^(NSArray *articles) {
         [self reloadArticlesFromDB];
         [self.tableView headerEndRefreshing];
     } errorHandler:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView headerEndRefreshing];
-            [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+            if(error.code==XBindingFailed){
+                [self.tip_view show];
+            }else{
+                [self.tableView headerEndRefreshing];
+                [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+            }
         });
-
+        
     }];
 }
 BOOL _busy=NO;
@@ -94,7 +119,7 @@ BOOL _busy=NO;
     self.articles_for_hvc=[self.service fetchOceanHomeArticlesFromDBWithTopN:10];
     [self.tableView reloadData];
     if(self.articles_for_hvc.header_article!=nil){
-        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 300)];
+        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 200)];
         ((ChannelHeader *)self.tableView.tableHeaderView).article=self.articles_for_hvc.header_article;
         ((ChannelHeader *)self.tableView.tableHeaderView).delegate=self;
     }else{

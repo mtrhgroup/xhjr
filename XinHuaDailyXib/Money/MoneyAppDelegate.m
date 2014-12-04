@@ -17,6 +17,7 @@
 @synthesize share=_share;
 @synthesize main_vc=_main_vc;
 @synthesize reg_vc=_reg_vc;
+@synthesize order_vc=_order_vc;
 @synthesize prepare_error_alert=_prepare_error_alert;
 @synthesize push_article_alert=_push_article_alert;
 @synthesize user_defaults=_user_defaults;
@@ -31,9 +32,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [Frontia initWithApiKey:APP_KEY];
-    [Frontia getPush];
-    [FrontiaPush setupChannel:launchOptions];
+//    [Frontia initWithApiKey:APP_KEY];
+//    [Frontia getPush];
+//    [FrontiaPush setupChannel:launchOptions];
     [self setupApp];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if(self.user_defaults.is_authorized){
@@ -59,6 +60,7 @@
     self.user_defaults=[[UserDefaults alloc] init];
     self.main_vc=[[DrawerViewController alloc] init];
     self.reg_vc=[[RegisterViewController alloc] init];
+    self.order_vc=[[OrderViewController alloc] init];
     self.prepare_error_alert=[[UIAlertView alloc] initWithTitle:@"系统初始化失败"  message:@"请联网后重试！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
 }
 

@@ -59,6 +59,24 @@ alpha:((c)&0xFF)/255.0]
 #import "MoneyAppDelegate.h"
 #define AppDelegate ((MoneyAppDelegate *)[[UIApplication sharedApplication] delegate])
 #define AppID @"XHJR"
+#define SYSTEM_VERSION  [[[UIDevice currentDevice] systemVersion] floatValue]>=7.000000
+#define APPLICATIONFRAME  [[UIScreen mainScreen] applicationFrame].size
+#define UUID [NSString stringWithFormat:@"XHJR_%@",[[[UIDevice currentDevice]identifierForVendor]UUIDString]]
+#define SN [NSString stringWithFormat:@"MRCJ_%@",[[UIDevice currentDevice] uniqueIdentifier]]
+
+#import "FMDatabaseOP.h"
+#import "NSString+Addtions.h"
+
+#define  WITHFORMAT  @"yyyy:MM:dd HH:mm:ss"
+#define  TOFORMAT  @"yyyyMMddHHmmss"
+
+#define hotforecast_table_type 0
+#define focus_table_type       1
+#define yousay_table_type      2
+#define comment_table_type     3
+
+#define MAX_COUNT 10
+#define APPID @"MRCJ"
 #endif
 
 #ifdef __DEBUG__

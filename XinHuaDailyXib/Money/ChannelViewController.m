@@ -34,13 +34,13 @@
     
 }
 -(void)updateChannelNewArticlesStamp:(NSNotification *)notification{
-    NSString *channel_id=[notification object];
-    if([channel_id isEqualToString:self.channel.channel_id]){
-        self.channel.receive_new_articles_timestamp=[[notification userInfo] valueForKey:@"timestamp"];
-        if(self.channel.has_new_articles){
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationLeftChannelsRefresh object:nil];
-        }
-    }
+//    NSString *channel_id=[notification object];
+//    if([channel_id isEqualToString:self.channel.channel_id]){
+//        self.channel.receive_new_articles_timestamp=[[notification userInfo] valueForKey:@"timestamp"];
+//        if(self.channel.has_new_articles){
+//            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationLeftChannelsRefresh object:nil];
+//        }
+//    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,10 +60,14 @@
     }
 
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_menu_default.png"] target:self action:@selector(showLeftMenu) forControlEvents:UIControlEventTouchUpInside];
+    [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"button_order_default.png"] target:self action:@selector(showRightMenu) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)showLeftMenu{
     [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+-(void)showRightMenu{
+    [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 -(void)showMenu{
     [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
@@ -79,7 +83,7 @@
     [self pushRegisterVC];
 }
 -(void)pushRegisterVC{
-    RegisterViewController *vc=[[RegisterViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    RegisterViewController *vc=[[RegisterViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

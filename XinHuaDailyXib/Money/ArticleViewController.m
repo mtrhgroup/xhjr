@@ -149,6 +149,13 @@
         [_like_btn setBackgroundImage:[UIImage imageNamed:@"button_wonderful_default.png"] forState:UIControlStateNormal];
         [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
         
+        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,44,44)];
+        if(_article.is_collected){
+            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"button_favorite_pressdown.png"] forState:UIControlStateNormal];
+        }else{
+            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"button_favorite_default.png"] forState:UIControlStateNormal];
+        }
+        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
         
         if(_article.is_like){
             _like_btn.enabled=NO;
@@ -162,7 +169,8 @@
         }
         UIBarButtonItem *comments_btn_item=[[UIBarButtonItem alloc] initWithCustomView:comments_btn];
          UIBarButtonItem *like_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_like_btn];
-        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,comments_btn_item,like_btn_item,nil] animated:YES];
+        UIBarButtonItem *collect_btn_item=[[UIBarButtonItem alloc] initWithCustomView:_collect_btn];
+        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,comments_btn_item,like_btn_item,collect_btn_item,nil] animated:YES];
         
         self.bottom_view=[AMBlurView new];
         NSLog(@"view bounds height:%f   frame height:%f",self.view.bounds.size.height,self.view.frame.size.height);
@@ -172,13 +180,16 @@
         
         UIButton *feedback_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         feedback_btn.frame = CGRectMake(5, 5, self.bottom_view.bounds.size.width-10, 34);
-        [feedback_btn setTitle:@"说两句呗" forState:UIControlStateNormal];
+        [feedback_btn setTitle:@"写下您想说的" forState:UIControlStateNormal];
         feedback_btn.backgroundColor=[UIColor whiteColor];
         feedback_btn.tintColor=[UIColor grayColor];
         [feedback_btn.layer setMasksToBounds:YES];
         [feedback_btn.layer setCornerRadius:10.0];
         [feedback_btn.layer setBorderWidth:0.2];
         feedback_btn.tintColor=[UIColor blackColor];
+        UIImageView *bg_tip_imgview=[[UIImageView alloc] initWithFrame:CGRectMake(10, 6, 22, 22)];
+        bg_tip_imgview.image=[UIImage imageNamed:@"pic_writecomments_default.png"];
+        [feedback_btn addSubview:bg_tip_imgview];
         [feedback_btn addTarget:self action:@selector(showEditCommentView) forControlEvents:UIControlEventTouchUpInside];
         [self.bottom_view addSubview:feedback_btn];
         
@@ -187,13 +198,7 @@
 //        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
 //        [self.bottom_view addSubview:share_btn];
         
-        _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34,5,34,34)];
-        if(_article.is_collected){
-            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
-        }else{
-            [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
-        }
-        [_collect_btn addTarget:self action:@selector(collect) forControlEvents:UIControlEventTouchUpInside];
+
 //        [self.bottom_view addSubview:_collect_btn];
     }
     isFirst=YES;
@@ -365,12 +370,12 @@ BOOL isFirst=YES;
 -(void)collect{
     if(_article.is_collected){
         _article.is_collected=NO;
-        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star.png"] forState:UIControlStateNormal];
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"button_favorite_default.png"] forState:UIControlStateNormal];
         [_service markArticleCollectedWithArticle:_article is_collected:NO];
         [self.view.window showHUDWithText:@"已取消收藏" Type:ShowPhotoYes Enabled:YES];
     }else{
         _article.is_collected=YES;
-        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"star_on.png"] forState:UIControlStateNormal];
+        [_collect_btn setBackgroundImage:[UIImage imageNamed:@"button_favorite_pressdown.png"] forState:UIControlStateNormal];
         [_service markArticleCollectedWithArticle:_article is_collected:YES];
         [self.view.window showHUDWithText:@"收藏成功" Type:ShowPhotoYes Enabled:YES];
     }

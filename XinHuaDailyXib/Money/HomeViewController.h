@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "ChannelHeader.h"
 #import "ChannelViewController.h"
-@interface HomeViewController : ChannelViewController<UITableViewDelegate,HeaderViewDelegate,UITableViewDataSource>
+#import "TipTouchView.h"
+@interface HomeViewController : ChannelViewController<UITableViewDelegate,HeaderViewDelegate,UITableViewDataSource,TipTouchViewDelegate>
 @property(nonatomic,strong)Channel *channel;
 
 @end

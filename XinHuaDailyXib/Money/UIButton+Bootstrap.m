@@ -34,6 +34,13 @@
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1]] forState:UIControlStateDisabled];
 }
 
+-(void)moneyStyle{
+    [self bootstrapStyle];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:0x10/256.0  green:0x63/256.0 blue:0xC9/256.0 alpha:1]] forState:UIControlStateNormal];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:0x9B/256.0  green:0xC9/256.0 blue:0xFD/256.0 alpha:1]] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1]] forState:UIControlStateDisabled];
+}
+
 -(void)successStyle{
     [self bootstrapStyle];
     self.backgroundColor = [UIColor colorWithRed:92/255.0 green:184/255.0 blue:92/255.0 alpha:1];
@@ -47,6 +54,7 @@
     self.layer.borderColor = [[UIColor colorWithRed:70/255.0 green:184/255.0 blue:218/255.0 alpha:1] CGColor];
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:57/255.0 green:180/255.0 blue:211/255.0 alpha:1]] forState:UIControlStateHighlighted];
 }
+
 
 -(void)warningStyle{
     [self bootstrapStyle];

@@ -23,9 +23,11 @@
 @synthesize phone_number=_phone_number;
 @synthesize service=_service;
 @synthesize confirm_back_alert=_confirm_back_alert;
+@synthesize inside=_inside;
 
 - (void)viewDidLoad
 {
+    NSLog(@"$$$");
     self.title=@"填写验证码";
     self.view.backgroundColor=[UIColor whiteColor];
     [self setBlurView:[AMBlurView new]];
@@ -47,7 +49,7 @@
     [_verify_code_input addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.view addSubview:_verify_code_input];
     send_btn=[[UIButton alloc] initWithFrame:CGRectMake(100, self.blurView.frame.origin.y+self.blurView.frame.size.height+5, self.view.bounds.size.width-200, 40)];
-    [send_btn primaryStyle];
+    [send_btn moneyStyle];
     [send_btn setTitle:@"绑定" forState:UIControlStateNormal];
     [send_btn addTarget:self action:@selector(bindPhoneNumber) forControlEvents:UIControlEventTouchUpInside];
     send_btn.enabled=NO;
@@ -67,11 +69,19 @@
 }
 -(void)bindPhoneNumber{
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
-        [self.service fetchFirstRunData:^(BOOL isOK) {
-           [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
-        } errorHandler:^(NSError *error) {
-            //
-        }];
+        if(self.inside){
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            [self.service fetchFirstRunData:^(BOOL isOK) {
+                if (self.presentedViewController == nil)
+                {
+                    [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
+                }
+                
+            } errorHandler:^(NSError *error) {
+                
+            }];
+        }
         
     } errorHandler:^(NSError *error) {
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];

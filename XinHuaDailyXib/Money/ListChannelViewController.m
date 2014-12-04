@@ -56,7 +56,7 @@
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 300)];
+    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, [ChannelHeader preferHeight])];
     self.headerView.article=self.articles_for_cvc.header_article;
     self.headerView.delegate=self;
     self.footerView=[[ListFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
@@ -85,7 +85,7 @@ NSString *ListCellID = @"ListCellID";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return [ListCell preferHeight];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article * article = [self.articles_for_cvc.other_articles objectAtIndex:indexPath.row];
@@ -103,7 +103,7 @@ NSString *ListCellID = @"ListCellID";
 }
 -(void)refreshUI{
     if(self.articles_for_cvc.header_article!=nil){
-        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 300)];
+        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, [ChannelHeader preferHeight])];
         ((ChannelHeader *)self.tableView.tableHeaderView).article=self.articles_for_cvc.header_article;
         ((ChannelHeader *)self.tableView.tableHeaderView).delegate=self;
     }else{

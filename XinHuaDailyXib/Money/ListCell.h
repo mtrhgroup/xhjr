@@ -10,4 +10,5 @@
 #import "Article.h"
 @interface ListCell : UITableViewCell
 @property(nonatomic,strong)Article *article;
++(CGFloat)preferHeight;
 @end

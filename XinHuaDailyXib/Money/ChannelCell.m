@@ -16,6 +16,7 @@
     UIImageView *close_icon;
     UIView *accessoryView;
     UICollectionView *children_view;
+    UIView *white_line;
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -35,8 +36,8 @@
         [close_btn addTarget:self action:@selector(closeFather) forControlEvents:UIControlEventTouchUpInside];
         close_btn.hidden=YES;
         [self.contentView addSubview:close_btn];
-        UIView *white_line=[[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-1, 260, 1)];
-        white_line.backgroundColor=HightLight_BG_COLOR;
+        white_line=[[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-1, 260, 1)];
+        white_line.backgroundColor=Line_BG_COLOR;
         [self addSubview:white_line];
         self.selectionStyle =UITableViewCellSelectionStyleNone;
         UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
@@ -60,10 +61,11 @@
     close_btn.hidden=YES;
     close_icon.hidden=YES;
     title_lbl.text=menu_item.display_name;
+    white_line.hidden=NO;
     self.backgroundColor=VC_BG_COLOR;
     if(menu_item.type==Item){
-        title_lbl.textColor=[UIColor lightGrayColor];
-        self.accessoryView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_rightarrow_gray_default.png"]];
+        title_lbl.textColor=HightLight_BG_COLOR;
+        self.accessoryView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_rightarrow_default.png"]];
     }else if(menu_item.type==StandardChannelItem||menu_item.type==HomeChannelItem){
         title_lbl.textColor=[UIColor whiteColor];
         self.accessoryView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_rightarrow_default.png"]];
@@ -77,7 +79,7 @@
         close_btn.hidden=NO;
         children_view.frame=CGRectMake(10, 44, 210, [menu_item.childItem count]/2*48);
         children_view.hidden=NO;
-        self.backgroundColor=HightLight_BG_COLOR;
+        white_line.hidden=YES;
     }
 }
 -(void)closeFather{

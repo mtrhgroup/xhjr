@@ -33,21 +33,28 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        thumbnail_view = [[ALImageView alloc] initWithFrame:CGRectMake(8, 8, 90, 60)];
+        thumbnail_view = [[ALImageView alloc] initWithFrame:CGRectMake(320-8-93, 40, 93, 70)];
         thumbnail_view.placeholderImage = [UIImage imageNamed:@"placeholder"];
         [[self contentView] addSubview:thumbnail_view];
         
-        title_label = [[UILabel alloc] initWithFrame:CGRectMake(90, 8, 222, 70)];
+        title_label = [[UILabel alloc] initWithFrame:CGRectMake(8, 0, 320-16, 30)];
         title_label.backgroundColor = [UIColor clearColor];
-        title_label.font = [UIFont systemFontOfSize:18];
+        title_label.font = [UIFont systemFontOfSize:22];
         title_label.numberOfLines=3;
         [[self contentView] addSubview:title_label];
         
+        _channel_name_lbl = [[UILabel alloc] initWithFrame:CGRectMake(8, 90, 222, 20)];
+        _channel_name_lbl.backgroundColor = [UIColor clearColor];
+        _channel_name_lbl.font = [UIFont systemFontOfSize:15];
+        _channel_name_lbl.textColor=[UIColor grayColor];
+        [[self contentView] addSubview:_channel_name_lbl];
         
-        summary_label = [[UILabel alloc] initWithFrame:CGRectMake(90, 40, 222, 30)];
+        
+        summary_label = [[UILabel alloc] initWithFrame:CGRectMake(8, 30, 210, 60)];
         summary_label.backgroundColor = [UIColor clearColor];
-        summary_label.font = [UIFont systemFontOfSize:15];
+        summary_label.font = [UIFont systemFontOfSize:17];
         summary_label.textColor=[UIColor grayColor];
+        summary_label.numberOfLines=2;
         [[self contentView] addSubview:summary_label];
         
         _movie_image_view=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"moviemaker.png"]];
@@ -55,29 +62,8 @@
         _movie_image_view.hidden=YES;
         [[self contentView] addSubview:_movie_image_view];
         
-        _comment_icon=[[UIImageView alloc] initWithFrame:CGRectMake(290, 70, 22, 22)];
-        _comment_icon.image=[UIImage imageNamed:@"button_review.png"];
-        [self.contentView addSubview:_comment_icon];
-        
-        _comment_number_lbl = [[UILabel alloc] initWithFrame:CGRectMake(260, 70, 30, 22)];
-        _comment_number_lbl.backgroundColor = [UIColor clearColor];
-        _comment_number_lbl.textAlignment=NSTextAlignmentRight;
-        _comment_number_lbl.font = [UIFont fontWithName:@"Arial" size:15];
-        _comment_number_lbl.textColor=[UIColor grayColor];
-        [[self contentView] addSubview:_comment_number_lbl];
-        
-        _like_icon=[[UIImageView alloc] initWithFrame:CGRectMake(245, 70, 22, 22)];
-        _like_icon.image=[UIImage imageNamed:@"button_wonderful.png"];
-        [self.contentView addSubview:_like_icon];
-        
-        _like_number_lbl = [[UILabel alloc] initWithFrame:CGRectMake(215, 70, 30, 22)];
-        _like_number_lbl.backgroundColor = [UIColor clearColor];
-        _like_number_lbl.textAlignment=NSTextAlignmentRight;
-        _like_number_lbl.font = [UIFont fontWithName:@"Arial" size:15];
-        _like_number_lbl.textColor=[UIColor grayColor];
-        [[self contentView] addSubview:_like_number_lbl];
     }
-    UIView *line_view = [[UIView alloc]initWithFrame:CGRectMake(0, 99, self.bounds.size.width, 1)];
+    UIView *line_view = [[UIView alloc]initWithFrame:CGRectMake(0, 119, self.bounds.size.width, 1)];
     line_view.backgroundColor=[UIColor lightGrayColor];
     [self addSubview:line_view];
     return self;
@@ -89,18 +75,16 @@
     if(_article==nil||![_article.article_id isEqualToString:article.article_id]){
         _article=article;
         if(article.thumbnail_url==nil||[article.thumbnail_url isEqualToString:@""]){
-            title_label.frame=CGRectMake(8, 5, self.bounds.size.width-16, 65);
-            summary_label.frame=CGRectMake(8, 70, self.bounds.size.width-16, 22);
             thumbnail_view.imageURL=nil;
             thumbnail_view.hidden=YES;
         }else{
             thumbnail_view.hidden=NO;
             thumbnail_view.imageURL=article.thumbnail_url;
-            title_label.frame=CGRectMake(106, 5, 206, 65);
-            summary_label.frame=CGRectMake(106, 70, 206, 22);
+            
         }
         title_label.text=article.article_title;
-        summary_label.text=[self wrapedTime:article.publish_date];
+        summary_label.text=article.summary;
+        _channel_name_lbl.text=[NSString stringWithFormat:@"%@",[self wrapedTime:article.publish_date]];
         _comment_number_lbl.text=[NSString stringWithFormat:@"%d",article.comments_number.integerValue];
         _like_number_lbl.text=[NSString stringWithFormat:@"%d",article.like_number.integerValue];
         if(_article.video_url!=nil){
@@ -115,7 +99,7 @@
     }
 }
 +(CGFloat)preferHeight{
-    return 100;
+    return 120;
 }
 -(NSString *)wrapedTime:(NSString *)date{
     NSDateFormatter *df=[[NSDateFormatter alloc]init];

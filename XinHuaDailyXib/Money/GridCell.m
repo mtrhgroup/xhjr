@@ -8,6 +8,7 @@
 
 #import "GridCell.h"
 #import "ALImageView.h"
+#import "GlobalVariablesDefine.h"
 @implementation GridCell{
     UILabel *label;
     NSString *_tag;
@@ -25,7 +26,7 @@
         label.textAlignment=NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:22];
         label.layer.borderWidth=1;
-        label.layer.borderColor=[[UIColor colorWithRed:0x22/255.0 green:0x8c/255.0 blue:0xbe/255.0 alpha:1] CGColor];
+        label.layer.borderColor=[Line_BG_COLOR CGColor];
         [[self contentView] addSubview:label];
     }
     return self;

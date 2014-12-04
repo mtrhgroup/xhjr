@@ -68,7 +68,10 @@
 -(void)bindPhoneNumber{
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
         [self.service fetchFirstRunData:^(BOOL isOK) {
-           [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
+            if (self.presentedViewController == nil)
+            {
+                [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
+            }
         } errorHandler:^(NSError *error) {
             //
         }];

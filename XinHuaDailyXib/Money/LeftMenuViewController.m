@@ -10,6 +10,7 @@
 #import "TagListViewController.h"
 #import "SettingViewController.h"
 #import "ContactUsViewController.h"
+#import "CollectorBoxViewController.h"
 #import "AboutViewController.h"
 #import "MenuItem.h"
 @interface LeftMenuViewController ()
@@ -21,6 +22,7 @@
 @property(nonatomic,strong)SettingViewController *setting_vc;
 @property(nonatomic,strong)ContactUsViewController *feedback_vc;
 @property(nonatomic,strong)AboutViewController *about_vc;
+
 
 @end
 
@@ -74,15 +76,15 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    UIView *top_view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 150)];
+    UIView *top_view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 120)];
     top_view.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:top_view];
-    self.left_logo=[[UIImageView alloc] initWithFrame:CGRectMake((240-200)/2, (150-58)/2+10, 200, 58)];
+    self.left_logo=[[UIImageView alloc] initWithFrame:CGRectMake(0, (120-48)/2+10, 260, 48)];
     self.left_logo.image=[UIImage imageNamed:@"logo_left_page_top.png"];
     [self.view addSubview:self.left_logo];
 
 
-    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, top_view.frame.origin.y+top_view.frame.size.height, 260, self.view.bounds.size.height-(top_view.frame.origin.y+top_view.frame.size.height))];
+    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, top_view.frame.origin.y+top_view.frame.size.height, 280, self.view.bounds.size.height-(top_view.frame.origin.y+top_view.frame.size.height))];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.tableView.backgroundColor= VC_BG_COLOR;
@@ -126,12 +128,19 @@
     discovery_item.childItem=[NSArray arrayWithObjects:@"宏观",@"政策",@"资源",@"贸易",@"金融",@"科技",@"权益",@"文化", nil];
     [self.menu_items addObject:discovery_item];
     
+    MenuItem *collectbox_item=[[MenuItem alloc] init];
+    collectbox_item.display_name=@"我的收藏";
+    collectbox_item.type=Item;
+    collectbox_item.vc=[[CollectorBoxViewController alloc] init];
+    [self.menu_items addObject:collectbox_item];
+    
     //add items
     MenuItem *setting_item=[[MenuItem alloc] init];
     setting_item.display_name=@"设置";
     setting_item.type=Item;
     setting_item.vc=[[SettingViewController alloc] init];
     [self.menu_items addObject:setting_item];
+
     
     MenuItem *feedback_item=[[MenuItem alloc] init];
     feedback_item.display_name=@"意见反馈";

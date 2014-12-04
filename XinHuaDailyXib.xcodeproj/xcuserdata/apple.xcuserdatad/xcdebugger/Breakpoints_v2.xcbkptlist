@@ -9406,13 +9406,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/Service.m"
-            timestampString = "439095386.716505"
+            filePath = "XinHuaDailyXib/OceanInfo/FirstDailyViewController.m"
+            timestampString = "439095576.023915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "455"
-            endingLineNumber = "455"
-            landmarkName = "-fetchDailyArticlesFromNETWithChannel:date:successHandler:errorHandler:"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "-loadPreviousDailyFromNET"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -9422,13 +9422,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/OceanInfo/FirstDailyViewController.m"
-            timestampString = "439095576.023915"
+            filePath = "XinHuaDailyXib/Money/VerifyCodeSubmitViewController.m"
+            timestampString = "439360948.201987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "-loadPreviousDailyFromNET"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "-bindPhoneNumber"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/Service.m"
+            timestampString = "439360996.498612"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-fetchFirstRunData:errorHandler:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XinHuaDailyXib/Service.m"
+            timestampString = "439360998.366042"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-fetchFirstRunData:errorHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
