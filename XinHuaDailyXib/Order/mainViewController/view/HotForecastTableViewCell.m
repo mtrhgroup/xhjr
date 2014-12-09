@@ -31,6 +31,8 @@
     UIButton *_sayButton;
     UIImageView *_chronon;
     UIView *_chrononLine;
+    UIImageView *_topBubble;
+    UIImageView *_underButtble;
     HotForecastModel *_model;
 }
 @end
@@ -55,7 +57,7 @@
     [self addSubview:_timeLabel];
     
     _chronon = [[UIImageView alloc]init];
-    _chronon.image = [UIImage imageNamed:@"list_long"];
+    _chronon.image = [UIImage imageNamed:@"circle"];
     [self addSubview:_chronon];
     
     _chrononLine = [[UIView alloc]init];
@@ -68,12 +70,19 @@
     _titlelabel.backgroundColor = [UIColor clearColor];
     [self addSubview:_titlelabel];
     
-    UIImage * img = [UIImage imageNamed:@"balloon_back_left"];
-    img=[img stretchableImageWithLeftCapWidth:35 topCapHeight:24];
+    _topBubble = [[UIImageView alloc]init];
+    _topBubble.image = [UIImage imageNamed:@"up_border"];
+    [self addSubview:_topBubble];
+
+    
     _BubbleView = [[UIImageView alloc]init];
     _BubbleView.backgroundColor = [UIColor clearColor];
-    [_BubbleView setImage:img];
+    [_BubbleView setImage:[UIImage imageNamed:@"mid_border"]];
     [self addSubview:_BubbleView];
+    
+    _underButtble = [[UIImageView alloc]init];
+    _underButtble.image = [UIImage imageNamed:@"under_border"];
+    [self addSubview:_underButtble];
     
     _content = [[UILabel alloc]init];
     _content.backgroundColor = [UIColor clearColor];
@@ -120,34 +129,41 @@
 }
 
 #pragma mark 设置控件长宽
--(void)setStatus:(HotForecastModel *)model andHeight:(CGFloat)contentHeight
+-(void)setStatus:(HotForecastModel *)model
 {
-    _timeLabel.frame = CGRectMake(5, 23, 40, 12);
+
+    _timeLabel.frame = CGRectMake(5, 5, 45, 12);
     NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
 //    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
-    _timeLabel.text = [NSString stringWithFormat:@"%@月-%@日",timeArray[1],timeArray[2]];
+    _timeLabel.text = [NSString stringWithFormat:@"%@月%@日",timeArray[1],timeArray[2]];
     
-    _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width, _timeLabel.frame.origin.y-6, 20, 21);
+    _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width+2, _timeLabel.frame.origin.y-5, 20, 20);
     
-    _chrononLine.frame = CGRectMake(_chronon.frame.origin.x+6.7, _chronon.frame.origin.y+_chronon.frame.size.height, 1, contentHeight+108-_chronon.frame.origin.y-_chronon.frame.size.height);
     
-    _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+10, _chronon.frame.origin.y, 280-_chronon.frame.origin.x-_chronon.frame.size.width-10, 20);
+    _chrononLine.frame = CGRectMake(_chronon.frame.origin.x+9.7, _chronon.frame.origin.y+_chronon.frame.size.height, 1, model.contentSize.height+108-_chronon.frame.origin.y-_chronon.frame.size.height-18);
+    NSLog(@"%f",_chrononLine.frame.size.height);
+    _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+10, _chronon.frame.origin.y, 280-_chronon.frame.origin.x-_chronon.frame.size.width-8, 20);
     _titlelabel.text = model.title;
     
-    _BubbleView.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height+1, _titlelabel.frame.size.width-5, contentHeight + 20);
+    _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width, 15);
     
-    _content.frame = CGRectMake(_BubbleView.frame.origin.x+10, _BubbleView.frame.origin.y+5, _BubbleView.frame.size.width-10,_BubbleView.frame.size.height-10);
+    _BubbleView.frame = CGRectMake(_topBubble.frame.origin.x, _topBubble.frame.origin.y+_topBubble.frame.size.height, _topBubble.frame.size.width, model.contentSize.height);
+    
+    _underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
+    
+    _content.frame = CGRectMake(_BubbleView.frame.origin.x+7, _BubbleView.frame.origin.y, _BubbleView.frame.size.width-14,_BubbleView.frame.size.height);
     _content.text = model.content;
     
-    _fromHint.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height+7, 35,22);
+    _fromHint.frame = CGRectMake(_underButtble.frame.origin.x, _underButtble.frame.origin.y+_underButtble.frame.size.height+7, 35,22);
     
     _fromLabel.frame = CGRectMake(_fromHint.frame.origin.x + _fromHint.frame.size.width, _fromHint.frame.origin.y, 60,22);
     _fromLabel.text = model.user;
     
-    _lookButton.frame = CGRectMake(280-BUTTONFRAME-5, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
+    _lookButton.frame = CGRectMake(RIGHTVIEWWIGHT-BUTTONFRAME-5, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     
-    _sayButton.frame = CGRectMake(280-2*BUTTONFRAME-10, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
+    _sayButton.frame = CGRectMake(RIGHTVIEWWIGHT-2*BUTTONFRAME-15, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     _model = model;
+    
 }
 
 - (void)buttonOnClick:(UIButton*)sender

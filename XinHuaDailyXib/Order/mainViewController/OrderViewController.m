@@ -16,7 +16,6 @@
 
 #import "OrderViewController.h"
 #import "HotForecastModel.h"
-#import "HeadView.h"
 #import "UIColor+Hex.h"
 #import "NSString+Addtions.h"
 #import "NSString+SBJSON.h"

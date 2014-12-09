@@ -45,13 +45,13 @@
 
 -(void)setStatus:(CommentModel *)model
 {
-    _author.frame = CGRectMake(15, 13, APPLICATIONFRAME.width-88, 22);
+    _author.frame = CGRectMake(15, 13, RIGHTVIEWWIGHT-88, 22);
     _author.text = model.author;
     
     _content.frame = CGRectMake(_author.frame.origin.x, _author.frame.origin.y+_author.frame.size.height+15, _author.frame.size.width-14,model.commentContentSize.height);
     _content.text = [NSString stringWithFormat:@"   %@",model.commentContent];
     
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(9, model.commentContentSize.height+59, APPLICATIONFRAME.width-18, 1)];
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(9, model.commentContentSize.height+59, RIGHTVIEWWIGHT-18, 1)];
     line.backgroundColor = [UIColor colorWithHexString:@"#c7c7c9"];
     [self addSubview:line];
 }

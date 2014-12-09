@@ -908,8 +908,6 @@
 		18B273AD19E4EADC00FE3D42 /* Service.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273AC19E4EADC00FE3D42 /* Service.m */; };
 		18B273B019E50BD000FE3D42 /* Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273AF19E50BD000FE3D42 /* Channel.m */; };
 		18B273B319E5165100FE3D42 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B273B219E5165100FE3D42 /* Article.m */; };
-		18E85A551A3037A5003B4B47 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A051A3037A4003B4B47 /* BaseViewController.m */; };
-		18E85A561A3037A5003B4B47 /* XHHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A081A3037A4003B4B47 /* XHHeadView.m */; };
 		18E85A571A3037A5003B4B47 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A0B1A3037A4003B4B47 /* CommentViewController.m */; };
 		18E85A581A3037A5003B4B47 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A0E1A3037A4003B4B47 /* FMDatabase.m */; };
 		18E85A591A3037A5003B4B47 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A101A3037A4003B4B47 /* FMDatabaseAdditions.m */; };
@@ -929,7 +927,6 @@
 		18E85A671A3037A5003B4B47 /* AttentionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A311A3037A4003B4B47 /* AttentionTableViewCell.m */; };
 		18E85A681A3037A5003B4B47 /* EveryoneChooseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A331A3037A4003B4B47 /* EveryoneChooseTableView.m */; };
 		18E85A691A3037A5003B4B47 /* EveryoneChooseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A351A3037A4003B4B47 /* EveryoneChooseTableViewCell.m */; };
-		18E85A6A1A3037A5003B4B47 /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A371A3037A4003B4B47 /* HeadView.m */; };
 		18E85A6B1A3037A5003B4B47 /* HotForecastTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A391A3037A4003B4B47 /* HotForecastTableView.m */; };
 		18E85A6C1A3037A5003B4B47 /* HotForecastTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A3B1A3037A4003B4B47 /* HotForecastTableViewCell.m */; };
 		18E85A6D1A3037A5003B4B47 /* MyChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A3D1A3037A4003B4B47 /* MyChooseView.m */; };
@@ -1259,6 +1256,11 @@
 		47C6C8C819E82708002CD14C /* ListChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8C719E82708002CD14C /* ListChannelViewController.m */; };
 		47C6C8CB19E8275C002CD14C /* TileChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8CA19E8275C002CD14C /* TileChannelViewController.m */; };
 		47C6C8CE19E827F0002CD14C /* GridChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C6C8CD19E827F0002CD14C /* GridChannelViewController.m */; };
+		85A0B8F71A3684CF00CE75EC /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 85A0B8F31A3684CF00CE75EC /* circle.png */; };
+		85A0B8F81A3684CF00CE75EC /* mid_border.png in Resources */ = {isa = PBXBuildFile; fileRef = 85A0B8F41A3684CF00CE75EC /* mid_border.png */; };
+		85A0B8F91A3684CF00CE75EC /* under_border.png in Resources */ = {isa = PBXBuildFile; fileRef = 85A0B8F51A3684CF00CE75EC /* under_border.png */; };
+		85A0B8FA1A3684CF00CE75EC /* up_border.png in Resources */ = {isa = PBXBuildFile; fileRef = 85A0B8F61A3684CF00CE75EC /* up_border.png */; };
+		85A0B8FD1A36971000CE75EC /* NSMutableArray+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A0B8FC1A36971000CE75EC /* NSMutableArray+Compare.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1788,10 +1790,6 @@
 		18D7C60617D7104F0015CA17 /* UserActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserActions.m; path = Statistics/UserActions.m; sourceTree = "<group>"; };
 		18D7C60D17D712DD0015CA17 /* UserAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserAction.h; path = ../Statistics/UserAction.h; sourceTree = "<group>"; };
 		18D7C60E17D712DD0015CA17 /* UserAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserAction.m; path = ../Statistics/UserAction.m; sourceTree = "<group>"; };
-		18E85A041A3037A4003B4B47 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
-		18E85A051A3037A4003B4B47 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
-		18E85A071A3037A4003B4B47 /* XHHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHHeadView.h; sourceTree = "<group>"; };
-		18E85A081A3037A4003B4B47 /* XHHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHHeadView.m; sourceTree = "<group>"; };
 		18E85A0A1A3037A4003B4B47 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		18E85A0B1A3037A4003B4B47 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		18E85A0D1A3037A4003B4B47 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
@@ -1831,8 +1829,6 @@
 		18E85A331A3037A4003B4B47 /* EveryoneChooseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveryoneChooseTableView.m; sourceTree = "<group>"; };
 		18E85A341A3037A4003B4B47 /* EveryoneChooseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EveryoneChooseTableViewCell.h; sourceTree = "<group>"; };
 		18E85A351A3037A4003B4B47 /* EveryoneChooseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EveryoneChooseTableViewCell.m; sourceTree = "<group>"; };
-		18E85A361A3037A4003B4B47 /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
-		18E85A371A3037A4003B4B47 /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
 		18E85A381A3037A4003B4B47 /* HotForecastTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotForecastTableView.h; sourceTree = "<group>"; };
 		18E85A391A3037A4003B4B47 /* HotForecastTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotForecastTableView.m; sourceTree = "<group>"; };
 		18E85A3A1A3037A4003B4B47 /* HotForecastTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotForecastTableViewCell.h; sourceTree = "<group>"; };
@@ -2171,6 +2167,12 @@
 		47C6C8CA19E8275C002CD14C /* TileChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileChannelViewController.m; sourceTree = "<group>"; };
 		47C6C8CC19E827F0002CD14C /* GridChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridChannelViewController.h; sourceTree = "<group>"; };
 		47C6C8CD19E827F0002CD14C /* GridChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridChannelViewController.m; sourceTree = "<group>"; };
+		85A0B8F31A3684CF00CE75EC /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
+		85A0B8F41A3684CF00CE75EC /* mid_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mid_border.png; sourceTree = "<group>"; };
+		85A0B8F51A3684CF00CE75EC /* under_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = under_border.png; sourceTree = "<group>"; };
+		85A0B8F61A3684CF00CE75EC /* up_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up_border.png; sourceTree = "<group>"; };
+		85A0B8FB1A36971000CE75EC /* NSMutableArray+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Compare.h"; sourceTree = "<group>"; };
+		85A0B8FC1A36971000CE75EC /* NSMutableArray+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Compare.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2307,6 +2309,10 @@
 		1818659A1A2D9CC40063728A /* Money */ = {
 			isa = PBXGroup;
 			children = (
+				85A0B8F31A3684CF00CE75EC /* circle.png */,
+				85A0B8F41A3684CF00CE75EC /* mid_border.png */,
+				85A0B8F51A3684CF00CE75EC /* under_border.png */,
+				85A0B8F61A3684CF00CE75EC /* up_border.png */,
 				1832DD941A304A750003009B /* balloon_back_left.png */,
 				1832DD951A304A750003009B /* list_left_focuse.png */,
 				1818667B1A2DA2EF0063728A /* nav_bar_bg_iOS7.png */,
@@ -3284,7 +3290,6 @@
 		18E85A021A3036E7003B4B47 /* Order */ = {
 			isa = PBXGroup;
 			children = (
-				18E85A031A3037A4003B4B47 /* BaseViewController */,
 				18E85A091A3037A4003B4B47 /* CommentViewController */,
 				18E85A0C1A3037A4003B4B47 /* fmdb */,
 				18E85A181A3037A4003B4B47 /* json */,
@@ -3295,25 +3300,6 @@
 				18E85A471A3037A4003B4B47 /* YourSayViewController */,
 			);
 			path = Order;
-			sourceTree = "<group>";
-		};
-		18E85A031A3037A4003B4B47 /* BaseViewController */ = {
-			isa = PBXGroup;
-			children = (
-				18E85A041A3037A4003B4B47 /* BaseViewController.h */,
-				18E85A051A3037A4003B4B47 /* BaseViewController.m */,
-				18E85A061A3037A4003B4B47 /* view */,
-			);
-			path = BaseViewController;
-			sourceTree = "<group>";
-		};
-		18E85A061A3037A4003B4B47 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				18E85A071A3037A4003B4B47 /* XHHeadView.h */,
-				18E85A081A3037A4003B4B47 /* XHHeadView.m */,
-			);
-			path = view;
 			sourceTree = "<group>";
 		};
 		18E85A091A3037A4003B4B47 /* CommentViewController */ = {
@@ -3395,8 +3381,6 @@
 				18E85A331A3037A4003B4B47 /* EveryoneChooseTableView.m */,
 				18E85A341A3037A4003B4B47 /* EveryoneChooseTableViewCell.h */,
 				18E85A351A3037A4003B4B47 /* EveryoneChooseTableViewCell.m */,
-				18E85A361A3037A4003B4B47 /* HeadView.h */,
-				18E85A371A3037A4003B4B47 /* HeadView.m */,
 				18E85A381A3037A4003B4B47 /* HotForecastTableView.h */,
 				18E85A391A3037A4003B4B47 /* HotForecastTableView.m */,
 				18E85A3A1A3037A4003B4B47 /* HotForecastTableViewCell.h */,
@@ -3410,6 +3394,8 @@
 		18E85A3E1A3037A4003B4B47 /* Rec */ = {
 			isa = PBXGroup;
 			children = (
+				85A0B8FB1A36971000CE75EC /* NSMutableArray+Compare.h */,
+				85A0B8FC1A36971000CE75EC /* NSMutableArray+Compare.m */,
 				18E85A771A3038D0003B4B47 /* NSString+Addtions.h */,
 				18E85A781A3038D0003B4B47 /* NSString+Addtions.m */,
 				18E85A3F1A3037A4003B4B47 /* UIColor+Hex.h */,
@@ -4069,7 +4055,7 @@
 				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					181864581A2D99480063728A = {
-						DevelopmentTeam = W7W98J8J34;
+						DevelopmentTeam = XPF9TVP3P8;
 					};
 					1887389418FCD3B00032CF2C = {
 						DevelopmentTeam = W7W98J8J34;
@@ -4154,6 +4140,7 @@
 				181865151A2D99480063728A /* img_pld.png in Resources */,
 				181865161A2D99480063728A /* blueArrow.png in Resources */,
 				181865171A2D99480063728A /* blueArrow@2x.png in Resources */,
+				85A0B8FA1A3684CF00CE75EC /* up_border.png in Resources */,
 				181865CD1A2D9CC40063728A /* button_topback_default.png in Resources */,
 				181865181A2D99480063728A /* dfn-Info.plist in Resources */,
 				181865D01A2D9CC40063728A /* button_undo_pressdown.png in Resources */,
@@ -4168,6 +4155,7 @@
 				181865201A2D99480063728A /* cloudcheck.png in Resources */,
 				181865211A2D99480063728A /* star_on.png in Resources */,
 				181865C51A2D9CC40063728A /* button_order_pressdown.png in Resources */,
+				85A0B8F71A3684CF00CE75EC /* circle.png in Resources */,
 				181865CE1A2D9CC40063728A /* button_topback_pressdown.png in Resources */,
 				181865241A2D99480063728A /* grayArrow.png in Resources */,
 				181865251A2D99480063728A /* grayArrow@2x.png in Resources */,
@@ -4179,6 +4167,7 @@
 				1818652D1A2D99480063728A /* menu.png in Resources */,
 				181865C91A2D9CC40063728A /* button_rightarrow_default@2x.png in Resources */,
 				1818652E1A2D99480063728A /* menu@2x.png in Resources */,
+				85A0B8F91A3684CF00CE75EC /* under_border.png in Resources */,
 				181865C61A2D9CC40063728A /* button_order_selected.png in Resources */,
 				181865D21A2D9CC40063728A /* button_wonderful_pressdown.png in Resources */,
 				181865301A2D99480063728A /* title_menu_btn_normal.png in Resources */,
@@ -4239,6 +4228,7 @@
 				181865671A2D99480063728A /* font_txt@2x.png in Resources */,
 				181865681A2D99480063728A /* opinion_pic@2x.png in Resources */,
 				181865691A2D99480063728A /* ic_menu_inverse.png in Resources */,
+				85A0B8F81A3684CF00CE75EC /* mid_border.png in Resources */,
 				1818656B1A2D99480063728A /* opinion_txt@2x.png in Resources */,
 				1818656C1A2D99480063728A /* segline@2x.png in Resources */,
 				181865BD1A2D9CC40063728A /* button_menu_default.png in Resources */,
@@ -4805,7 +4795,6 @@
 				181866381A2D9D760063728A /* AboutViewController.m in Sources */,
 				181864761A2D99480063728A /* DeviceInfo.m in Sources */,
 				181864771A2D99480063728A /* zip.c in Sources */,
-				18E85A6A1A3037A5003B4B47 /* HeadView.m in Sources */,
 				18915EC51A2FFA7F00D1DF04 /* BindleLostError.m in Sources */,
 				181866581A2D9D760063728A /* RegisterViewController.m in Sources */,
 				181866641A2D9D760063728A /* VerifyCodeSubmitViewController.m in Sources */,
@@ -4827,10 +4816,10 @@
 				181864851A2D99480063728A /* NSDate+WQCalendarLogic.m in Sources */,
 				1818664F1A2D9D760063728A /* LeftMenuViewController.m in Sources */,
 				1818663C1A2D9D760063728A /* ChannelViewController.m in Sources */,
-				18E85A551A3037A5003B4B47 /* BaseViewController.m in Sources */,
 				181864881A2D99480063728A /* PopupMenuView.m in Sources */,
 				18E85A5E1A3037A5003B4B47 /* NSString+SBJSON.m in Sources */,
 				18E85A671A3037A5003B4B47 /* AttentionTableViewCell.m in Sources */,
+				85A0B8FD1A36971000CE75EC /* NSMutableArray+Compare.m in Sources */,
 				181864891A2D99480063728A /* ParserFailedError.m in Sources */,
 				181866471A2D9D760063728A /* FeedBackViewController.m in Sources */,
 				1818648B1A2D99480063728A /* dom.c in Sources */,
@@ -4874,7 +4863,6 @@
 				181864AD1A2D99480063728A /* UIViewController+MMDrawerController.m in Sources */,
 				181864AE1A2D99480063728A /* ASIHTTPRequest.m in Sources */,
 				181866561A2D9D760063728A /* MoneyAppDelegate.m in Sources */,
-				18E85A561A3037A5003B4B47 /* XHHeadView.m in Sources */,
 				181864AF1A2D99480063728A /* Communicator.m in Sources */,
 				1818663E1A2D9D760063728A /* CollectorCell.m in Sources */,
 				181864B11A2D99480063728A /* UIButton+Bootstrap.m in Sources */,

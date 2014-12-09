@@ -19,6 +19,7 @@
 @property (nonatomic,copy)NSString *participate;
 @property (nonatomic,copy)NSString *focus_count;
 @property (nonatomic,copy)NSString *comment_count;
+@property (nonatomic,assign)int state;
 
 @property (nonatomic,assign,readonly)CGSize contentSize;
 @end

@@ -15,9 +15,9 @@
         _content = content;
         // 完整显示个性签名的控件的宽高
         if (!SYSTEM_VERSION) {
-            _contentSize = [_content sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(192, 2000)];
+            _contentSize = [_content sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(RIGHTVIEWWIGHT-65, 2000)];
         }else{
-            _contentSize= [_content boundingRectWithSize:CGSizeMake(APPLICATIONFRAME.width-23, 2000) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+            _contentSize= [_content boundingRectWithSize:CGSizeMake(RIGHTVIEWWIGHT-65, 2000) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
         }
     }
 }

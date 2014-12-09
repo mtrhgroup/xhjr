@@ -9,7 +9,6 @@
 #define VIEWCONTROLLERHEIGHT self.view.frame.size.height
 #define TIMETYPE @"-1"
 #import "YourSayViewController.h"
-#import "HeadView.h"
 #import "UIColor+Hex.h"
 #import "SayContentCell.h"
 #import "CommentView.h"

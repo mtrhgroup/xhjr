@@ -11,5 +11,5 @@
 #import "OrderViewController.h"
 @interface AttentionTableViewCell : UITableViewCell
 @property (nonatomic,strong)UINavigationController *nav;
--(void)setStatus:(HotForecastModel *)model andHeight:(CGFloat)contentHeight;
+-(void)setStatus:(HotForecastModel *)model;
 @end

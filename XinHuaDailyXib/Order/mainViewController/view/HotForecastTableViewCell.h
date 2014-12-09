@@ -10,5 +10,5 @@
 #import "HotForecastModel.h"
 @interface HotForecastTableViewCell : UITableViewCell
 @property (nonatomic,strong)UINavigationController *nav;
--(void)setStatus:(HotForecastModel *)model andHeight:(CGFloat)contentHeight;
+-(void)setStatus:(HotForecastModel *)model;
 @end

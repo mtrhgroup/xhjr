@@ -47,25 +47,11 @@
     _content.textColor = [UIColor grayColor];
     [self addSubview:_content];
     
-//    _fromHint = [[UILabel alloc]init];
-//    _fromHint.backgroundColor = [UIColor clearColor];
-//    _fromHint.font = [UIFont systemFontOfSize:HotForecastTableViewCellFromHintFontSize];
-//    _fromHint.text = @"发起人: ";
-//    _fromHint.textColor = [UIColor grayColor];
-//    [self addSubview:_fromHint];
-    
     _fromLabel = [[UILabel alloc]init];
     _fromLabel.font = [UIFont systemFontOfSize:HotForecastTableViewCellFromHintFontSize];
     _fromLabel.textColor = [UIColor grayColor];
     _fromLabel.backgroundColor = [UIColor clearColor];
     [self addSubview:_fromLabel];
-    
-//    _fromTimeHint = [[UILabel alloc]init];
-//    _fromTimeHint.font = [UIFont systemFontOfSize:HotForecastTableViewCellFromHintFontSize];
-//    _fromTimeHint.textColor = [UIColor grayColor];
-//    _fromTimeHint.text = @"发起时间: ";
-//    _fromTimeHint.backgroundColor = [UIColor clearColor];
-//    [self addSubview:_fromTimeHint];
     
     _fromTimeLabel = [[UILabel alloc]init];
     _fromTimeLabel.font = [UIFont systemFontOfSize:HotForecastTableViewCellFromHintFontSize];

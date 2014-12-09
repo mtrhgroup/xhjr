@@ -51,7 +51,7 @@
     _content.frame = CGRectMake(_title.frame.origin.x+7, _title.frame.origin.y+_title.frame.size.height+15, _title.frame.size.width-14,contentHeight);
     _content.text = [NSString stringWithFormat:@"    %@",content];
     
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(9, contentHeight+59, APPLICATIONFRAME.width-18, 1)];
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(9, contentHeight+59, RIGHTVIEWWIGHT-18, 1)];
     line.backgroundColor = [UIColor colorWithHexString:@"#c7c7c9"];
     [self addSubview:line];
 }

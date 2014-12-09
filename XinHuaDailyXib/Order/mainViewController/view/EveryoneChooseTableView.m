@@ -89,7 +89,7 @@
 //请求数据放入数据库中 (requestType -1下拉 1上拉)
 - (void)requestData:(int)timeType andRequestType:(int)requestType
 {
-    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",MAX_COUNT],@"n", APPID,@"appid",_requestTime,@"time",@"",@"isdeleted",[NSString stringWithFormat:@"%d",timeType],@"timetype",@"focus",@"type",nil];
+    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",MAX_COUNT],@"n", APPID,@"appid",_requestTime,@"time",@"",@"isdeleted",[NSString stringWithFormat:@"%d",timeType],@"timetype",@"order",@"type",nil];
     
     [[XHRequest shareInstance] POST_Path:@"Common_GetLiterMemo.ashx" params:postDic completed:^(id JSON, NSString *stringData) {
         NSDictionary *jsonDict = [stringData JSONValue];
@@ -101,6 +101,10 @@
             NSMutableArray *tempArray = [NSMutableArray array];
             for (NSDictionary *dic in jsonArray)
             {
+                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:yousay_table_type];
+                    continue;
+                }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
                 model.user = [[dic objectForKey:@"user"] URLDecodedString];
@@ -111,21 +115,25 @@
                 model.focus_count = [[dic objectForKey:@"focus_count"] URLDecodedString];
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:yousay_table_type];
-                [tempArray addObject:model];
-            }
-            if (requestType==1) {
-                [_dataArray addObjectsFromArray:tempArray];
-            }else{
-                [tempArray addObjectsFromArray:_dataArray];
-                _dataArray = tempArray;
+                if (requestType==1) {
+                    [_dataArray addObjectToArray:model headOrFinally:NO];
+                }else{
+                    [_dataArray addObjectToArray:model headOrFinally:YES];
+                }
             }
             [_tableView reloadData];
-//            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"数据加载完成" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//            [alter show];
         }
     } failed:^(NSError *error) {
-        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alter show];
+        if (requestType==-1) {
+            if (_dataArray.count==0) {
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT tableType:yousay_table_type];
+                [_tableView reloadData];
+            }
+        }else if(requestType==1){
+            [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:yousay_table_type]];
+            [_tableView reloadData];
+        }
+
     }];
 }
 
@@ -140,7 +148,7 @@
     EveryoneChooseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)
     {
-        cell = [[EveryoneChooseTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell = [[EveryoneChooseTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     HotForecastModel *model = _dataArray[indexPath.row];

@@ -26,6 +26,8 @@
     UILabel *_fromHint;
     UIButton *_lookButton;
     UIButton *_sayButton;
+    UIImageView *topBubble;
+    UIImageView *underButtble;
     HotForecastModel *_model;
 }
 @end
@@ -46,12 +48,20 @@
     _titlelabel.backgroundColor = [UIColor clearColor];
     [self addSubview:_titlelabel];
     
-    UIImage * img = [UIImage imageNamed:@"balloon_back_left"];
-    img=[img stretchableImageWithLeftCapWidth:35 topCapHeight:24];
+    topBubble = [[UIImageView alloc]init];
+    topBubble.backgroundColor = [UIColor clearColor];
+    topBubble.image = [UIImage imageNamed:@"up_border"];
+    [self addSubview:topBubble];
+    
     _BubbleView = [[UIImageView alloc]init];
     _BubbleView.backgroundColor = [UIColor clearColor];
-    [_BubbleView setImage:img];
+    [_BubbleView setImage:[UIImage imageNamed:@"mid_border"]];
     [self addSubview:_BubbleView];
+    
+    underButtble = [[UIImageView alloc]init];
+    underButtble.backgroundColor = [UIColor clearColor];
+    underButtble.image = [UIImage imageNamed:@"under_border"];
+    [self addSubview:underButtble];
     
     _content = [[UILabel alloc]init];
     _content.backgroundColor = [UIColor clearColor];
@@ -98,12 +108,16 @@
 }
 
 #pragma mark 设置控件长宽
--(void)setStatus:(HotForecastModel *)model andHeight:(CGFloat)contentHeight
+-(void)setStatus:(HotForecastModel *)model
 {
-    _titlelabel.frame = CGRectMake(50, 10, 280-75, 20);
+    _titlelabel.frame = CGRectMake(50, 10, RIGHTVIEWWIGHT-75, 20);
     _titlelabel.text = model.title;
     
-    _BubbleView.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height+1, 220, contentHeight + 20);
+    topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, RIGHTVIEWWIGHT-55, 15);
+    
+    _BubbleView.frame = CGRectMake(topBubble.frame.origin.x, topBubble.frame.origin.y+topBubble.frame.size.height, topBubble.frame.size.width, model.contentSize.height);
+    
+    underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
     
     _content.frame = CGRectMake(_BubbleView.frame.origin.x+10, _BubbleView.frame.origin.y+5, _BubbleView.frame.size.width-10,_BubbleView.frame.size.height-10);
     _content.text = model.content;
@@ -113,9 +127,9 @@
     _fromLabel.frame = CGRectMake(_fromHint.frame.origin.x + _fromHint.frame.size.width, _fromHint.frame.origin.y, 60,12);
     _fromLabel.text = model.user;
     
-    _lookButton.frame = CGRectMake(280-BUTTONFRAME-5, _fromLabel.frame.origin.y-3, BUTTONFRAME, 22);
+    _lookButton.frame = CGRectMake(RIGHTVIEWWIGHT-BUTTONFRAME-5, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     
-    _sayButton.frame = CGRectMake(280-2*BUTTONFRAME-15, _fromLabel.frame.origin.y-3, BUTTONFRAME, 22);
+    _sayButton.frame = CGRectMake(RIGHTVIEWWIGHT-2*BUTTONFRAME-15, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     _model = model;
 }
 
