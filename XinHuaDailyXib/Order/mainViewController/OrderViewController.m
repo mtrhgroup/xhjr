@@ -123,10 +123,10 @@
     _animationView.backgroundColor = [UIColor colorWithHexString:@"#1362c7"];
     [_topView addSubview:_animationView];
     
-    _bottomScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _topView.frame.size.height+_topView.frame.origin.y, VIEWCONTROLLERWIDTH, _backGroundView.frame.size.height-_topView.frame.size.height-_topView.frame.origin.y)];
+    _bottomScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _topView.frame.size.height+_topView.frame.origin.y, VIEWCONTROLLERWIDTH, _backGroundView.frame.size.height-_topView.frame.size.height-_topView.frame.origin.y-64)];
     _bottomScrollView.bounces = NO;
     _bottomScrollView.showsHorizontalScrollIndicator = NO;
-    _bottomScrollView.contentSize = CGSizeMake(VIEWCONTROLLERWIDTH*arr.count, _backGroundView.frame.size.height-_topView.frame.size.height-_topView.frame.origin.y);
+    _bottomScrollView.contentSize = CGSizeMake(VIEWCONTROLLERWIDTH*arr.count, _backGroundView.frame.size.height-_topView.frame.size.height-_topView.frame.origin.y-64);
     _bottomScrollView.pagingEnabled = YES;
     _bottomScrollView.delegate = self;
     [_backGroundView addSubview:_bottomScrollView];
