@@ -7,7 +7,6 @@
 //
 
 #import "CommentViewController.h"
-#import "HeadView.h"
 #import "UIColor+Hex.h"
 #import "SayContentCell.h"
 #import "CommentView.h"

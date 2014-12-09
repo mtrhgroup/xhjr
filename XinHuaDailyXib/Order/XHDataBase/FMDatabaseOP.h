@@ -19,6 +19,7 @@
 
 -(void)clearData:(int)table_type;
 
+- (void)deleteDataWithId:(NSString *)Id andTableType:(int)table_type;
 
 -(NSMutableArray *)selectFromDBWithStart:(int)start recordMaxCount:(int)maxcount tableType:(int)table_type;
 

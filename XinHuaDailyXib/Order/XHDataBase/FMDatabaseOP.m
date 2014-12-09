@@ -169,6 +169,36 @@ static FMDatabaseOP * instance = nil;
     
 }
 
+//根据名字删除
+- (void)deleteDataWithId:(NSString *)Id andTableType:(int)table_type
+{
+    NSString * sql = nil;
+    switch (table_type) {
+        case hotforecast_table_type:
+            sql = @"delete from hotforecast_table where id=?;";
+            break;
+        case focus_table_type:
+            sql = @"delete from focus_table where id=?;";
+            break;
+        case yousay_table_type:
+            sql = @"delete from yousay_table where id=?;";
+            break;
+            
+        case comment_table_type:
+            sql = @"delete from comment_table where id=?;";
+            break;
+    }
+    if (sql !=nil) {
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            if ([db executeUpdate:sql,Id]) {
+                NSLog(@"删除成功");
+            }else{
+                NSLog(@"删除失败");
+            }
+        }];
+    }
+}
+
 /**
  获取数据 literid 评论点题的id  start 从第几条数据开始  maxcount 要获取的记录数
  **/

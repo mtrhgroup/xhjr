@@ -1,7 +1,7 @@
 //
 //  AttentionTableView.m
 //  XHJR
-//  jkclsakdawdaw
+//
 //  Created by 胡世骞 on 14/12/3.
 //  Copyright (c) 2014年 cn.XinHuaShe. All rights reserved.
 //
@@ -62,10 +62,10 @@
     if (_dataArray.count!=0) {
         HotForecastModel *model = _dataArray[0];
         _requestTime = [model.creatTime getToFormatTime];
-        [self requestData:-1 andRequestType:-1];
+        [self requestData:1 andRequestType:-1];
     }else{
         _requestTime = [self getCurrentTime];
-        [self requestData:1 andRequestType:-1];
+        [self requestData:-1 andRequestType:-1];
     }
     [_tableView headerEndRefreshing];
 }
@@ -99,9 +99,12 @@
 //        }
         NSArray *jsonArray = jsonDict[@"data"];
         if(jsonArray.count!=0){
-            NSMutableArray *tempArray = [NSMutableArray array];
             for (NSDictionary *dic in jsonArray)
             {
+                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:focus_table_type];
+                    continue;
+                }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
                 model.user = [[dic objectForKey:@"user"] URLDecodedString];
@@ -111,22 +114,30 @@
                 model.creatTime = [[dic objectForKey:@"created_at"] URLDecodedString];
                 model.focus_count = [[dic objectForKey:@"focus_count"] URLDecodedString];
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
+                model.state = [[[dic objectForKey:@"state"] URLDecodedString] intValue];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:focus_table_type];
-                [tempArray addObject:model];
-            }
-            if (requestType==1) {
-                [_dataArray addObjectsFromArray:tempArray];
-            }else{
-                [tempArray addObjectsFromArray:_dataArray];
-                _dataArray = tempArray;
+                if (requestType==1) {
+                    [_dataArray addObjectToArray:model headOrFinally:NO];
+                }else{
+                    [_dataArray addObjectToArray:model headOrFinally:YES];
+                }
             }
             [_tableView reloadData];
 //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"数据加载完成" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 //            [alter show];
         }
     } failed:^(NSError *error) {
-        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alter show];
+//        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alter show];
+        if (requestType==-1) {
+            if (_dataArray.count==0) {
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT tableType:focus_table_type];
+                [_tableView reloadData];
+            }
+        }else if(requestType==1){
+            [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:focus_table_type]];
+            [_tableView reloadData];
+        }
     }];
 }
 
@@ -141,12 +152,12 @@
     AttentionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)
     {
-        cell = [[AttentionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell = [[AttentionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     HotForecastModel *model = _dataArray[indexPath.row];
     cell.nav = self.nav;
-    [cell setStatus:model andHeight:model.contentSize.height];
+    [cell setStatus:model];
     return cell;
 }
 

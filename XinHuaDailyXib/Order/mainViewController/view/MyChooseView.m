@@ -54,7 +54,7 @@
                                                            , 200, 15)];
     contentHint.backgroundColor = [UIColor clearColor];
     contentHint.font = [UIFont systemFontOfSize:15];
-    contentHint.textColor = [UIColor grayColor];
+    contentHint.textColor = [UIColor colorWithHexString:@"#c7c5d0"];
     contentHint.text = @"请输入正文";
     [contentView addSubview:contentHint];
     
