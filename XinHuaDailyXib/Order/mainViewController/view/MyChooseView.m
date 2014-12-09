@@ -65,7 +65,7 @@
     contentTextView.font = [UIFont systemFontOfSize:15];
     [contentView addSubview:contentTextView];
     
-    UIButton *sendButton = [[UIButton alloc]initWithFrame:CGRectMake(10, contentView.frame.origin.y+contentView.frame.size.height+10, self.frame.size.width-20, 50)];
+    UIButton *sendButton = [[UIButton alloc]initWithFrame:CGRectMake(10, contentView.frame.origin.y+contentView.frame.size.height+10, self.frame.size.width-20, 45)];
     sendButton.backgroundColor = [UIColor colorWithHexString:@"#1063c9"];
     sendButton.layer.cornerRadius = 5;
     [sendButton setTitle:@"发送" forState:UIControlStateNormal];

@@ -201,6 +201,7 @@
         {
             cell = [[SayContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
         }
         [cell setStatusWithTitle:self.model.title content:self.model.content andHeight:self.model.contentSize.height];
         return cell;
@@ -210,6 +211,7 @@
         {
             cell = [[OrderCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier2];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
         }
         CommentModel *model = _dataArray[indexPath.row-1];
         [cell setStatus:model];

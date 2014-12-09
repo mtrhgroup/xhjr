@@ -154,6 +154,7 @@
     {
         cell = [[AttentionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
     }
     HotForecastModel *model = _dataArray[indexPath.row];
     cell.nav = self.nav;

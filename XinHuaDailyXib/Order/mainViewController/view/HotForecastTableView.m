@@ -30,7 +30,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+        _frame = CGRectMake(0, 0, frame.size.width, frame.size.height+38);
         _dataArray = [NSMutableArray array];
         [self createView];
     }
@@ -39,7 +39,7 @@
 
 - (void)createView
 {
-    _tableView = [[UITableView alloc]initWithFrame:_frame style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:_frame style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView addHeaderWithTarget:self action:@selector(headerRereshing:)];
@@ -151,6 +151,7 @@
     {
         cell = [[HotForecastTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
     }
     HotForecastModel *model = _dataArray[indexPath.row];
     cell.nav = self.nav;
@@ -162,6 +163,18 @@
 {
     HotForecastModel *model = _dataArray[indexPath.row];
     return model.contentSize.height+90;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
 }
 
 - (NSString*)getCurrentTime
