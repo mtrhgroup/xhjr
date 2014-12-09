@@ -240,3 +240,53 @@
  备注
  ---------------------*/
 #define kCommentsNumberURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_LiterCommentCount.ashx?literid=%@"
+/*---------------------
+ 获取版本信息URL
+ 参数个数 2
+ 参数列表
+ 请求类型 GET
+ 返回类型 XML
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#ifdef LNFB
+#define KupdateURL @"https://raw.githubusercontent.com/zhangjianxhs/sxt/master/lnfb.plist"
+#endif
+
+#ifdef DFN
+#define KupdateURL @"https://raw.githubusercontent.com/zhangjianxhs/sxt/master/mrcj.plist"
+#endif
+
+#ifdef Ocean
+#define KupdateURL @"https://raw.githubusercontent.com/zhangjianxhs/sxt/master/jlhy.plist"
+#endif
+
+#ifdef Money
+#define KupdateURL @"https://raw.githubusercontent.com/zhangjianxhs/sxt/master/xhjr.plist"
+#endif
+
+/*---------------------
+ App下载URL
+ 参数个数 2
+ 参数列表
+ 请求类型 GET
+ 返回类型 XML
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#ifdef LNFB
+#define KDownloadURL @"http://mis.xinhuanet.com/lnfb/
+#endif
+
+#ifdef DFN
+#define KDownloadURL @"http://mis.xinhuanet.com/mrcj/"
+#endif
+
+#ifdef Ocean
+#define KDownloadURL @"http://mis.xinhuanet.com/jlhy/"
+#endif
+
+#ifdef Money
+#define KDownloadURL @"http://mis.xinhuanet.com/xhjr/"
+#endif
+

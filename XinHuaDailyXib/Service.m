@@ -27,6 +27,7 @@
     DBManager *_db_manager;
     FSManager *_fs_manager;
     UserActions *_userActions;
+    NSMutableDictionary *_new_version;
 }
 @synthesize fs_manager=_fs_manager;
 -(id)init{
@@ -858,5 +859,71 @@
         }
     }];
 }
-
+-(void)checkVersion{
+    @try{
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            if([self hasNewerVersion]){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString *title=[NSString stringWithFormat:@"升级到 %@",[self newVersion]];
+                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:[self getNewerVersionDescription] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                    alert.tag=101;
+                    [alert show];
+                });
+            }
+        });
+    }@catch(NSException *e){
+        NSLog(@"版本升级功能失效！");
+    }
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex) {
+        [self gotoDownload];
+    }
+}
+-(BOOL)hasNewerVersion{
+    NSLog(@"%@",KupdateURL);
+    _new_version = [[NSMutableDictionary alloc] initWithContentsOfURL:[NSURL URLWithString:KupdateURL]];
+    NSLog(@"hasNewerVersion %@",_new_version);
+    if(_new_version==nil) return NO;
+    NSMutableDictionary *dic=[((NSMutableArray *)[_new_version objectForKey:@"items"]) objectAtIndex:0];
+    NSString *new_version_number=[((NSMutableDictionary *)[dic objectForKey:@"metadata"]) objectForKey:@"bundle-version"];
+    NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
+    NSString *local_version_number =[infoDict objectForKey:@"CFBundleVersion"];
+    NSLog(@"localVersion %@",local_version_number);
+    NSLog(@"hasNewerVersion %@",new_version_number);
+    return [self versionCompare:local_version_number net:new_version_number];
+}
+-(NSString *)newVersion{
+    if(_new_version!=nil){
+        NSMutableDictionary *dic=[((NSMutableArray *)[_new_version objectForKey:@"items"]) objectAtIndex:0];
+        NSString *new_version_number=[((NSMutableDictionary *)[dic objectForKey:@"metadata"]) objectForKey:@"bundle-version"];
+        return new_version_number;
+    }else
+        return @"";
+}
+-(BOOL)versionCompare:(NSString *)local net:(NSString *)net{
+    NSLog(@"lc:%@  sv:%@",local,net);
+    NSArray *localArr=[local componentsSeparatedByString:@"."];
+    NSArray *netArr=[net componentsSeparatedByString:@"."];
+    int local_length=[localArr count];
+    int net_length=[netArr count];
+    int loop_count=net_length>local_length?net_length:local_length;
+    for(int i=0;i<loop_count;i++){
+        if([[netArr objectAtIndex:i] intValue]>[[localArr objectAtIndex:i] intValue])
+            return YES;
+        else if([[netArr objectAtIndex:i] intValue]<[[localArr objectAtIndex:i] intValue])
+            return NO;
+    }
+    return NO;
+}
+-(NSString *)getNewerVersionDescription{
+    if(_new_version==nil)return @"";
+    NSMutableDictionary *dic=[((NSMutableArray *)[_new_version objectForKey:@"items"]) objectAtIndex:0];
+    NSString *subtitle=[((NSMutableDictionary *)[dic objectForKey:@"metadata"]) objectForKey:@"subtitle"];
+    return subtitle;
+}
+-(void)gotoDownload{
+    NSURL *requestURL =[NSURL URLWithString:KDownloadURL];
+    [[ UIApplication sharedApplication ] openURL:requestURL];
+}
 @end

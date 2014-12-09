@@ -12,7 +12,7 @@
 #import "AppInfo.h"
 #import "UserDefaults.h"
 #import "FSManager.h"
-@interface Service : NSObject
+@interface Service : NSObject<UIAlertViewDelegate>
 @property(nonatomic,strong)FSManager *fs_manager;
 //网络
 //-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -61,4 +61,10 @@
 -(Channel *)fetchMRCJChannelFromDB;
 -(void)becomeAcitveHandler;
 -(BOOL)hasAuthorized;
+-(BOOL)hasNewerVersion;
+-(NSString *)newVersion;
+-(NSString *)getNewerVersionDescription;
+-(void)gotoDownload;
+-(void)checkVersion;
+
 @end

@@ -91,8 +91,7 @@
     if(self.user_defaults.is_night_mode_on){
         [UIScreen mainScreen].brightness=0.1;
     }
-    
-    
+   [_service checkVersion];
 }
 
 //向服务器申请发送token 判断事前有没有发送过
@@ -166,11 +165,7 @@ Article *push_article;
         }];
     }
 }
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(buttonIndex==1){
-        [self.main_vc presentArtilceContentVCWithArticle:push_article channel:nil];
-    }
-}
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

@@ -113,11 +113,12 @@
         }else if(indexPath.row == 1){
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"清除缓存提醒！" message:@"您确定清除缓存吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
-        }else if(indexPath.row ==2){
-            
+        }else if(indexPath.row ==3){
+            [AppDelegate.service checkVersion];
         }
     }
 }
+
 - (void) switchChanged:(id)sender {
     UISwitch* switchControl = sender;
     if(switchControl.on){
@@ -149,11 +150,7 @@
     }
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex) {
-        [self performSelectorInBackground:@selector(delAllNews) withObject:nil];
-    }
-}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSLog(@"%i", buttonIndex);
     if (buttonIndex == actionSheet.cancelButtonIndex) {
