@@ -919,7 +919,6 @@
 		18E85A601A3037A5003B4B47 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A211A3037A4003B4B47 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18E85A611A3037A5003B4B47 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A231A3037A4003B4B47 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18E85A621A3037A5003B4B47 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A251A3037A4003B4B47 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		18E85A631A3037A5003B4B47 /* hot.json in Resources */ = {isa = PBXBuildFile; fileRef = 18E85A281A3037A4003B4B47 /* hot.json */; };
 		18E85A641A3037A5003B4B47 /* HotForecastModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A2A1A3037A4003B4B47 /* HotForecastModel.m */; };
 		18E85A651A3037A5003B4B47 /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A2C1A3037A4003B4B47 /* OrderViewController.m */; };
 		18E85A661A3037A5003B4B47 /* AttentionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A2F1A3037A4003B4B47 /* AttentionTableView.m */; };
@@ -933,7 +932,6 @@
 		18E85A6F1A3037A5003B4B47 /* FMDatabaseOP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A431A3037A4003B4B47 /* FMDatabaseOP.m */; };
 		18E85A701A3037A5003B4B47 /* XHRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A461A3037A4003B4B47 /* XHRequest.m */; };
 		18E85A711A3037A5003B4B47 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A4A1A3037A4003B4B47 /* CommentModel.m */; };
-		18E85A721A3037A5003B4B47 /* SayJson.json in Resources */ = {isa = PBXBuildFile; fileRef = 18E85A4B1A3037A4003B4B47 /* SayJson.json */; };
 		18E85A731A3037A5003B4B47 /* OrderCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A4E1A3037A4003B4B47 /* OrderCommentCell.m */; };
 		18E85A741A3037A5003B4B47 /* CommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A501A3037A5003B4B47 /* CommentView.m */; };
 		18E85A751A3037A5003B4B47 /* SayContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E85A521A3037A5003B4B47 /* SayContentCell.m */; };
@@ -1813,7 +1811,6 @@
 		18E85A231A3037A4003B4B47 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		18E85A241A3037A4003B4B47 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		18E85A251A3037A4003B4B47 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		18E85A281A3037A4003B4B47 /* hot.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hot.json; sourceTree = "<group>"; };
 		18E85A291A3037A4003B4B47 /* HotForecastModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotForecastModel.h; sourceTree = "<group>"; };
 		18E85A2A1A3037A4003B4B47 /* HotForecastModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotForecastModel.m; sourceTree = "<group>"; };
 		18E85A2B1A3037A4003B4B47 /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderViewController.h; sourceTree = "<group>"; };
@@ -1840,7 +1837,6 @@
 		18E85A461A3037A4003B4B47 /* XHRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHRequest.m; sourceTree = "<group>"; };
 		18E85A491A3037A4003B4B47 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
 		18E85A4A1A3037A4003B4B47 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
-		18E85A4B1A3037A4003B4B47 /* SayJson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SayJson.json; sourceTree = "<group>"; };
 		18E85A4D1A3037A4003B4B47 /* OrderCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCommentCell.h; sourceTree = "<group>"; };
 		18E85A4E1A3037A4003B4B47 /* OrderCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCommentCell.m; sourceTree = "<group>"; };
 		18E85A4F1A3037A4003B4B47 /* CommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentView.h; sourceTree = "<group>"; };
@@ -3358,7 +3354,6 @@
 		18E85A271A3037A4003B4B47 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				18E85A281A3037A4003B4B47 /* hot.json */,
 				18E85A291A3037A4003B4B47 /* HotForecastModel.h */,
 				18E85A2A1A3037A4003B4B47 /* HotForecastModel.m */,
 			);
@@ -3433,7 +3428,6 @@
 			children = (
 				18E85A491A3037A4003B4B47 /* CommentModel.h */,
 				18E85A4A1A3037A4003B4B47 /* CommentModel.m */,
-				18E85A4B1A3037A4003B4B47 /* SayJson.json */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -4171,7 +4165,6 @@
 				181866781A2DA2E20063728A /* Icon.png in Resources */,
 				181865321A2D99480063728A /* redarrow.png in Resources */,
 				181865331A2D99480063728A /* redarrow@2x.png in Resources */,
-				18E85A721A3037A5003B4B47 /* SayJson.json in Resources */,
 				181865351A2D99480063728A /* refresh_white.png in Resources */,
 				181865391A2D99480063728A /* refresh_white@2x.png in Resources */,
 				181865BC1A2D9CC40063728A /* button_favorite_pressdown.png in Resources */,
@@ -4188,7 +4181,6 @@
 				181865481A2D99480063728A /* HUD_YES.png in Resources */,
 				181865491A2D99480063728A /* moviemaker.png in Resources */,
 				1818654A1A2D99480063728A /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				18E85A631A3037A5003B4B47 /* hot.json in Resources */,
 				1818654B1A2D99480063728A /* like_on.png in Resources */,
 				1818654C1A2D99480063728A /* setting.png in Resources */,
 				181865D71A2D9CC40063728A /* logo_start_page.png in Resources */,
