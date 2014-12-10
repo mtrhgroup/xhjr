@@ -15,9 +15,9 @@
         _commentContent = commentContent;
         // 完整显示个性签名的控件的宽高
         if (!SYSTEM_VERSION) {
-            _commentContentSize = [_commentContent sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(182, 2000)];
+            _commentContentSize = [_commentContent sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(RIGHTVIEWWIGHT-90, 2000)];
         }else{
-            _commentContentSize= [_commentContent boundingRectWithSize:CGSizeMake(182, 2000) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+            _commentContentSize= [_commentContent boundingRectWithSize:CGSizeMake(RIGHTVIEWWIGHT-90, 2000) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15]} context:nil].size;
         }
     }
 }
@@ -26,36 +26,55 @@
 {
     if (_creatTime != creatTime) {
         _creatTime = creatTime;
-        //Tue May 21 10:56:45 +0800 2013
         NSDateFormatter *date=[[NSDateFormatter alloc] init];
-        [date setDateFormat:@"YYYY-MM-DD hh:mm:ss"];
+        [date setDateFormat:WITHFORMAT];
         NSDate *d=[date dateFromString:_creatTime];
-        
-        NSTimeInterval late=[d timeIntervalSince1970]*1;
-        
         NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
-        NSTimeInterval now=[dat timeIntervalSince1970]*1;
-        NSString *timeString=@"";
         
-        NSTimeInterval cha=now-late;
-        if (cha/60<1){
-            timeString=[NSString stringWithFormat:@"刚刚"];
-        }else if (cha/60>1&&cha/3600<1) {
-            timeString = [NSString stringWithFormat:@"%f", cha/60];
-            timeString = [timeString substringToIndex:timeString.length-7];
-            timeString=[NSString stringWithFormat:@"%@分钟前", timeString];
-            
-        }else if (cha/3600>1&&cha/86400<1) {
-            timeString = [NSString stringWithFormat:@"%f", cha/3600];
-            timeString = [timeString substringToIndex:timeString.length-7];
-            timeString=[NSString stringWithFormat:@"%@小时前", timeString];
-        }else if (cha/86400>1)
-        {
-            timeString = [NSString stringWithFormat:@"%f", cha/86400];
-            timeString = [timeString substringToIndex:timeString.length-7];
-            timeString=[NSString stringWithFormat:@"%@天前", timeString];
+        NSCalendar *chineseClendar = [ [ NSCalendar alloc ] initWithCalendarIdentifier:NSGregorianCalendar];
+        
+        NSUInteger unitFlags =  NSHourCalendarUnit | NSMinuteCalendarUnit |NSSecondCalendarUnit | NSDayCalendarUnit| NSMonthCalendarUnit | NSYearCalendarUnit;
+        
+        NSDateComponents *DateComponent = [chineseClendar components:unitFlags fromDate:d toDate:dat options:0];
+        
+        NSInteger diffHour = [DateComponent hour];
+        
+        NSInteger diffMin    = [DateComponent minute];
+        
+        NSInteger diffSec   = [DateComponent second];
+        
+        NSInteger diffDay   = [DateComponent day];
+        
+        NSInteger diffMon  = [DateComponent month];
+        
+        NSInteger diffYear = [DateComponent year];
+        
+        if (diffYear>0) {
+            _forNow=[NSString stringWithFormat:@"%ld 年前",(long)diffYear];
+        }else if(diffMon>0){
+            _forNow=[NSString stringWithFormat:@"%ld 月前",(long)diffMon];
+        }else if(diffDay>0){
+            _forNow=[NSString stringWithFormat:@"%ld 天前",(long)diffDay];
+        }else if(diffHour>0){
+            _forNow=[NSString stringWithFormat:@"%ld 小时前",(long)diffHour];
+        }else if(diffMin>0){
+            _forNow=[NSString stringWithFormat:@"%ld 分钟前",(long)diffMin];
+        }else if(diffSec>0){
+//            _forNow=[NSString stringWithFormat:@"%ld 秒前",(long)diffSec];
+            _forNow=[NSString stringWithFormat:@"刚刚"];
+        }else{
+            _forNow=[NSString stringWithFormat:@"未知时间"];
         }
-        _forNow = timeString;
     }
+}
+- (NSComparisonResult)compare: (CommentModel *)otherModel
+{
+    //    HotForecastModel *tempModel = (HotForecastModel *)self;
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@"yyyy:MM:dd HH:mm:ss"];
+    NSDate* date1 = [formater dateFromString:self.creatTime];
+    NSDate *date2 = [formater dateFromString:otherModel.creatTime];
+    NSComparisonResult result = [date1 compare:date2];
+    return result == NSOrderedDescending;
 }
 @end

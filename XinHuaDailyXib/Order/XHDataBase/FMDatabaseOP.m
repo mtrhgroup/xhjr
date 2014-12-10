@@ -13,6 +13,7 @@
 #import "FMDatabaseQueue.h"
 #import "HotForecastModel.h"
 #import "CommentModel.h"
+#import "NSString+Addtions.h"
 
 
 
@@ -45,13 +46,13 @@ static FMDatabaseOP * instance = nil;
         NSLog(@"DB path is %@",dbPath);
         _dbQueue = [FMDatabaseQueue databaseQueueWithPath:dbPath];
         // inDatabase方法中已经打开了数据库 形参传递至block中
-            NSString *sql_hotforecast_table = @"create table if not exists hotforecast_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text, primary key(id));";
+            NSString *sql_hotforecast_table = @"create table if not exists hotforecast_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text,state text, primary key(id));";
             
-            NSString *sql_focus_table = @"create table if not exists focus_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text, primary key(id));";
+            NSString *sql_focus_table = @"create table if not exists focus_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text,state text, primary key(id));";
             
-            NSString *sql_yousay_table = @"create table if not exists yousay_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text, primary key(id));";
+            NSString *sql_yousay_table = @"create table if not exists yousay_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text,state text, primary key(id));";
             
-            NSString *sql_comment_table = @"create table if not exists comment_table (id text not null,create_at text,content text,user text,literid text, primary key(id));";
+            NSString *sql_comment_table = @"create table if not exists comment_table (id text not null,create_at text,content text,user text,literid text,state text, primary key(id));";
         [self executesql:sql_hotforecast_table];
         [self executesql:sql_focus_table];
         [self executesql:sql_yousay_table];
@@ -87,17 +88,17 @@ static FMDatabaseOP * instance = nil;
     CommentModel * commentmodel = nil;
     switch (type) {
         case hotforecast_table_type:
-            sql = @"replace into hotforecast_table (id,create_at,notice_date,title,content,user,comment_count,focus_count) values (?,?,?,?,?,?,?,?)";
+            sql = @"replace into hotforecast_table (id,create_at,notice_date,title,content,user,comment_count,focus_count,state) values (?,?,?,?,?,?,?,?,?)";
 
             break;
         case focus_table_type:
-            sql = @"replace into focus_table (id,create_at,notice_date,title,content,user,comment_count,focus_count) values (?,?,?,?,?,?,?,?)";
+            sql = @"replace into focus_table (id,create_at,notice_date,title,content,user,comment_count,focus_count,state) values (?,?,?,?,?,?,?,?,?)";
             break;
         case yousay_table_type:
-            sql = @"replace into yousay_table (id,create_at,notice_date,title,content,user,comment_count,focus_count) values (?,?,?,?,?,?,?,?)";
+            sql = @"replace into yousay_table (id,create_at,notice_date,title,content,user,comment_count,focus_count,state) values (?,?,?,?,?,?,?,?,?)";
             break;
         case comment_table_type:
-            sql = @"replace into comment_table (id,create_at,content,user,literid) values (?,?,?,?,?)";
+            sql = @"replace into comment_table (id,create_at,content,user,literid,state) values (?,?,?,?,?,?)";
             
             /*
              @interface CommentModel : NSObject
@@ -105,18 +106,19 @@ static FMDatabaseOP * instance = nil;
              @property (nonatomic,copy)NSString *commentContent;
              @property (nonatomic,copy)NSString *creatTime;
              @property (nonatomic,copy)NSString *literID;
-             @property (nonatomic,copy)NSString *ID;*/
+             @property (nonatomic,copy)NSString *ID;
+            @property int *state;*/
             
             commentmodel = (CommentModel*)data;
             [_dbQueue inDatabase:^(FMDatabase *db) {
                 //执行sql语句
-                if (![db executeUpdate:sql,commentmodel.ID,commentmodel.creatTime,commentmodel.commentContent,commentmodel.author,commentmodel.literID])
+                if (![db executeUpdate:sql,commentmodel.ID,commentmodel.creatTime,commentmodel.commentContent,commentmodel.author,commentmodel.literID,commentmodel.state])
                 {
-                    NSLog(@"插入数据失败");
+                    NSLog(@"插入数据失败%d",type);
                 }
                 else
                 {
-                    NSLog(@"插入数据成功");
+                    NSLog(@"插入数据失败%d",type);
                 }
             }];
             return;
@@ -126,7 +128,7 @@ static FMDatabaseOP * instance = nil;
     model = (HotForecastModel*)data;
     [_dbQueue inDatabase:^(FMDatabase *db) {
         //执行sql语句
-        if (![db executeUpdate:sql,model.ID,model.creatTime,model.noticeTime,model.title,model.content,model.user,model.comment_count,model.focus_count])
+        if (![db executeUpdate:sql,model.ID,model.creatTime,model.noticeTime,model.title,model.content,model.user,model.comment_count,model.focus_count,model.state])
         {
             NSLog(@"插入数据失败");
         }
@@ -146,20 +148,16 @@ static FMDatabaseOP * instance = nil;
     NSString * sql = nil;
     switch (table_type) {
         case hotforecast_table_type:
-//            sql = @"drop table if exists hotforecast_table;create table if not exists hotforecast_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text, primary key(id));";
             sql = @"delete from hotforecast_table;";
             break;
         case focus_table_type:
-//            sql = @"drop table if exists focus_table;create table if not exists focus_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text, primary key(id));";
             sql = @"delete from focus_table;";
             break;
         case yousay_table_type:
-//            sql = @"drop table if exists yousay_table;create table if not exists yousay_table (id text not null,create_at text,notice_date text,title text,content text,user text,comment_count text,focus_count text, primary key(id));";
             sql = @"delete from yousay_table;";
              break;
             
         case comment_table_type:
-//            sql = @"drop table if exists comment_table;create table if not exists comment_table (id text not null,create_at text,content text,user text,literid text, primary key(id));";
             sql = @"delete from comment_table;";
              break;
     }
@@ -204,7 +202,7 @@ static FMDatabaseOP * instance = nil;
  **/
 -(NSMutableArray *)selectFromCommentTableWithliterId:(NSString *)literid Start:(int)start recordMaxCount:(int)maxcount
 {
-    NSString * sql = @"select * from comment_table where literid=%@ order by create_at desc limit %d,%d";
+    NSString * sql = @"select * from comment_table where literid=%@ and state!=2 order by create_at desc limit %d,%d";
     
     __block NSMutableArray * array = [NSMutableArray array];
     [_dbQueue inDatabase:^(FMDatabase *db) {
@@ -225,31 +223,52 @@ static FMDatabaseOP * instance = nil;
 }
 
 
+-(NSString*)getCurrentTime
+{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter  alloc ]  init ];
+    [formatter setDateFormat:DATEFORMAT];
+    NSString *todayTime = [formatter stringFromDate:today];
+    return todayTime;
+}
+
+
 /**
  获取数据  start 从第几条数据开始  maxcount 要获取的记录数
  **/
 -(NSMutableArray *)selectFromDBWithStart:(int)start recordMaxCount:(int)maxcount tableType:(int)table_type
 {
     NSString * sql = nil;
+    NSString *current_date = @"";
+    int type = 0;
     switch (table_type) {
         case hotforecast_table_type:
-            sql = @"select * from hotforecast_table order by notice_date desc, create_at desc limit %d,%d";
+            current_date = [self getCurrentTime];
+            sql = @"select * from hotforecast_table where state!=2 and notice_date>'%@' order by notice_date desc, create_at desc limit %d,%d";
+            type = 1;
             break;
         case focus_table_type:
-            sql = @"select * from focus_table order by focus_count desc, create_at desc limit %d,%d";
+            current_date = [self getCurrentTime];
+            sql = @"select * from focus_table where state!=2 and notice_date>'%@' order by focus_count desc, create_at desc limit %d,%d";
+            type = 2;
             break;
         case yousay_table_type:
-            sql = @"select * from yousay_table order by create_at desc limit %d,%d";
+            sql = @"select * from yousay_table where state!=2%@ order by create_at desc limit %d,%d";
             break;
     }
     
     __block NSMutableArray * array = [NSMutableArray array];
     [_dbQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet * result = [db executeQuery:[NSString stringWithFormat:sql,start,maxcount]];
+        
+        NSString * tempsql = [NSString stringWithFormat:sql,current_date,start,maxcount];
+        NSLog(@"tempsql : %@",tempsql);
+        FMResultSet * result = [db executeQuery:tempsql];
         while ([result next]) {
+            
             //从根据字段取值
             //封装成model对象
             HotForecastModel *model = [[HotForecastModel alloc] init];
+            model.type = type;
             model.ID = [result stringForColumn:@"id"];
             model.creatTime = [result stringForColumn:@"create_at"];
             model.noticeTime = [result stringForColumn:@"notice_date"];

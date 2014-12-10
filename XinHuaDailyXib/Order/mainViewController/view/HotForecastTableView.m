@@ -101,11 +101,12 @@
         if(jsonArray.count!=0){
             for (NSDictionary *dic in jsonArray)
             {
-                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
-                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:hotforecast_table_type];
-                    continue;
-                }
+//                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+//                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:hotforecast_table_type];
+//                    continue;
+//                }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
+                model.type = 1;
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
                 model.user = [[dic objectForKey:@"user"] URLDecodedString];
                 model.content = [[dic objectForKey:@"content"] URLDecodedString];
@@ -114,14 +115,17 @@
                 model.creatTime = [[dic objectForKey:@"created_at"] URLDecodedString];
                 model.focus_count = [[dic objectForKey:@"focus_count"] URLDecodedString];
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
-                model.state = [[[dic objectForKey:@"state"] URLDecodedString] intValue];
+                model.state = [[dic objectForKey:@"state"]  URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:hotforecast_table_type];
-                if (requestType==1) {
-                    [_dataArray addObjectToArray:model headOrFinally:NO];
-                }else{
-                    [_dataArray addObjectToArray:model headOrFinally:YES];
+                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
+                    if (requestType==1) {
+                        [_dataArray addObjectToArray:model headOrFinally:NO];
+                    }else{
+                        [_dataArray addObjectToArray:model headOrFinally:YES];
+                    }
                 }
             }
+            _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
             [_tableView reloadData];
         }
     } failed:^(NSError *error) {
@@ -181,8 +185,26 @@
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter  alloc ]  init ];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:TOFORMAT];
     NSString *todayTime = [formatter stringFromDate:today];
     return todayTime;
+}
+-(BOOL)compareWithCurrentTime:(NSString*)timeStr
+{
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:DATEFORMAT];
+    
+    NSDate *d=[formater dateFromString:timeStr];
+    
+    NSTimeInterval late=[d timeIntervalSince1970]*1;
+    
+    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval now=[dat timeIntervalSince1970]*1;
+    
+    NSTimeInterval cha=now-late;
+    if (cha>0) {
+        return NO;
+    }
+    return YES;
 }
 @end

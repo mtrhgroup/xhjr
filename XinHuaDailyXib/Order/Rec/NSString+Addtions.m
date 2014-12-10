@@ -52,7 +52,4 @@ static NSDateFormatter *dateFormatter;
     
     return [dateFormatter stringFromDate:date];
 }
-
-
-
 @end

@@ -236,7 +236,7 @@
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter  alloc ]  init ];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:TOFORMAT];
     NSString *todayTime = [formatter stringFromDate:today];
     return todayTime;
 }

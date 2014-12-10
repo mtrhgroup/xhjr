@@ -72,12 +72,12 @@
 
 //    _fromHint.frame = CGRectMake(_content.frame.origin.x, _content.frame.origin.y+_content.frame.size.height+5, 45,12);
     
-    _fromLabel.frame = CGRectMake(_content.frame.origin.x, _content.frame.origin.y+_content.frame.size.height+5, 280/2-10,12);
+    _fromLabel.frame = CGRectMake(_content.frame.origin.x, _content.frame.origin.y+_content.frame.size.height+5, RIGHTVIEWWIGHT/2-10,12);
     _fromLabel.text = [NSString stringWithFormat:@"发起人: %@",model.user];
     
 //    _fromTimeHint.frame = CGRectMake(self.frame.size.width/2, _fromHint.frame.origin.y, 60,12);
     
-    _fromTimeLabel.frame = CGRectMake(280/2, _fromLabel.frame.origin.y, self.frame.size.width/2-10,12);
+    _fromTimeLabel.frame = CGRectMake(280/2, _fromLabel.frame.origin.y, RIGHTVIEWWIGHT/2-10,12);
     NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
 //    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
     _fromTimeLabel.text = [NSString stringWithFormat:@"发起时间: %@/%@/%@",timeArray[0],timeArray[1],timeArray[2]];

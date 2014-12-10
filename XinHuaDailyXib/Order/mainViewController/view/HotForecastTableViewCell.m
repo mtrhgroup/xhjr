@@ -11,6 +11,7 @@
 #define HotForecastTableViewCellTitleFontSize 18
 #define HotForecastTableViewCellContentFontSize 15
 #define HotForecastTableViewCellFromHintFontSize 13
+#define CONTENTWIDTH 185
 
 #import "HotForecastTableViewCell.h"
 #import "UIColor+Hex.h"
@@ -131,21 +132,19 @@
 #pragma mark 设置控件长宽
 -(void)setStatus:(HotForecastModel *)model
 {
-
-    _timeLabel.frame = CGRectMake(5, 5, 45, 12);
-    NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
-//    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
+    _timeLabel.frame = CGRectMake(2, 5, 53, 12);
+//    NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
+    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
     _timeLabel.text = [NSString stringWithFormat:@"%@月%@日",timeArray[1],timeArray[2]];
     
-    _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width+2, _timeLabel.frame.origin.y-5, 20, 20);
-    
+    _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width, _timeLabel.frame.origin.y-5, 20, 20);
     
     _chrononLine.frame = CGRectMake(_chronon.frame.origin.x+9.7, _chronon.frame.origin.y+_chronon.frame.size.height, 1, model.contentSize.height+108-_chronon.frame.origin.y-_chronon.frame.size.height-18);
-    NSLog(@"%f",_chrononLine.frame.size.height);
-    _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+10, _chronon.frame.origin.y, 280-_chronon.frame.origin.x-_chronon.frame.size.width-8, 20);
+
+    _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+5, _chronon.frame.origin.y, CONTENTWIDTH, 20);
     _titlelabel.text = model.title;
     
-    _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width, 15);
+    _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 15);
     
     _BubbleView.frame = CGRectMake(_topBubble.frame.origin.x, _topBubble.frame.origin.y+_topBubble.frame.size.height, _topBubble.frame.size.width, model.contentSize.height);
     
@@ -159,7 +158,7 @@
     _fromLabel.frame = CGRectMake(_fromHint.frame.origin.x + _fromHint.frame.size.width, _fromHint.frame.origin.y, 60,22);
     _fromLabel.text = model.user;
     
-    _lookButton.frame = CGRectMake(RIGHTVIEWWIGHT-BUTTONFRAME-5, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
+    _lookButton.frame = CGRectMake(RIGHTVIEWWIGHT-BUTTONFRAME-10, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     
     _sayButton.frame = CGRectMake(RIGHTVIEWWIGHT-2*BUTTONFRAME-15, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     _model = model;

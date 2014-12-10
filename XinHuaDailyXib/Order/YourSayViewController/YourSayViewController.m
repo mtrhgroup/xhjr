@@ -79,7 +79,7 @@
     
     _tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
     _tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
-    _tableView.footerRefreshingText = @"MJ哥正在帮你加载中,不客气";
+    _tableView.footerRefreshingText = @"加载中,不客气";
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
@@ -87,6 +87,8 @@
     CGRect frame = CGRectMake(0, _tableView.frame.size.height, 280, 50);
     CommentView *comment = [[CommentView alloc]initWithHintString:@"我想说" delegate:self frame:frame];
     [self.view addSubview:comment];
+    
+    [_tableView footerEndRefreshing];
 }
 
 - (void)viewDidLoad {
@@ -100,24 +102,26 @@
 - (void)headerRereshing:(MJRefreshHeaderView*)mjHeaderView
 {
     if (_dataArray.count!=0) {
-        CommentModel *model = _dataArray[0];
+        HotForecastModel *model = _dataArray[0];
         _requestTime = [model.creatTime getToFormatTime];
-        [self requestData:-1 andRequestType:-1];
+        [self requestData:1 andRequestType:-1];
     }else{
         _requestTime = [self getCurrentTime];
-        [self requestData:1 andRequestType:-1];
+        [self requestData:-1 andRequestType:-1];
     }
     [_tableView headerEndRefreshing];
 }
 
 - (void)footerRereshing:(MJRefreshHeaderView*)mjHeaderView
 {
-    NSArray *array = [[FMDatabaseOP shareInstance]selectFromDBWithStart:(int)_dataArray.count+1 recordMaxCount:MAX_COUNT tableType:comment_table_type];
+    //-(NSMutableArray *)selectFromCommentTableWithliterId:(NSString *)literid Start:(int)start recordMaxCount:MAX_COUNT
+    CommentModel *model = _dataArray[_dataArray.count-1];
+    NSArray *array = [[FMDatabaseOP shareInstance]selectFromCommentTableWithliterId:model.literID  Start:_dataArray.count+1 recordMaxCount:MAX_COUNT];
     if (array.count==0&&_dataArray.count==0) {
         _requestTime = [self getCurrentTime];
         [self requestData:-1 andRequestType:1];
     }else if(_dataArray.count!=0&&array.count==0){
-        CommentModel *model = _dataArray[_dataArray.count-1];
+        model = _dataArray[_dataArray.count-1];
         _requestTime = [model.creatTime getToFormatTime];
         [self requestData:-1 andRequestType:1];
     }else if(array.count!=0) {
@@ -136,45 +140,55 @@
         if ([jsonDict[@"type"]isEqualToString:@"0"]) {
             NSArray *jsonArray = jsonDict[@"data"];
             if(jsonArray.count!=0){
-                NSMutableArray *tempArray = [NSMutableArray array];
                 for (NSDictionary *dic in jsonArray)
                 {
+//                    if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+//                        [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:comment_table_type];
+//                        continue;
+//                    }
                     CommentModel *model = [[CommentModel alloc]init];
                     model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
                     model.author = [[dic objectForKey:@"user"] URLDecodedString];
                     model.commentContent = [[dic objectForKey:@"content"] URLDecodedString];
                     model.creatTime = [[dic objectForKey:@"created_at"] URLDecodedString];
                     model.literID = [[dic objectForKey:@"literID"] URLDecodedString];
+                    model.state = [[[dic objectForKey:@"state"] URLDecodedString] URLDecodedString];
                     [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:comment_table_type];
-                    [tempArray addObject:model];
+                    if (![model.state isEqualToString:@"2"]) {
+                        if (requestType==1) {
+                            [_dataArray addObjectToArray:model headOrFinally:NO];
+                        }else{
+                            [_dataArray addObjectToArray:model headOrFinally:YES];
+                        }
+                    }
                 }
-                if (requestType==1) {
-                    [_dataArray addObjectsFromArray:tempArray];
-                }else{
-                    [tempArray addObjectsFromArray:_dataArray];
-                    _dataArray = tempArray;
-                }
+//                _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
                 [_tableView reloadData];
                 UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"数据加载完成" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alter show];
             }
         }
-        } failed:^(NSError *error) {
-            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alter show];
-        }];
-}
-
-- (void)requestData
-{
-
+    } failed:^(NSError *error) {
+        //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //            [alter show];
+        if (requestType==-1) {
+            if (_dataArray.count==0) {
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT tableType:comment_table_type];
+                [_tableView reloadData];
+            }
+        }else if(requestType==1){
+            [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:comment_table_type]];
+            [_tableView reloadData];
+        }
+        
+    }];
 }
 
 - (NSString*)getCurrentTime
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter  alloc ]  init ];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:TOFORMAT];
     NSString *todayTime = [formatter stringFromDate:today];
     return todayTime;
 }

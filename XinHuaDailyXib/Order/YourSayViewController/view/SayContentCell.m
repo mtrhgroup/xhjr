@@ -45,7 +45,7 @@
 
 -(void)setStatusWithTitle:(NSString*)title content:(NSString*)content andHeight:(CGFloat)contentHeight
 {
-    _title.frame = CGRectMake(10, 13, self.frame.size.width-20, 20);
+    _title.frame = CGRectMake(10, 13, RIGHTVIEWWIGHT-20, 20);
     _title.text = title;
     
     _content.frame = CGRectMake(_title.frame.origin.x+7, _title.frame.origin.y+_title.frame.size.height+15, _title.frame.size.width-14,contentHeight);
