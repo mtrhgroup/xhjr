@@ -459,27 +459,34 @@
     }];
 }
 -(void)fetchLatestArticlesFromNETWithChannel:(Channel *)channel successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyyMMddHHmmss";
-    NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
-    [self fetchArticlesFromNETWithChannel:channel time:time successHandler:^(NSArray *articles) {
-        [self executeServerCommandsWithChannel:channel successHandler:^(BOOL isOK) {
-            if(successBlock){
-                successBlock(articles);
+    [self registerDevice:^(BOOL isOK) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
+        [self fetchArticlesFromNETWithChannel:channel time:time successHandler:^(NSArray *articles) {
+            [self executeServerCommandsWithChannel:channel successHandler:^(BOOL isOK) {
+                if(successBlock){
+                    successBlock(articles);
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
+            } errorHandler:^(NSError *error) {
+                if(successBlock){
+                    successBlock(articles);
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
+            }];
+            
+        } errorHandler:^(NSError *error){
+            if(errorBlock){
+                errorBlock(error);
             }
-            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
-        } errorHandler:^(NSError *error) {
-            if(successBlock){
-                successBlock(articles);
-            }
-            [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationLatestDailyReceived object: nil];
         }];
-        
-    } errorHandler:^(NSError *error){
+    } errorHandler:^(NSError *error) {
         if(errorBlock){
             errorBlock(error);
         }
     }];
+
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],10,channel.channel_id,time,AppID];
@@ -859,20 +866,48 @@
         }
     }];
 }
--(void)checkVersion{
+-(void)checkVersion:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     @try{
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            if([self hasNewerVersion]){
+            _new_version = [[NSMutableDictionary alloc] initWithContentsOfURL:[NSURL URLWithString:KupdateURL]];
+            NSLog(@"hasNewerVersion %@",_new_version);
+            if(_new_version==nil){
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSString *title=[NSString stringWithFormat:@"升级到 %@",[self newVersion]];
-                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:[self getNewerVersionDescription] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                    alert.tag=101;
-                    [alert show];
+                    if(errorBlock){
+                        errorBlock([NetworkLostError aError]);
+                    }
                 });
+            }else{
+                NSMutableDictionary *dic=[((NSMutableArray *)[_new_version objectForKey:@"items"]) objectAtIndex:0];
+                NSString *new_version_number=[((NSMutableDictionary *)[dic objectForKey:@"metadata"]) objectForKey:@"bundle-version"];
+                NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
+                NSString *local_version_number =[infoDict objectForKey:@"CFBundleVersion"];
+                NSLog(@"localVersion %@",local_version_number);
+                NSLog(@"hasNewerVersion %@",new_version_number);
+                BOOL has_new_version=[self versionCompare:local_version_number net:new_version_number];
+                if(has_new_version){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if(successBlock){
+                            successBlock(YES);
+                        }
+                        NSString *title=[NSString stringWithFormat:@"升级到 %@",[self newVersion]];
+                        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:[self getNewerVersionDescription] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                        alert.tag=101;
+                        [alert show];
+                    });
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if(successBlock){
+                            successBlock(NO);
+                        }
+                    });
+                }
             }
         });
     }@catch(NSException *e){
-        NSLog(@"版本升级功能失效！");
+        if(errorBlock){
+            errorBlock([NetworkLostError aError]);
+        }
     }
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -880,19 +915,7 @@
         [self gotoDownload];
     }
 }
--(BOOL)hasNewerVersion{
-    NSLog(@"%@",KupdateURL);
-    _new_version = [[NSMutableDictionary alloc] initWithContentsOfURL:[NSURL URLWithString:KupdateURL]];
-    NSLog(@"hasNewerVersion %@",_new_version);
-    if(_new_version==nil) return NO;
-    NSMutableDictionary *dic=[((NSMutableArray *)[_new_version objectForKey:@"items"]) objectAtIndex:0];
-    NSString *new_version_number=[((NSMutableDictionary *)[dic objectForKey:@"metadata"]) objectForKey:@"bundle-version"];
-    NSDictionary* infoDict =[[NSBundle mainBundle] infoDictionary];
-    NSString *local_version_number =[infoDict objectForKey:@"CFBundleVersion"];
-    NSLog(@"localVersion %@",local_version_number);
-    NSLog(@"hasNewerVersion %@",new_version_number);
-    return [self versionCompare:local_version_number net:new_version_number];
-}
+
 -(NSString *)newVersion{
     if(_new_version!=nil){
         NSMutableDictionary *dic=[((NSMutableArray *)[_new_version objectForKey:@"items"]) objectAtIndex:0];

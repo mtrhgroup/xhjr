@@ -758,7 +758,6 @@
 		188993CF1A2446C200D1247C /* DefaultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889939C1A2446C200D1247C /* DefaultView.m */; };
 		188993D01A2446C200D1247C /* DrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889939E1A2446C200D1247C /* DrawerViewController.m */; };
 		188993D11A2446C200D1247C /* FeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188993A01A2446C200D1247C /* FeedBackViewController.m */; };
-		188993D21A2446C200D1247C /* FirstDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188993A21A2446C200D1247C /* FirstDailyViewController.m */; };
 		188993D31A2446C200D1247C /* LeftFunctionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188993A51A2446C200D1247C /* LeftFunctionCell.m */; };
 		188993D41A2446C200D1247C /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188993A71A2446C200D1247C /* LeftViewController.m */; };
 		188993D51A2446C200D1247C /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188993A91A2446C200D1247C /* NavigationController.m */; };
@@ -1575,8 +1574,6 @@
 		1889939E1A2446C200D1247C /* DrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerViewController.m; sourceTree = "<group>"; };
 		1889939F1A2446C200D1247C /* FeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackViewController.h; sourceTree = "<group>"; };
 		188993A01A2446C200D1247C /* FeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackViewController.m; sourceTree = "<group>"; };
-		188993A11A2446C200D1247C /* FirstDailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstDailyViewController.h; sourceTree = "<group>"; };
-		188993A21A2446C200D1247C /* FirstDailyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstDailyViewController.m; sourceTree = "<group>"; };
 		188993A31A2446C200D1247C /* GlobalVariablesDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalVariablesDefine.h; sourceTree = "<group>"; };
 		188993A41A2446C200D1247C /* LeftFunctionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftFunctionCell.h; sourceTree = "<group>"; };
 		188993A51A2446C200D1247C /* LeftFunctionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftFunctionCell.m; sourceTree = "<group>"; };
@@ -2742,8 +2739,6 @@
 				188993AF1A2446C200D1247C /* RegisterViewController.m */,
 				188993AC1A2446C200D1247C /* OtherDailyViewController.h */,
 				188993AD1A2446C200D1247C /* OtherDailyViewController.m */,
-				188993A11A2446C200D1247C /* FirstDailyViewController.h */,
-				188993A21A2446C200D1247C /* FirstDailyViewController.m */,
 				1889939F1A2446C200D1247C /* FeedBackViewController.h */,
 				188993A01A2446C200D1247C /* FeedBackViewController.m */,
 				188993971A2446C200D1247C /* DatePickerViewController.h */,
@@ -4055,7 +4050,7 @@
 				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					181864581A2D99480063728A = {
-						DevelopmentTeam = XPF9TVP3P8;
+						DevelopmentTeam = W7W98J8J34;
 					};
 					1887389418FCD3B00032CF2C = {
 						DevelopmentTeam = W7W98J8J34;
@@ -5156,7 +5151,6 @@
 				188993D71A2446C200D1247C /* OtherDailyViewController.m in Sources */,
 				187DD1031A256F49004A26EC /* ChannelViewController.m in Sources */,
 				188993DA1A2446C200D1247C /* RightFunctionCell.m in Sources */,
-				188993D21A2446C200D1247C /* FirstDailyViewController.m in Sources */,
 				188992921A24424B00D1247C /* DBOperator.m in Sources */,
 				188992931A24424B00D1247C /* UIView+Extension.m in Sources */,
 				188992941A24424B00D1247C /* MMDrawerVisualState.m in Sources */,

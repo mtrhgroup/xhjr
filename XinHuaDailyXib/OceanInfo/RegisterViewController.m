@@ -84,7 +84,9 @@
     tip.backgroundColor=[UIColor clearColor];
     tip.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:tip];
-    //[((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"backheader.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    if(self.inside){
+        [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 -(void)verifyGetBtnClickHandler{ 
     self.confirm_phone_number_alert=[[UIAlertView alloc] initWithTitle:@"确认手机号码"  message:[NSString stringWithFormat:@"我们将发送验证码短信到这个号码：%@",_phone_number_input.text] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好", nil];
@@ -96,7 +98,8 @@
     }
 }
 -(void)back{
-    [self.navigationController popViewControllerAnimated:YES];
+    [_phone_number_input resignFirstResponder];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{

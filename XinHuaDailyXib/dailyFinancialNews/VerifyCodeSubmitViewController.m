@@ -67,14 +67,20 @@
 }
 -(void)bindPhoneNumber{
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
-        [self.service fetchFirstRunData:^(BOOL isOK) {
-            if (self.presentedViewController == nil)
-            {
-                [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
-            }
-        } errorHandler:^(NSError *error) {
-            //
-        }];
+        if(self.inside){
+            [_verify_code_input resignFirstResponder];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            [self.service fetchFirstRunData:^(BOOL isOK) {
+                if (self.presentedViewController == nil)
+                {
+                    [self presentViewController:AppDelegate.main_vc animated:YES completion:nil];
+                }
+                
+            } errorHandler:^(NSError *error) {
+                
+            }];
+        }
         
     } errorHandler:^(NSError *error) {
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];

@@ -19,6 +19,7 @@
 @property(nonatomic,strong)ArticlesForHVC *articles_for_hvc;
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)UIImageView *top_title;
+@property(nonatomic,strong)TipTouchView *tip_view;
 @end
 
 @implementation HomeViewController
@@ -31,12 +32,20 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [self.top_title removeFromSuperview];
+    if([self.service hasAuthorized]){
+        [self.tip_view hide];
+    }else{
+        [self.tip_view show];
+    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.articles_for_hvc=[[ArticlesForHVC alloc] init];
     self.top_title=[[UIImageView alloc] initWithFrame:CGRectMake((320-120)/2, 0, 120, 44)];
     self.top_title.image=[UIImage imageNamed:@"logo_top_subject.png"];
+    self.tip_view=[[TipTouchView alloc] init];
+    self.tip_view.delegate=self;
+    [self.view addSubview:self.tip_view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newArticlesReceivedHandler) name:kNotificationNewArticlesReceived object:nil];
     
 }
@@ -64,10 +73,14 @@
         [self.tableView headerEndRefreshing];
     } errorHandler:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView headerEndRefreshing];
-            [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+            if(error.code==XBindingFailed){
+                [self.tableView headerEndRefreshing];
+                [self.tip_view show];
+            }else{
+                [self.tableView headerEndRefreshing];
+                [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+            }
         });
-
     }];
 }
 BOOL _busy=NO;
@@ -86,6 +99,12 @@ BOOL _busy=NO;
         [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
         
     }];
+}
+-(void)tipTouchViewClicked{
+    RegisterViewController *reg_vc=[[RegisterViewController alloc] init];
+    reg_vc.inside=YES;
+    NavigationController *nav_vc=[[NavigationController alloc] initWithRootViewController:reg_vc];
+    [self presentViewController:nav_vc animated:YES completion:nil];
 }
 -(void)newArticlesReceivedHandler{
     [self performSelectorOnMainThread:@selector(reloadArticlesFromDB) withObject:nil waitUntilDone:NO];

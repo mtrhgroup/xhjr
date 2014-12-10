@@ -86,6 +86,7 @@
     } errorHandler:^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if(error.code==XBindingFailed){
+                [self.tableView headerEndRefreshing];
                 [self.tip_view show];
             }else{
                 [self.tableView headerEndRefreshing];
@@ -108,8 +109,6 @@ BOOL _busy=NO;
     } errorHandler:^(NSError *error) {
         _busy=NO;
         [self endLoadingMore];
-        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
-        
     }];
 }
 -(void)newArticlesReceivedHandler{

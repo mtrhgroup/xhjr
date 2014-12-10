@@ -168,7 +168,15 @@
         //Nothing
     }];
 }
-
+-(void)hide{
+    [UIView animateWithDuration:0.15 animations:^{
+        [YzdHUDImageView shareHUDView].bounds =YzdHUDBounds;
+        [self goTimeBounds:YzdHUDBounds];
+        [self goTimeInit];
+    } completion:^(BOOL finished) {
+        //Nothing
+    }];
+}
 #pragma mark 状态
 -(void)goTimeBounds:(CGRect)bounds{
     [YzdHUDBackgroundView shareHUDView].bounds =

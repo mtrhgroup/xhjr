@@ -23,7 +23,8 @@ typedef void (^AnimationBlock)(UIView *animationView);
 -(void)showHUDWithText:(NSString *)text Type:(showHUDType)type Enabled:(BOOL)enabled;
 
 -(void)showHUDWithText:(NSString *)text Type:(showHUDType)type Enabled:(BOOL)enabled Bounds:(CGRect)bounds Center:(CGPoint)center BackgroundAlpha:(CGFloat)backgroundAlpha ComeTime:(CGFloat)comeTime StayTime:(CGFloat)stayTime GoTime:(CGFloat)goTime;
-
+-(void)goTimeInit;
+-(void)hide;
 @end
 
 

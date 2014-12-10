@@ -30,6 +30,7 @@
     self.hidden=YES;
 }
 -(void)show{
+    [self.superview bringSubviewToFront:self];
     self.hidden=NO;
 }
 @end

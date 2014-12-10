@@ -16,7 +16,6 @@
 #import "HomeViewController.h"
 #import "DefaultView.h"
 #import "LeftMenuViewController.h"
-#import "FirstDailyViewController.h"
 @interface DrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)   DefaultView *cover_view;

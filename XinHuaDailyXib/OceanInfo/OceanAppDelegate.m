@@ -51,7 +51,11 @@
         [self.main_vc presentArticleContentVCWithPushArticleID:[pushInfo valueForKey:@"id"]];
     }
     [self performSelectorInBackground:@selector(initBaiduFrontia) withObject:nil];
-    
+    [_service checkVersion:^(BOOL isOK) {
+        //<#code#>
+    } errorHandler:^(NSError *error) {
+        //<#code#>
+    }];
     return YES;
 }
 -(void)setupApp{
@@ -91,7 +95,6 @@
     if(self.user_defaults.is_night_mode_on){
         [UIScreen mainScreen].brightness=0.1;
     }
-   [_service checkVersion];
 }
 
 //向服务器申请发送token 判断事前有没有发送过

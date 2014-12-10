@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "NavigationController.h"
+#import "UIWindow+YzdHUD.h"
 #import "NewsFontSettingViewController.h"
 
 
@@ -113,8 +114,17 @@
         }else if(indexPath.row == 1){
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"清除缓存提醒！" message:@"您确定清除缓存吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
-        }else if(indexPath.row ==2){
-            
+        }else if(indexPath.row ==3){
+            [self.view.window showHUDWithText:@"联网检查中" Type:ShowLoading Enabled:YES];
+             [AppDelegate.service checkVersion:^(BOOL isOK) {
+                 if(!isOK){
+                     [self.view.window showHUDWithText:@"已是最新版本" Type:ShowPhotoYes Enabled:YES];
+                 }else{
+                     [self.view.window goTimeInit];
+                 }
+             } errorHandler:^(NSError *error) {
+                 [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+             }];
         }
     }
 }

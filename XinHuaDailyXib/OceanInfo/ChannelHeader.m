@@ -32,7 +32,7 @@
 {
     self = [super initWithFrame:frameRect];
     if (self) {
-        label = [[UILabel alloc] initWithFrame:CGRectMake(8,0, frameRect.size.width-16, 60)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(8,210, frameRect.size.width-16, 60)];
         label.backgroundColor = [UIColor clearColor];
         label.text = @"";
         label.textColor = [UIColor blackColor];
@@ -40,14 +40,14 @@
         label.font = [UIFont boldSystemFontOfSize:22];
         [self addSubview:label];
         
-        alImageView = [[ALImageView alloc] initWithFrame:CGRectMake(8, 60, 320-16, 202)];
+        alImageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 202)];
         alImageView.placeholderImage = [UIImage imageNamed:@"placeholder"];
         alImageView.imageURL = @"";
         [self  addSubview:alImageView];
 
         alImageView.userInteractionEnabled=YES;
         UITapGestureRecognizer *singleTap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openArticle)];
-        [alImageView addGestureRecognizer:singleTap];
+        [self addGestureRecognizer:singleTap];
         
         _channel_name_lbl = [[UILabel alloc] initWithFrame:CGRectMake(8, 270, 222, 22)];
         _channel_name_lbl.backgroundColor = [UIColor clearColor];

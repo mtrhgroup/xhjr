@@ -12,4 +12,5 @@
 @property (strong, nonatomic) UITextField *verify_code_input;
 @property (strong, nonatomic) UIButton *regBtn;
 @property (strong,nonatomic)UIAlertView *waitingAlert;
+@property(nonatomic,assign)BOOL inside;
 @end

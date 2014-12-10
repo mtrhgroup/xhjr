@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NLMainTableViewController.h"
-@interface FirstDailyViewController :NLMainTableViewController<UITableViewDataSource, UITableViewDelegate>
+#import "TipTouchView.h"
+@interface FirstDailyViewController :NLMainTableViewController<UITableViewDataSource, UITableViewDelegate,TipTouchViewDelegate>
 @property(nonatomic,strong)Service *service;
 @end

@@ -47,7 +47,15 @@
     [self.view addSubview:self.func_table];
 }
 -(void)viewWillAppear:(BOOL)animated{
-    self.user_phone_label.text=AppDelegate.user_defaults.sn;
+    NSInteger length=AppDelegate.user_defaults.sn.length;
+    if(length>0){
+        NSInteger index=length-11;
+        NSString *temp=AppDelegate.user_defaults.sn;
+        self.user_phone_label.text=[temp substringFromIndex:index];
+    }else{
+        self.user_phone_label.text=@"非认证用户" ;
+    }
+    
 }
 #pragma mark --UITableView
 -(NSInteger)numberOfSectionsInTableView:(UITableView*)tableView{

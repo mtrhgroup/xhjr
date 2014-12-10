@@ -17,6 +17,7 @@
 @interface FirstDailyViewController ()
 @property(nonatomic, strong)DailyArticles *daily_articles;
 @property(nonatomic,strong)DailyArticles *previous_daily_articles;
+@property(nonatomic,strong)TipTouchView *tip_view;
 @end
 
 @implementation FirstDailyViewController
@@ -28,6 +29,7 @@
     [super viewDidLoad];
     self.view.backgroundColor=VC_BG_COLOR;
     self.tableView.backgroundColor=VC_BG_COLOR;
+
     [self.tableView addHeaderWithTarget:self action:@selector(loadThisDailyFromNET)];
     [self addPullUpView];
     UIImageView *title_view=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_top_subject.png"]];
@@ -36,12 +38,26 @@
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_menu_selected.png"] target:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
     [((NavigationController *)self.navigationController) setRightButtonWithImage:[UIImage imageNamed:@"button_set_default.png"] target:self action:@selector(showRight) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadThisDailyFromDB) name:kNotificationLatestDailyReceived object:nil];
+    self.tip_view=[[TipTouchView alloc] init];
+    self.tip_view.delegate=self;
+    [self.view addSubview:self.tip_view];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self reloadThisDailyFromDB];
+    if([self.service hasAuthorized]){
+        [self.tip_view hide];
+    }else{
+        [self.tip_view show];
+    }
 
 
+}
+-(void)tipTouchViewClicked{
+    RegisterViewController *reg_vc=[[RegisterViewController alloc] init];
+    reg_vc.inside=YES;
+    NavigationController *nav_vc=[[NavigationController alloc] initWithRootViewController:reg_vc];
+    [self presentViewController:nav_vc animated:YES completion:nil];
 }
 -(void)showLeft{
     [AppDelegate.main_vc toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
@@ -53,9 +69,18 @@
     [self.service fetchLatestArticlesFromNETWithChannel:AppDelegate.channel successHandler:^(NSArray *articles) {
         [self reloadThisDailyFromDB];
         [self.tableView headerEndRefreshing];
-    } errorHandler:^(NSError *error) {
-        [self reloadThisDailyFromDB];
-        [self.tableView headerEndRefreshing];
+    } errorHandler:^(NSError *error) { 
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(error.code==XBindingFailed){
+                [self reloadThisDailyFromDB];
+                [self.tableView headerEndRefreshing];
+                [self.tip_view show];
+            }else{
+                [self reloadThisDailyFromDB];
+                [self.tableView headerEndRefreshing];
+                [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+            }
+        });
     }];
 }
 -(void)loadPreviousDailyFromNET{

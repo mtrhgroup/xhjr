@@ -65,6 +65,6 @@
 -(NSString *)newVersion;
 -(NSString *)getNewerVersionDescription;
 -(void)gotoDownload;
--(void)checkVersion;
+-(void)checkVersion:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 
 @end
