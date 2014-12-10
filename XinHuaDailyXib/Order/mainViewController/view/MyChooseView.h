@@ -7,11 +7,5 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol GetMyChooseInputDelegate <NSObject>
-
-- (void)getInputTitle:(NSString*)title andContent:(NSString*)content;
-
-@end
 @interface MyChooseView : UIView
-@property (nonatomic,assign)id<GetMyChooseInputDelegate> delegate;
 @end

@@ -117,15 +117,20 @@
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
                 model.state = [[[dic objectForKey:@"state"] URLDecodedString] URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:focus_table_type];
-                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
-                    if (requestType==1) {
-                        [_dataArray addObjectToArray:model headOrFinally:NO];
-                    }else{
-                        [_dataArray addObjectToArray:model headOrFinally:YES];
-                    }
-                }
+//                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
+//                    if (requestType==1) {
+//                        [_dataArray addObjectToArray:model headOrFinally:NO];
+//                    }else{
+//                        [_dataArray addObjectToArray:model headOrFinally:YES];
+//                    }
+//                }
             }
-            _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
+            if (requestType==-1) {
+                [_dataArray removeAllObjects];
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT+_dataArray.count tableType:focus_table_type];
+            }else if(requestType==1){
+                [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:focus_table_type]];
+            }
             [_tableView reloadData];
 //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"数据加载完成" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 //            [alter show];
@@ -169,7 +174,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HotForecastModel *model = _dataArray[indexPath.row];
-    return model.contentSize.height+90;
+    return model.contentSize.height+60+model.titleSize.height;
 }
 
 - (NSString*)getCurrentTime

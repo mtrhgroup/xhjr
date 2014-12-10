@@ -28,6 +28,7 @@
     UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSString *_requestTime;
+    NSString *_literID;
 }
 @end
 
@@ -154,33 +155,26 @@
                     model.literID = [[dic objectForKey:@"literID"] URLDecodedString];
                     model.state = [[[dic objectForKey:@"state"] URLDecodedString] URLDecodedString];
                     [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:comment_table_type];
-                    if (![model.state isEqualToString:@"2"]) {
-                        if (requestType==1) {
-                            [_dataArray addObjectToArray:model headOrFinally:NO];
-                        }else{
-                            [_dataArray addObjectToArray:model headOrFinally:YES];
-                        }
-                    }
+                    _literID = model.literID;
                 }
-//                _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
-                [_tableView reloadData];
-                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"数据加载完成" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alter show];
+                if (requestType==-1) {
+                    [_dataArray removeAllObjects];
+                    _dataArray = [[FMDatabaseOP shareInstance]selectFromCommentTableWithliterId:_literID Start:0 recordMaxCount:MAX_COUNT+_dataArray.count];
+                }else if(requestType==1){
+                    [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromCommentTableWithliterId:_literID Start:_dataArray.count recordMaxCount:MAX_COUNT]];
+                }
             }
-        }
-    } failed:^(NSError *error) {
-        //            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //            [alter show];
-        if (requestType==-1) {
-            if (_dataArray.count==0) {
-                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT tableType:comment_table_type];
-                [_tableView reloadData];
-            }
-        }else if(requestType==1){
-            [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:comment_table_type]];
             [_tableView reloadData];
         }
-        
+    } failed:^(NSError *error) {
+        if (requestType==-1) {
+            if (_dataArray.count==0) {
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromCommentTableWithliterId:_literID Start:0 recordMaxCount:MAX_COUNT];
+            }
+        }else if(requestType==1){
+            [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromCommentTableWithliterId:_literID Start:_dataArray.count recordMaxCount:MAX_COUNT]];
+        }
+        [_tableView reloadData];
     }];
 }
 
@@ -217,7 +211,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.backgroundColor = [UIColor clearColor];
         }
-        [cell setStatusWithTitle:self.model.title content:self.model.content andHeight:self.model.contentSize.height];
+        [cell setStatus:self.model];
         return cell;
     }else{
         OrderCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier2];
@@ -236,7 +230,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return self.model.contentSize.height+60;
+        return self.model.contentSize.height+50+self.model.titleSize.height;
     }
     CommentModel *model = _dataArray[indexPath.row-1];
     return model.commentContentSize.height+60;

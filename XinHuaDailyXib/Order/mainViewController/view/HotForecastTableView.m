@@ -101,10 +101,10 @@
         if(jsonArray.count!=0){
             for (NSDictionary *dic in jsonArray)
             {
-//                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
-//                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:hotforecast_table_type];
-//                    continue;
-//                }
+                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:hotforecast_table_type];
+                    continue;
+                }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
                 model.type = 1;
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
@@ -117,13 +117,19 @@
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
                 model.state = [[dic objectForKey:@"state"]  URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:hotforecast_table_type];
-                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
-                    if (requestType==1) {
-                        [_dataArray addObjectToArray:model headOrFinally:NO];
-                    }else{
-                        [_dataArray addObjectToArray:model headOrFinally:YES];
-                    }
-                }
+//                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
+//                    if (requestType==1) {
+//                        [_dataArray addObjectToArray:model headOrFinally:NO];
+//                    }else{
+//                        [_dataArray addObjectToArray:model headOrFinally:YES];
+//                    }
+//                }
+            }
+            if (requestType==-1) {
+                [_dataArray removeAllObjects];
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT+_dataArray.count tableType:hotforecast_table_type];
+            }else if(requestType==1){
+                [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:hotforecast_table_type]];
             }
             _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
             [_tableView reloadData];
@@ -166,7 +172,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HotForecastModel *model = _dataArray[indexPath.row];
-    return model.contentSize.height+90;
+    return model.contentSize.height+70+model.titleSize.height;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -174,7 +180,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return 20;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {

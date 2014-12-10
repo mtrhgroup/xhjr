@@ -27,7 +27,7 @@
 #import "EveryoneChooseTableView.h"
 #import "MyChooseView.h"
 
-@interface OrderViewController ()<UIScrollViewDelegate,GetMyChooseInputDelegate,ASIHTTPRequestDelegate>
+@interface OrderViewController ()<UIScrollViewDelegate,ASIHTTPRequestDelegate>
 @end
 
 @implementation OrderViewController
@@ -165,7 +165,6 @@
     [_bottomScrollView addSubview:arrow];
     
     MyChooseView *myChoose = [[MyChooseView alloc]initWithFrame:CGRectMake(VIEWCONTROLLERWIDTH*3, 0, VIEWCONTROLLERWIDTH, _bottomScrollView.frame.size.height)];
-    myChoose.delegate = self;
     [_bottomScrollView addSubview:myChoose];
     //    UIView *my = [UIView alloc]initWithFrame:<#(CGRect)#>
     [self setTextColorWithOldState:0 newState:0];
@@ -213,23 +212,6 @@
         }];
     }
     [self.view endEditing:YES];
-}
-
-- (void)getInputTitle:(NSString *)title andContent:(NSString *)content
-{
-    NSString *requestString = [NSString stringWithFormat:@"Common_SetLiterMemo.ashx"];
-    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:@"12313123",@"imei", APPID,@"appid",title,@"title",content,@"content",@"MRCJ_1860119665",@"sn",nil];
-    
-    [[XHRequest shareInstance]POST_Path:requestString params:postDic completed:^(id JSON, NSString *stringData) {
-        NSDictionary *jsonDict = [stringData JSONValue];
-            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:[jsonDict[@"error_title"]URLDecodedString] message:[jsonDict[@"error"]URLDecodedString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            alter.delegate = self;
-            [alter show];
-    } failed:^(NSError *error) {
-        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alter show];
-    }];
-
 }
 
 - (NSString*)getCurrentTime

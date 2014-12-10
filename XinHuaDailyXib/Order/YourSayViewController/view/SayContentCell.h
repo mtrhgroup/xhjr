@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CommentModel.h"
+#import "HotForecastModel.h"
 
 @interface SayContentCell : UITableViewCell
--(void)setStatusWithTitle:(NSString*)title content:(NSString*)content andHeight:(CGFloat)contentHeight;
+-(void)setStatus:(HotForecastModel*)model;
 @end

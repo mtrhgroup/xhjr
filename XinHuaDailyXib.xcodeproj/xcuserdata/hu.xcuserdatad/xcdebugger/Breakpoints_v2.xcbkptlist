@@ -9,22 +9,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/Order/mainViewController/view/AttentionTableViewCell.m"
-            timestampString = "439811645.900045"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
-            landmarkName = "-buttonOnClick:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/OceanInfo/NavigationController.m"
             timestampString = "439813747.617448"
             startingColumnNumber = "9223372036854775807"
@@ -89,29 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/Order/XHDataBase/FMDatabaseOP.m"
-            timestampString = "439816282.9013"
+            filePath = "XinHuaDailyXib/Order/mainViewController/view/EveryoneChooseTableView.m"
+            timestampString = "439885781.873462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
-            landmarkName = "-selectFromDBWithStart:recordMaxCount:tableType:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/Order/YourSayViewController/data/CommentModel.m"
-            timestampString = "439870110.390662"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "-setCommentContent:"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-requestData:andRequestType:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

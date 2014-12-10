@@ -8,12 +8,16 @@
 
 #import "MyChooseView.h"
 #import "UIColor+Hex.h"
+#import "XHRequest.h"
+#import "NSString+SBJSON.h"
 
 @interface MyChooseView ()<UITextFieldDelegate,UITextViewDelegate>
 {
     NSString *titleString;
     NSString *contentString;
     UILabel *contentHint;
+    UITextField *titleTextField;
+    UITextView *contentTextView;
 }
 @end
 @implementation MyChooseView
@@ -37,7 +41,7 @@
     titleView.layer.cornerRadius = 5;
     [self addSubview:titleView];
     
-    UITextField *titleTextField = [[UITextField alloc]initWithFrame:CGRectMake(15, 10, titleView.frame.size.width-20, 30)];
+    titleTextField = [[UITextField alloc]initWithFrame:CGRectMake(15, 10, titleView.frame.size.width-20, 30)];
     titleTextField.placeholder = @"标题";
     titleTextField.backgroundColor = [UIColor clearColor];
     titleTextField.font = [UIFont systemFontOfSize:15];
@@ -58,7 +62,7 @@
     contentHint.text = @"请输入正文";
     [contentView addSubview:contentHint];
     
-    UITextView *contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(10,5, contentView.frame.size.width-10, contentView.frame.size.height-20)];
+    contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(10,5, contentView.frame.size.width-10, contentView.frame.size.height-20)];
     contentTextView.delegate = self;
     contentTextView.backgroundColor = [UIColor clearColor];
 //    contentTextView.p
@@ -82,7 +86,20 @@
 - (void)buttonClick:(UIButton*)sender
 {
     [self endEditing:YES];
-    [self.delegate getInputTitle:titleString andContent:contentString];
+    NSString *requestString = [NSString stringWithFormat:@"Common_SetLiterMemo.ashx"];
+    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:@"12313123",@"imei", APPID,@"appid",titleString,@"title",contentString,@"content",@"MRCJ_1860119665",@"sn",nil];
+    
+    [[XHRequest shareInstance]POST_Path:requestString params:postDic completed:^(id JSON, NSString *stringData) {
+        titleTextField.text = @"";
+        contentTextView.text = @"";
+        contentHint.hidden = NO;
+        NSDictionary *jsonDict = [stringData JSONValue];
+        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:[jsonDict[@"error_title"]URLDecodedString] message:[jsonDict[@"error"]URLDecodedString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alter show];
+    } failed:^(NSError *error) {
+        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alter show];
+    }];
 }
 
 #pragma -
@@ -105,7 +122,7 @@
     if (textView.text.length == 0) {
         contentHint.text = @"请填写正文内容...";
     }else{
-        contentHint.text = @"";
+        contentHint.hidden = YES;
     }
 }
 

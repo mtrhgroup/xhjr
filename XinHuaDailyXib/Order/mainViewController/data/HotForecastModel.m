@@ -14,16 +14,21 @@
     if (_title != title) {
         _title = title;
         // 完整显示个性签名的控件的宽高
-        float wight = 185;
+        float wight ;
+        if (_type==1) {
+            wight = 185;
+        }
         if(_type == 2)
         {
             wight = 215;
+        }else{
+            wight = 250;
         }
         
         if (!SYSTEM_VERSION) {
-            _titleSize = [_title sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(wight, MAXFLOAT)];
+            _titleSize = [_title sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(wight, MAXFLOAT)];
         }else{
-            _titleSize= [_title boundingRectWithSize:CGSizeMake(wight, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18]} context:nil].size;
+            _titleSize= [_title boundingRectWithSize:CGSizeMake(wight, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20]} context:nil].size;
         }
     }
 }
@@ -33,10 +38,15 @@
     if (_content != content) {
         _content = content;
         // 完整显示个性签名的控件的宽高
-        float wight = 185;
+        float wight ;
+        if (_type==1) {
+            wight = 185;
+        }
         if(_type == 2)
         {
             wight = 215;
+        }else{
+            wight = 250;
         }
         
         if (!SYSTEM_VERSION) {

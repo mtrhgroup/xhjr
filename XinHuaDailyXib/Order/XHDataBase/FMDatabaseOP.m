@@ -244,16 +244,16 @@ static FMDatabaseOP * instance = nil;
     switch (table_type) {
         case hotforecast_table_type:
             current_date = [self getCurrentTime];
-            sql = @"select * from hotforecast_table where state!=2 and notice_date>'%@' order by notice_date desc, create_at desc limit %d,%d";
+            sql = @"select * from hotforecast_table where state!='2' and notice_date>'%@' order by notice_date desc, create_at desc limit %d,%d";
             type = 1;
             break;
         case focus_table_type:
             current_date = [self getCurrentTime];
-            sql = @"select * from focus_table where state!=2 and notice_date>'%@' order by focus_count desc, create_at desc limit %d,%d";
+            sql = @"select * from focus_table where state!='2' and notice_date>'%@' order by focus_count desc, create_at desc limit %d,%d";
             type = 2;
             break;
         case yousay_table_type:
-            sql = @"select * from yousay_table where state!=2%@ order by create_at desc limit %d,%d";
+            sql = @"select * from yousay_table where state!='2'%@ order by create_at desc limit %d,%d";
             break;
     }
     

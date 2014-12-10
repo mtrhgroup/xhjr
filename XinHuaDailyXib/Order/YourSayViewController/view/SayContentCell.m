@@ -30,6 +30,7 @@
 {
     _title = [[UILabel alloc]init];
     _title.font = [UIFont systemFontOfSize:20];
+    _title.numberOfLines =0;
     _title.textColor = [UIColor colorWithHexString:@"#343434"];
     _title.backgroundColor = [UIColor clearColor];
     [self addSubview:_title];
@@ -43,15 +44,15 @@
     [self addSubview:_content];
 }
 
--(void)setStatusWithTitle:(NSString*)title content:(NSString*)content andHeight:(CGFloat)contentHeight
+-(void)setStatus:(HotForecastModel*)model
 {
-    _title.frame = CGRectMake(10, 13, RIGHTVIEWWIGHT-20, 20);
-    _title.text = title;
+    _title.frame = CGRectMake(10, 13, RIGHTVIEWWIGHT-20, model.titleSize.height);
+    _title.text = model.title;
     
-    _content.frame = CGRectMake(_title.frame.origin.x+7, _title.frame.origin.y+_title.frame.size.height+15, _title.frame.size.width-14,contentHeight);
-    _content.text = [NSString stringWithFormat:@"    %@",content];
+    _content.frame = CGRectMake(_title.frame.origin.x+7, _title.frame.origin.y+_title.frame.size.height+15, _title.frame.size.width-14,model.contentSize.height);
+    _content.text = [NSString stringWithFormat:@"    %@",model.content];
     
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(9, contentHeight+59, RIGHTVIEWWIGHT-18, 1)];
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(9, model.contentSize.height+49+model.titleSize.height, RIGHTVIEWWIGHT-18, 1)];
     line.backgroundColor = [UIColor colorWithHexString:@"#c7c7c9"];
     [self addSubview:line];
 }

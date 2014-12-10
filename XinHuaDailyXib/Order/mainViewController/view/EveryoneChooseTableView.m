@@ -113,14 +113,21 @@
                 model.creatTime = [[dic objectForKey:@"created_at"] URLDecodedString];
                 model.focus_count = [[dic objectForKey:@"focus_count"] URLDecodedString];
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
+                model.state = [[dic objectForKey:@"state"] URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:yousay_table_type];
-                if (![model.state isEqualToString:@"2"]) {
-                    if (requestType==1) {
-                        [_dataArray addObjectToArray:model headOrFinally:NO];
-                    }else{
-                        [_dataArray addObjectToArray:model headOrFinally:YES];
-                    }
-                }
+//                if (![model.state isEqualToString:@"2"]) {
+//                    if (requestType==1) {
+//                        [_dataArray addObjectToArray:model headOrFinally:NO];
+//                    }else{
+//                        [_dataArray addObjectToArray:model headOrFinally:YES];
+//                    }
+//                }
+            }
+            if (requestType==-1) {
+                [_dataArray removeAllObjects];
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT+_dataArray.count tableType:yousay_table_type];
+            }else if(requestType==1){
+                [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:yousay_table_type]];
             }
             _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
             [_tableView reloadData];

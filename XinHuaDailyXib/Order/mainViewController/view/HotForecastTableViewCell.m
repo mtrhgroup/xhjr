@@ -8,7 +8,7 @@
 #define BUTTONFRAME 50
 //字体大小
 #define HotForecastTableViewCellTimeFontSize 12
-#define HotForecastTableViewCellTitleFontSize 18
+#define HotForecastTableViewCellTitleFontSize 20
 #define HotForecastTableViewCellContentFontSize 15
 #define HotForecastTableViewCellFromHintFontSize 13
 #define CONTENTWIDTH 185
@@ -68,6 +68,7 @@
     _titlelabel = [[UILabel alloc]init];
     _titlelabel.font = [UIFont systemFontOfSize:HotForecastTableViewCellTitleFontSize];
     _titlelabel.textColor = [UIColor colorWithHexString:@"#323232"];
+    _titlelabel.numberOfLines = 0;
     _titlelabel.backgroundColor = [UIColor clearColor];
     [self addSubview:_titlelabel];
     
@@ -122,6 +123,7 @@
     [_lookButton setTitle:@"我想看" forState:UIControlStateNormal];
     _lookButton.layer.masksToBounds = YES;
     _lookButton.layer.cornerRadius = 3.0;
+    _lookButton.tag=1;
     //    sayButton setBackgroundImage:<#(UIImage *)#> forState:<#(UIControlState)#>
     _lookButton.backgroundColor = [UIColor colorWithHexString:@"#1063c9"];
     _lookButton.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -137,11 +139,11 @@
     NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
     _timeLabel.text = [NSString stringWithFormat:@"%@月%@日",timeArray[1],timeArray[2]];
     
-    _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width, _timeLabel.frame.origin.y-5, 20, 20);
+    _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width, 0, 20, 20);
     
-    _chrononLine.frame = CGRectMake(_chronon.frame.origin.x+9.7, _chronon.frame.origin.y+_chronon.frame.size.height, 1, model.contentSize.height+108-_chronon.frame.origin.y-_chronon.frame.size.height-18);
-
-    _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+5, _chronon.frame.origin.y, CONTENTWIDTH, 20);
+    _chrononLine.frame = CGRectMake(_chronon.frame.origin.x+9.7, _chronon.frame.origin.y+_chronon.frame.size.height, 1, model.contentSize.height+50+model.titleSize.height);
+    
+    _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+5, -1, CONTENTWIDTH, model.titleSize.height);
     _titlelabel.text = model.title;
     
     _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 15);
@@ -161,6 +163,11 @@
     _lookButton.frame = CGRectMake(RIGHTVIEWWIGHT-BUTTONFRAME-10, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     
     _sayButton.frame = CGRectMake(RIGHTVIEWWIGHT-2*BUTTONFRAME-15, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
+    if (_lookButton.tag==1) {
+        _lookButton.backgroundColor = [UIColor colorWithHexString:@"#1063c9"];
+    }else{
+        _lookButton.backgroundColor = [UIColor colorWithHexString:@"#A0A0A0"];
+    }
     _model = model;
     
 }
@@ -173,7 +180,7 @@
         you.model = _model;
         [self.nav pushViewController:you animated:YES];
     }else{
-        if (sender.hidden) {
+        if (_lookButton.tag==2) {
             return;
         }
         NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:UUID,@"imei",_model.ID,@"mid",nil];
@@ -182,7 +189,8 @@
             UIAlertView *alter = [[UIAlertView alloc] initWithTitle:[jsonDict[@"error_title"]URLDecodedString] message:[jsonDict[@"error"]URLDecodedString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             alter.delegate = self;
             [alter show];
-            sender.hidden = YES;
+            _lookButton.tag=2;
+            _lookButton.backgroundColor = [UIColor colorWithHexString:@"#A0A0A0"];
         } failed:^(NSError *error) {
             UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alter show];
