@@ -10,10 +10,11 @@
 #import "UIColor+Hex.h"
 #import "SayContentCell.h"
 #import "CommentView.h"
-#import "ASIFormDataRequest.h"
+#import "XHRequest.h"
 #import "NSString+Addtions.h"
+#import "Deviceinfo.h"
 
-@interface CommentViewController ()<UITextViewDelegate,ASIHTTPRequestDelegate,UIAlertViewDelegate>
+@interface CommentViewController ()<UITextViewDelegate,UIAlertViewDelegate>
 {
     UILabel *contentHint;
     NSString *contentString;
@@ -85,34 +86,25 @@
         return;
     }
 //    NSString *sn = [[NSUserDefaults standardUserDefaults]objectForKey:@"SN"];
-    NSString *requestString = [NSString stringWithFormat:@"http://mis.xinhuanet.com/SXTV2/Mobile/Interface/Common_SetLiterMemoComment.ashx"];
-    NSURL *url = [NSURL URLWithString:requestString];
-    ASIFormDataRequest *request=[ASIFormDataRequest requestWithURL:url];
-    [request setPostValue:UUID forKey:@"imei"];
-    [request setPostValue:@"MRCJ_18601196685"   forKey:@"sn"];
-    [request setPostValue:self.commentID    forKey:@"mid"];
-    [request setPostValue:contentString    forKey:@"content"];
-    [request setPostValue:@"MRCJ"    forKey:@"appid"];
+//    NSString *requestString = [NSString stringWithFormat:@"http://mis.xinhuanet.com/SXTV2/Mobile/Interface/Common_SetLiterMemoComment.ashx"];
+//    NSURL *url = [NSURL URLWithString:requestString];
+//    ASIFormDataRequest *request=[ASIFormDataRequest requestWithURL:url];
+//    [request setPostValue:UUID forKey:@"imei"];
+//    [request setPostValue:@"MRCJ_18601196685"   forKey:@"sn"];
+//    [request setPostValue:self.commentID    forKey:@"mid"];
+//    [request setPostValue:contentString    forKey:@"content"];
+//    [request setPostValue:@"MRCJ"    forKey:@"appid"];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[DeviceInfo udid],@"imei", APPID,@"appid",self.commentID ,@"mid",contentString,@"content",AppDelegate.user_defaults.sn,@"sn",nil];
+    [[XHRequest shareInstance]POST_Path:@"Common_SetLiterMemoComment.ashx" params:dic completed:^(id JSON, NSString *stringData) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } failed:^(NSError *error) {
+        
+    }];
     
-    NSLog(@"requestString=%@?imei=%@&sn=MRCJ_18601196685&mid=%@&content=%@&appid=MRCJ",requestString,UUID,self.commentID,contentString);
+//    NSLog(@"requestString=%@?imei=%@&sn=MRCJ_18601196685&mid=%@&content=%@&appid=MRCJ",requestString,UUID,self.commentID,contentString);
     
-    [request setDelegate:self];
-    [request startAsynchronous];
-}
-
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    //解析网络json解析
-    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:NSJSONReadingMutableContainers error:nil];
-        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:[jsonDict[@"error"]URLDecodedString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alter.delegate = self;
-        [alter show];
- }
-
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alter show];
+//    [request setDelegate:self];
+//    [request startAsynchronous];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

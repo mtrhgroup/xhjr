@@ -19,7 +19,14 @@
 @property (nonatomic,copy)NSString *participate;
 @property (nonatomic,copy)NSString *focus_count;
 @property (nonatomic,copy)NSString *comment_count;
-@property (nonatomic,assign)int state;
+@property (nonatomic,copy)NSString *state;
+@property (nonatomic,assign)int type;
+@property BOOL isShow;
+@property float heightforone;
 
-@property (nonatomic,assign,readonly)CGSize contentSize;
+-(float)getContenHeight;
+
+@property (nonatomic,assign,readonly)CGSize titleSize;
+@property (nonatomic,assign)CGSize contentSize;
+- (NSComparisonResult)compare: (HotForecastModel *)otherModel;
 @end

@@ -9329,11 +9329,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/OceanInfo/VerifyCodeSubmitViewController.m"
-            timestampString = "438843191.370269"
+            timestampString = "439884187.397209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "-bindPhoneNumber"
             landmarkType = "5">
             <Locations>
@@ -9423,11 +9423,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XinHuaDailyXib/Money/VerifyCodeSubmitViewController.m"
-            timestampString = "439360948.201987"
+            timestampString = "439884187.397209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "-bindPhoneNumber"
             landmarkType = "5">
          </BreakpointContent>
@@ -9465,18 +9465,28 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/FirstDailyViewController.m"
-            timestampString = "439868181.873597"
+            filePath = "XinHuaDailyXib/Order/mainViewController/view/HotForecastTableViewCell.m"
+            timestampString = "439974670.274032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "-viewWillAppear:"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "-setStatus:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -9486,29 +9496,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/FirstDailyViewController.m"
-            timestampString = "439868182.9535"
+            filePath = "XinHuaDailyXib/Order/CommentViewController/CommentViewController.m"
+            timestampString = "439976913.641097"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-viewWillAppear:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "XinHuaDailyXib/dailyFinancialNews/FirstDailyViewController.m"
-            timestampString = "439868197.353508"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-viewWillAppear:"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "-sendButtonClick:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

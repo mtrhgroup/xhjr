@@ -160,6 +160,10 @@
 -(void)viewDidAppear:(BOOL)animated{
     _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -101,11 +101,12 @@
         if(jsonArray.count!=0){
             for (NSDictionary *dic in jsonArray)
             {
-                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
-                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:focus_table_type];
-                    continue;
-                }
+//                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+//                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:focus_table_type];
+//                    continue;
+//                }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
+                model.type = 2;
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
                 model.user = [[dic objectForKey:@"user"] URLDecodedString];
                 model.content = [[dic objectForKey:@"content"] URLDecodedString];
@@ -114,21 +115,25 @@
                 model.creatTime = [[dic objectForKey:@"created_at"] URLDecodedString];
                 model.focus_count = [[dic objectForKey:@"focus_count"] URLDecodedString];
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
-                model.state = [[[dic objectForKey:@"state"] URLDecodedString] intValue];
+                model.state = [[[dic objectForKey:@"state"] URLDecodedString] URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:focus_table_type];
-                if (requestType==1) {
-                    [_dataArray addObjectToArray:model headOrFinally:NO];
-                }else{
-                    [_dataArray addObjectToArray:model headOrFinally:YES];
-                }
+//                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
+//                    if (requestType==1) {
+//                        [_dataArray addObjectToArray:model headOrFinally:NO];
+//                    }else{
+//                        [_dataArray addObjectToArray:model headOrFinally:YES];
+//                    }
+//                }
+            }
+            if (requestType==-1) {
+                [_dataArray removeAllObjects];
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT+_dataArray.count tableType:focus_table_type];
+            }else if(requestType==1){
+                [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:focus_table_type]];
             }
             [_tableView reloadData];
-//            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"数据加载完成" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//            [alter show];
         }
     } failed:^(NSError *error) {
-//        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alter show];
         if (requestType==-1) {
             if (_dataArray.count==0) {
                 _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT tableType:focus_table_type];
@@ -157,6 +162,7 @@
         cell.backgroundColor = [UIColor clearColor];
     }
     HotForecastModel *model = _dataArray[indexPath.row];
+    cell.tableview = tableView;
     cell.nav = self.nav;
     [cell setStatus:model];
     return cell;
@@ -165,7 +171,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HotForecastModel *model = _dataArray[indexPath.row];
-    return model.contentSize.height+90;
+    return [model getContenHeight]+60+model.titleSize.height;
 }
 
 - (NSString*)getCurrentTime
@@ -175,5 +181,27 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *todayTime = [formatter stringFromDate:today];
     return todayTime;
+}
+-(BOOL)compareWithCurrentTime:(NSString*)timeStr
+{
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:DATEFORMAT];
+    
+    NSDate *d=[formater dateFromString:timeStr];
+    
+    NSTimeInterval late=[d timeIntervalSince1970]*1;
+    
+    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval now=[dat timeIntervalSince1970]*1;
+    
+    NSTimeInterval cha=now-late;
+    if (cha>0) {
+        return NO;
+    }
+    return YES;
+}
+- (void)reloadData
+{
+    [_tableView reloadData];
 }
 @end

@@ -10,4 +10,5 @@
 
 @interface AttentionTableView : UIView
 @property (nonatomic,strong)UINavigationController *nav;
+- (void)reloadData;
 @end

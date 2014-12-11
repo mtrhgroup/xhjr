@@ -10,4 +10,5 @@
 
 @interface EveryoneChooseTableView : UIView
 @property (nonatomic,strong)UINavigationController *nav;
+-(void)refreshTableView;
 @end

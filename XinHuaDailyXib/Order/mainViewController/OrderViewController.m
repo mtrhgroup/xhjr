@@ -27,7 +27,7 @@
 #import "EveryoneChooseTableView.h"
 #import "MyChooseView.h"
 
-@interface OrderViewController ()<UIScrollViewDelegate,GetMyChooseInputDelegate,ASIHTTPRequestDelegate>
+@interface OrderViewController ()<UIScrollViewDelegate,ASIHTTPRequestDelegate,SendSuccessDelegate>
 @end
 
 @implementation OrderViewController
@@ -56,6 +56,9 @@
     BOOL ishotRefresh;
     BOOL isattentionRefresh;
     BOOL iseveryoneRefresh;
+    HotForecastTableView *hot;
+    AttentionTableView *attention;
+    EveryoneChooseTableView *every;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -80,9 +83,19 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"reloadData" object:nil];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:YES];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"reloadData" object:nil];
+}
 
+- (void)reloadData{
+    [hot reloadData];
+    [attention reloadData];
+}
 
 - (void)setHeadView
 {
@@ -146,15 +159,15 @@
 
 - (void)setDownView
 {
-    HotForecastTableView *hot = [[HotForecastTableView alloc]initWithFrame:CGRectMake(0, 0, _bottomScrollView.frame.size.width, _bottomScrollView.frame.size.height)];
+    hot = [[HotForecastTableView alloc]initWithFrame:CGRectMake(0, 0, _bottomScrollView.frame.size.width, _bottomScrollView.frame.size.height)];
     hot.nav = self.navigationController;
     [_bottomScrollView addSubview:hot];
     
-    AttentionTableView *attention = [[AttentionTableView alloc]initWithFrame:CGRectMake(_bottomScrollView.frame.size.width, 0, _bottomScrollView.frame.size.width, _bottomScrollView.frame.size.height)];
+    attention = [[AttentionTableView alloc]initWithFrame:CGRectMake(_bottomScrollView.frame.size.width, 0, _bottomScrollView.frame.size.width, _bottomScrollView.frame.size.height)];
     attention.nav = self.navigationController;
     [_bottomScrollView addSubview:attention];
     
-    EveryoneChooseTableView *every = [[EveryoneChooseTableView alloc]initWithFrame:CGRectMake(_bottomScrollView.frame.size.width*2, 0, _bottomScrollView.frame.size.width, _bottomScrollView.frame.size.height)];
+    every = [[EveryoneChooseTableView alloc]initWithFrame:CGRectMake(_bottomScrollView.frame.size.width*2, 0, _bottomScrollView.frame.size.width, _bottomScrollView.frame.size.height)];
     every.nav = self.navigationController;
     [_bottomScrollView addSubview:every];
     
@@ -215,30 +228,23 @@
     [self.view endEditing:YES];
 }
 
-- (void)getInputTitle:(NSString *)title andContent:(NSString *)content
-{
-    NSString *requestString = [NSString stringWithFormat:@"Common_SetLiterMemo.ashx"];
-    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:@"12313123",@"imei", APPID,@"appid",title,@"title",content,@"content",@"MRCJ_1860119665",@"sn",nil];
-    
-    [[XHRequest shareInstance]POST_Path:requestString params:postDic completed:^(id JSON, NSString *stringData) {
-        NSDictionary *jsonDict = [stringData JSONValue];
-            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:[jsonDict[@"error_title"]URLDecodedString] message:[jsonDict[@"error"]URLDecodedString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            alter.delegate = self;
-            [alter show];
-    } failed:^(NSError *error) {
-        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络异常" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alter show];
-    }];
-
-}
-
 - (NSString*)getCurrentTime
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter  alloc ]  init ];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:TOFORMAT];
     NSString *todayTime = [formatter stringFromDate:today];
     return todayTime;
+}
+
+- (void)sendSuccess{
+    [_bottomScrollView scrollRectToVisible:CGRectMake(2*VIEWCONTROLLERWIDTH,0,VIEWCONTROLLERWIDTH,VIEWCONTROLLERHEIGHT-104) animated:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        [self setTextColorWithOldState:focusNum newState:2];
+        focusNum = 2;
+        _animationView.frame = CGRectMake(2*VIEWCONTROLLERWIDTH/4, 37,_topView.frame.size.width/4, 3);
+    }];
+    [every refreshTableView];
 }
 
 - (void)didReceiveMemoryWarning {

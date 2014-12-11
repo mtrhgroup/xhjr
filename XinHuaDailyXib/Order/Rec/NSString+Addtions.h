@@ -14,4 +14,5 @@
 - (NSString*)URLDecodedString;
 -(NSString *)getFormatTimewithformat:(NSString *)format toformat:(NSString *)toformat;
 -(NSString *)getToFormatTime;
+-(NSString *)forNowTime;
 @end

@@ -20,4 +20,5 @@ typedef NS_ENUM(NSInteger, ItemType)
 @property(nonatomic,strong)UIViewController *vc;
 @property(nonatomic,strong)NSArray *childItem;
 @property(nonatomic,assign)BOOL father_is_open;
+@property(nonatomic,assign)BOOL is_selected;
 @end

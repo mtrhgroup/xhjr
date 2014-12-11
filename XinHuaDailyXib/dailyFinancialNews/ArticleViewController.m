@@ -462,6 +462,7 @@ BOOL isFirst=YES;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [self unregNotification];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
     
 }
 -(void)changeCommentsNumber{

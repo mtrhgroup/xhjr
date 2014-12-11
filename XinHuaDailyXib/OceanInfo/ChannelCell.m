@@ -54,6 +54,10 @@
     }
     return self;
 }
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated{
+    [super setSelected:selected animated:animated];
+}
 -(void)setMenu_item:(MenuItem *)menu_item{
     _menu_item=menu_item;
     children_view.hidden=YES;
@@ -71,13 +75,16 @@
         title_lbl.textColor=[UIColor whiteColor];
         self.accessoryView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_more_default.png"]];
     }else if(menu_item.type==FatherItem&&menu_item.father_is_open==YES){
-        title_lbl.textColor=[UIColor yellowColor];
+        title_lbl.textColor=[UIColor whiteColor];
         self.accessoryView=nil;
         close_icon.hidden=NO;
         close_btn.hidden=NO;
         children_view.frame=CGRectMake(10, 44, 210, [menu_item.childItem count]/2*48);
         children_view.hidden=NO;
         self.backgroundColor=HightLight_BG_COLOR;
+    }
+    if(menu_item.is_selected){
+        title_lbl.textColor=[UIColor yellowColor];
     }
 }
 -(void)closeFather{

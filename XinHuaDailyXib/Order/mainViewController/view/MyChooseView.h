@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol GetMyChooseInputDelegate <NSObject>
-
-- (void)getInputTitle:(NSString*)title andContent:(NSString*)content;
-
+@protocol SendSuccessDelegate <NSObject>
+- (void)sendSuccess;
 @end
 @interface MyChooseView : UIView
-@property (nonatomic,assign)id<GetMyChooseInputDelegate> delegate;
+@property(nonatomic,assign)id<SendSuccessDelegate> delegate;
 @end

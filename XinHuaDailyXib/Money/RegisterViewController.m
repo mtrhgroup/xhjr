@@ -65,6 +65,8 @@
     _phone_number_input.keyboardType=UIKeyboardTypePhonePad;
     _phone_number_input.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [_phone_number_input becomeFirstResponder];
+    _phone_number_input.leftView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
+    _phone_number_input.leftViewMode = UITextFieldViewModeAlways;
     _phone_number_input.layer.borderWidth = 1.0f;
     _phone_number_input.layer.borderColor = [[UIColor grayColor] CGColor];
     [_phone_number_input addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];

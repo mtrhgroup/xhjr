@@ -14,8 +14,9 @@
 @property (nonatomic,copy)NSString *commentContent;
 @property (nonatomic,copy)NSString *creatTime;
 @property (nonatomic,copy)NSString *literID;
-@property (nonatomic,assign)int state;
+@property (nonatomic,copy)NSString *state;
 
 @property (nonatomic,assign,readonly)CGSize commentContentSize;
 @property (nonatomic,copy,readonly)NSString *forNow;
+- (NSComparisonResult)compare: (CommentModel *)otherModel;
 @end

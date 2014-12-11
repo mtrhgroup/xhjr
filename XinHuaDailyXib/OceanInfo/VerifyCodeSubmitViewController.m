@@ -41,6 +41,8 @@
     _verify_code_input.keyboardType=UIKeyboardTypeNumberPad;
     _verify_code_input.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [_verify_code_input becomeFirstResponder];
+    _verify_code_input.leftView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
+    _verify_code_input.leftViewMode = UITextFieldViewModeAlways;
     _verify_code_input.layer.borderWidth = 1.0f;
     _verify_code_input.delegate=self;
     _verify_code_input.layer.borderColor = [[UIColor grayColor] CGColor];

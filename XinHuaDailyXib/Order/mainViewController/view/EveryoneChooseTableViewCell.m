@@ -37,6 +37,7 @@
     _titlelabel = [[UILabel alloc]init];
     _titlelabel.font = [UIFont systemFontOfSize:HotForecastTableViewCellTitleFontSize];
     _titlelabel.backgroundColor = [UIColor clearColor];
+    _titlelabel.numberOfLines = 0;
     [self addSubview:_titlelabel];
     
     _content = [[UILabel alloc]init];
@@ -64,24 +65,33 @@
 #pragma mark 设置控件长宽
 -(void)setStatus:(HotForecastModel *)model
 {
-    _titlelabel.frame = CGRectMake(10, 10, 260, 20);
+    _titlelabel.frame = CGRectMake(10, 10, 260, model.titleSize.height);
     _titlelabel.text = model.title;
     
-    _content.frame = CGRectMake(_titlelabel.frame.origin.x, _titlelabel.frame.origin.y+_titlelabel.frame.size.height+5, _titlelabel.frame.size.width,40);
+    _content.frame = CGRectMake(_titlelabel.frame.origin.x, _titlelabel.frame.origin.y+_titlelabel.frame.size.height+5, _titlelabel.frame.size.width,model.contentSize.height);
     _content.text = model.content;
 
 //    _fromHint.frame = CGRectMake(_content.frame.origin.x, _content.frame.origin.y+_content.frame.size.height+5, 45,12);
     
-    _fromLabel.frame = CGRectMake(_content.frame.origin.x, _content.frame.origin.y+_content.frame.size.height+5, 280/2-10,12);
-    _fromLabel.text = [NSString stringWithFormat:@"发起人: %@",model.user];
+    _fromLabel.frame = CGRectMake(_content.frame.origin.x, _content.frame.origin.y+_content.frame.size.height+5, RIGHTVIEWWIGHT/2-10,12);
+    _fromLabel.text = [NSString stringWithFormat:@"发起人: %@",[self getUserName:model.user]];
     
-//    _fromTimeHint.frame = CGRectMake(self.frame.size.width/2, _fromHint.frame.origin.y, 60,12);
-    
-    _fromTimeLabel.frame = CGRectMake(280/2, _fromLabel.frame.origin.y, self.frame.size.width/2-10,12);
-    NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
+    _fromTimeLabel.frame = CGRectMake(280/2, _fromLabel.frame.origin.y, RIGHTVIEWWIGHT/2-10,12);
+//    NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
 //    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
-    _fromTimeLabel.text = [NSString stringWithFormat:@"发起时间: %@/%@/%@",timeArray[0],timeArray[1],timeArray[2]];
-    //    NSLog(@"%f",_fromTimeLabel.frame.origin.y+_fromTimeLabel.frame.size.height);
+//    _fromTimeLabel.text = [NSString stringWithFormat:@"发起时间: %@/%@/%@",timeArray[0],timeArray[1],timeArray[2]];
+    _fromTimeLabel.text = [model.creatTime forNowTime];;
+}
+
+- (NSMutableString*)getUserName:(NSString*)oldName
+{
+    NSArray *array = [oldName componentsSeparatedByString:@"_"];
+    if (array.count==1) {
+        return [NSMutableString stringWithString:@"匿名用户"];
+    }
+    NSMutableString * string = [[NSMutableString alloc]initWithString:array[1]];
+    [string replaceCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+    return string;
 }
 
 - (void)awakeFromNib {

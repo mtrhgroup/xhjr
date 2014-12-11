@@ -59,7 +59,7 @@
         [[self contentView] addSubview:summary_label];
         
         _movie_image_view=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"moviemaker.png"]];
-        _movie_image_view.frame=CGRectMake(self.bounds.size.width-30, (70-16)/2, 16, 16);
+        _movie_image_view.frame=CGRectMake(320-8-93/2-10, 40+35-10, 20, 20);
         _movie_image_view.hidden=YES;
         [[self contentView] addSubview:_movie_image_view];
         

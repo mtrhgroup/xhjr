@@ -9,4 +9,5 @@
 #import <UIKit/UIKit.h>
 @interface HotForecastTableView : UIView
 @property (nonatomic,strong)UINavigationController *nav;
+-(void)reloadData;
 @end

@@ -144,12 +144,13 @@
     about_item.type=Item;
     about_item.vc=[[AboutViewController alloc] init];
     [self.menu_items addObject:about_item];
-    
+    [self selectItemAtIndex:0];
     [self.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MenuItem *item= [self.menu_items objectAtIndex:indexPath.row];
+    [self selectItemAtIndex:indexPath.row];
     if(item.type==Item){
         NavigationController *nv=[[NavigationController alloc] initWithRootViewController:item.vc];
         [self presentViewController:nv animated:YES completion:nil];
@@ -163,6 +164,16 @@
     }
     [self.tableView reloadData];
     
+}
+-(void)selectItemAtIndex:(NSInteger)index{
+    for(int i=0;i<[self.menu_items count];i++){
+        MenuItem *item= [self.menu_items objectAtIndex:i];
+        if(i==index){
+            item.is_selected=YES;
+        }else{
+            item.is_selected=NO;
+        }
+    }
 }
 -(void)pushVC{
     

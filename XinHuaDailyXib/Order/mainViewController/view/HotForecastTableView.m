@@ -106,6 +106,7 @@
                     continue;
                 }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
+                model.type = 1;
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];
                 model.user = [[dic objectForKey:@"user"] URLDecodedString];
                 model.content = [[dic objectForKey:@"content"] URLDecodedString];
@@ -114,14 +115,23 @@
                 model.creatTime = [[dic objectForKey:@"created_at"] URLDecodedString];
                 model.focus_count = [[dic objectForKey:@"focus_count"] URLDecodedString];
                 model.comment_count = [[dic objectForKey:@"comment_count"] URLDecodedString];
-                model.state = [[[dic objectForKey:@"state"] URLDecodedString] intValue];
+                model.state = [[dic objectForKey:@"state"]  URLDecodedString];
                 [[FMDatabaseOP shareInstance] insertIntoDB:model table_type:hotforecast_table_type];
-                if (requestType==1) {
-                    [_dataArray addObjectToArray:model headOrFinally:NO];
-                }else{
-                    [_dataArray addObjectToArray:model headOrFinally:YES];
-                }
+//                if ([self compareWithCurrentTime:model.noticeTime] &&![model.state isEqualToString:@"2"]) {
+//                    if (requestType==1) {
+//                        [_dataArray addObjectToArray:model headOrFinally:NO];
+//                    }else{
+//                        [_dataArray addObjectToArray:model headOrFinally:YES];
+//                    }
+//                }
             }
+            if (requestType==-1) {
+                [_dataArray removeAllObjects];
+                _dataArray = [[FMDatabaseOP shareInstance]selectFromDBWithStart:0 recordMaxCount:MAX_COUNT+_dataArray.count tableType:hotforecast_table_type];
+            }else if(requestType==1){
+                [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:hotforecast_table_type]];
+            }
+            _dataArray = [[NSMutableArray alloc]initWithArray:[_dataArray sortedArrayUsingSelector:@selector(compare:)]];
             [_tableView reloadData];
         }
     } failed:^(NSError *error) {
@@ -152,7 +162,9 @@
         cell = [[HotForecastTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
+        
     }
+    cell.tableview = tableView;
     HotForecastModel *model = _dataArray[indexPath.row];
     cell.nav = self.nav;
     [cell setStatus:model];
@@ -162,7 +174,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HotForecastModel *model = _dataArray[indexPath.row];
-    return model.contentSize.height+90;
+    return [model getContenHeight]+70+model.titleSize.height;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -170,7 +182,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return 20;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -181,8 +193,30 @@
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter  alloc ]  init ];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [formatter setDateFormat:TOFORMAT];
     NSString *todayTime = [formatter stringFromDate:today];
     return todayTime;
+}
+-(BOOL)compareWithCurrentTime:(NSString*)timeStr
+{
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:DATEFORMAT];
+    
+    NSDate *d=[formater dateFromString:timeStr];
+    
+    NSTimeInterval late=[d timeIntervalSince1970]*1;
+    
+    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval now=[dat timeIntervalSince1970]*1;
+    
+    NSTimeInterval cha=now-late;
+    if (cha>0) {
+        return NO;
+    }
+    return YES;
+}
+- (void)reloadData
+{
+    [_tableView reloadData];
 }
 @end
