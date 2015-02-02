@@ -43,6 +43,8 @@
     [self.view addSubview:self.slideSwitchView];
     self.slideSwitchView.tabItemNormalColor = [SUNSlideSwitchView colorFromHexRGB:@"000000"];
     self.slideSwitchView.tabItemSelectedColor = [SUNSlideSwitchView colorFromHexRGB:@"ff0000"];
+    self.slideSwitchView.shadowImage = [[UIImage imageNamed:@"custom_tab_indicator.png"]
+                                                             stretchableImageWithLeftCapWidth:66.0f topCapHeight:0.0f];
     self.slideSwitchView.rigthSideButton = nil;
     [self rebuildUI];
 }

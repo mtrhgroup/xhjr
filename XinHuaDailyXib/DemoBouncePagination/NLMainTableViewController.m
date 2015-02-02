@@ -37,9 +37,6 @@
         
         [self.view addSubview:self.tableView];
     }
-   
-    // TODO: edgeInsetTop 要放到上层去设置
-    //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.isResponseToScroll = YES;
@@ -144,6 +141,5 @@
     } else {
     }
 }
-
 
 @end

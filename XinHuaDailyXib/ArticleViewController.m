@@ -12,6 +12,8 @@
 #import "RefreshTouchView.h"
 #import "AMBlurView.h"
 #import "FeedBackToEditorViewController.h"
+#import "UIPlaceHolderTextView.h"
+#import "UIButton+Bootstrap.h"
 @interface ArticleViewController (){
     Article *_article;
     Service *_service;
@@ -26,11 +28,17 @@
 @property(nonatomic,strong)PopupMenuView *popupMenuView;
 @property(nonatomic,strong)ZSYPopoverListView *fontAlertView;
 @property(nonatomic,strong)UIButton *comment_btn;
-@property(nonatomic,strong)UILabel *comment_number_label;
+@property(nonatomic,strong)UILabel *like_number_label;
 @property(nonatomic,strong)UIButton *collect_btn;
 @property(nonatomic,assign)BOOL isAD;
 @property(nonatomic,strong)Article *ad_article;
 @property (nonatomic,strong)AMBlurView *bottom_view;
+@property(nonatomic,strong)UIButton *like_btn;
+
+@property (nonatomic,strong) AMBlurView *blurView;
+@property(nonatomic,strong)UITextView *contentTV;
+@property(nonatomic,strong)UIButton *send_btn;
+@property(nonatomic,strong)UIButton *cancel_btn;
 @end
 
 @implementation ArticleViewController
@@ -39,10 +47,12 @@
 @synthesize fontAlertView=_fontAlertView;
 @synthesize isAD=_isAD;
 @synthesize comment_btn=_comment_btn;
-@synthesize comment_number_label=_comment_number_label;
+@synthesize like_number_label=_like_number_label;
 @synthesize collect_btn=_collect_btn;
 @synthesize bridge=_bridge;
 @synthesize ad_article=_ad_article;
+@synthesize like_btn=_like_btn;
+@synthesize channel_name=_channel_name;
 - (id)initWithAritcle:(Article *)article
 {
     self = [super init];
@@ -51,93 +61,15 @@
         _article=article;
         _isAD=NO;
         fonts=[NSArray arrayWithObjects:@"特大",@"较大",@"正常",@"较小",nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoStarted:) name:@"UIMovieViewPlaybackStateDidChangeNotification" object:nil];// 播放器即将播放通知
-        
-        
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(videoFinished:) name:@"UIMoviePlayerControllerWillExitFullscreenNotification" object:nil];// 播放器即将退出通知
         if(lessiOS7){
             offset=44;
         }else{
             offset=0;
         }
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFullScreen:) name:@"UIMoviePlayerControllerDidEnterFullscreenNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitFullScreen:) name:@"UIMoviePlayerControllerDidExitFullscreenNotification" object:nil];
     }
     return self;
 }
-- (void)videoStarted:(NSNotification *)notification {// 开始播放
-    
 
-    
-    
-}
-
-
-
-- (void)videoFinished:(NSNotification *)notification {//完成播放
-    
-    
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        
-        [invocation setSelector:selector];
-        
-        [invocation setTarget:[UIDevice currentDevice]];
-        
-        int val =UIInterfaceOrientationPortrait;
-        
-        [invocation setArgument:&val atIndex:2];
-        
-        [invocation invoke];
-        
-    }
-    
-    // NSLog(@"videoFinished %@", self.view.window.rootViewController.view);
-    
-    //
-    
-    // NSLog(@"a == %f", self.view.window.rootViewController.view.transform.a);
-    
-    // NSLog(@"b == %f", self.view.window.rootViewController.view.transform.b);
-    
-    // NSLog(@"c == %f", self.view.window.rootViewController.view.transform.c);
-    
-    // NSLog(@"d == %f", self.view.window.rootViewController.view.transform.d);
-    
-    // if (self.view.window.rootViewController.view.transform.c == 1 || self.view.window.rootViewController.view.transform.c == -1 ) {
-    
-    // CGAffineTransform transform;
-    
-    // //设置旋转度数
-    
-    // // transform = CGAffineTransformRotate(self.view.window.rootViewController.view.transform, M_PI / 2);
-    
-    // transform = CGAffineTransformIdentity;
-    
-    // [UIView beginAnimations:@"rotate" context:nil ];
-    
-    // [UIView setAnimationDuration:0.1];
-    
-    // [UIView setAnimationDelegate:self];
-    
-    // [self.view.window.rootViewController.view setTransform:transform];
-    
-    // [UIView commitAnimations];
-    
-    //
-    
-    // self.view.window.rootViewController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height );
-    
-    // }
-    
-    //
-    
-    // [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft animated:NO];
-    
-}
 -(id)initWithPushArticleID:(NSString *)articleID{
     self = [super init];
     if (self) {
@@ -157,12 +89,20 @@
 -(void)touchViewClicked{
     [self loadArticleContentFromNet];
 }
--(void)viewDidAppear:(BOOL)animated{
-    _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+-(void)viewWillAppear:(BOOL)animated{
+    _ad_article=[_service fetchADArticleFromDB];
+    if(_article.is_like){
+        _like_btn.enabled=NO;
+        _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+        [_like_btn setBackgroundImage:[UIImage imageNamed:@"button_wonderful_pressdown.png"] forState:UIControlStateNormal];
+    }
+    [self regNotification];
+    self.title=self.channel_name;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+    [self unregNotification];
+    
 }
 - (void)viewDidLoad
 {
@@ -200,20 +140,20 @@
     [self.fontAlertView setSelectedFontSize:AppDelegate.user_defaults.font_size];
     if(!self.isAD){
         UIView *like_view=[[UIView alloc] initWithFrame:CGRectMake(0,0,68,34)];
-        _comment_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
-        _comment_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
-        _comment_number_label.textAlignment=NSTextAlignmentRight;
-        _comment_number_label.textColor=[UIColor grayColor];
-        _comment_number_label.backgroundColor=[UIColor clearColor];
-        _comment_number_label.font = [UIFont fontWithName:@"Arial" size:10];
-        _comment_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
-        [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
-        [_comment_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
-        [like_view addSubview:_comment_btn];
-        [like_view addSubview:_comment_number_label];
+        _like_number_label=[[UILabel alloc]initWithFrame:CGRectMake(0, 10, 34, 24)];
+        _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+        _like_number_label.textAlignment=NSTextAlignmentRight;
+        _like_number_label.textColor=[UIColor grayColor];
+        _like_number_label.backgroundColor=[UIColor clearColor];
+        _like_number_label.font = [UIFont fontWithName:@"Arial" size:10];
+        _like_btn=[[UIButton alloc]initWithFrame:CGRectMake(34,0,34,34)];
+        [_like_btn setBackgroundImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
+        [_like_btn addTarget:self action:@selector(likeArticle) forControlEvents:UIControlEventTouchUpInside];
+        [like_view addSubview:_like_btn];
+        [like_view addSubview:_like_number_label];
         if(_article.is_like){
-            _comment_btn.enabled=NO;
-            [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
+            _like_btn.enabled=NO;
+            [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
         }
         UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         if(lessiOS7){
@@ -238,7 +178,7 @@
         [feedback_btn.layer setCornerRadius:10.0];
         [feedback_btn.layer setBorderWidth:0.2];
         feedback_btn.tintColor=[UIColor blackColor];
-        [feedback_btn addTarget:self action:@selector(feedback) forControlEvents:UIControlEventTouchUpInside];
+        [feedback_btn addTarget:self action:@selector(showEditCommentView) forControlEvents:UIControlEventTouchUpInside];
         [self.bottom_view addSubview:feedback_btn];
         
         UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34-34,5,34,34)];
@@ -256,6 +196,46 @@
         [self.bottom_view addSubview:_collect_btn];
     }
     isFirst=YES;
+    [self setBlurView:[AMBlurView new]];
+    [[self blurView] setFrame:CGRectMake(0,self.view.frame.size.height-180, self.view.bounds.size.width, 180)];
+    self.blurView.hidden=YES;
+    [self.view addSubview:[self blurView]];
+    
+    
+    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50, self.view.bounds.size.width-40, 120)];
+    // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
+    content.layer.cornerRadius = 10.0f;
+    [content setFont:[UIFont systemFontOfSize:17 ]];
+    content.layer.borderWidth = 0.2f;
+    content.backgroundColor=[UIColor clearColor];
+    content.layer.borderColor = [[UIColor grayColor] CGColor];
+    content.placeholder = @"写评论";
+    content.placeholderColor=[UIColor colorWithRed:150/255.0 green:150/255.0 blue:150/255.0 alpha:0.5];
+    content.delegate=self;
+    content.contentInset = UIEdgeInsetsMake(2,2,2,2);
+    self.contentTV=content;
+    [self.blurView addSubview:content];
+    //[self.contentTV becomeFirstResponder];
+    self.cancel_btn=[[UIButton alloc] initWithFrame:CGRectMake(20, 5, 100, 40)];
+    [self.cancel_btn primaryStyle];
+    [self.cancel_btn setTitle:@"取消" forState:UIControlStateNormal];
+    [self.cancel_btn addTarget:self action:@selector(hideEditCommentView) forControlEvents:UIControlEventTouchUpInside];
+    [self.blurView addSubview:self.cancel_btn];
+    self.send_btn=[[UIButton alloc] initWithFrame:CGRectMake(self.blurView.frame.size.width-100-20,5, 100, 40)];
+    [self.send_btn primaryStyle];
+    [self.send_btn setTitle:@"发送" forState:UIControlStateNormal];
+    [self.send_btn addTarget:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
+    self.send_btn.enabled=NO;
+    [self.blurView addSubview:self.send_btn];
+}
+-(void)showEditCommentView{
+    self.contentTV.text=@"";
+    self.blurView.hidden=NO;
+    [self.contentTV becomeFirstResponder];
+    
+}
+-(void)hideEditCommentView{
+    [self.contentTV resignFirstResponder];
 }
 -(void)feedback{
     FeedBackToEditorViewController *controller=[[FeedBackToEditorViewController alloc] init];
@@ -330,7 +310,7 @@ BOOL isFirst=YES;
         isFirst=NO;
         NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {bridge = event.bridge;bridge.init(function(message,responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')};});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response',responseData);});}, false);";
         [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
-        NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue];
+        NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue+100];
         NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.cover_image_url];
         NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
         NSString *js_video=@"var video_element=document.getElementsByTagName('video')[0]; video_element.setAttribute('webkit-playsinline','true')";
@@ -432,7 +412,7 @@ BOOL isFirst=YES;
 #pragma mark - like article
 -(void)showComments{
     [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
-        _comment_number_label.text=like_number;
+        _like_number_label.text=like_number;
         [_comment_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
         _comment_btn.enabled=NO;
         _article.is_like=YES;
@@ -443,23 +423,71 @@ BOOL isFirst=YES;
     }];
 }
 
-#pragma mark - visit_numner insert
-- (void)enterFullScreen:(NSNotification *)notification {// 开始播放
-    NSLog(@"videoStarted");
-    AppDelegate.is_full = YES;
-}
-- (void)exitFullScreen:(NSNotification *)notification {//完成播放
-    NSLog(@"videoFinished");
-    AppDelegate.is_full =NO;
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val =UIInterfaceOrientationPortrait;
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
+- (void)regNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)unregNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+float keyBoardHeight;
+-(void)keyboardWillShow:(NSNotification *)notification{
+    self.blurView.hidden=NO;
+    CGRect keyBoardRect=[notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat deltaY=keyBoardRect.size.height;
+    NSLog(@"%f",deltaY);
+    keyBoardHeight=deltaY;
+    [UIView animateWithDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
+        
+        self.blurView.transform=CGAffineTransformMakeTranslation(0, -deltaY);
+    }];
+}
+-(void)keyboardWillHide:(NSNotification *)notification{
+    [UIView animateWithDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
+        
+        self.blurView.transform=CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        
+    }];
+    self.blurView.hidden=YES;
+}
+
+-(void)likeArticle{
+    [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
+        [_like_btn setBackgroundImage:[UIImage imageNamed:@"like_on.png"] forState:UIControlStateNormal];
+        _like_btn.enabled=NO;
+        _article.is_like=YES;
+        _article.like_number=[NSNumber numberWithInteger:like_number.integerValue];
+        _like_number_label.text=[NSString stringWithFormat:@"%d",_article.like_number.intValue];
+        [_service markArticleLikeWithArticle:_article];
+    } errorHandler:^(NSError *error) {
+        //<#code#>
+    }];
+}
+-(void)send_Message{
+    NSString *contentStr=self.contentTV.text;
+    if(contentStr==nil||[contentStr isEqualToString:@""]){
+        //[self showAlertText:@"请输入内容"];
+        return;
+    }
+    [self.service feedbackArticleWithContent:contentStr article:self.article successHandler:^(BOOL is_ok) {
+        [self.contentTV resignFirstResponder];
+        [self.view.window showHUDWithText:@"发送成功" Type:ShowPhotoYes Enabled:YES];
+    } errorHandler:^(NSError *error) {
+        [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+    }];
+}
+- (void)textViewDidChange:(UITextView *)textView{
+    NSString *contentStr=self.contentTV.text;
+    if(contentStr==nil||[contentStr isEqualToString:@""]){
+        // [self showAlertText:@"请输入内容"];
+        self.send_btn.enabled=NO;
+        return;
+    }
+    self.send_btn.enabled=YES;
+}
 @end

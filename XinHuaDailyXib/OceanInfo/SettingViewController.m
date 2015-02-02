@@ -25,14 +25,16 @@
     self.title=@"设置";
     [self.view setBackgroundColor:[UIColor whiteColor]];
     _table_view = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
-    
+    _table_view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_waterwave.png"]];
     _table_view.delegate = self;
     _table_view.dataSource = self;
     [self.view addSubview:_table_view];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [self.table_view reloadData];
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView*)tableView{
     return 1;
 }

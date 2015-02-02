@@ -36,29 +36,18 @@
     [super viewWillAppear:animated];
 }
 -(void)buildUI{
-    if(![self.channel.parent_id isEqualToString:@"0"])
         if(lessiOS7){
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-kHeightOfTopScrollView)];
+            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
         }else{
-            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20-kHeightOfTopScrollView)];
-        }
-    
-        else{
-            if(lessiOS7){
-                NSLog(@"%f",self.view.bounds.size.height);
-                self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
-            }else{
-                self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-            }
-            
+            self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20)];
         }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 300)];
-    self.headerView.article=self.articles_for_cvc.header_article;
-    self.headerView.delegate=self;
+//    self.headerView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 300)];
+//    self.headerView.article=self.articles_for_cvc.header_article;
+//    self.headerView.delegate=self;
     self.footerView=[[ListFooterView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
     self.footerView.delegate=self;
     [self.view addSubview:self.tableView];
@@ -85,7 +74,7 @@ NSString *ListCellID = @"ListCellID";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 95;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article * article = [self.articles_for_cvc.other_articles objectAtIndex:indexPath.row];
@@ -103,15 +92,24 @@ NSString *ListCellID = @"ListCellID";
 }
 -(void)refreshUI{
     if(self.articles_for_cvc.header_article!=nil){
-        if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 300)];
-        ((ChannelHeader *)self.tableView.tableHeaderView).article=self.articles_for_cvc.header_article;
-        ((ChannelHeader *)self.tableView.tableHeaderView).delegate=self;
+        if(self.tableView.tableHeaderView==nil){
+            ChannelHeader *header=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 300)];
+            header.article=self.articles_for_cvc.header_article;
+            float height=[header preferHeight];
+            header.frame=CGRectMake(0, 0, self.tableView.bounds.size.width, height);
+            header.delegate=self;
+            self.tableView.tableHeaderView=header;
+        }
     }else{
         self.tableView.tableHeaderView=nil;
     }
     [self.tableView reloadData];
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(self.is_full_load){
+        [self removeLoadingFooter];
+        return;
+    }
     if(indexPath.row==[self.articles_for_cvc.other_articles count]-1){
         if([self.articles_for_cvc.other_articles count]>=10&&[self.articles_for_cvc.other_articles count]<50){
             [self beginLoadingMore];

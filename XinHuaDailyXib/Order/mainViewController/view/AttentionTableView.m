@@ -131,6 +131,7 @@
             }else if(requestType==1){
                 [_dataArray addObjectsFromArray:[[FMDatabaseOP shareInstance]selectFromDBWithStart:_dataArray.count recordMaxCount:MAX_COUNT tableType:focus_table_type]];
             }
+  //          NSLog(@"%@ %@",((HotForecastModel *)_dataArray[0]).focus_count,((HotForecastModel *)_dataArray[1]).focus_count);
             [_tableView reloadData];
         }
     } failed:^(NSError *error) {

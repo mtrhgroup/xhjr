@@ -43,15 +43,15 @@
 {
     [super viewDidLoad];
     self.title=@"写反馈";
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_waterwave.png"]]];
     
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(10.f, (lessiOS7)?20:20, 300, 170)];
+    [[self blurView] setFrame:CGRectMake(10.f, (lessiOS7)?20:20, self.view.bounds.size.width-20, 170)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
     [self.view addSubview:[self blurView]];
     
-    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, (lessiOS7)?30:30, 280, 100)];
+    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(10, 10, self.blurView.bounds.size.width-20, 100)];
     // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
     content.layer.cornerRadius = 10.0f;
     [content setFont:[UIFont systemFontOfSize:17 ]];
@@ -62,9 +62,9 @@
     content.contentInset = UIEdgeInsetsMake(2,2,2,2);
     content.backgroundColor=[UIColor clearColor];
     self.contentTV=content;
-    [self.view addSubview:content];
+    [self.blurView addSubview:content];
     NSString *lastEmail=[[NSUserDefaults standardUserDefaults] valueForKey:@"email"];
-    email = [[UITextField alloc] initWithFrame:CGRectMake(20, (lessiOS7)?140:140, 280, 40)];
+    email = [[UITextField alloc] initWithFrame:CGRectMake(10, 120, self.blurView.bounds.size.width-20, 40)];
     email.layer.borderWidth = 1.0f;
     email.layer.borderColor = [[UIColor grayColor] CGColor];
     UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 25)];
@@ -83,7 +83,7 @@
         email.text=lastEmail;
     }
     self.emailTF=email;
-    [self.view addSubview:email];
+    [self.blurView addSubview:email];
     send_btn=[[UIButton alloc] initWithFrame:CGRectMake(10, self.blurView.frame.origin.y+self.blurView.frame.size.height+5, self.blurView.frame.size.width, 40)];
     [send_btn primaryStyle];
     [send_btn setTitle:@"发送" forState:UIControlStateNormal];

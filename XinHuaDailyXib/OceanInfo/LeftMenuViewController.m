@@ -12,15 +12,18 @@
 #import "ContactUsViewController.h"
 #import "AboutViewController.h"
 #import "MenuItem.h"
+#import "Keyword.h"
 @interface LeftMenuViewController ()
 @property(nonatomic,strong)UIImageView *left_logo;
 @property(nonatomic,strong)NSMutableArray *menu_items;
+@property(nonatomic,strong)NSArray *keywords;
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)ChannelViewController *pic_vc;
 @property(nonatomic,strong)SettingViewController *setting_vc;
 @property(nonatomic,strong)ContactUsViewController *feedback_vc;
 @property(nonatomic,strong)AboutViewController *about_vc;
+@property(nonatomic,strong)UILabel *sn_lbl;
 
 @end
 
@@ -34,6 +37,7 @@
 @synthesize setting_vc=_setting_vc;
 @synthesize feedback_vc=_feedback_vc;
 @synthesize pic_vc=_pic_vc;
+@synthesize keywords=_keywords;
 #pragma mark - 控制器初始化方法
 - (id)init
 {
@@ -75,23 +79,26 @@
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
     UIView *top_view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 150)];
-    top_view.backgroundColor=[UIColor whiteColor];
+    top_view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_waterwave.png"]];
     [self.view addSubview:top_view];
     self.left_logo=[[UIImageView alloc] initWithFrame:CGRectMake((240-200)/2, (150-58)/2+10, 200, 58)];
     self.left_logo.image=[UIImage imageNamed:@"logo_left_page_top.png"];
     [self.view addSubview:self.left_logo];
 
 
-    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, top_view.frame.origin.y+top_view.frame.size.height, 260, self.view.bounds.size.height-(top_view.frame.origin.y+top_view.frame.size.height))];
+    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, top_view.frame.origin.y+top_view.frame.size.height, 260, self.view.bounds.size.height-(top_view.frame.origin.y+top_view.frame.size.height)-20)];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.tableView.backgroundColor= VC_BG_COLOR;
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-
-    [self rebuildUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:kNotificationLeftChannelsRefresh object:nil];
+    self.sn_lbl=[[UILabel alloc] initWithFrame:CGRectMake(0, self.tableView.frame.origin.y+self.tableView.frame.size.height, 260, 20)];
+    self.sn_lbl.backgroundColor=VC_BG_COLOR;
+    self.sn_lbl.textColor=[UIColor lightGrayColor];
+    [self.view addSubview:self.sn_lbl];
+    [self rebuildUI];
 }
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationChannelsReceived object:nil];
@@ -104,9 +111,13 @@
     [self.tableView reloadData];
 }
 -(void)rebuildUI{
+    if(AppDelegate.user_defaults.sn.length>0){
+        self.sn_lbl.text=[NSString stringWithFormat:@"授权码：%@",AppDelegate.user_defaults.phone_number];
+    }
     while([self.menu_items count]>1){
         [self.menu_items removeLastObject];
     }
+    self.keywords=[self.service fetchKeywordsFromDB];
     //add standard channel items
     NSArray *channels=[self.service fetchTrunkChannelsFromDB];
     for (Channel * channel in channels) {
@@ -123,7 +134,7 @@
     MenuItem *discovery_item=[[MenuItem alloc] init];
     discovery_item.display_name=@"发现";
     discovery_item.type=FatherItem;
-    discovery_item.childItem=[NSArray arrayWithObjects:@"宏观",@"政策",@"资源",@"贸易",@"金融",@"科技",@"权益",@"文化", nil];
+    discovery_item.childItem=self.keywords;
     [self.menu_items addObject:discovery_item];
     
     //add items
@@ -144,7 +155,6 @@
     about_item.type=Item;
     about_item.vc=[[AboutViewController alloc] init];
     [self.menu_items addObject:about_item];
-    [self selectItemAtIndex:0];
     [self.tableView reloadData];
 }
 
@@ -197,6 +207,10 @@ NSString *LeftSideCellId = @"LeftSideCellId";
     MenuItem *item=[self.menu_items objectAtIndex:indexPath.row];
     cell.menu_item=item;
     cell.delegate=self;
+    NSLog(@"name = %@ children =%d",item.display_name,[item.childItem count]);
+    if([item.childItem count]>0){
+        NSLog(@"%@",((Keyword *)[item.childItem objectAtIndex:0]).keyword_name);
+    }
     return  cell;
 }
 -(void)tagItemClickedWithTag:(NSString *)tag{

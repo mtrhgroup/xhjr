@@ -69,6 +69,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
 }
 -(void)presentArtilceContentVCWithArticle:(Article *)article channel:(Channel *)channel{
     ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
+    controller.channel_name=channel.channel_name;
     UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
     if(![channel.parent_id isEqualToString:@"0"]){
         [self presentViewController:nav_vc animated:YES completion:nil];

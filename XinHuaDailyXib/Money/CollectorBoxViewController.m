@@ -51,7 +51,7 @@
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     self.mode_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,50,30)];
     [self.mode_btn setTitle:@"编辑" forState:UIControlStateNormal];
-    [self.mode_btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.mode_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.mode_btn addTarget:self action:@selector(toggleToEditMode) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     if(lessiOS7){

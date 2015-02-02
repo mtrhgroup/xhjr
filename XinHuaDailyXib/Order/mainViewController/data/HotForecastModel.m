@@ -21,10 +21,10 @@
     }else{
         wight = 250;
     }
-    if (!SYSTEM_VERSION) {
-        _heightforone = [@"计算" sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(wight, MAXFLOAT)].height;
+    if (lessiOS7) {
+        _heightforone = [@" " sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(wight, MAXFLOAT)].height;
     }else{
-        _heightforone= [@"计算" boundingRectWithSize:CGSizeMake(wight, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20]} context:nil].size.height;
+        _heightforone= [@" " boundingRectWithSize:CGSizeMake(wight, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20]} context:nil].size.height;
     }
     _isShow = TRUE;
     return [super init];
@@ -44,7 +44,7 @@
             wight = 250;
         }
         
-        if (!SYSTEM_VERSION) {
+        if (lessiOS7) {
             _titleSize = [_title sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(wight, MAXFLOAT)];
         }else{
             _titleSize= [_title boundingRectWithSize:CGSizeMake(wight, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20]} context:nil].size;
@@ -67,11 +67,13 @@
         }
         
         
-        if (!SYSTEM_VERSION) {
-
-            _contentSize = [_content sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(wight, MAXFLOAT)];
+        if (lessiOS7) {
+            _contentSize = [_content sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(wight, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
         }else{
             _contentSize= [_content boundingRectWithSize:CGSizeMake(wight, MAXFLOAT) options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15]} context:nil].size;
+        }
+        if(content.length==0){
+            _contentSize=CGSizeMake(0, 0);
         }
     }
 }

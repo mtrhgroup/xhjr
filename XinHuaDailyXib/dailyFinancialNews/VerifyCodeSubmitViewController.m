@@ -68,6 +68,7 @@
     }
 }
 -(void)bindPhoneNumber{
+    [_verify_code_input resignFirstResponder];
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
         if(self.inside){
             [_verify_code_input resignFirstResponder];

@@ -27,7 +27,6 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"$$$");
     self.title=@"填写验证码";
     self.view.backgroundColor=[UIColor whiteColor];
     [self setBlurView:[AMBlurView new]];
@@ -70,6 +69,7 @@
     }
 }
 -(void)bindPhoneNumber{
+    [_verify_code_input resignFirstResponder];
     [self.service registerPhoneNumberWithPhoneNumber:_phone_number verifyCode:_verify_code_input.text successHandler:^(BOOL is_ok) {
         if(self.inside){
             [self dismissViewControllerAnimated:YES completion:nil];

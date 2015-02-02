@@ -9,14 +9,17 @@
 #import "ChannelCell.h"
 #import "GridCell.h"
 #import "GlobalVariablesDefine.h"
+@interface ChannelCell()
+@property(nonatomic,strong)UICollectionView *children_view;
+@end
 @implementation ChannelCell{
     MenuItem *_menu_item;
     UILabel *title_lbl;
     UIButton *close_btn;
     UIImageView *close_icon;
     UIView *accessoryView;
-    UICollectionView *children_view;
 }
+@synthesize children_view=_children_view;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -43,14 +46,14 @@
         flowLayout.itemSize=CGSizeMake(100, 44);
         flowLayout.minimumLineSpacing=0;
         flowLayout.minimumInteritemSpacing=0;
-        children_view=[[UICollectionView alloc] initWithFrame:CGRectMake(10, 40, 210, 200) collectionViewLayout:flowLayout];
-        [children_view registerClass:[GridCell class] forCellWithReuseIdentifier:@"CellectionViewCellId"];
-        children_view.dataSource=self;
-        children_view.delegate=self;
-        children_view.backgroundColor=[UIColor clearColor];
-        [children_view reloadData];
-        children_view.hidden=YES;
-        [self.contentView addSubview:children_view];
+        self.children_view=[[UICollectionView alloc] initWithFrame:CGRectMake(10, 40, 210, 200) collectionViewLayout:flowLayout];
+        [self.children_view registerClass:[GridCell class] forCellWithReuseIdentifier:@"CellectionViewCellId"];
+        self.children_view.dataSource=self;
+        self.children_view.delegate=self;
+        self.children_view.backgroundColor=[UIColor clearColor];
+        [self.children_view reloadData];
+        self.children_view.hidden=YES;
+        [self.contentView addSubview:self.children_view];
     }
     return self;
 }
@@ -60,10 +63,11 @@
 }
 -(void)setMenu_item:(MenuItem *)menu_item{
     _menu_item=menu_item;
-    children_view.hidden=YES;
+    self.children_view.hidden=YES;
     close_btn.hidden=YES;
     close_icon.hidden=YES;
     title_lbl.text=menu_item.display_name;
+    title_lbl.backgroundColor=[UIColor clearColor];
     self.backgroundColor=VC_BG_COLOR;
     if(menu_item.type==Item){
         title_lbl.textColor=[UIColor lightGrayColor];
@@ -79,22 +83,22 @@
         self.accessoryView=nil;
         close_icon.hidden=NO;
         close_btn.hidden=NO;
-        children_view.frame=CGRectMake(10, 44, 210, [menu_item.childItem count]/2*48);
-        children_view.hidden=NO;
+        self.children_view.frame=CGRectMake(10, 44, 210, [menu_item.childItem count]/2*48);
+        self.children_view.hidden=NO;
         self.backgroundColor=HightLight_BG_COLOR;
     }
-    if(menu_item.is_selected){
+    if(menu_item.is_selected&&menu_item.type!=Item){
         title_lbl.textColor=[UIColor yellowColor];
     }
 }
 -(void)closeFather{
     _menu_item.father_is_open=NO;
-    children_view.hidden=YES;
+    self.children_view.hidden=YES;
     [self.delegate fatherCloseBtnClicked];
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate tagItemClickedWithTag:[self.menu_item.childItem objectAtIndex:indexPath.row]];
+    [self.delegate tagItemClickedWithTag:((Keyword *)[self.menu_item.childItem objectAtIndex:indexPath.row]).keyword_name];
     
 }
 //定义展示的UICollectionViewCell的个数
@@ -114,7 +118,7 @@ static NSString *CellectionViewCellId=@"CellectionViewCellId";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GridCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellectionViewCellId forIndexPath:indexPath];
-    cell.tag=[self.menu_item.childItem objectAtIndex:indexPath.row];
+    cell.keyword=[self.menu_item.childItem objectAtIndex:indexPath.row];
     return cell;
 }
 +(CGFloat)preferHeightWithMenuItem:(MenuItem *)menu_item{

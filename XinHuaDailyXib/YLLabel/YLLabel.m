@@ -58,7 +58,11 @@
 
 - (void)setText:(NSString *)text
 {
-    _string = [[NSMutableAttributedString alloc] initWithString:text];
+    if(text==nil){
+        _string = [[NSMutableAttributedString alloc] initWithString:@""];
+    }else{
+        _string = [[NSMutableAttributedString alloc] initWithString:text];
+    }
     [self setNeedsDisplay];
 }
 

@@ -12,6 +12,7 @@
 #import "Article.h"
 #import "Comment.h"
 #import "Command.h"
+#import "Keyword.h"
 
 @implementation Parser
 -(NSArray*)parseChannels:(NSString *) xmlstring{
@@ -214,6 +215,21 @@
         action.f_inserttime=[formatter stringFromDate:raw_date];
         action.f_state=[xml findValueFrom:item nodeName:@"F_State"];
         [result addObject:action];
+        item = [xml nextTagFrom:item];
+    }
+    return result;
+}
+-(NSArray *)parseKeywords:(NSString *)xmlstring{
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    NSIks* xml = [[NSIks alloc] initWithString:xmlstring];
+    iks*  item =   [xml firstTagFrom:xml.xmlObject];
+    while (item)
+    {
+        Keyword*  keyword = [[Keyword alloc] init];
+        keyword.keyword_id = [xml findValueFrom:item nodeName:@"id"];
+        keyword.keyword_sort=[[xml findValueIntFrom:item nodeName:@"sort"] integerValue];
+        keyword.keyword_name=[xml findValueFrom:item nodeName:@"keyword"];
+        [result addObject:keyword];
         item = [xml nextTagFrom:item];
     }
     return result;

@@ -23,6 +23,15 @@
 -(NSString *)sn{
    return [[NSUserDefaults standardUserDefaults] valueForKey:@"sn"];
 }
+-(NSString *)phone_number{
+    NSString *phone_number=[[NSUserDefaults standardUserDefaults] valueForKey:@"sn"];
+    NSLog(@"%@",[phone_number substringFromIndex:phone_number.length-11]);
+    if(phone_number.length>12){
+     return [phone_number substringFromIndex:phone_number.length-11];
+    }else{
+        return nil;
+    }
+}
 -(void)setAppInfo:(AppInfo *)app_info{
     NSData * data = [NSKeyedArchiver archivedDataWithRootObject:app_info];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"AppInfo"];

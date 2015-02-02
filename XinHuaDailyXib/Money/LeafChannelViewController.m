@@ -17,6 +17,7 @@
      int _refresh_interval_minutes;
 }
 @synthesize articles_for_cvc=_articles_for_cvc;
+@synthesize is_full_load=_is_full_load;
 - (id)init
 {
     self = [super init];
@@ -45,6 +46,7 @@
     formatter.dateFormat = @"yyyyMMddHHmmss";
     NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
     [self.service  fetchArticlesFromNETWithChannel:self.channel time:time successHandler:^(NSArray *articles) {
+        self.is_full_load=NO;
         [self reloadArticlesFromDB];
         [self endRefresh];
         _time_stamp=[NSDate date];
@@ -67,9 +69,15 @@ BOOL busy=NO;
     NSString *time=[formatter stringFromDate:last_date];
     NSLog(@"%@",time);
     [self.service  fetchArticlesFromNETWithChannel:self.channel time:time successHandler:^(NSArray *articles) {
-        self.articles_for_cvc=[self.service fetchArticlesFromDBWithChannel:self.channel topN:[self.articles_for_cvc.other_articles count]+[articles count]];
-        [self refreshUI];
-        [self endLoadingMore];
+        if([articles count]==0||([articles count]==1&&[((Article *)[articles objectAtIndex:0]).article_id isEqualToString:((Article *)[self.articles_for_cvc.other_articles lastObject]).article_id])){
+            self.is_full_load=YES;
+            [self removeLoadingFooter];
+        }else{
+            self.is_full_load=NO;
+            self.articles_for_cvc=[self.service fetchArticlesFromDBWithChannel:self.channel topN:[self.articles_for_cvc.other_articles count]+[articles count]];
+            [self refreshUI];
+            [self endLoadingMore];
+        }
         busy=NO;
     } errorHandler:^(NSError *error) {
         busy=NO;
@@ -79,7 +87,7 @@ BOOL busy=NO;
     }];
 }
 -(void)beginLoadingMore{
-    
+
 }
 -(void)endLoadingMore{
     

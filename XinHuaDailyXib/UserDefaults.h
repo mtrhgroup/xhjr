@@ -10,6 +10,7 @@
 #import "AppInfo.h"
 @interface UserDefaults : NSObject
 @property(nonatomic,strong)NSString *sn;
+@property(readonly,strong)NSString *phone_number;
 @property(nonatomic,strong)AppInfo *appInfo;
 @property(nonatomic,strong)NSString *font_size;
 @property(nonatomic,strong)NSString *cache_article_number;

@@ -82,16 +82,34 @@
     verify_get_btn.enabled=NO;
     [verify_get_btn addTarget:self action:@selector(verifyGetBtnClickHandler) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:verify_get_btn];
-    UILabel *tip=[[UILabel alloc] initWithFrame:CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y+self.blurView.frame.size.height+10, self.blurView.frame.size.width, 40)];
-    tip.text=@"订购热线：8868585转8";
-    tip.backgroundColor=[UIColor clearColor];
-    tip.textAlignment=NSTextAlignmentCenter;
-    [self.view addSubview:tip];
+    UILabel *subscribe_phone=[[UILabel alloc] initWithFrame:CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y+self.blurView.frame.size.height+10, self.blurView.frame.size.width, 20)];
+    subscribe_phone.text=@"订购热线：010-63072031";
+    subscribe_phone.backgroundColor=[UIColor clearColor];
+    subscribe_phone.textColor=VC_BG_COLOR;
+    subscribe_phone.textAlignment=NSTextAlignmentCenter;
+    subscribe_phone.userInteractionEnabled=YES;
+    [subscribe_phone addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callSubscribe)]];
+    [self.view addSubview:subscribe_phone];
+    UILabel *techsupport_phone=[[UILabel alloc] initWithFrame:CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y+self.blurView.frame.size.height+40, self.blurView.frame.size.width, 20)];
+    techsupport_phone.text=@"技术支持：010-63071129";
+    techsupport_phone.backgroundColor=[UIColor clearColor];
+    techsupport_phone.textColor=VC_BG_COLOR;
+    techsupport_phone.textAlignment=NSTextAlignmentCenter;
+    techsupport_phone.userInteractionEnabled=YES;
+    [techsupport_phone addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callTechSupport)]];
+    [self.view addSubview:techsupport_phone];
     if(self.inside){
         [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     }
 }
+-(void)callSubscribe{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://01063072031"]];
+}
+-(void)callTechSupport{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://01063071129"]];
+}
 -(void)verifyGetBtnClickHandler{
+    [_phone_number_input resignFirstResponder];
     self.confirm_phone_number_alert=[[UIAlertView alloc] initWithTitle:@"确认手机号码"  message:[NSString stringWithFormat:@"我们将发送验证码短信到这个号码：%@",_phone_number_input.text] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好", nil];
     [self.confirm_phone_number_alert show];
 }

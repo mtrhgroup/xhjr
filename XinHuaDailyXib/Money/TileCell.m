@@ -91,7 +91,7 @@
     return _article;
 }
 -(void)setArticle:(Article *)article{
-    if(_article==nil||![_article.article_id isEqualToString:article.article_id]){
+    if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
         _article=article;
         if(article.key_words.length!=0){
             NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];

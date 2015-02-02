@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     UIColor *color=[UIColor redColor];
-    NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys: color,UITextAttributeTextColor,[NSValue valueWithUIOffset:UIOffsetMake(0, 0)],UITextAttributeTextShadowOffset,nil];
+    NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys: color,UITextAttributeTextColor, [UIFont fontWithName:@"Arial" size:24.0f], UITextAttributeFont,[NSValue valueWithUIOffset:UIOffsetMake(0, 0)],UITextAttributeTextShadowOffset,nil];
     self.navigationBar.titleTextAttributes=dict;
     if(lessiOS7){
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bar_bg_iOS6.png"] forBarMetrics:UIBarMetricsDefault];

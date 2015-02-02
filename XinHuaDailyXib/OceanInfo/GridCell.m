@@ -10,7 +10,6 @@
 #import "ALImageView.h"
 @implementation GridCell{
     UILabel *label;
-    NSString *_tag;
 }
 
 
@@ -30,12 +29,8 @@
     }
     return self;
 }
-
--(void)setTag:(NSString *)tag{
-    if(_tag==nil||![_tag isEqualToString:tag]){
-        _tag=tag;
-        label.text=tag;
-    }
+-(void)setKeyword:(Keyword *)keyword{
+    label.text=keyword.keyword_name;
 }
 
 

@@ -88,6 +88,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article * article = [self.items objectAtIndex:indexPath.row];
     ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
+    controller.channel_name=article.channel_name;
     UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:nav_vc animated:YES completion:nil];
 }

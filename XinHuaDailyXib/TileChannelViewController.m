@@ -20,6 +20,7 @@
 @synthesize tableView=_tableView;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor=VC_BG_COLOR;
     // Do any additional setup after loading the view.
 }
 
@@ -75,9 +76,9 @@ NSString *TileCellID = @"TileCellID";
 {
     Article *article=[self.articles_for_cvc.other_articles objectAtIndex:(indexPath.row)];
     if(article.cover_image_url==nil&&article.thumbnail_url==nil){
-        return 70;
+        return 60;
     }else{
-        return 270;
+        return 260;
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

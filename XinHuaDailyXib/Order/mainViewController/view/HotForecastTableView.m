@@ -39,7 +39,7 @@
 
 - (void)createView
 {
-    _tableView = [[UITableView alloc]initWithFrame:_frame style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:_frame style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView addHeaderWithTarget:self action:@selector(headerRereshing:)];
@@ -182,7 +182,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 20;
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {

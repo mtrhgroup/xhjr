@@ -155,7 +155,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
     for (int i = 0; i < [_viewArray count]; i++) {
         UIViewController *vc = _viewArray[i];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGSize textSize = [vc.title sizeWithFont:[UIFont systemFontOfSize:kFontSizeOfTabButton]
+        CGSize textSize = [vc.title sizeWithFont:[UIFont boldSystemFontOfSize:kFontSizeOfTabButton]
                                constrainedToSize:CGSizeMake(_topScrollView.bounds.size.width, kHeightOfTopScrollView)
                                    lineBreakMode:NSLineBreakByTruncatingTail];
         //累计每个tab文字的长度
@@ -172,7 +172,7 @@ static const NSUInteger kTagOfRightSideButton = 999;
             button.selected = YES;
         }
         [button setTitle:vc.title forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:kFontSizeOfTabButton];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:kFontSizeOfTabButton];
         [button setTitleColor:self.tabItemNormalColor forState:UIControlStateNormal];
         [button setTitleColor:self.tabItemSelectedColor forState:UIControlStateSelected];
         [button setBackgroundImage:self.tabItemNormalBackgroundImage forState:UIControlStateNormal];

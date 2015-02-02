@@ -75,10 +75,6 @@
     
 }
 
--(void)dealloc{
-    [self unregNotification];
-}
-
 -(id)initWithPushArticleID:(NSString *)articleID{
     self = [super init];
     if (self) {
@@ -110,7 +106,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-20-44)];
     [self.webView setAllowsInlineMediaPlayback:YES];
     self.webView.delegate=self;
     self.webView.allowsInlineMediaPlayback=YES;
@@ -166,13 +162,13 @@
         
         self.bottom_view=[AMBlurView new];
         NSLog(@"view bounds height:%f   frame height:%f",self.view.bounds.size.height,self.view.frame.size.height);
-       self.bottom_view.frame=CGRectMake(0, (lessiOS7)?self.view.bounds.size.height-88:self.view.bounds.size.height-88-20, 320, 44);
+       self.bottom_view.frame=CGRectMake(0, (lessiOS7)?self.view.bounds.size.height-88:self.view.bounds.size.height-88-20, self.view.bounds.size.width, 44);
         NSLog(@"%f",self.bottom_view.frame.origin.y);
         [self.view addSubview:self.bottom_view];
         
         UIButton *feedback_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         feedback_btn.frame = CGRectMake(5, 5, self.bottom_view.bounds.size.width-10, 34);
-        [feedback_btn setTitle:@"说两句呗" forState:UIControlStateNormal];
+        [feedback_btn setTitle:@"写评论" forState:UIControlStateNormal];
         feedback_btn.backgroundColor=[UIColor whiteColor];
         feedback_btn.tintColor=[UIColor grayColor];
         [feedback_btn.layer setMasksToBounds:YES];
@@ -181,11 +177,6 @@
         feedback_btn.tintColor=[UIColor blackColor];
         [feedback_btn addTarget:self action:@selector(showEditCommentView) forControlEvents:UIControlEventTouchUpInside];
         [self.bottom_view addSubview:feedback_btn];
-        
-//        UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34-34,5,34,34)];
-//        [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-//        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-//        [self.bottom_view addSubview:share_btn];
         
         _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34,5,34,34)];
         if(_article.is_collected){
@@ -199,36 +190,61 @@
     isFirst=YES;
     
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(0, (lessiOS7)?self.view.frame.size.height-180-44:self.view.frame.size.height-180-25, self.view.bounds.size.width, 180)];
+    [[self blurView] setFrame:CGRectMake(0, (lessiOS7)?self.view.frame.size.height-180:self.view.frame.size.height-180-25, self.view.bounds.size.width, 180)];
     self.blurView.hidden=YES;
     [self.view addSubview:[self blurView]];
     
     
-    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50, 280, 120)];
+    UIPlaceHolderTextView* content = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(20, 50, self.view.bounds.size.width-40, 120)];
     // content.backgroundColor=[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1.0];
     content.layer.cornerRadius = 10.0f;
     [content setFont:[UIFont systemFontOfSize:17 ]];
     content.layer.borderWidth = 0.2f;
     content.backgroundColor=[UIColor clearColor];
     content.layer.borderColor = [[UIColor grayColor] CGColor];
-    content.placeholder = @"请文明发言";
+    content.placeholder = @"写评论";
     content.placeholderColor=[UIColor colorWithRed:150/255.0 green:150/255.0 blue:150/255.0 alpha:0.5];
     content.delegate=self;
     content.contentInset = UIEdgeInsetsMake(2,2,2,2);
     self.contentTV=content;
     [self.blurView addSubview:content];
-    //[self.contentTV becomeFirstResponder];
-    self.cancel_btn=[[UIButton alloc] initWithFrame:CGRectMake(20, 5, 100, 40)];
-    [self.cancel_btn dangerStyle];
+    self.cancel_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.cancel_btn.frame =CGRectMake(20, 5, 100, 40);
+    self.cancel_btn.backgroundColor=[UIColor whiteColor];
+    [self.cancel_btn.layer setMasksToBounds:YES];
+    [self.cancel_btn.layer setCornerRadius:10.0];
+    [self.cancel_btn.layer setBorderWidth:0.2];
+    self.cancel_btn.tintColor=[UIColor blackColor];
+    
     [self.cancel_btn setTitle:@"取消" forState:UIControlStateNormal];
     [self.cancel_btn addTarget:self action:@selector(hideEditCommentView) forControlEvents:UIControlEventTouchUpInside];
     [self.blurView addSubview:self.cancel_btn];
-    self.send_btn=[[UIButton alloc] initWithFrame:CGRectMake(self.blurView.frame.size.width-100-20,5, 100, 40)];
-    [self.send_btn dangerStyle];
+    self.send_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.send_btn.frame =CGRectMake(self.blurView.frame.size.width-100-20,5, 100, 40);
+    self.send_btn.backgroundColor=[UIColor whiteColor];
+    [self.send_btn.layer setMasksToBounds:YES];
+    [self.send_btn.layer setCornerRadius:10.0];
+    [self.send_btn.layer setBorderWidth:0.2];
+    self.send_btn.tintColor=[UIColor blackColor];
     [self.send_btn setTitle:@"发送" forState:UIControlStateNormal];
     [self.send_btn addTarget:self action:@selector(send_Message) forControlEvents:UIControlEventTouchUpInside];
     self.send_btn.enabled=NO;
     [self.blurView addSubview:self.send_btn];
+    UISwipeGestureRecognizer *recognizer;
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [self.webView addGestureRecognizer:recognizer];
+    
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.webView addGestureRecognizer:recognizer];
+}
+
+-(void)handleSwipeFromRight:(id)sender{
+    [self back];
+}
+-(void)handleSwipeFromLeft:(id)sender{
+    [self showComments];
 }
 -(void)showEditCommentView{
     self.contentTV.text=@"";
@@ -245,11 +261,18 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 -(void)back{
-     [self.contentTV resignFirstResponder];
+    [self.contentTV resignFirstResponder];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
     if([self.navigationController.viewControllers indexOfObject:self]!=0){
         [self.navigationController popViewControllerAnimated:YES];
     }else{
-        [self dismissViewControllerAnimated:YES completion:nil];
+        CATransition *animation = [CATransition animation];
+        animation.duration = 0.4;
+        animation.timingFunction = UIViewAnimationCurveEaseInOut;
+        animation.type = kCATransitionPush;
+        animation.subtype=kCATransitionFromLeft;
+        [self.view.window.layer addAnimation:animation forKey:nil];
+        [self dismissViewControllerAnimated:NO completion:nil];
     }
 }
 -(void)clicked{
@@ -313,7 +336,7 @@ BOOL isFirst=YES;
         [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
         NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue];
         NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.cover_image_url];
-        NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='54px';"];
+        NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
         NSString *js_video=@"var video_element=document.getElementsByTagName('video')[0]; video_element.setAttribute('webkit-playsinline','true')";
 //        [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
 //        if(_ad_article!=nil){
@@ -322,6 +345,7 @@ BOOL isFirst=YES;
         [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
         [webView stringByEvaluatingJavaScriptFromString:js_video];
         [self changeWebContentWithWebView:webView];
+        NSLog(@"%@",[webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"]);
     }
 }
 -(void)showMenu{
@@ -462,8 +486,6 @@ BOOL isFirst=YES;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [self unregNotification];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
-    
 }
 -(void)changeCommentsNumber{
     [self.service fetchCommentsNumberFromNETWith:self.article successHandler:^(NSNumber *comments_number) {
@@ -482,34 +504,35 @@ BOOL isFirst=YES;
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)unregNotification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
+float keyBoardHeight;
 -(void)keyboardWillShow:(NSNotification *)notification{
     self.blurView.hidden=NO;
-}
--(void)keyboardWillHide:(NSNotification *)notification{
-    self.blurView.hidden=YES;
-}
-- (void)keyboardWillChangeFrame:(NSNotification *)notification
-{
-    NSDictionary *info = [notification userInfo];
-    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    CGRect beginKeyboardRect = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    CGRect endKeyboardRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat yOffset = endKeyboardRect.origin.y - beginKeyboardRect.origin.y;
-    CGRect inputFieldRect = self.blurView.frame;
-    inputFieldRect.origin.y += yOffset;
-    [UIView animateWithDuration:duration animations:^{
-        self.blurView.frame = inputFieldRect;
+    CGRect keyBoardRect=[notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat deltaY=keyBoardRect.size.height+36.0f;
+    NSLog(@"%f",deltaY);
+    keyBoardHeight=deltaY;
+    [UIView animateWithDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
+        
+        self.blurView.transform=CGAffineTransformMakeTranslation(0, -deltaY);
     }];
 }
+-(void)keyboardWillHide:(NSNotification *)notification{
+    [UIView animateWithDuration:[notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
+        
+        self.blurView.transform=CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+       
+    }];
+    self.blurView.hidden=YES;
+}
+
 
 -(void)likeArticle{
     [_service likeArticleWithArticle:_article successHandler:^(NSString *like_number) {
@@ -522,4 +545,5 @@ BOOL isFirst=YES;
         //<#code#>
     }];
 }
+
 @end

@@ -105,6 +105,13 @@
 @implementation ArticlesForHVC
 @synthesize header_article=_header_article;
 @synthesize other_articles=_other_articles;
+-(BOOL)is_empty{
+    if(_header_article==nil&&_other_articles.count==0){
+        return YES;
+    }else{
+        return NO;
+    }
+}
 -(NSString *)lastPublicDateInChannelWithChannelID:(NSString *)channel_id{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
@@ -123,10 +130,29 @@
     }
     return future_time;
 }
+-(void)resetFullMark{
+
+}
+-(BOOL)isAllFull{
+    return NO;
+}
+-(void)markFullWith:(NSString *)channel_id{
+    
+}
 @end
 @implementation DailyArticles
 @synthesize date;
 @synthesize articles;
 @synthesize previous_date;
 @synthesize next_date;
+-(NSString *)description{
+    NSMutableString *out_str=[[NSMutableString alloc] initWithFormat:@"\nDATE:%@ COUNT:%d\n",self.date,[self.articles count]];
+    for(Article * article in self.articles){
+        [out_str appendString:article.article_title];
+        [out_str appendString:@"   "];
+        [out_str appendString:article.publish_date];
+        [out_str appendString:@"\n"];
+    }
+    return out_str;
+}
 @end

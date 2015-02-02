@@ -200,7 +200,7 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kDailyArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_articles_daily.ashx?imei=%@&order=asc&pid=%@&date=%@&appid=%@"
+#define kDailyArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_articles_daily.ashx?imei=%@&order=asc&pid=%@&date=%@&appid=%@&n=100"
 
 
 
@@ -240,6 +240,67 @@
  备注
  ---------------------*/
 #define kCommentsNumberURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_LiterCommentCount.ashx?literid=%@"
+
+/*---------------------
+ 关键字URL
+ 参数个数 2
+ 参数列表 literid(稿件ID)
+ 请求类型 GET
+ 返回类型 XML
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#define kKeywordsURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/common_key.ashx?appid=%@&imei=%@"
+
+
+/*---------------------
+ 获取菜列表列表URL
+ 参数个数 7
+ 参数列表 n(topN) appid(软件ID) time(时间点) imei(设备唯一标示) timetype(时间类型) sn(授权码) type(prevue:热预告 focus:关注度 order:大家点)
+ 请求类型 GET
+ 返回类型 JSON
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#define kOrderListURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_GetLiterMemo.ashx?n=%d&appid=%@&time=%@&imei=%@&timetype=%@&sn=%@&type=%@"
+
+
+/*---------------------
+ 点菜URL
+ 参数个数 5
+ 参数列表  appid(软件ID) imei(设备唯一标示) sn(授权码) title:(标题) content:(内容)
+ 请求类型 GET
+ 返回类型 JSON
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#define kMakeOrderURL @"http://mis.xinhuanet.com//SXTV2/Mobile/Interface/Common_SetLiterMemo.ashx"
+
+
+/*---------------------
+ 菜评论列表URL
+ 参数个数 5
+ 参数列表  appid(软件ID) imei(设备唯一标示) sn(授权码) mid:(标题) n(topN) time(时间点) timetype(时间类型)
+ 请求类型 GET
+ 返回类型 JSON
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#define kOrderCommentsListURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_GetLiterMemoComment.ashx?n=%d&appid=%@&time=%@&imei=%@&timetype=%@&sn=%@&mid=%@"
+
+
+
+/*---------------------
+ 评论菜URL
+ 参数个数 5
+ 参数列表  appid(软件ID) imei(设备唯一标示) sn(授权码) mid:(标题) content:(内容)
+ 请求类型 GET
+ 返回类型 JSON
+ 返回示例 TEXT
+ 备注
+ ---------------------*/
+#define kMakeOrderCommentURL @"http://mis.xinhuanet.com//SXTV2/Mobile/Interface/Common_SetLiterMemoComment.ashx"
+
 /*---------------------
  获取版本信息URL
  参数个数 2
@@ -275,7 +336,7 @@
  备注
  ---------------------*/
 #ifdef LNFB
-#define KDownloadURL @"http://mis.xinhuanet.com/lnfb/
+#define KDownloadURL @"http://mis.xinhuanet.com/lnfb/"
 #endif
 
 #ifdef DFN

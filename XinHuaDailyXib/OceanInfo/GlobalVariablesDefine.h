@@ -28,5 +28,5 @@ typedef enum {
 }SXTErrorFailed;
 #endif
 
-#define VC_BG_COLOR ([UIColor colorWithRed:0x12/256.0  green:0x77/256.0 blue:0xAB/256.0 alpha:1])
-#define HightLight_BG_COLOR ([UIColor colorWithRed:0x18/256.0  green:0x82/256.0 blue:0xB6/256.0 alpha:1])
+#define VC_BG_COLOR ([UIColor colorWithRed:0x00/256.0  green:0x83/256.0 blue:0xBB/256.0 alpha:1])
+#define HightLight_BG_COLOR ([UIColor colorWithRed:0x05/256.0  green:0x87/256.0 blue:0xBF/256.0 alpha:1])

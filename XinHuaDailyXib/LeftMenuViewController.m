@@ -54,18 +54,22 @@
     self.view.backgroundColor=[UIColor redColor];
     self.title_label=[[UILabel alloc]initWithFrame:CGRectMake(10, 30, self.view.bounds.size.width, 30)];
     self.title_label.textColor=[UIColor whiteColor];
-    self.title_label.text=@"辽宁发布 新华";
-    self.title_label.font = [UIFont fontWithName:@"Arial" size:20];
+    self.title_label.text=@"辽宁发布 ● 新华";
+    self.title_label.font = [UIFont boldSystemFontOfSize:22];
     self.title_label.backgroundColor=[UIColor clearColor];
     [self.view addSubview:self.title_label];
-//    self.sub_title_label=[[UILabel alloc]initWithFrame:CGRectMake(10, 30, self.view.bounds.size.width, 30)];
+//    self.sub_title_label=[[UILabel alloc]initWithFrame:CGRectMake(100, 60, self.view.bounds.size.width-100, 30)];
 //    self.sub_title_label.textColor=[UIColor whiteColor];
-//    self.sub_title_label.text=@"辽宁发布 新华";
-//    self.sub_title_label.font = [UIFont fontWithName:@"Arial" size:20];
+//    self.sub_title_label.text=@"新起点 心追求！";
+//    self.sub_title_label.font = [UIFont boldSystemFontOfSize:15];
 //    self.sub_title_label.backgroundColor=[UIColor clearColor];
 //    [self.view addSubview:self.sub_title_label];
+    UIImageView *sub_title_imgView=[[UIImageView alloc] initWithFrame:CGRectMake(200-100, 80,100, 18)];
+    sub_title_imgView.image=[UIImage imageNamed:@"lnfb_left_top.png"];
+    [self.view addSubview:sub_title_imgView];
 
-    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 80, 300, self.view.bounds.size.height-44)];
+
+    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 100, 300, self.view.bounds.size.height-44)];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.tableView.backgroundColor= [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:(51.0/255.0) alpha:1.0];
@@ -85,7 +89,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationShowPicChannel object:nil];
 }
 -(void)updateAppVersion{
-    self.title_label.text=AppDelegate.user_defaults.appInfo.groupTitle;
+   // self.title_label.text=AppDelegate.user_defaults.appInfo.groupTitle;
 }
 -(void)refreshUI{
     [self.tableView reloadData];

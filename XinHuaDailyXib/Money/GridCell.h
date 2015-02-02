@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Article.h"
+#import "Keyword.h"
 @interface GridCell : UICollectionViewCell
-@property(nonatomic,strong)NSString *tag;
+@property(nonatomic,strong)Keyword *keyword;
 @end

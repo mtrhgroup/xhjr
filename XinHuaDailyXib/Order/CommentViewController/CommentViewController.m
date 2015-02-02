@@ -69,6 +69,21 @@
     [sendButton addTarget:self action:@selector(sendButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     sendButton.backgroundColor = [UIColor colorWithHexString:@"#1063c9"];
     [self.view addSubview:sendButton];
+    
+    UIButton *left_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+    [left_btn setBackgroundImage:[UIImage imageNamed:@"button_topback_default.png"] forState:UIControlStateNormal];
+    [left_btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    if(lessiOS7){
+        negativeSpacer.width=0;
+    }else{
+        negativeSpacer.width=-10;
+    }
+    UIBarButtonItem *left_btn_item=[[UIBarButtonItem alloc] initWithCustomView:left_btn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,left_btn_item,nil] animated:YES];
+}
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -101,10 +116,6 @@
         
     }];
     
-//    NSLog(@"requestString=%@?imei=%@&sn=MRCJ_18601196685&mid=%@&content=%@&appid=MRCJ",requestString,UUID,self.commentID,contentString);
-    
-//    [request setDelegate:self];
-//    [request startAsynchronous];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -33,6 +33,10 @@
         UIImageView *defaultImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         if(frame.size.height==568.0){
             defaultImageView.image=[UIImage imageNamed:@"Default-568h@2x.png"] ;
+        }else if(frame.size.height==667.0){
+            defaultImageView.image=[UIImage imageNamed:@"Default-375w-667h@2x.png"] ;
+        }else if(frame.size.height==736.0){
+            defaultImageView.image=[UIImage imageNamed:@"Default-414w-736h@3x.png"] ;
         }else{
             defaultImageView.image=[UIImage imageNamed:@"Default@2x.png"] ;
         }

@@ -7,6 +7,7 @@
 //
 
 #import "EveryoneChooseTableViewCell.h"
+#import "Util.h"
 #define HotForecastTableViewCellTitleFontSize 18
 #define HotForecastTableViewCellContentFontSize 15
 #define HotForecastTableViewCellFromHintFontSize 13
@@ -80,7 +81,7 @@
 //    NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
 //    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
 //    _fromTimeLabel.text = [NSString stringWithFormat:@"发起时间: %@/%@/%@",timeArray[0],timeArray[1],timeArray[2]];
-    _fromTimeLabel.text = [model.creatTime forNowTime];;
+    _fromTimeLabel.text = [Util wrapDateString:model.creatTime];
 }
 
 - (NSMutableString*)getUserName:(NSString*)oldName

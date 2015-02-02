@@ -243,26 +243,29 @@ static FMDatabaseOP * instance = nil;
     int type = 0;
     switch (table_type) {
         case hotforecast_table_type:
-            current_date = [self getCurrentTime];
-            sql = @"select * from hotforecast_table where state!='2' and notice_date>'%@' order by notice_date desc, create_at desc limit %d,%d";
+            if(start==0){
+                current_date = [self getCurrentTime];
+                sql = [NSString stringWithFormat:@"select * from hotforecast_table where state!='2' and notice_date>'%@' order by notice_date desc, create_at desc limit %d,%d",current_date,start,maxcount];
+            }else{
+                sql = [NSString stringWithFormat:@"select * from hotforecast_table where state!='2'  order by notice_date desc, create_at desc limit %d,%d",start,maxcount];
+            }
+            
             type = 1;
             break;
         case focus_table_type:
             current_date = [self getCurrentTime];
-            sql = @"select * from focus_table where state!='2' and notice_date>'%@' order by focus_count desc, create_at desc limit %d,%d";
+            sql = [NSString stringWithFormat:@"select * from focus_table where state!='2' and notice_date>'%@' order by focus_count desc, create_at desc limit %d,%d",current_date,start,maxcount];
             type = 2;
             break;
         case yousay_table_type:
-            sql = @"select * from yousay_table where state!='2'%@ order by create_at desc limit %d,%d";
+            sql = [NSString stringWithFormat:@"select * from yousay_table where state!='2'%@ order by create_at desc limit %d,%d",current_date,start,maxcount];
             break;
     }
     
     __block NSMutableArray * array = [NSMutableArray array];
     [_dbQueue inDatabase:^(FMDatabase *db) {
-        
-        NSString * tempsql = [NSString stringWithFormat:sql,current_date,start,maxcount];
-        NSLog(@"tempsql : %@",tempsql);
-        FMResultSet * result = [db executeQuery:tempsql];
+        NSLog(@"tempsql : %@",sql);
+        FMResultSet * result = [db executeQuery:sql];
         while ([result next]) {
             
             //从根据字段取值

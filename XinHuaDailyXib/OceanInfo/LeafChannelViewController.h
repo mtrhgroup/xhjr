@@ -10,6 +10,7 @@
 #import "ChannelViewController.h"
 @interface LeafChannelViewController : ChannelViewController
 @property(nonatomic,strong)ArticlesForCVC *articles_for_cvc;
+@property(nonatomic,assign)BOOL is_full_load;
 -(void)reloadArticlesFromDB;
 -(void)reloadArticlesFromNET;
 -(void)loadMoreArticlesFromNET;

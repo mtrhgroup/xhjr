@@ -7,7 +7,7 @@
 //
 
 #import "TagListViewController.h"
-#import "ListCell.h"
+#import "HomeCell.h"
 #import "NavigationController.h"
 #import "ArticleViewController.h"
 #import "GlobalVariablesDefine.h"
@@ -68,16 +68,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return [HomeCell preferHeight];
 }
 static NSString *TileCellID = @"cellname";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    ListCell *cell=nil;
+    HomeCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:TileCellID];
     if(cell==nil){
-        cell=[[ListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
+        cell=[[HomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TileCellID];
+        cell.is_on_home=YES;
     }
     cell.article=[self.articles objectAtIndex:indexPath.row];
     return cell;

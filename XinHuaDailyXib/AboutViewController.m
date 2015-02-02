@@ -121,7 +121,7 @@
 
 
 -(void)telToMe:(id)sender{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://02423828522"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://02423822598"]];
 }
 - (void)done
 {

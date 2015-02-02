@@ -49,14 +49,14 @@
 {
     [super viewDidLoad];
     self.title=@"账号绑定";
-    self.view.backgroundColor=[UIColor whiteColor];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_waterwave.png"]]];
     [self setBlurView:[AMBlurView new]];
-    [[self blurView] setFrame:CGRectMake(10.f, (lessiOS7)?20:20+44, 300, 60)];
+    [[self blurView] setFrame:CGRectMake((self.view.bounds.size.width-300)/2, (lessiOS7)?20:20+44, 300, 60)];
     [self.blurView.layer setMasksToBounds:YES];
     [self.blurView.layer setCornerRadius:10];
     [self.view addSubview:[self blurView]];
     
-    _phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(20, (lessiOS7)?30:30+44, 180, 40)];
+    _phone_number_input = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 180, 40)];
     _phone_number_input.placeholder = @" 请输入手机号码";
     _phone_number_input.backgroundColor=[UIColor clearColor];
     _phone_number_input.layer.cornerRadius = 10.0f;
@@ -69,9 +69,9 @@
     _phone_number_input.layer.borderWidth = 1.0f;
     _phone_number_input.layer.borderColor = [[UIColor grayColor] CGColor];
     [_phone_number_input addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    [self.view addSubview:_phone_number_input];
+    [self.blurView addSubview:_phone_number_input];
     verify_get_btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    verify_get_btn.frame = CGRectMake(210, (lessiOS7)?30:30+44, 90, 40);
+    verify_get_btn.frame = CGRectMake(200, 10, 90, 40);
     [verify_get_btn setTitle:@"获取验证码" forState:UIControlStateNormal];
     verify_get_btn.backgroundColor=[UIColor whiteColor];
     [verify_get_btn.layer setMasksToBounds:YES];
@@ -80,7 +80,7 @@
     verify_get_btn.tintColor=[UIColor blackColor];
     verify_get_btn.enabled=NO;
     [verify_get_btn addTarget:self action:@selector(verifyGetBtnClickHandler) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:verify_get_btn];
+    [self.blurView addSubview:verify_get_btn];
     UILabel *subscribe_phone=[[UILabel alloc] initWithFrame:CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y+self.blurView.frame.size.height+10, self.blurView.frame.size.width, 20)];
     subscribe_phone.text=@"订购热线：010-63072047";
     subscribe_phone.backgroundColor=[UIColor clearColor];
@@ -108,7 +108,8 @@
 -(void)callTechSupport{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://01063071129"]];
 }
--(void)verifyGetBtnClickHandler{ 
+-(void)verifyGetBtnClickHandler{
+    [_phone_number_input resignFirstResponder];
     self.confirm_phone_number_alert=[[UIAlertView alloc] initWithTitle:@"确认手机号码"  message:[NSString stringWithFormat:@"我们将发送验证码短信到这个号码：%@",_phone_number_input.text] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好", nil];
     [self.confirm_phone_number_alert show];
 }
@@ -144,6 +145,7 @@
         VerifyCodeSubmitViewController *controller=[[VerifyCodeSubmitViewController alloc]init];
         controller.service=self.service;
         controller.phone_number=self.phone_number_input.text;
+        controller.inside=self.inside;
         [self.navigationController pushViewController:controller animated:YES];
     } errorHandler:^(NSError *error) {
         NSLog(@"%@",error.localizedDescription);

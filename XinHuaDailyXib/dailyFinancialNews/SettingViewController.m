@@ -32,7 +32,9 @@
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [self.table_view reloadData];
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView*)tableView{
     return 1;
 }

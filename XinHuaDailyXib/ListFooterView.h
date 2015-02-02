@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSInteger, FooterState)
 {
     Busy = 0,
-    Idle = 1
+    Idle = 1,
+    Hide = 2
   
 };
 @interface ListFooterView : UIView

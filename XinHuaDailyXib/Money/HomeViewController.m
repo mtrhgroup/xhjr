@@ -37,6 +37,9 @@
         [self.tip_view show];
     }
    [self reloadArticlesFromDB];
+    if(self.articles_for_hvc.is_empty){
+        [self reloadArticlesFromNET];
+    }
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -50,16 +53,18 @@
     self.tip_view=[[TipTouchView alloc] init];
     self.tip_view.delegate=self;
     [self.view addSubview:self.tip_view];
+//    [self reloadArticlesFromNET];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newArticlesReceivedHandler) name:kNotificationNewArticlesReceived object:nil];
-    
-    
-    
 }
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationNewArticlesReceived object:nil];
 }
 -(void)buildUI{
-    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    if(lessiOS7){
+        self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
+    }else{
+        self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44-20)];
+    }
     self.tableView.dataSource=self;
     self.tableView.delegate=self;
     self.tableView.backgroundColor=[UIColor whiteColor];
@@ -90,7 +95,7 @@
                 [self.tip_view show];
             }else{
                 [self.tableView headerEndRefreshing];
-                [self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
+                //[self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
             }
         });
         
@@ -115,7 +120,8 @@ BOOL _busy=NO;
     [self performSelectorOnMainThread:@selector(reloadArticlesFromDB) withObject:nil waitUntilDone:NO];
 }
 -(void)reloadArticlesFromDB{
-    self.articles_for_hvc=[self.service fetchOceanHomeArticlesFromDBWithTopN:10];
+    self.articles_for_hvc=nil;
+    self.articles_for_hvc=[self.service fetchOceanHomeArticlesFromDBWithTopN:50];
     [self.tableView reloadData];
     if(self.articles_for_hvc.header_article!=nil){
         if(self.tableView.tableHeaderView==nil) self.tableView.tableHeaderView=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 200)];
@@ -132,6 +138,7 @@ NSString *HomeListCellID = @"HomeListCellID";
     cell = [tableView dequeueReusableCellWithIdentifier:HomeListCellID];
     if(cell==nil){
         cell=[[HomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HomeListCellID];
+        cell.is_on_home=YES;
     }
     Article *article=[self.articles_for_hvc.other_articles objectAtIndex:indexPath.row];
     cell.article=article;
@@ -154,13 +161,13 @@ NSString *HomeListCellID = @"HomeListCellID";
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.row==[self.articles_for_hvc.other_articles count]-1){
-        if([self.articles_for_hvc.other_articles count]>=10&&[self.articles_for_hvc.other_articles count]<50){
-            [self beginLoadingMore];
-        }else{
-            [self endLoadingMore];
-        }
-    }
+//    if(indexPath.row==[self.articles_for_hvc.other_articles count]-1){
+//        if([self.articles_for_hvc.other_articles count]>=10&&[self.articles_for_hvc.other_articles count]<50){
+//            [self beginLoadingMore];
+//        }else{
+//            [self endLoadingMore];
+//        }
+//    }
 }
 -(void)triggerRefresh{
     [self reloadArticlesFromNET];

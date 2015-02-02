@@ -10,7 +10,7 @@
 #import "LeftViewController.h"
 #import <Frontia/FrontiaPush.h>
 #import <Frontia/Frontia.h>
-#import "iVersion.h"
+
 @implementation MoneyAppDelegate
 @synthesize service=_service;
 @synthesize channel=_channel;
@@ -24,10 +24,6 @@
 @synthesize is_full=_is_full;
 #define DeviceTokenRegisteredKEY @"DeviceTokenStringKEY"
 #define DeviceTokenStringKEY @"DeviceTokenStringKEY"
-+ (void)initialize
-{
-    [iVersion sharedInstance].appStoreID = 908566596;
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

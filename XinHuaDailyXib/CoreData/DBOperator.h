@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "Channel.h"
 #import "Article.h"
+#import "Keyword.h"
 @interface DBOperator : NSObject
 -(id)initWithContext:(NSManagedObjectContext *)context;
 -(BOOL)save;
 -(void)addChannel:(Channel *)channel;
+-(void)addKeyword:(Keyword *)keyword;
 -(NSArray *)fetchTrunkChannels;
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel;
 -(Channel *)fetchADChannel;
@@ -20,6 +22,7 @@
 -(Channel *)fetchPicChannel;
 -(NSArray *)fetchHomeChannels;
 -(NSArray *)fetchAllChannels;
+-(NSArray *)fetchKeywords;
 -(NSArray *)fetchArticlesThatIsPushed;
 -(NSArray *)fetchArticlesThatIncludeCoverImage;
 -(void)removeAllChannels;

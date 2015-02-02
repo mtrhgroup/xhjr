@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A283o" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="E_ARTICLE" representedClassName="ArticleMO" syncable="YES">
         <attribute name="a_article_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_article_title" optional="YES" attributeType="String" syncable="YES"/>
@@ -36,8 +36,17 @@
         <attribute name="a_show_type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_sort_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="E_HOTTOPIC" syncable="YES"/>
+    <entity name="E_KEYWORD" representedClassName="KeywordMO" syncable="YES">
+        <attribute name="a_keyword_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="a_keyword_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="a_keyword_sort" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <configuration name="Configuration"/>
     <elements>
-        <element name="E_ARTICLE" positionX="396" positionY="-18" width="135" height="345"/>
-        <element name="E_CHANNEL" positionX="-81" positionY="-25" width="128" height="225"/>
+        <element name="E_ARTICLE" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="E_CHANNEL" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="E_KEYWORD" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="E_HOTTOPIC" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

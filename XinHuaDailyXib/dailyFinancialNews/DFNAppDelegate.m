@@ -12,7 +12,6 @@
 #import "RegisterViewController.h"
 #import <Frontia/FrontiaPush.h>
 #import <Frontia/Frontia.h>
-#import "iVersion.h"
 @implementation DFNAppDelegate
 @synthesize service=_service;
 @synthesize channel=_channel;
@@ -27,7 +26,7 @@
 #define DeviceTokenStringKEY @"DeviceTokenStringKEY"
 + (void)initialize
 {
-    [iVersion sharedInstance].appStoreID = 908566596;
+   // [iVersion sharedInstance].appStoreID = 908566596;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

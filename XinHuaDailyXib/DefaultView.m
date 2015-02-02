@@ -30,17 +30,17 @@
         self.backgroundColor=[UIColor whiteColor];
         UIImageView *defaultImageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         if(frame.size.height==568.0){
-            defaultImageView.image=[UIImage imageNamed:@"Default-568h@2x.png"] ;
+            defaultImageView.image=[UIImage imageNamed:@"Default-568h@2x.png"];
         }else{
-            defaultImageView.image=[UIImage imageNamed:@"Default@2x.png"] ;
+            defaultImageView.image=[UIImage imageNamed:@"Default@2x.png"];
         }
         [self addSubview:defaultImageView];
         _startup_time=[NSDate date];
         [self setupCoverImage];
-        UIButton *enterBtn=[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-100,20,88,40)];
-        [enterBtn setBackgroundImage:[UIImage imageNamed:@"skip.png"] forState:UIControlStateNormal];
-        [enterBtn addTarget:self action:@selector(skip) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:enterBtn];
+//        UIButton *enterBtn=[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-100,20,88,40)];
+//        [enterBtn setBackgroundImage:[UIImage imageNamed:@"skip.png"] forState:UIControlStateNormal];
+//        [enterBtn addTarget:self action:@selector(skip) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:enterBtn];
         NSTimeInterval need_waiting_ms=_lasting_ms-[self consumedTime];
         if(need_waiting_ms>0){
             [self performSelector:@selector(hide) withObject:nil afterDelay:need_waiting_ms];
@@ -54,7 +54,7 @@
 -(void)setupCoverImage{
     if(AppDelegate.user_defaults.appInfo.startImgUrl!=nil||[AppDelegate.user_defaults.appInfo.startImgUrl isEqualToString:@""]){
         if(coverimageView==nil)
-            coverimageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-100)];
+            coverimageView = [[ALImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height-60)];
         coverimageView.imageURL = AppDelegate.user_defaults.appInfo.startImgUrl;
         [self addSubview:coverimageView];
         coverimageView.userInteractionEnabled=YES;

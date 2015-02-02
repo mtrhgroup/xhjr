@@ -107,7 +107,7 @@ NSString *CellectionViewCellId = @"CellectionViewCellId";
 }
 -(void)refreshUI{
     [self.collectionView registerClass:[ChannelHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView"];
-    ((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).headerReferenceSize=CGSizeMake(0, 0);
+    ((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).headerReferenceSize=CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.width*0.618);
     [self.collectionView reloadData];
 }
 //定义展示的UICollectionViewCell的个数

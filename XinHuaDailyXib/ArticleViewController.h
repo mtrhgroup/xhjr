@@ -14,7 +14,10 @@
 #import "ZSYPopoverListView.h"
 #import "RefreshTouchView.h"
 #import "ArticleViewDelegate.h"
-@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate>
+@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate,UITextViewDelegate>
+@property(nonatomic,strong)Service *service;
+@property(nonatomic,strong)Article *article;
+@property(nonatomic,strong)NSString *channel_name;
 - (id)initWithAritcle:(Article *)article;
 -(id)initWithPushArticleID:(NSString *)articleID;
 @end

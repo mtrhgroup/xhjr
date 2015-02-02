@@ -91,7 +91,7 @@
     return _article;
 }
 -(void)setArticle:(Article *)article{
-    if(_article==nil||![_article.article_id isEqualToString:article.article_id]){
+    if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
         _article=article;
         if(article.key_words.length!=0){
             NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];
@@ -130,7 +130,7 @@
             }
         }
         if(keywords_size.height>0){
-            keywords_label.frame=CGRectMake(100, 0, 150, 20);
+            keywords_label.frame=CGRectMake(100, 0, 200, 20);
         }else{
             keywords_label.frame=CGRectMake(100, 0, 0, 0);
         }
@@ -155,6 +155,13 @@
     bg_view.layer.shadowColor = [UIColor grayColor].CGColor;//shadowColor阴影颜色
     bg_view.layer.shadowOffset = CGSizeMake(0.1,2);//shadowOffset阴影偏移,x向右偏移4，y向下偏移4，默认(0, -3),这个跟shadowRadius配合使用
     bg_view.layer.shadowOpacity = 0.8;//阴影透明度，默认0
+    if(self.type==Normal_Date){
+        time_label.text=article.publish_date;
+    }else if(self.type==Wraped_Date){
+        time_label.text=[self wrapedTime:article.publish_date];
+    }else{
+        time_label.text=@"";
+    }
 }
 -(float)preferHeight{
     return bg_view.frame.size.height+10;

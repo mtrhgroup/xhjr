@@ -31,6 +31,7 @@
 @synthesize cover_view;
 @synthesize service;
 static const CGFloat kPublicLeftMenuWidth = 240.0f;
+static const CGFloat kPublicRightMenuWidth = 240.0f;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -59,6 +60,7 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     [self setLeftDrawerViewController:self.left_menu_vc];
     [self setRightDrawerViewController:self.right_vc];
     [self setMaximumLeftDrawerWidth:kPublicLeftMenuWidth];
+    [self setMaximumRightDrawerWidth:kPublicRightMenuWidth];
     [self setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [self setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     [self setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
@@ -74,12 +76,18 @@ static const CGFloat kPublicLeftMenuWidth = 240.0f;
     [self presentViewController:nav_vc animated:YES completion:nil];
 }
 -(void)presentArtilceContentVCWithArticle:(Article *)article channel:(Channel *)channel{
+    CATransition *animation = [CATransition animation];
+    animation.duration = 0.4;
+    animation.timingFunction = UIViewAnimationCurveEaseInOut;
+    animation.type = kCATransitionPush;
+    animation.subtype = kCATransitionFromRight;
+    [self.view.window.layer addAnimation:animation forKey:nil];
     ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
     UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
     if(![channel.parent_id isEqualToString:@"0"]){
-        [self presentViewController:nav_vc animated:YES completion:nil];
+        [self presentViewController:nav_vc animated:NO completion:nil];
     }else{
-        [self presentViewController:nav_vc animated:YES completion:nil];
+        [self presentViewController:nav_vc animated:NO completion:nil];
     }
 }
 

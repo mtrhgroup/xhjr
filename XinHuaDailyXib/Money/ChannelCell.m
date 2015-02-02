@@ -23,12 +23,13 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         title_lbl=[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 150, 24)];
+        title_lbl.backgroundColor=[UIColor clearColor];
         [title_lbl setFont: [UIFont boldSystemFontOfSize:22]];
         title_lbl.textColor=[UIColor whiteColor];
         [[self contentView] addSubview:title_lbl];
         self.backgroundColor=[UIColor clearColor];
         self.accessoryType=UITableViewCellAccessoryNone;
-        close_icon=[[UIImageView alloc] initWithFrame:CGRectMake(260-20-18, 11, 22, 22)];
+        close_icon=[[UIImageView alloc] initWithFrame:CGRectMake(280-20-18, 11, 22, 22)];
         close_icon.image=[UIImage imageNamed:@"button_undo_default.png"];
         close_icon.hidden=YES;
         [self.contentView addSubview:close_icon];
@@ -89,7 +90,7 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate tagItemClickedWithTag:[self.menu_item.childItem objectAtIndex:indexPath.row]];
+    [self.delegate tagItemClickedWithTag:((Keyword *)[self.menu_item.childItem objectAtIndex:indexPath.row]).keyword_name];
     
 }
 //定义展示的UICollectionViewCell的个数
@@ -109,7 +110,7 @@ static NSString *CellectionViewCellId=@"CellectionViewCellId";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GridCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellectionViewCellId forIndexPath:indexPath];
-    cell.tag=[self.menu_item.childItem objectAtIndex:indexPath.row];
+    cell.keyword=[self.menu_item.childItem objectAtIndex:indexPath.row];
     return cell;
 }
 +(CGFloat)preferHeightWithMenuItem:(MenuItem *)menu_item{

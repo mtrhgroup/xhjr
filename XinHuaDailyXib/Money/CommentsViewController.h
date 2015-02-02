@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommentsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface CommentsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,UITextViewDelegate>
 @property(nonatomic,strong)Article *article;
 @property(nonatomic,strong)Service *service;
 @end

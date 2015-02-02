@@ -18,7 +18,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 
-        [self.textLabel setFont: [UIFont boldSystemFontOfSize:25]];
+        [self.textLabel setFont: [UIFont boldSystemFontOfSize:17]];
         self.textLabel.textColor=[UIColor whiteColor];
         self.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.0];
         _new_view=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new.png"]];

@@ -14,6 +14,7 @@
 @synthesize context=_context;
 static NSString * const E_CHANNEL = @"E_CHANNEL";
 static NSString * const E_ARTICLE = @"E_ARTICLE";
+static NSString * const E_KEYWORD = @"E_KEYWORD";
 -(id)initWithContext:(NSManagedObjectContext *)context{
     if(self=[super init]){
         self.context=context;
@@ -51,6 +52,36 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
     }
     [channel toChannelMO:e_channel];
 }
+-(void)addKeyword:(Keyword *)keyword{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_KEYWORD inManagedObjectContext:_context];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_keyword_id = %@", keyword.keyword_id];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    KeywordMO *e_keyword;
+    if([result count]>0){
+        e_keyword=[result objectAtIndex:0];
+    }else{
+        e_keyword=[NSEntityDescription insertNewObjectForEntityForName:E_KEYWORD inManagedObjectContext:_context];
+    }
+    [keyword toKeywordMO:e_keyword];
+}
+-(NSArray *)fetchKeywords{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_KEYWORD inManagedObjectContext:_context];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_keyword_sort" ascending:NSOrderedAscending];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    NSMutableArray *keywords=[NSMutableArray array];
+    for(KeywordMO *kmo in result){
+        [keywords addObject:[[Keyword alloc] initWithKeywordMO:kmo]];
+    }
+    return keywords;
+}
+
 -(NSArray *)fetchAllChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
@@ -133,7 +164,7 @@ static NSString * const E_ARTICLE = @"E_ARTICLE";
 -(NSArray *)fetchHomeChannels{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
     NSPredicate* p = [NSPredicate predicateWithFormat:@"a_is_leaf = %d && a_home_number > %d",YES,0];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_authorize" ascending:NSOrderedAscending];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     NSFetchRequest *frq = [[NSFetchRequest alloc]init];
     [frq setEntity:e_channel_desc];

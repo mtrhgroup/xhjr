@@ -107,7 +107,8 @@
 -(void)callTechSupport{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://01063071129"]];
 }
--(void)verifyGetBtnClickHandler{ 
+-(void)verifyGetBtnClickHandler{
+    [_phone_number_input resignFirstResponder];
     self.confirm_phone_number_alert=[[UIAlertView alloc] initWithTitle:@"确认手机号码"  message:[NSString stringWithFormat:@"我们将发送验证码短信到这个号码：%@",_phone_number_input.text] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好", nil];
     [self.confirm_phone_number_alert show];
 }

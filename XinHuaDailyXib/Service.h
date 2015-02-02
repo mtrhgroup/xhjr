@@ -14,8 +14,6 @@
 #import "FSManager.h"
 @interface Service : NSObject<UIAlertViewDelegate>
 @property(nonatomic,strong)FSManager *fs_manager;
-//网络
-//-(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchFirstRunData:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -24,7 +22,7 @@
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchDailyArticlesFromNETWithChannel:(Channel *)channel date:(NSString *)date successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchAppInfo:(void(^)(AppInfo *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
--(void)executeServerCommandsWithChannel:(Channel *)channel successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
+-(void)executeServerCommandsWithChannelID:(NSString *)channel_id successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)reportActionsToServer:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchArticleContentWithArticle:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
@@ -37,10 +35,10 @@
 -(void)feedbackAppWithContent:(NSString *)content email:(NSString *)email successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)requestVerifyCodeWithPhoneNumber:(NSString *)phone_number successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock;
 -(void)fetchOceanHomeArticlesFromNETWithAritclesForHVC:(ArticlesForHVC *)aritclesForHVC successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock;
-
 //本地
 -(NSArray *)fetchFavorArticlesFromDB;
 -(NSArray *)fetchTrunkChannelsFromDB;
+-(NSArray *)fetchKeywordsFromDB;
 -(NSArray *)fetchLeafChannelsFromDBWithTrunkChannel:(Channel *)channel;
 -(NSArray *)fetchLatestDailyTagsFromDBWithChannel:(Channel *)channel;
 -(NSArray *)fetchArticlesFromDBWithTag:(NSString *)tag;
@@ -61,7 +59,6 @@
 -(Channel *)fetchMRCJChannelFromDB;
 -(void)becomeAcitveHandler;
 -(BOOL)hasAuthorized;
--(BOOL)hasNewerVersion;
 -(NSString *)newVersion;
 -(NSString *)getNewerVersionDescription;
 -(void)gotoDownload;

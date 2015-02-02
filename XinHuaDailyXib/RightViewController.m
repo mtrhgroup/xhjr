@@ -67,11 +67,11 @@
     [scrollView addSubview:_tableView];
 
     _bottomView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 460-150-65+(iPhone5?88:0), 220, 150+65)];
-#ifdef HNZW
-    UIImageView *dim2=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Apple_Download.png"]];
+
+    UIImageView *dim2=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lnfb_qrcode.png"]];
     dim2.frame=CGRectMake(35, 0, 150, 150);
     [_bottomView addSubview:dim2];
-#endif
+
     _bottomView.backgroundColor=[UIColor clearColor];
 
     UILabel *copyrightLbl=[[UILabel alloc] initWithFrame:CGRectMake(0, 150+12, 220, 40)];

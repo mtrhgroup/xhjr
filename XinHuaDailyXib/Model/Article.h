@@ -64,9 +64,12 @@
 @property(nonatomic,strong)NSArray *other_articles;
 @end
 @interface ArticlesForHVC :NSObject
+@property(nonatomic,strong)NSDictionary *channel_marks;
 @property(nonatomic,strong)Article *header_article;
 @property(nonatomic,strong)NSArray *other_articles;
+@property(readonly,assign)BOOL is_empty;
 -(NSString *)lastPublicDateInChannelWithChannelID:(NSString *)channel_id;
+
 @end
 
 @interface DailyArticles:NSObject
@@ -74,4 +77,5 @@
 @property(nonatomic,strong)NSArray *articles;
 @property(nonatomic,strong)NSString *previous_date;
 @property(nonatomic,strong)NSString *next_date;
+@property(nonatomic,strong)NSString *description;
 @end

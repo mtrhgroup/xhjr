@@ -63,7 +63,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
@@ -87,10 +87,7 @@
         }else if(indexPath.row == 1){
             cell.icon_image=[UIImage imageNamed:@"button_set_right_default.png"];
             cell.label_text=@"设置";
-        }else if(indexPath.row == 2){
-            cell.icon_image=[UIImage imageNamed:@"button_help_default.png"];
-            cell.label_text=@"帮助";
-        }else if(indexPath.row==3){
+        }else if(indexPath.row==2){
             cell.icon_image=[UIImage imageNamed:@"button_aboutus_default.png"];
             cell.label_text=@"关于我们";
         }
@@ -109,8 +106,6 @@
             NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
             [self presentViewController:nv animated:YES completion:nil];
         }else if(indexPath.row ==2){
-            
-        }else if(indexPath.row==3){
             AboutViewController *vc=[[AboutViewController alloc]init];
             NavigationController *nv=[[NavigationController alloc]initWithRootViewController:vc];
             [self presentViewController:nv animated:YES completion:nil];

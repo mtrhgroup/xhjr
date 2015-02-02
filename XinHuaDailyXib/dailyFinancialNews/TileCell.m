@@ -9,6 +9,7 @@
 #import "TileCell.h"
 #import "ALImageView.h"
 #import "YLLabel.h"
+#import "Util.h"
 @implementation TileCell{
     Article *_article;
     UIView *bg_view;
@@ -93,7 +94,7 @@
     return _article;
 }
 -(void)setArticle:(Article *)article{
-    if(_article==nil||![_article.article_id isEqualToString:article.article_id]){
+    if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
         _article=article;
         if(article.key_words.length!=0){
             NSArray *keywords= [article.key_words componentsSeparatedByString:NSLocalizedString(@",", nil)];
@@ -105,7 +106,7 @@
         if(self.type==Normal_Date){
             time_label.text=article.publish_date;
         }else if(self.type==Wraped_Date){
-            time_label.text=[self wrapedTime:article.publish_date];
+            time_label.text=[Util wrapDateString:article.publish_date];
         }else{
             time_label.text=@"";
         }
@@ -137,8 +138,8 @@
         }else{
             alImageView.frame=CGRectMake(0, 0, 0, 0);
         }
-        keywords_label.frame=CGRectMake(100, image_size.height==0?5:image_size.height+5, 150, 20);
-        time_label.frame=CGRectMake(10,image_size.height==0?5:image_size.height+5, 90, 20);
+        keywords_label.frame=CGRectMake(80, image_size.height==0?5:image_size.height+5, 180, 20);
+        time_label.frame=CGRectMake(10,image_size.height==0?5:image_size.height+5, 120, 20);
         comments_label.frame=CGRectMake(300-5-20-40 ,image_size.height==0?5:image_size.height+5,40, 20);
         comment_icon.frame=CGRectMake(300-5-20, image_size.height==0?5:image_size.height+5, 20, 20);
         if(title_size.height>0){
@@ -147,12 +148,19 @@
             title.frame=CGRectMake(5, keywords_label.frame.origin.y+keywords_size.height+5, 0, 0);
         }
         if(summary_size.height>0){
-            summary_label.frame=CGRectMake(5, title_size.height==0?title.frame.origin.y:title.frame.origin.y+title_size.height+5, summary_size.width, summary_size.height);
+            summary_label.frame=CGRectMake(5, title_size.height==0?title.frame.origin.y:title.frame.origin.y+title_size.height+5, summary_size.width, summary_size.height+10);
         }else{
             summary_label.frame=CGRectMake(5, title_size.height==0?title.frame.origin.y:title.frame.origin.y+title_size.height+5, 0, 0);
         }
         bg_view.frame=CGRectMake(10, 5, 300, summary_label.frame.origin.y+summary_size.height+5);
        
+    }
+    if(self.type==Normal_Date){
+        time_label.text=article.publish_date;
+    }else if(self.type==Wraped_Date){
+        time_label.text=[Util wrapDateString:article.publish_date];
+    }else{
+        time_label.text=@"";
     }
     bg_view.layer.shadowColor = [UIColor grayColor].CGColor;//shadowColor阴影颜色
     bg_view.layer.shadowOffset = CGSizeMake(0.1,2);//shadowOffset阴影偏移,x向右偏移4，y向下偏移4，默认(0, -3),这个跟shadowRadius配合使用
@@ -160,84 +168,5 @@
 }
 -(float)preferHeight{
     return bg_view.frame.size.height+10;
-}
--(NSString *)wrapedTime:(NSString *)date{
-    NSDateFormatter *df=[[NSDateFormatter alloc]init];
-    df.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    NSDate * d = [df dateFromString:date];
-    
-    NSTimeInterval late = [d timeIntervalSince1970]*1;
-    
-    NSString * timeString = nil;
-    
-    NSDate * dat = [NSDate dateWithTimeIntervalSinceNow:0];
-    
-    NSTimeInterval now = [dat timeIntervalSince1970]*1;
-    
-    NSTimeInterval cha = now - late;
-    if (cha/3600 < 1) {
-        
-        timeString = [NSString stringWithFormat:@"%f", cha/60];
-        
-        timeString = [timeString substringToIndex:timeString.length-7];
-        
-        int num= [timeString intValue];
-        
-        if (num <= 1) {
-            
-            timeString = [NSString stringWithFormat:@"刚刚"];
-            
-        }else{
-            
-            timeString = [NSString stringWithFormat:@"%@分钟前", timeString];
-            
-        }
-        
-    }
-    
-    if (cha/3600 > 1 && cha/86400 < 1) {
-        
-        timeString = [NSString stringWithFormat:@"%f", cha/3600];
-        
-        timeString = [timeString substringToIndex:timeString.length-7];
-        
-        timeString = [NSString stringWithFormat:@"%@小时前", timeString];
-        
-    }
-    
-    if (cha/86400 > 1)
-        
-    {
-        
-        timeString = [NSString stringWithFormat:@"%f", cha/86400];
-        
-        timeString = [timeString substringToIndex:timeString.length-7];
-        
-        int num = [timeString intValue];
-        
-        if (num < 2) {
-            
-            timeString = [NSString stringWithFormat:@"昨天"];
-            
-        }else if(num == 2){
-            
-            timeString = [NSString stringWithFormat:@"前天"];
-            
-        }else if (num > 2 && num <7){
-            
-            timeString = [NSString stringWithFormat:@"%@天前", timeString];
-            
-        }else if (num >= 7 && num <= 10) {
-            
-            timeString = [NSString stringWithFormat:@"1周前"];
-            
-        }else if(num > 10){
-            
-            timeString = [NSString stringWithFormat:@"n天前"];
-            
-        }
-        
-    }
-    return timeString;
 }
 @end

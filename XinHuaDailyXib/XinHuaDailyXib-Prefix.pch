@@ -62,7 +62,7 @@ alpha:((c)&0xFF)/255.0]
 #define SYSTEM_VERSION  [[[UIDevice currentDevice] systemVersion] floatValue]>=7.000000
 #define RIGHTVIEWWIGHT  280.0f
 #define UUID [NSString stringWithFormat:@"XHJR_%@",[[[UIDevice currentDevice]identifierForVendor]UUIDString]]
-#define SN [NSString stringWithFormat:@"MRCJ_%@",[[UIDevice currentDevice] uniqueIdentifier]]
+#define SN [NSString stringWithFormat:@"XHJR_%@",[[UIDevice currentDevice] uniqueIdentifier]]
 
 #import "FMDatabaseOP.h"
 #import "NSString+Addtions.h"
@@ -81,7 +81,7 @@ alpha:((c)&0xFF)/255.0]
 #define comment_type 2
 
 #define MAX_COUNT 10
-#define APPID @"MRCJ"
+#define APPID @"XHJR"
 #endif
 
 #ifdef __DEBUG__

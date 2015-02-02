@@ -16,4 +16,5 @@
 -(AppInfo *)parseAppInfo:(NSString *)xmlstring;
 -(NSArray *)parseCommands:(NSString *)xmlstring;
 -(NSArray *)parseComments:(NSString *)xmlstring;
+-(NSArray *)parseKeywords:(NSString *)xmlstring;
 @end

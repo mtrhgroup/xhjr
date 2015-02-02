@@ -22,14 +22,15 @@
         _load_btn.frame = CGRectMake(10, 5, frameRect.size.width-20, 34);
         [_load_btn setTitle:@"显示下10条" forState:UIControlStateNormal];
         [_load_btn setTitle:@"正在载入" forState:UIControlStateDisabled];
-        _load_btn.backgroundColor=[UIColor whiteColor];
+        _load_btn.backgroundColor=[UIColor clearColor];
         [_load_btn.layer setMasksToBounds:YES];
         [_load_btn.layer setCornerRadius:4.0];
-        [_load_btn.layer setBorderWidth:0.1];
-        _load_btn.layer.shadowColor=[[UIColor grayColor] CGColor];
+        [_load_btn.layer setBorderWidth:0.2];
+        _load_btn.layer.borderColor=[[UIColor lightGrayColor] CGColor];
         _load_btn.tintColor=[UIColor blackColor];
         [_load_btn addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
         _activity_indicator =[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activity_indicator.backgroundColor=[UIColor clearColor];
         [_load_btn addSubview:_activity_indicator];
          _activity_indicator.frame=CGRectMake(_load_btn.titleLabel.frame.origin.x-_activity_indicator.frame.size.width-30, (_load_btn.frame.size.height-_activity_indicator.frame.size.height)/2, _activity_indicator.frame.size.width, _activity_indicator.frame.size.height);
         [self addSubview:_load_btn];
@@ -39,13 +40,18 @@
 }
 -(void)setState:(FooterState)state{
     if(state==Busy){
+        [_load_btn setHidden:NO];
         _state=Busy;
         _load_btn.enabled=NO;
         [_activity_indicator startAnimating];
     }else if(state==Idle){
+        [_load_btn setHidden:NO];
         _state=Idle;
         _load_btn.enabled=YES;
         [_activity_indicator stopAnimating];
+    }else if(state==Hide){
+        [_activity_indicator stopAnimating];
+        [_load_btn setHidden:YES];
     }
 }
 -(void)click{

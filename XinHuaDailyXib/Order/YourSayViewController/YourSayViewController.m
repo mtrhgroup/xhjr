@@ -73,7 +73,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView addHeaderWithTarget:self action:@selector(headerRereshing:)];
-    [_tableView addFooterWithTarget:self action:@selector(footerRereshing:)];
+//    [_tableView addFooterWithTarget:self action:@selector(footerRereshing:)];
     _tableView.headerPullToRefreshText = @"下拉可以刷新了";
     _tableView.headerReleaseToRefreshText = @"松开马上刷新了";
     _tableView.headerRefreshingText = @"数据更新中";
@@ -98,6 +98,20 @@
     self.title = @"我想说";
     self.view.backgroundColor = [UIColor colorWithHexString:@"#f4f4f4"];
     [self setHeadView];
+    UIButton *left_btn=[[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+    [left_btn setBackgroundImage:[UIImage imageNamed:@"button_topback_default.png"] forState:UIControlStateNormal];
+    [left_btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *negativeSpacer=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    if(lessiOS7){
+        negativeSpacer.width=0;
+    }else{
+        negativeSpacer.width=-10;
+    }
+    UIBarButtonItem *left_btn_item=[[UIBarButtonItem alloc] initWithCustomView:left_btn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer,left_btn_item,nil] animated:YES];
+}
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)headerRereshing:(MJRefreshHeaderView*)mjHeaderView

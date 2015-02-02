@@ -7,7 +7,7 @@
 //
 
 #import "CommentCell.h"
-
+#import "Util.h"
 @implementation CommentCell{
     UILabel *source_lbl;
     UILabel *content_lbl;
@@ -52,7 +52,7 @@
         source_lbl.text=phone_number;
     }
     content_lbl.text=comment.comment_content;
-    time_lbl.text=comment.comment_time;
+    time_lbl.text=[Util wrapDateString:comment.comment_time];
     content_size= [content_lbl.text sizeWithFont:content_lbl.font constrainedToSize:CGSizeMake(300, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
     content_lbl.frame=CGRectMake(10, source_lbl.frame.origin.y+source_lbl.frame.size.height+5, content_size.width, content_size.height);
 }

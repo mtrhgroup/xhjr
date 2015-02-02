@@ -10,7 +10,7 @@
 #define HotForecastTableViewCellTimeFontSize 12
 #define HotForecastTableViewCellTitleFontSize 20
 #define HotForecastTableViewCellContentFontSize 15
-#define HotForecastTableViewCellFromHintFontSize 13
+#define HotForecastTableViewCellFromHintFontSize 10
 #define CONTENTWIDTH 185
 
 #import "HotForecastTableViewCell.h"
@@ -159,13 +159,16 @@
     
     _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+5, -1, CONTENTWIDTH, model.titleSize.height);
     _titlelabel.text = model.title;
-    
-    _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 15);
-    
-    _BubbleView.frame = CGRectMake(_topBubble.frame.origin.x, _topBubble.frame.origin.y+_topBubble.frame.size.height, _topBubble.frame.size.width, [model getContenHeight]);
-    
-    _underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
-    
+    NSLog(@"%@",model.noticeTime);
+    if([model getContenHeight]==0){
+        _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 0);
+        _BubbleView.frame = CGRectMake(_topBubble.frame.origin.x, _topBubble.frame.origin.y+_topBubble.frame.size.height, _topBubble.frame.size.width, 0);
+        _underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 0);
+    }else{
+        _topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 15);
+        _BubbleView.frame = CGRectMake(_topBubble.frame.origin.x, _topBubble.frame.origin.y+_topBubble.frame.size.height, _topBubble.frame.size.width, [model getContenHeight]);
+        _underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
+    }
     _content.frame = CGRectMake(_BubbleView.frame.origin.x+7, _BubbleView.frame.origin.y, _BubbleView.frame.size.width-14,_BubbleView.frame.size.height);
     
     _content_label.frame = _content.frame;
@@ -176,9 +179,16 @@
     
     _fromHint.frame = CGRectMake(_underButtble.frame.origin.x, _underButtble.frame.origin.y+_underButtble.frame.size.height+7, 35,22);
     
-    _fromLabel.frame = CGRectMake(_fromHint.frame.origin.x + _fromHint.frame.size.width, _fromHint.frame.origin.y, 60,22);
-    _fromLabel.text = model.user;
-    
+    _fromLabel.frame = CGRectMake(_fromHint.frame.origin.x + 25, _fromHint.frame.origin.y, 80,22);
+    NSMutableString *str=[NSMutableString stringWithString:model.user];
+     NSArray *array = [str componentsSeparatedByString:@"_"];
+    if(array.count==2){
+        str= [[NSMutableString alloc]initWithString:array[1]];
+        [str replaceCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+    }else{
+        str=[[NSMutableString alloc]initWithString:model.user];
+    }
+    _fromLabel.text=str;
     _lookButton.frame = CGRectMake(RIGHTVIEWWIGHT-BUTTONFRAME-10, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     
     _sayButton.frame = CGRectMake(RIGHTVIEWWIGHT-2*BUTTONFRAME-15, _fromLabel.frame.origin.y, BUTTONFRAME, 22);

@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=@"评论";
     self.view.backgroundColor=[UIColor whiteColor];
     if(lessiOS7){
         self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
@@ -31,6 +32,13 @@
     [self.view addSubview:self.tableView];
     [self reloadCommentsFromNET];
     [((NavigationController *)self.navigationController) setLeftButtonWithImage:[UIImage imageNamed:@"button_topback_default.png"] target:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UISwipeGestureRecognizer *recognizer;
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFromRight:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [self.view addGestureRecognizer:recognizer];
+}
+-(void)handleSwipeFromRight:(id)sender{
+    [self back];
 }
 
 - (void)didReceiveMemoryWarning {

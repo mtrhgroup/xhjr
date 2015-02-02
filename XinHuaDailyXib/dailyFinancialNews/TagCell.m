@@ -10,12 +10,15 @@
 @implementation TagCell{
     NSString *_tag;
     UILabel *tag_lbl;
-        CAShapeLayer *_shapeLayer;
+    CAShapeLayer *_shapeLayer;
 }
 - (instancetype)initWithFrame:(CGRect)frameRect
 {
     self = [super initWithFrame:frameRect];
     if (self) {
+        self.backgroundColor=[UIColor whiteColor];
+        self.layer.cornerRadius = 4.0;
+        self.layer.masksToBounds = YES;
         tag_lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0, frameRect.size.width, frameRect.size.height)];
         tag_lbl.backgroundColor = [UIColor clearColor];
         tag_lbl.text = @"";
@@ -23,8 +26,9 @@
         tag_lbl.textColor = [UIColor blackColor];
         tag_lbl.font = [UIFont fontWithName:@"Arial" size:15];
         [[self contentView] addSubview:tag_lbl];
+        
         self.layer.borderColor=[[UIColor lightGrayColor] CGColor];
-        self.layer.borderWidth=1.0;
+        self.layer.borderWidth=0.2;
     }
     return self;
 }

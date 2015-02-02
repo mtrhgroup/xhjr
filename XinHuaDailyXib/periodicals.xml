@@ -2,7 +2,7 @@
 <periodicallist sn_state="1">	
 	<periodical>
 		<id>372</id>
-		<name>e情报</name>
+		<name>看点</name>
 		<description>辽宁发布</description>
 		<iconurl/>
 		<homenum>2</homenum>
@@ -18,7 +18,7 @@
 	</periodical>
 	<periodical>
 		<id>373</id>
-		<name>@真相</name>
+		<name>真相</name>
 		<description>辽宁发布</description>
 		<iconurl/>
 		<homenum>2</homenum>
@@ -33,24 +33,8 @@
 		<auth>0</auth>
 	</periodical>
 	<periodical>
-		<id>374</id>
-		<name>w圈子</name>
-		<description>辽宁发布</description>
-		<iconurl/>
-		<homenum>2</homenum>
-		<level>1</level>
-		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
-		<sort>12</sort>
-		<parent>0</parent>
-		<showtype>list</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>0</auth>
-	</periodical>
-	<periodical>
 		<id>375</id>
-		<name>a品鉴</name>
+		<name>品鉴</name>
 		<description>辽宁发布</description>
 		<iconurl/>
 		<homenum>2</homenum>
@@ -63,26 +47,10 @@
 		<cachetype>0</cachetype>
 		<type>child</type>
 		<auth>0</auth>
-	</periodical>
-	<periodical>
-		<id>376</id>
-		<name>i生活</name>
-		<description>辽宁发布</description>
-		<iconurl/>
-		<homenum>2</homenum>
-		<level>1</level>
-		<generatetype>1</generatetype>
-		<subscribe>2</subscribe>
-		<sort>14</sort>
-		<parent>0</parent>
-		<showtype>tile</showtype>
-		<cachetype>0</cachetype>
-		<type>child</type>
-		<auth>0</auth>
-	</periodical>
+	</periodical>	
 	<periodical>
 		<id>377</id>
-		<name>u赚钱</name>
+		<name>理财</name>
 		<description>辽宁发布</description>
 		<iconurl/>
 		<homenum>2</homenum>
@@ -98,7 +66,7 @@
 	</periodical>
 	<periodical>
 		<id>378</id>
-		<name>p图文</name>
+		<name>画话</name>
 		<description>辽宁发布</description>
 		<iconurl/>
 		<homenum>0</homenum>
@@ -169,7 +137,7 @@
 		<level>1</level>
 		<generatetype>0</generatetype>
 		<subscribe>2</subscribe>
-		<sort>1</sort>
+		<sort>201</sort>
 		<parent>381</parent>
 		<showtype>list</showtype>
 		<cachetype>1</cachetype>
@@ -185,7 +153,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>2</sort>
+		<sort>202</sort>
 		<parent>381</parent>
 		<showtype>list</showtype>
 		<cachetype>1</cachetype>
@@ -201,7 +169,7 @@
 		<level>1</level>
 		<generatetype>1</generatetype>
 		<subscribe>2</subscribe>
-		<sort>3</sort>
+		<sort>203</sort>
 		<parent>381</parent>
 		<showtype>list</showtype>
 		<cachetype>1</cachetype>
@@ -221,8 +189,8 @@
 		<sort>17</sort>
 		<parent>-1</parent>
 		<showtype>list</showtype>
-		<cachetype>1</cachetype>
+		<cachetype>0</cachetype>
 		<type>child</type>
-		<auth>1</auth>
+		<auth>0</auth>
 	</periodical>	
 </periodicallist>

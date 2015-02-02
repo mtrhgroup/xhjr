@@ -17,12 +17,13 @@
 @property(nonatomic,strong)UIImageView *left_logo;
 @property(nonatomic,strong)NSMutableArray *menu_items;
 @property(nonatomic,strong)UITableView *tableView;
+@property(nonatomic,strong)NSArray *keywords;
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)ChannelViewController *pic_vc;
 @property(nonatomic,strong)SettingViewController *setting_vc;
 @property(nonatomic,strong)ContactUsViewController *feedback_vc;
 @property(nonatomic,strong)AboutViewController *about_vc;
-
+@property(nonatomic,strong)UILabel *sn_lbl;
 
 @end
 
@@ -36,6 +37,7 @@
 @synthesize setting_vc=_setting_vc;
 @synthesize feedback_vc=_feedback_vc;
 @synthesize pic_vc=_pic_vc;
+@synthesize keywords=_keywords;
 #pragma mark - 控制器初始化方法
 - (id)init
 {
@@ -84,13 +86,16 @@
     [self.view addSubview:self.left_logo];
 
 
-    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, top_view.frame.origin.y+top_view.frame.size.height, 280, self.view.bounds.size.height-(top_view.frame.origin.y+top_view.frame.size.height))];
+    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, top_view.frame.origin.y+top_view.frame.size.height, 280, self.view.bounds.size.height-(top_view.frame.origin.y+top_view.frame.size.height)-20)];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.tableView.backgroundColor= VC_BG_COLOR;
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-
+    self.sn_lbl=[[UILabel alloc] initWithFrame:CGRectMake(0, self.tableView.frame.origin.y+self.tableView.frame.size.height, 280, 20)];
+    self.sn_lbl.backgroundColor=VC_BG_COLOR;
+    self.sn_lbl.textColor=[UIColor lightGrayColor];
+    [self.view addSubview:self.sn_lbl];
     [self rebuildUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildUI) name:kNotificationChannelsReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUI) name:kNotificationLeftChannelsRefresh object:nil];
@@ -109,7 +114,7 @@
     while([self.menu_items count]>1){
         [self.menu_items removeLastObject];
     }
-    //add standard channel items
+     self.keywords=[self.service fetchKeywordsFromDB];
     NSArray *channels=[self.service fetchTrunkChannelsFromDB];
     for (Channel * channel in channels) {
         MenuItem *item=[[MenuItem alloc] init];
@@ -125,7 +130,7 @@
     MenuItem *discovery_item=[[MenuItem alloc] init];
     discovery_item.display_name=@"发现";
     discovery_item.type=FatherItem;
-    discovery_item.childItem=[NSArray arrayWithObjects:@"宏观",@"政策",@"资源",@"贸易",@"金融",@"科技",@"权益",@"文化", nil];
+    discovery_item.childItem=self.keywords;
     [self.menu_items addObject:discovery_item];
     
     MenuItem *collectbox_item=[[MenuItem alloc] init];
@@ -155,6 +160,9 @@
     [self.menu_items addObject:about_item];
     
     [self.tableView reloadData];
+    if(AppDelegate.user_defaults.phone_number.length>0){
+        self.sn_lbl.text=[NSString stringWithFormat:@"授权码：%@",AppDelegate.user_defaults.phone_number];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

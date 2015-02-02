@@ -128,11 +128,17 @@
     _titlelabel.frame = CGRectMake(50, 10, 215, model.titleSize.height);
     _titlelabel.text = model.title;
     
-    topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 15);
     
-    _BubbleView.frame = CGRectMake(topBubble.frame.origin.x, topBubble.frame.origin.y+topBubble.frame.size.height, topBubble.frame.size.width, [model getContenHeight]-10);
-    
-    underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
+    if([model getContenHeight]==0){
+        topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 0);
+        _BubbleView.frame = CGRectMake(topBubble.frame.origin.x, topBubble.frame.origin.y+topBubble.frame.size.height, topBubble.frame.size.width, 0);
+        underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 0);
+    }else{
+        topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 15);
+        _BubbleView.frame = CGRectMake(topBubble.frame.origin.x, topBubble.frame.origin.y+topBubble.frame.size.height, topBubble.frame.size.width, [model getContenHeight]-10);
+        underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
+    }
+
     
     _content.frame = CGRectMake(_BubbleView.frame.origin.x+5, _BubbleView.frame.origin.y-5, _BubbleView.frame.size.width-10,[model getContenHeight]);
     _content_label.frame = _content.frame;
