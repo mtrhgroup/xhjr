@@ -154,7 +154,6 @@
     _timeLabel.text = [NSString stringWithFormat:@"%@月%@日",timeArray[1],timeArray[2]];
     
     _chronon.frame = CGRectMake(_timeLabel.frame.origin.x+_timeLabel.frame.size.width, 0, 20, 20);
-    
     _chrononLine.frame = CGRectMake(_chronon.frame.origin.x+9.7, _chronon.frame.origin.y+_chronon.frame.size.height, 1, [model getContenHeight]+50+model.titleSize.height);
     
     _titlelabel.frame = CGRectMake(_chronon.frame.origin.x+_chronon.frame.size.width+5, -1, CONTENTWIDTH, model.titleSize.height);
@@ -170,7 +169,7 @@
         _underButtble.frame = CGRectMake(_BubbleView.frame.origin.x, _BubbleView.frame.origin.y+_BubbleView.frame.size.height, _BubbleView.frame.size.width, 8);
     }
     _content.frame = CGRectMake(_BubbleView.frame.origin.x+7, _BubbleView.frame.origin.y, _BubbleView.frame.size.width-14,_BubbleView.frame.size.height);
-    
+
     _content_label.frame = _content.frame;
     _content_label.text = model.content;
     
@@ -178,7 +177,7 @@
 
     
     _fromHint.frame = CGRectMake(_underButtble.frame.origin.x, _underButtble.frame.origin.y+_underButtble.frame.size.height+7, 35,22);
-    
+
     _fromLabel.frame = CGRectMake(_fromHint.frame.origin.x + 25, _fromHint.frame.origin.y, 80,22);
     NSMutableString *str=[NSMutableString stringWithString:model.user];
      NSArray *array = [str componentsSeparatedByString:@"_"];
@@ -193,6 +192,7 @@
     
     _sayButton.frame = CGRectMake(RIGHTVIEWWIGHT-2*BUTTONFRAME-15, _fromLabel.frame.origin.y, BUTTONFRAME, 22);
     if (![[NSUserDefaults standardUserDefaults]boolForKey:model.ID]) {
+
         _lookButton.backgroundColor = [UIColor colorWithHexString:@"#1063c9"];
     }else{
         _lookButton.backgroundColor = [UIColor colorWithHexString:@"#A0A0A0"];

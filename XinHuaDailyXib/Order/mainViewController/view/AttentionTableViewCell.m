@@ -127,8 +127,6 @@
 {
     _titlelabel.frame = CGRectMake(50, 10, 215, model.titleSize.height);
     _titlelabel.text = model.title;
-    
-    
     if([model getContenHeight]==0){
         topBubble.frame = CGRectMake(_titlelabel.frame.origin.x-5, _titlelabel.frame.origin.y+_titlelabel.frame.size.height, _titlelabel.frame.size.width+10, 0);
         _BubbleView.frame = CGRectMake(topBubble.frame.origin.x, topBubble.frame.origin.y+topBubble.frame.size.height, topBubble.frame.size.width, 0);
@@ -143,7 +141,7 @@
     _content.frame = CGRectMake(_BubbleView.frame.origin.x+5, _BubbleView.frame.origin.y-5, _BubbleView.frame.size.width-10,[model getContenHeight]);
     _content_label.frame = _content.frame;
     _content_label.text = model.content;
-//    _content.text = model.content;
+
     
     _fromHint.frame = CGRectMake(underButtble.frame.origin.x, underButtble.frame.origin.y+underButtble.frame.size.height+12.5, 35,12);
     
@@ -178,6 +176,7 @@
             _lookButton.backgroundColor = [UIColor colorWithHexString:@"#A0A0A0"];
             [[NSUserDefaults standardUserDefaults]setBool:YES forKey:_model.ID];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadData" object:nil];
+
         } failed:^(NSError *error) {
 
         }];

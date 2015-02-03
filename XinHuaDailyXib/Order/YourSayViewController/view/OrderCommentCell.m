@@ -79,6 +79,7 @@
     NSMutableString * string = [[NSMutableString alloc]initWithString:array[1]];
     [string replaceCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
     return string;
+
 }
 
 - (void)awakeFromNib {

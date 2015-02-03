@@ -124,6 +124,7 @@
 //                        [_dataArray addObjectToArray:model headOrFinally:YES];
 //                    }
 //                }
+
             }
             if (requestType==-1) {
                 [_dataArray removeAllObjects];
@@ -173,6 +174,7 @@
 {
     HotForecastModel *model = _dataArray[indexPath.row];
     return [model getContenHeight]+60+model.titleSize.height;
+
 }
 
 - (NSString*)getCurrentTime
@@ -201,6 +203,7 @@
     }
     return YES;
 }
+
 - (void)reloadData
 {
     [_tableView reloadData];

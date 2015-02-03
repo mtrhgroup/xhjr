@@ -30,6 +30,7 @@
     return [super init];
 }
 
+
 - (void)setTitle:(NSString *)title
 {
     if (_title != title) {
@@ -43,7 +44,6 @@
         }else{
             wight = 250;
         }
-        
         if (lessiOS7) {
             _titleSize = [_title sizeWithFont:[UIFont systemFontOfSize:20] constrainedToSize:CGSizeMake(wight, MAXFLOAT)];
         }else{
@@ -97,6 +97,25 @@
 
 
 
+- (NSComparisonResult)compare: (HotForecastModel *)otherModel
+{
+    NSString *time1;
+    NSString *time2;
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    if (self.noticeTime.length ==0) {
+        time1 = self.creatTime;
+        time2 = otherModel.creatTime;
+        [formater setDateFormat:WITHFORMAT];
+    }else{
+        time1 = self.noticeTime;
+        time2 = otherModel.noticeTime;
+        [formater setDateFormat:DATEFORMAT];
+    }
+    NSDate* date1 = [formater dateFromString:time1];
+    NSDate *date2 = [formater dateFromString:time2];
+    NSComparisonResult result = [date1 compare:date2];
+    return result == NSOrderedAscending;  // 降序
+}
 - (NSComparisonResult)compare: (HotForecastModel *)otherModel
 {
     NSString *time1;

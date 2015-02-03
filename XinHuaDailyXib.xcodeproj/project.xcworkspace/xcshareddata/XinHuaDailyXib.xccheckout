@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>E81DC1D3-7A02-45BC-8A9E-16BE0E93E23A</string>
+	<string>D0C263E4-E5DE-4969-86F0-925E328674BC</string>
 	<key>IDESourceControlProjectName</key>
 	<string>XinHuaDailyXib</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -18,7 +18,7 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1BADAB8E07469B3054EF871EB3EC7811D9C473E9</key>
-		<string>../../../dailyinfo</string>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/mtrhgroup/xhjr.git</string>
@@ -34,15 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>1BADAB8E07469B3054EF871EB3EC7811D9C473E9</string>
 			<key>IDESourceControlWCCName</key>
-			<string>dailyinfo</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1BADAB8E07469B3054EF871EB3EC7811D9C473E9</string>
-			<key>IDESourceControlWCCName</key>
-			<string>mtrh</string>
+			<string>xhjr</string>
 		</dict>
 	</array>
 </dict>

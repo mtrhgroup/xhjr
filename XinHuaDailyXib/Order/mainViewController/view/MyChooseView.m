@@ -88,7 +88,6 @@
 {
     [self endEditing:YES];
     NSString *requestString = [NSString stringWithFormat:@"Common_SetLiterMemo.ashx"];
-    //AppDelegate.user_defaults
     NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:[DeviceInfo udid],@"imei", APPID,@"appid",titleString,@"title",contentString,@"content",AppDelegate.user_defaults.sn,@"sn",nil];
     
     [[XHRequest shareInstance]POST_Path:requestString params:postDic completed:^(id JSON, NSString *stringData) {

@@ -178,7 +178,6 @@
     [_bottomScrollView addSubview:arrow];
     
     MyChooseView *myChoose = [[MyChooseView alloc]initWithFrame:CGRectMake(VIEWCONTROLLERWIDTH*3, 0, VIEWCONTROLLERWIDTH, _bottomScrollView.frame.size.height)];
-    myChoose.delegate = self;
     [_bottomScrollView addSubview:myChoose];
     [self setTextColorWithOldState:0 newState:0];
 }

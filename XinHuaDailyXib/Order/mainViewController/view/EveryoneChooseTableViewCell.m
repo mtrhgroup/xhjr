@@ -78,7 +78,7 @@
     _fromLabel.text = [NSString stringWithFormat:@"发起人: %@",[self getUserName:model.user]];
     
     _fromTimeLabel.frame = CGRectMake(280/2, _fromLabel.frame.origin.y, RIGHTVIEWWIGHT/2-10,12);
-//    NSArray *timeArray = [[model.creatTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
+
 //    NSArray *timeArray = [[model.noticeTime componentsSeparatedByString:@" "][0]componentsSeparatedByString:@"-"];
 //    _fromTimeLabel.text = [NSString stringWithFormat:@"发起时间: %@/%@/%@",timeArray[0],timeArray[1],timeArray[2]];
     _fromTimeLabel.text = [Util wrapDateString:model.creatTime];

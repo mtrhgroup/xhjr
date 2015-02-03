@@ -202,7 +202,9 @@ static FMDatabaseOP * instance = nil;
  **/
 -(NSMutableArray *)selectFromCommentTableWithliterId:(NSString *)literid Start:(int)start recordMaxCount:(int)maxcount
 {
+
     NSString * sql = @"select * from comment_table where literid=%@ and state!='2' order by create_at desc limit %d,%d";
+
     
     __block NSMutableArray * array = [NSMutableArray array];
     [_dbQueue inDatabase:^(FMDatabase *db) {
@@ -249,7 +251,6 @@ static FMDatabaseOP * instance = nil;
             }else{
                 sql = [NSString stringWithFormat:@"select * from hotforecast_table where state!='2'  order by notice_date desc, create_at desc limit %d,%d",start,maxcount];
             }
-            
             type = 1;
             break;
         case focus_table_type:

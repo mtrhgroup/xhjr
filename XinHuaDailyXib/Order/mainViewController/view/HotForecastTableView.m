@@ -215,8 +215,10 @@
     }
     return YES;
 }
+
 - (void)reloadData
 {
     [_tableView reloadData];
 }
+
 @end
