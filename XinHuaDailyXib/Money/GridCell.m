@@ -24,6 +24,7 @@
         label.textAlignment=NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:22];
         label.layer.borderWidth=1;
+        label.backgroundColor=[UIColor clearColor];
         label.layer.borderColor=[[UIColor colorWithRed:0x22/255.0 green:0x8c/255.0 blue:0xbe/255.0 alpha:1] CGColor];
         [[self contentView] addSubview:label];
     }
