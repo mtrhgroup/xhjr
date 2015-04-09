@@ -1,63 +1,0 @@
-10
-
-dir
-0
-https://172.16.139.7:52168/svn/iOS/sxtv2/NewsTest
-https://172.16.139.7:52168/svn/iOS
-add
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-45ed5f02-0a77-2944-b364-23015a177a1e
-
-NewsTest-Info.plist
-file
-
-
-
-add
-
-NewsTest-Prefix.pch
-file
-
-
-
-add
-
-NewsTest.h
-file
-
-
-
-add
-
-en.lproj
-dir
-
-
-
-add
-
-NewsTest.m
-file
-
-
-
-add
-

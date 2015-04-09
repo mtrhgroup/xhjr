@@ -197,6 +197,14 @@
     }else{
         _lookButton.backgroundColor = [UIColor colorWithHexString:@"#A0A0A0"];
     }
+    
+    if([self compareWithCurrentTime:model.noticeTime]){
+        _titlelabel.textColor=[UIColor blackColor];
+        _timeLabel.textColor=[UIColor blackColor];
+    }else{
+        _titlelabel.textColor=[UIColor colorWithHexString:@"#A0A0A0"];
+        _timeLabel.textColor=[UIColor colorWithHexString:@"#A0A0A0"];
+    }
     _model = model;
     
 }
@@ -222,7 +230,27 @@
         }];
     }
 }
-
+-(BOOL)compareWithCurrentTime:(NSString*)timeStr
+{
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:DATEFORMAT];
+    
+    NSDate *d=[formater dateFromString:timeStr];
+    
+    NSTimeInterval late=[d timeIntervalSince1970]*1;
+    
+    NSDateFormatter *dateFormtter=[[NSDateFormatter alloc] init];
+    [dateFormtter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString=[dateFormtter stringFromDate:[NSDate date]];
+    NSDate *destDate= [dateFormtter dateFromString:dateString];
+    
+    NSTimeInterval today=[destDate timeIntervalSince1970]*1;
+    NSTimeInterval cha=today-late;
+    if (cha>0) {
+        return NO;
+    }
+    return YES;
+}
 - (void)awakeFromNib {
     // Initialization code
 }

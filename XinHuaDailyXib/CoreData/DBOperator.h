@@ -14,6 +14,7 @@
 -(id)initWithContext:(NSManagedObjectContext *)context;
 -(BOOL)save;
 -(void)addChannel:(Channel *)channel;
+-(void)removeChannel:(Channel *)channel;
 -(void)addKeyword:(Keyword *)keyword;
 -(NSArray *)fetchTrunkChannels;
 -(NSArray *)fetchLeafChannelsWithTrunkChannel:(Channel *)trunk_channel;
@@ -21,6 +22,7 @@
 -(Channel *)fetchMRCJChannel;
 -(Channel *)fetchPicChannel;
 -(NSArray *)fetchHomeChannels;
+-(NSArray *)fetchTopicChannels;
 -(NSArray *)fetchAllChannels;
 -(NSArray *)fetchKeywords;
 -(NSArray *)fetchArticlesThatIsPushed;

@@ -16,6 +16,7 @@
 #import "HomeViewController.h"
 #import "DefaultView.h"
 #import "LeftMenuViewController.h"
+#import "OnlineWebViewController.h"
 @interface DrawerViewController ()
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)   DefaultView *cover_view;
@@ -67,19 +68,23 @@ static const CGFloat kPublicLeftMenuWidth = 260.0f;
     [self presentViewController:nav_vc animated:YES completion:nil];
 }
 -(void)presentArtilceContentVCWithArticle:(Article *)article channel:(Channel *)channel{
-    CATransition *animation = [CATransition animation];
-    animation.duration = 0.4;
-    animation.timingFunction = UIViewAnimationCurveEaseInOut;
-    animation.type = kCATransitionPush;
-    animation.subtype = kCATransitionFromRight;
-    [self.view.window.layer addAnimation:animation forKey:nil];
-    ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
-    UINavigationController  *nav_vc = [[NavigationController alloc] initWithRootViewController:controller];
-    if(![channel.parent_id isEqualToString:@"0"]){
-        [self presentViewController:nav_vc animated:NO completion:nil];
+//    CATransition *animation = [CATransition animation];
+//    animation.duration = 0.4;
+//    animation.timingFunction = UIViewAnimationCurveEaseInOut;
+//    animation.type = kCATransitionPush;
+//    animation.subtype = kCATransitionFromRight;
+//    [self.view.window.layer addAnimation:animation forKey:nil];
+    if(article.is_topic_channel){
+        OnlineWebViewController *controller=[[OnlineWebViewController alloc] init];
+        controller.url=article.page_url;
+        controller.top_name=article.article_title;
+        [((NavigationController *)self.centerViewController) pushViewController:controller animated:YES];
     }else{
-        [self presentViewController:nav_vc animated:NO completion:nil];
+        ArticleViewController *controller=[[ArticleViewController alloc] initWithAritcle:article];
+        [((NavigationController *)self.centerViewController) pushViewController:controller animated:YES];
     }
+
 }
+
 
 @end

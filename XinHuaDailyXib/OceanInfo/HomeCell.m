@@ -80,6 +80,7 @@
         _like_number_lbl.font = [UIFont fontWithName:@"Arial" size:12];
         _like_number_lbl.textColor=[UIColor grayColor];
         [[self contentView] addSubview:_like_number_lbl];
+        
     }
     UIView *line_view = [[UIView alloc]initWithFrame:CGRectMake(0, 94, cell_width, 1)];
     line_view.backgroundColor=[UIColor lightGrayColor];
@@ -90,6 +91,10 @@
     return _article;
 }
 -(void)setArticle:(Article *)article{
+    thumbnail_view.frame=CGRectMake(2, 8, 100, 75);
+    _like_icon.hidden=NO;
+    _comment_icon.hidden=NO;
+    
     if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
         _article=article;
         CGSize title_size;
@@ -107,6 +112,7 @@
             title_label.frame=CGRectMake(106, 5+(65-title_size.height)/2, cell_width-106-2, title_size.height+2);
             summary_label.frame=CGRectMake(106, 70, 150, 17);
         }
+        
         title_label.text=article.article_title;
         _comment_number_lbl.text=[NSString stringWithFormat:@"%d",article.comments_number.integerValue];
         _like_number_lbl.text=[NSString stringWithFormat:@"%d",article.like_number.integerValue];
@@ -115,13 +121,27 @@
         }else{
             _movie_image_view.hidden=YES;
         }
-        
     }
-    summary_label.text=[NSString stringWithFormat:@"%@/%@",article.channel_name,[Util wrapDateString:article.publish_date]];
     if(article.is_read){
         title_label.textColor=[UIColor grayColor];
+    }else{
+        title_label.textColor=[UIColor blackColor];
     }
+    summary_label.text=[NSString stringWithFormat:@"%@/%@",article.channel_name,[Util wrapDateString:article.publish_date]];
+    
+    if(article.is_topic_channel){
+        // thumbnail_view.frame=CGRectMake(5, 5, cell_width-10, 94-10);
+        thumbnail_view.imageURL=article.thumbnail_url;
+        //title_label.text=@"";
+        summary_label.text=@"";
+        _comment_number_lbl.text=@"";
+        _like_number_lbl.text=@"";
+        _like_icon.hidden=YES;
+        _comment_icon.hidden=YES;
+    }
+    
 }
+
 +(CGFloat)preferHeight{
     return 95;
 }

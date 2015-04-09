@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"评论";
+    //self.title=@"评论";
     self.view.backgroundColor=[UIColor whiteColor];
     if(lessiOS7){
         self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];

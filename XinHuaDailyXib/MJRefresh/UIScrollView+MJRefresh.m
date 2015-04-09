@@ -90,6 +90,7 @@ static char MJRefreshFooterViewKey;
     // 1.创建新的header
     if (!self.header) {
         MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+        //[self insertSubview:header belowSubview:header];
         [self addSubview:header];
         self.header = header;
     }

@@ -36,13 +36,16 @@
         [self reloadArticlesFromNET];
     }
 }
--(void)viewDidDisappear:(BOOL)animated{
+-(void)viewWillDisappear:(BOOL)animated{
     [self.top_title removeFromSuperview];
     if([self.service hasAuthorized]){
         [self.tip_view hide];
     }else{
         [self.tip_view show];
     }
+}
+-(void)viewDidDisappear:(BOOL)animated{
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -107,8 +110,6 @@ BOOL _busy=NO;
     } errorHandler:^(NSError *error) {
         _busy=NO;
         [self endLoadingMore];
-        //[self.view.window showHUDWithText:error.localizedDescription Type:ShowPhotoNo Enabled:YES];
-        
     }];
 }
 -(void)tipTouchViewClicked{
@@ -124,6 +125,7 @@ BOOL _busy=NO;
     self.articles_for_hvc=nil;
     self.articles_for_hvc=[self.service fetchOceanHomeArticlesFromDBWithTopN:50];
     [self.tableView reloadData];
+    
     if(self.articles_for_hvc.header_article!=nil){
         if(self.tableView.tableHeaderView==nil){
             ChannelHeader *header=[[ChannelHeader alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width,300)];
@@ -138,13 +140,13 @@ BOOL _busy=NO;
         self.tableView.tableHeaderView=nil;
     }
 }
+
 NSString *HomeListCellID = @"HomeListCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HomeCell *cell=nil;
     cell = [tableView dequeueReusableCellWithIdentifier:HomeListCellID];
     if(cell==nil){
-        NSLog(@"%f",tableView.frame.size.width);
         cell=[[HomeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:HomeListCellID];
     }
     Article *article=[self.articles_for_hvc.other_articles objectAtIndex:indexPath.row];
@@ -165,6 +167,7 @@ NSString *HomeListCellID = @"HomeListCellID";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Article *article = [self.articles_for_hvc.other_articles objectAtIndex:indexPath.row];
+    
     [AppDelegate.main_vc presentArtilceContentVCWithArticle:article channel:self.channel];
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

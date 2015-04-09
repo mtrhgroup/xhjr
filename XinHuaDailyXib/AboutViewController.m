@@ -7,7 +7,7 @@
 //
 
 #import "AboutViewController.h"
-#import "DeviceInfo.h"
+#import "XHDeviceInfo.h"
 #import "NavigationController.h"
 #import "AMBlurView.h"
 @interface AboutViewController()

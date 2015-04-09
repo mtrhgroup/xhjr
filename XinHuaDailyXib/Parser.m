@@ -44,12 +44,15 @@
             channel.show_type=Tile;
         }
         channel.parent_id=[xml findValueFrom:item nodeName:@"parent"];
+        channel.channel_type=[xml findValueFrom:item nodeName:@"type"];
+        channel.icon_url=[xml findValueFrom:item nodeName:@"iconurl"];
         NSString *auth=[xml findValueFrom:item nodeName:@"auth"];
         if([auth isEqualToString:@"1"]){
             channel.need_be_authorized=YES;
         }else{
             channel.need_be_authorized=NO;
         }
+        
         [result addObject:channel];
         item = [xml nextTagFrom:item];
     }

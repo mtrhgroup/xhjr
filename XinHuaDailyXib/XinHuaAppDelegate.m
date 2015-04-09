@@ -40,7 +40,11 @@
         [self.main_vc presentArticleContentVCWithPushArticleID:[pushInfo valueForKey:@"id"]];
     }
     [self performSelectorInBackground:@selector(initBaiduFrontia) withObject:nil];
-
+    [_service checkVersion:^(BOOL isOK) {
+        //<#code#>
+    } errorHandler:^(NSError *error) {
+        //<#code#>
+    }];
     return YES;
 }
 -(void)setupApp{
@@ -52,8 +56,10 @@
 
 -(void)initBaiduFrontia{
     self.share=[Frontia getShare];
-    [self.share registerQQAppId:@"100358052" enableSSO:NO];
-    [self.share registerWeixinAppId:@"wx712df8473f2a1dbe"];
+    [self.share registerQQAppId:@"101027087" enableSSO:NO];
+    [self.share registerWeixinAppId:@"wx618e92e3d2ce515d"];
+//    [self.share registerQQAppId:@"100358052" enableSSO:NO];
+//    [self.share registerWeixinAppId:@"wx712df8473f2a1dbe"];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

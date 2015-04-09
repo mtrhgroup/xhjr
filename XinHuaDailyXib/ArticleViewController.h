@@ -14,7 +14,13 @@
 #import "ZSYPopoverListView.h"
 #import "RefreshTouchView.h"
 #import "ArticleViewDelegate.h"
-@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate,UITextViewDelegate>
+#import "MWPhotoBrowser.h"
+typedef NS_ENUM(NSInteger, PresentType)
+{
+    Present = 0,
+    Push = 1,
+};
+@interface ArticleViewController : UIViewController<UIWebViewDelegate,FontAlertDelegate,TouchViewDelegate,UITextViewDelegate,MWPhotoBrowserDelegate>
 @property(nonatomic,strong)Service *service;
 @property(nonatomic,strong)Article *article;
 @property(nonatomic,strong)NSString *channel_name;

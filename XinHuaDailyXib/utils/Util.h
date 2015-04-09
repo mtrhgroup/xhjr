@@ -10,4 +10,5 @@
 
 @interface Util : NSObject
 +(NSString *)wrapDateString:(NSString *)date;
++ (NSString *)URLEncodedStringWith:(NSString *)original_url;
 @end

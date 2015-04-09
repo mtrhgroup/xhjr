@@ -10,7 +10,7 @@
 #import "UIColor+Hex.h"
 #import "XHRequest.h"
 #import "NSString+SBJSON.h"
-#import "Deviceinfo.h"
+#import "XHDeviceinfo.h"
 
 @interface MyChooseView ()<UITextFieldDelegate,UITextViewDelegate>
 {
@@ -88,7 +88,7 @@
 {
     [self endEditing:YES];
     NSString *requestString = [NSString stringWithFormat:@"Common_SetLiterMemo.ashx"];
-    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:[DeviceInfo udid],@"imei", APPID,@"appid",titleString,@"title",contentString,@"content",AppDelegate.user_defaults.sn,@"sn",nil];
+    NSDictionary *postDic = [NSDictionary dictionaryWithObjectsAndKeys:[XHDeviceInfo udid],@"imei", APPID,@"appid",titleString,@"title",contentString,@"content",AppDelegate.user_defaults.sn,@"sn",nil];
     
     [[XHRequest shareInstance]POST_Path:requestString params:postDic completed:^(id JSON, NSString *stringData) {
         titleTextField.text = @"";

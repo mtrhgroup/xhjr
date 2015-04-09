@@ -69,6 +69,7 @@
 - (void)setTextColor:(UIColor *)textColor
 {
     _textColor = textColor;
+    [self setNeedsDisplay];
 }
 
 - (void)formatString

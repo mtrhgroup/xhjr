@@ -8,7 +8,7 @@
 
 #import "XHRequest.h"
 #import "Communicator.h"
-NSString *const kAPI_BASE_URL = @"http://mis.xinhuanet.com/SXTV2/Mobile/Interface/";
+NSString *const kAPI_BASE_URL = @"http://mis.xinhuanet.com/mif/Common/";
 @implementation XHRequest
 static Communicator *communicator=nil;
 +(XHRequest*)shareInstance

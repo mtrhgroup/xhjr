@@ -23,5 +23,7 @@
 @dynamic a_access_timestamp;
 @dynamic a_receive_new_articles_timestamp;
 @dynamic a_is_auto_cache;
+@dynamic a_icon_url;
+@dynamic a_channel_type;
 
 @end

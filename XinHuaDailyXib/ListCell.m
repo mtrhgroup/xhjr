@@ -94,8 +94,8 @@
         }
         title_label.text=article.article_title;
         summary_label.text=article.summary;
-        _visit_number_lbl.text=[NSString stringWithFormat:@"访问量：%d",article.visit_number.integerValue+100];
-        _like_number_lbl.text=[NSString stringWithFormat:@"点赞量：%d",article.like_number.integerValue+10];
+        _visit_number_lbl.text=[NSString stringWithFormat:@"访问量：%d",article.visit_number.integerValue+25];
+        _like_number_lbl.text=[NSString stringWithFormat:@"点赞量：%d",article.like_number.integerValue+5];
         if(_article.video_url!=nil){
             _movie_image_view.hidden=NO;
         }else{

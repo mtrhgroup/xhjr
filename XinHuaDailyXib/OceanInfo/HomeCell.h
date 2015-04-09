@@ -10,5 +10,6 @@
 #import "Article.h"
 @interface HomeCell : UITableViewCell
 @property(nonatomic,strong)Article *article;
+@property(nonatomic,strong)Channel *top_channel;
 +(CGFloat)preferHeight;
 @end

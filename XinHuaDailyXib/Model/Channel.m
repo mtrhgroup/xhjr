@@ -21,6 +21,8 @@
 @synthesize access_timestamp=_access_timestamp;
 @synthesize receive_new_articles_timestamp=_receive_new_articles_timestamp;
 @synthesize is_auto_cache=_is_auto_cache;
+@synthesize icon_url=_icon_url;
+@synthesize channel_type=_channel_type;
 -(BOOL)has_new_articles{
     if(self.access_timestamp==nil)self.access_timestamp=[NSDate distantPast];
     if(self.receive_new_articles_timestamp==nil)self.receive_new_articles_timestamp=[NSDate distantPast];
@@ -45,6 +47,8 @@
         self.access_timestamp=channel_mo.a_access_timestamp;
         self.receive_new_articles_timestamp=channel_mo.a_receive_new_articles_timestamp;
         self.is_auto_cache=channel_mo.a_is_auto_cache.boolValue;
+        self.channel_type=channel_mo.a_channel_type;
+        self.icon_url=channel_mo.a_icon_url;
     }
     return self;
 }
@@ -61,6 +65,8 @@
     //channelMO.a_access_timestamp=self.access_timestamp;
     //channelMO.a_receive_new_articles_timestamp=self.receive_new_articles_timestamp;
     channelMO.a_is_auto_cache=[NSNumber numberWithBool:self.is_auto_cache];
+    channelMO.a_channel_type=self.channel_type;
+    channelMO.a_icon_url=self.icon_url;
 }
 @end
 @implementation ChannelsForHVC

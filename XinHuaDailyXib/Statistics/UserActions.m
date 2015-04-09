@@ -9,7 +9,7 @@
 #import "UserActions.h"
 #import "UserAction.h"
 #import "URLDefine.h"
-#import "DeviceInfo.h"
+#import "XHDeviceInfo.h"
 @implementation UserActions{
     NSMutableArray *marked_array;
     int window_width;
@@ -78,9 +78,9 @@
         [items_arr addObject:item_dic];
     }
     NSDictionary* json_dic =[NSDictionary dictionaryWithObjectsAndKeys:
-                                    [DeviceInfo osVersion],
+                                    [XHDeviceInfo osVersion],
                                     @"os",
-                             [DeviceInfo udid],
+                             [XHDeviceInfo udid],
                              @"imei",
                                      items_arr,
                                      @"items",

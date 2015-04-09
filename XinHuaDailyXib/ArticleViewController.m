@@ -14,6 +14,8 @@
 #import "FeedBackToEditorViewController.h"
 #import "UIPlaceHolderTextView.h"
 #import "UIButton+Bootstrap.h"
+#import "MWPhotoBrowser.h"
+#import "MWPhoto.h"
 @interface ArticleViewController (){
     Article *_article;
     Service *_service;
@@ -39,9 +41,11 @@
 @property(nonatomic,strong)UITextView *contentTV;
 @property(nonatomic,strong)UIButton *send_btn;
 @property(nonatomic,strong)UIButton *cancel_btn;
+@property(nonatomic,strong)NSMutableArray *photos;
 @end
 
 @implementation ArticleViewController
+@synthesize photos=_photos;
 @synthesize waitingView=_waitingView;
 @synthesize popupMenuView=_popupMenuView;
 @synthesize fontAlertView=_fontAlertView;
@@ -183,7 +187,7 @@
         
         UIButton *share_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34-34,5,34,34)];
         [share_btn setBackgroundImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-        [share_btn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+        [share_btn addTarget:self action:@selector(shareArticle) forControlEvents:UIControlEventTouchUpInside];
         [self.bottom_view addSubview:share_btn];
         
         _collect_btn=[[UIButton alloc]initWithFrame:CGRectMake(self.view.bounds.size.width-5-34,5,34,34)];
@@ -288,6 +292,47 @@
     [_bridge registerHandler:@"openAd" handler:^(id data, WVJBResponseCallback responseCallback) {
         [self navToAdArticleVC];
     }];
+    [_bridge registerHandler:@"showImages" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSString *file_path=[((NSDictionary *)data) objectForKey:@"file"];
+        [self showImagesWithFile:file_path];
+    }];
+    
+}
+-(void)showImagesWithFile:(NSString *)file_path{
+    
+    NSString *file_path_removePrefix=[file_path substringFromIndex:7];
+    self.photos = [NSMutableArray array];
+    [self.photos addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:file_path_removePrefix]]];
+    
+    //[self.photos addObject:[MWPhoto photoWithURL:[NSURL URLWithString:@"http://www.baidu.com/img/bd_logo1.png"]]];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    
+    // Set options
+    browser.displayActionButton = YES; // Show action button to allow sharing, copying, etc (defaults to YES)
+    browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+    browser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    browser.wantsFullScreenLayout = YES; // iOS 5 & 6 only: Decide if you want the photo browser full screen, i.e. whether the status
+    [browser setCurrentPhotoIndex:1];
+    
+    [self.navigationController pushViewController:browser animated:YES];
+    
+    [browser showNextPhotoAnimated:YES];
+    [browser showPreviousPhotoAnimated:YES];
+    [browser setCurrentPhotoIndex:10];
+}
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.photos.count)
+        return [self.photos objectAtIndex:index];
+    return nil;
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
@@ -310,16 +355,19 @@ BOOL isFirst=YES;
         isFirst=NO;
         NSString *js_init_bridge=@"document.addEventListener('WebViewJavascriptBridgeReady', function onBridgeReady(event) {bridge = event.bridge;bridge.init(function(message,responseCallback) {alert('Received message: ' + message);if (responseCallback) {responseCallback('Right back atcha')};});bridge.send('Hello from the javascript');bridge.send('Please respond to this', function responseCallback(responseData) {console.log('Javascript got its response',responseData);});}, false);";
         [webView stringByEvaluatingJavaScriptFromString:js_init_bridge];
-        NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue+100];
+        NSString *js_insert_visit_number=[NSString stringWithFormat:@"var visit=document.createElement('span');document.getElementById('main').childNodes[1].appendChild(visit);visit.setAttribute('style','float:right;margin-right:10px');visit.textContent='访问量:%d';",_article.visit_number.intValue+25];
         NSString *js_insert_ad=[NSString stringWithFormat:@"var ad=document.createElement('div');document.getElementById('main').appendChild(ad);ad.style.textAlign='center';ad.style.fontSize='9px';ad.style.color='gray';var ul=document.createElement('div');var li_tip=document.createElement('div');var li_ad=document.createElement('div');ad.appendChild(ul);ul.appendChild(li_tip);ul.appendChild(li_ad);li_tip.textContent='赞助商提供';pic=document.createElement('img');pic.src='%@';li_ad.appendChild(pic);pic.onclick=function(){if(bridge){bridge.callHandler('openAd','',null)};}",_ad_article.cover_image_url];
         NSString *js_insert_bottom=[NSString stringWithFormat:@"var btm=document.createElement('div');document.getElementById('main').appendChild(btm);btm.style.height='44px';"];
         NSString *js_video=@"var video_element=document.getElementsByTagName('video')[0]; video_element.setAttribute('webkit-playsinline','true')";
+        NSString *js_add_imgOpenAction=@"var img_elements=document.getElementsByTagName('img');for(var i=0;i<img_elements.length;i++){var img_src=img_elements[i].src;img_elements[i].onclick=function(){if(bridge){bridge.callHandler('showImages',{'file':this.src},null);}};}";
+        [webView stringByEvaluatingJavaScriptFromString:js_add_imgOpenAction];
         [webView stringByEvaluatingJavaScriptFromString:js_insert_visit_number];
         if(_ad_article!=nil){
             [webView stringByEvaluatingJavaScriptFromString:js_insert_ad];
         }
         [webView stringByEvaluatingJavaScriptFromString:js_insert_bottom];
         [webView stringByEvaluatingJavaScriptFromString:js_video];
+        
         [self changeWebContentWithWebView:webView];
     }
 }
@@ -377,7 +425,7 @@ BOOL isFirst=YES;
 
 
 #pragma mark - share article
--(void)share{
+-(void)shareArticle{
     FrontiaShare *share = [Frontia getShare];
     
     [share registerQQAppId:@"100358052" enableSSO:NO];

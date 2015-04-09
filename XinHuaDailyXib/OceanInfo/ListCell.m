@@ -90,8 +90,10 @@
     return _article;
 }
 -(void)setArticle:(Article *)article{
+    
     if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
         _article=article;
+        
         CGSize title_size;
         if(article.thumbnail_url==nil||[article.thumbnail_url isEqualToString:@""]){
             title_size=[article.article_title sizeWithFont:title_label.font constrainedToSize:CGSizeMake(cell_width-4, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
@@ -106,6 +108,7 @@
             title_label.frame=CGRectMake(106, 5+(65-title_size.height)/2, cell_width-106-2, title_size.height+2);
             summary_label.frame=CGRectMake(106, 70, 150, 17);
         }
+        
         title_label.text=article.article_title;
         _comment_number_lbl.text=[NSString stringWithFormat:@"%d",article.comments_number.integerValue];
         _like_number_lbl.text=[NSString stringWithFormat:@"%d",article.like_number.integerValue];
@@ -114,12 +117,14 @@
         }else{
             _movie_image_view.hidden=YES;
         }
-        
     }
     summary_label.text=[Util wrapDateString:article.publish_date];
     if(article.is_read){
         title_label.textColor=[UIColor grayColor];
+    }else{
+        title_label.textColor=[UIColor blackColor];
     }
+    
 }
 +(CGFloat)preferHeight{
     return 95;

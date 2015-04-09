@@ -16,7 +16,7 @@
  返回示例 OLD:iphone55（已经绑定）  NEW(注册成功)  INVALID(参数无效)  XXX(直接显示)
  备注
  ---------------------*/
-#define kBindleDeviceURL @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/sjb_bindphone.ashx?imei=%@&model=%@&osversion=iOS%@&appid=%@"
+#define kBindleDeviceURL @"http://mis.xinhuanet.com/mif/Common/common_bindphone.ashx?imei=%@&model=%@&osversion=iOS%@&appid=%@"
 
 
 /*---------------------
@@ -28,7 +28,7 @@
  返回示例 此终端未注册或授权码不存在（已经绑定） OK（绑定成功）
  备注
  ---------------------*/
-#define kBindleSNURL @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/common_bindsn.ashx?phone=%@&imei=%@&code=%@&model=%@&osversion=%@&appid=%@"
+#define kBindleSNURL @"http://mis.xinhuanet.com/mif/Common/common_bindsn.ashx?phone=%@&imei=%@&code=%@&model=%@&osversion=%@&appid=%@"
 
 
 /*---------------------
@@ -40,8 +40,8 @@
  返回示例 periodicallist@sn_state｜periodical｜id:name:description:iconurl:homenum:level:generatetype:subscribe:sort:parent:showtype:type
  备注
  ---------------------*/
-#define kChannelsURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_periodicallist.ashx?imei=%@&appid=%@"
-
+//#define kChannelsURL @"http://mis.xinhuanet.com/SXTV2/Mobile/Interface/XML/JLHY_beta.xml"
+#define kChannelsURL @"http://mis.xinhuanet.com/mif/Common/common_periodicallist.ashx?imei=%@&appid=%@"
 
 /*---------------------
  文章列表URL
@@ -52,7 +52,7 @@
  返回示例 periodicallist|periodical@id@name|item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:summary:thumbnail:pid:coverimg:visit:video
  备注
  ---------------------*/
-#define kLatestArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_newperiodicals.ashx?imei=%@&n=%d&order=desc&pid=%@&time=%@&appid=%@"
+#define kLatestArticlesURL @"http://mis.xinhuanet.com/mif/Common/common_newperiodicals.ashx?imei=%@&n=%d&order=desc&pid=%@&time=%@&appid=%@"
 
 
 /*---------------------
@@ -64,7 +64,7 @@
  返回示例 config|sn_sate:sn_msg:group_title:group_sub_title:startimage:gid
  备注
  ---------------------*/
-#define kAppInfoURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_config.ashx?imei=%@&appid=%@"
+#define kAppInfoURL @"http://mis.xinhuanet.com/mif/Common/common_config.ashx?imei=%@&appid=%@"
 
 
 /*---------------------
@@ -76,7 +76,7 @@
  返回示例 123（点赞数量）
  备注
  ---------------------*/
-#define kLikeURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_litercommend.ashx?imei=%@&literid=%@&appid=%@"
+#define kLikeURL @"http://mis.xinhuanet.com/mif/Common/common_litercommend.ashx?imei=%@&literid=%@&appid=%@"
 
 
 /*---------------------
@@ -86,9 +86,9 @@
  请求类型 GET
  返回类型 TEXT
  返回示例 OK（操作成功）
- 备注
+ 备注 ?imei=%@&sn=%@&email=%@&content=%@&appid=%@&type=%@
  ---------------------*/
-#define kAppFeedBack @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/common_feedback.ashx?imei=%@&sn=%@&email=%@&content=%@&appid=%@&type=%@"
+#define kAppFeedBack @"http://mis.xinhuanet.com/mif/Common/common_feedback.ashx"
 
 
 /*---------------------
@@ -100,7 +100,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kArticleFeedBack @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_literfeedback.ashx?imei=%@&sn=%@&literid=%@&content=%@&appid=%@"
+#define kArticleFeedBack @"http://mis.xinhuanet.com/mif/Common/common_literfeedback.ashx?imei=%@&sn=%@&literid=%@&content=%@&appid=%@"
 
 
 /*---------------------
@@ -112,7 +112,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kTokenURL @"http://mis.xinhuanet.com/sxtv2/mobile/Interface/nsjb_Token_ios.asp?imei=%@&token=%@&appname=lnfb&appid=%@"
+#define kTokenURL @"http://mis.xinhuanet.com/mif/Common/common_Token_ios.ashx?imei=%@&token=%@&appname=lnfb&appid=%@"
 
 
 /*---------------------
@@ -124,7 +124,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kReceivedReportURL @"http://mis.xinhuanet.com/sxtv2/Mobile/Interface/sjb_zipgeted.ashx?imei=%@&pid=%@&gid=%@&osversion=iOS%@"
+#define kReceivedReportURL @"http://mis.xinhuanet.com/mif/Common/common_zipgeted.ashx?imei=%@&pid=%@&gid=%@&osversion=iOS%@"
 
 
 /*---------------------
@@ -136,7 +136,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kClearBadgeURL @"http://mis.xinhuanet.com/sxtv2/mobile/Interface/nsjb_ClearBadge_ios.asp?imei=%@&appid=%@"
+#define kClearBadgeURL @"http://mis.xinhuanet.com/mif/Common/common_ClearBadge_ios.asp?imei=%@&appid=%@"
 
 
 /*---------------------
@@ -148,7 +148,7 @@
  返回示例 periodicalitems@sn_state|item|F_ID:F_InsertTime:F_State
  备注
  ---------------------*/
-#define kCommandsURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_statedperiodicalitem.ashx?imei=%@&pid=%@&n=%@&appid=%@"
+#define kCommandsURL @"http://mis.xinhuanet.com/mif/Common/common_statedperiodicalitem.ashx?imei=%@&pid=%@&n=%@&appid=%@"
 
 
 /*---------------------
@@ -160,7 +160,7 @@
  返回示例 item|id:title:pageurl:zipurl:attachments:date:inserttime:pn:pid:summary:thumbnail
  备注
  ---------------------*/
-#define kOneArticleURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/sjb_periodicalitem.ashx?gid=%@&imei=%@&appid=%@"
+#define kOneArticleURL @"http://mis.xinhuanet.com/mif/Common/common_periodicalitem.ashx?gid=%@&imei=%@&appid=%@"
 
 
 
@@ -173,7 +173,7 @@
  返回示例 OK（操作成功）
  备注
  ---------------------*/
-#define kUserActionsURL @"http://mis.xinhuanet.com/sxtv2/mobile/interface/sjb_literread.ashx"
+#define kUserActionsURL @"http://mis.xinhuanet.com/mif/Common/common_literread.ashx"
 
 
 
@@ -186,7 +186,7 @@
  返回示例 OK（操作成功）ERROR:XXX(错误原因)
  备注
  ---------------------*/
-#define kMMSVeriyCodeURL @"http://mis.xinhuanet.com/SXTV2/mobile/interface/common_mmscode.ashx?imei=%@&phone=%@&appid=%@"
+#define kMMSVeriyCodeURL @"http://mis.xinhuanet.com/mif/Common/common_mmscode.ashx?imei=%@&phone=%@&appid=%@"
 
 
 
@@ -200,7 +200,7 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kDailyArticlesURL @"http://mis.xinhuanet.com/SXTV2/Mobile/interface/common_articles_daily.ashx?imei=%@&order=asc&pid=%@&date=%@&appid=%@&n=100"
+#define kDailyArticlesURL @"http://mis.xinhuanet.com/mif/Common/common_articles_daily.ashx?imei=%@&order=asc&pid=%@&date=%@&appid=%@&n=100"
 
 
 
@@ -215,7 +215,7 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kCommentURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_SetComment.ashx?imei=%@&sn=%@&literid=%@&content=%@&appid=%@"
+#define kCommentURL @"http://mis.xinhuanet.com/mif/Common/common_SetComment.ashx"
 
 
 
@@ -229,7 +229,7 @@
  返回示例 XML
  备注
  ---------------------*/
-#define kCommentListURL @"http://mis.xinhuanet.com/sxtv2/Mobile/interface/common_LiterComment.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=desc"
+#define kCommentListURL @"http://mis.xinhuanet.com/mif/Common/common_LiterComment.ashx?imei=%@&sn=%@&appid=%@&n=%d&literid=%@&time=%@&order=desc"
 /*---------------------
  获取评论数量URL
  参数个数 2
@@ -239,7 +239,7 @@
  返回示例 TEXT
  备注
  ---------------------*/
-#define kCommentsNumberURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_LiterCommentCount.ashx?literid=%@"
+#define kCommentsNumberURL @"http://mis.xinhuanet.com/mif/Common/Common_LiterCommentCount.ashx?literid=%@"
 
 /*---------------------
  关键字URL
@@ -250,7 +250,7 @@
  返回示例 TEXT
  备注
  ---------------------*/
-#define kKeywordsURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/common_key.ashx?appid=%@&imei=%@"
+#define kKeywordsURL @"http://mis.xinhuanet.com/mif/Common/common_key.ashx?appid=%@&imei=%@"
 
 
 /*---------------------
@@ -262,7 +262,7 @@
  返回示例 TEXT
  备注
  ---------------------*/
-#define kOrderListURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_GetLiterMemo.ashx?n=%d&appid=%@&time=%@&imei=%@&timetype=%@&sn=%@&type=%@"
+#define kOrderListURL @"http://mis.xinhuanet.com/mif/Common/Common_GetLiterMemo.ashx?n=%d&appid=%@&time=%@&imei=%@&timetype=%@&sn=%@&type=%@"
 
 
 /*---------------------
@@ -274,7 +274,7 @@
  返回示例 TEXT
  备注
  ---------------------*/
-#define kMakeOrderURL @"http://mis.xinhuanet.com//SXTV2/Mobile/Interface/Common_SetLiterMemo.ashx"
+#define kMakeOrderURL @"http://mis.xinhuanet.com/mif/Common/Common_SetLiterMemo.ashx"
 
 
 /*---------------------
@@ -286,7 +286,7 @@
  返回示例 TEXT
  备注
  ---------------------*/
-#define kOrderCommentsListURL @"http://mis.xinhuanet.com//SXTV2/Mobile/interface/Common_GetLiterMemoComment.ashx?n=%d&appid=%@&time=%@&imei=%@&timetype=%@&sn=%@&mid=%@"
+#define kOrderCommentsListURL @"http://mis.xinhuanet.com/mif/Common/Common_GetLiterMemoComment.ashx?n=%d&appid=%@&time=%@&imei=%@&timetype=%@&sn=%@&mid=%@"
 
 
 
@@ -299,7 +299,7 @@
  返回示例 TEXT
  备注
  ---------------------*/
-#define kMakeOrderCommentURL @"http://mis.xinhuanet.com//SXTV2/Mobile/Interface/Common_SetLiterMemoComment.ashx"
+#define kMakeOrderCommentURL @"http://mis.xinhuanet.com/mif/Common/Common_SetLiterMemoComment.ashx"
 
 /*---------------------
  获取版本信息URL

@@ -101,10 +101,10 @@
         if(jsonArray.count!=0){
             for (NSDictionary *dic in jsonArray)
             {
-//                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
-//                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:focus_table_type];
-//                    continue;
-//                }
+                if ([[[dic objectForKey:@"state"]URLDecodedString]isEqualToString:@"2"]) {
+                    [[FMDatabaseOP shareInstance]deleteDataWithId:[[dic objectForKey:@"ID"] URLDecodedString]andTableType:focus_table_type];
+                    continue;
+                }
                 HotForecastModel *model = [[HotForecastModel alloc]init];
                 model.type = 2;
                 model.ID = [[dic objectForKey:@"ID"] URLDecodedString];

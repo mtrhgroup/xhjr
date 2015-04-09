@@ -52,6 +52,17 @@ static NSString * const E_KEYWORD = @"E_KEYWORD";
     }
     [channel toChannelMO:e_channel];
 }
+-(void)removeChannel:(Channel *)channel{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSPredicate * p = [NSPredicate predicateWithFormat:@"a_channel_id = %@", channel.channel_id];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    if([result count]>0){
+         [_context deleteObject:result[0]];
+    }
+}
 -(void)addKeyword:(Keyword *)keyword{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_KEYWORD inManagedObjectContext:_context];
     NSPredicate * p = [NSPredicate predicateWithFormat:@"a_keyword_id = %@", keyword.keyword_id];
@@ -176,6 +187,22 @@ static NSString * const E_KEYWORD = @"E_KEYWORD";
         [home_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
     }
     return home_channels;
+}
+-(NSArray *)fetchTopicChannels{
+    NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"a_parent_id = %d",-3];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"a_sort_number" ascending:NSOrderedAscending];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    NSFetchRequest *frq = [[NSFetchRequest alloc]init];
+    [frq setEntity:e_channel_desc];
+    [frq setPredicate:p];
+    [frq setSortDescriptors:sortDescriptors];
+    NSArray *result =[_context executeFetchRequest:frq error:nil];
+    NSMutableArray *topic_channels=[NSMutableArray array];
+    for(ChannelMO *amo in result){
+        [topic_channels addObject:[[Channel alloc] initWithChannelMO:amo]];
+    }
+    return topic_channels;
 }
 -(Channel *)fetchADChannel{
     NSEntityDescription * e_channel_desc = [NSEntityDescription entityForName:E_CHANNEL inManagedObjectContext:_context];

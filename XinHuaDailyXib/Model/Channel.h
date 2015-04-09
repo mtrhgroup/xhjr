@@ -40,6 +40,11 @@ typedef NS_ENUM(NSInteger, ShowType)
 @property(nonatomic,strong)NSArray *articles;
 //是否需要授权
 @property(nonatomic,assign)BOOL need_be_authorized;
+//频道图标
+@property(nonatomic,strong)NSString *icon_url;
+//频道类型
+@property(nonatomic,strong)NSString *channel_type;
+
 @property(nonatomic,readonly)BOOL has_new_articles;
 @property(nonatomic,assign)BOOL is_auto_cache;
 

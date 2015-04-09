@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="E_ARTICLE" representedClassName="ArticleMO" syncable="YES">
         <attribute name="a_article_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_article_title" optional="YES" attributeType="String" syncable="YES"/>
@@ -27,8 +27,10 @@
         <attribute name="a_authorize" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="a_channel_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_channel_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="a_channel_type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_home_number" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="a_icon_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="a_is_auto_cache" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <attribute name="a_is_leaf" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="a_parent_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,9 +46,9 @@
     </entity>
     <configuration name="Configuration"/>
     <elements>
-        <element name="E_ARTICLE" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="E_CHANNEL" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="E_KEYWORD" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="E_HOTTOPIC" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="E_ARTICLE" positionX="0" positionY="0" width="128" height="345"/>
+        <element name="E_CHANNEL" positionX="0" positionY="0" width="128" height="255"/>
+        <element name="E_HOTTOPIC" positionX="0" positionY="0" width="128" height="45"/>
+        <element name="E_KEYWORD" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
 </model>

@@ -10,6 +10,7 @@
 #import "LeftViewController.h"
 #import <Frontia/FrontiaPush.h>
 #import <Frontia/Frontia.h>
+#import "Cryptor.h"
 @implementation OceanAppDelegate
 @synthesize service=_service;
 @synthesize channel=_channel;
@@ -61,6 +62,19 @@
     self.main_vc=[[DrawerViewController alloc] init];
     self.reg_vc=[[RegisterViewController alloc] init];
     self.prepare_error_alert=[[UIAlertView alloc] initWithTitle:@"系统初始化失败"  message:@"请联网后重试！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+    Cryptor *cryptor=[[Cryptor alloc] init];
+    NSString *plain_text=@"/mif/Common/common_GetLiterMemo.ashx?n=20&appid=XHJR&time=20501231235959&imei=XHJR_358834047516299&timetype=-1&sn=XHJR_18210972003&type=prevue";
+    NSString *aes_key=@"zhangjian";
+    
+    NSString *cipher_text=[cryptor AES256_Encrypt:plain_text withKey:aes_key];
+    NSString *decrypt_text=[cryptor AES256_Decrypt:cipher_text withKey:aes_key];
+    NSString *md5_text=[cryptor md5:aes_key];
+    NSLog(@"\n md5 :%@",md5_text);
+    NSLog(@"\n plain_text: %@\n cipher_text: %@\n decrypt_text: %@\n",plain_text,cipher_text,decrypt_text);
+    //encrypt
+//    NSString *cipher_text_rsa = [cryptor RSA_EncryptUsingPublicKeyWithData:plain_text];
+//    //decrypt
+//    NSLog(@"\n cipher_text_rsa : %@ \n ",cipher_text_rsa);
 }
 
 -(void)initBaiduFrontia{

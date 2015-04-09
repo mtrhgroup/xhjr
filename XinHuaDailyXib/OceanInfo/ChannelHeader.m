@@ -15,6 +15,7 @@
 @property(nonatomic,strong)UILabel *channel_name_lbl;
 @property(nonatomic,strong)UIImageView *like_icon;
 @property(nonatomic,strong)UIImageView *comment_icon;
+@property(nonatomic,strong)UIView *line_view;
 @end
 @implementation ChannelHeader{
     ALImageView *alImageView;
@@ -28,6 +29,7 @@
 @synthesize like_icon=_like_icon;
 @synthesize like_number_lbl=_like_number_lbl;
 @synthesize channel_name_lbl=_channel_name_lbl;
+@synthesize line_view=_line_view;
 - (instancetype)initWithFrame:(CGRect)frameRect
 {
     self = [super initWithFrame:frameRect];
@@ -80,28 +82,48 @@
         _like_number_lbl.textColor=[UIColor grayColor];
         [self addSubview:_like_number_lbl];
     }
-    UIView *line_view = [[UIView alloc]initWithFrame:CGRectMake(0, _channel_name_lbl.frame.origin.y+_channel_name_lbl.frame.size.height+4, self.bounds.size.width, 1)];
-    line_view.backgroundColor=[UIColor lightGrayColor];
-    [self addSubview:line_view];
+    self.line_view = [[UIView alloc]initWithFrame:CGRectMake(0, _channel_name_lbl.frame.origin.y+_channel_name_lbl.frame.size.height+4, self.bounds.size.width, 1)];
+    self.line_view.backgroundColor=[UIColor lightGrayColor];
+    [self addSubview:self.line_view];
     return self;
 }
 -(void)setArticle:(Article *)article{
-    if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
-        _article=article;
-        label.text=article.article_title;
-        if(article.cover_image_url==nil)
-            alImageView.imageURL=article.thumbnail_url;
-        else
-            alImageView.imageURL=article.cover_image_url;
-        if(self.is_home_header){
-            _channel_name_lbl.text=[NSString stringWithFormat:@"%@/%@",article.channel_name,[Util wrapDateString:article.publish_date]];
-        }else{
-            _channel_name_lbl.text=[Util wrapDateString:article.publish_date];
+        _channel_name_lbl.hidden=NO;
+        _comment_number_lbl.hidden=NO;
+        _comment_icon.hidden=NO;
+        _like_number_lbl.hidden=NO;
+        _like_icon.hidden=NO;
+        if(_article==nil||![article.article_id isEqualToString:_article.article_id]){
+            _article=article;
+            label.text=article.article_title;
+            if(article.cover_image_url==nil)
+                alImageView.imageURL=article.thumbnail_url;
+            else
+                alImageView.imageURL=article.cover_image_url;
+            if(article.is_topic_channel){
+                _channel_name_lbl.text=@"";
+            }else{
+                if(self.is_home_header){
+                    _channel_name_lbl.text=[NSString stringWithFormat:@"%@/%@",article.channel_name,[Util wrapDateString:article.publish_date]];
+                }else{
+                    _channel_name_lbl.text=[Util wrapDateString:article.publish_date];
+                }
+            }
+            
+            _comment_number_lbl.text=[NSString stringWithFormat:@"%d",article.comments_number.integerValue];
+            _like_number_lbl.text=[NSString stringWithFormat:@"%d",article.like_number.integerValue];
+            self.line_view.frame=CGRectMake(0, _channel_name_lbl.frame.origin.y+_channel_name_lbl.frame.size.height+4, self.bounds.size.width, 1);
         }
-        
-        _comment_number_lbl.text=[NSString stringWithFormat:@"%d",article.comments_number.integerValue];
-        _like_number_lbl.text=[NSString stringWithFormat:@"%d",article.like_number.integerValue];
-    }
+        if(article.is_topic_channel){
+            _article=article;
+            alImageView.imageURL=article.thumbnail_url;
+            _channel_name_lbl.hidden=YES;
+            _comment_number_lbl.hidden=YES;
+            _comment_icon.hidden=YES;
+            _like_number_lbl.hidden=YES;
+            _like_icon.hidden=YES;
+            self.line_view.frame=CGRectMake(0, label.frame.origin.y+label.frame.size.height, self.bounds.size.width, 1);
+        }
 }
 -(void)openArticle{
     if(_article!=nil&&[self.delegate respondsToSelector:@selector(headerClicked:)]){
@@ -109,7 +131,8 @@
     }
 }
 -(CGFloat)preferHeight{
-    return _channel_name_lbl.frame.origin.y+_channel_name_lbl.frame.size.height+5;
+    return self.line_view.frame.origin.y+1;
+   
 }
 
 @end

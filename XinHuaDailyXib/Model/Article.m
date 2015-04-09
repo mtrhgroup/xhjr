@@ -29,6 +29,7 @@
 @synthesize  is_like=_is_like;
 @synthesize  key_words=_key_words;
 @synthesize comments_number=_comments_number;
+@synthesize is_topic_channel=_is_topic_channel;
 
 -(NSString *)page_path{
     NSString *dir_path=[self.zip_path stringByDeletingPathExtension];
@@ -81,7 +82,7 @@
     articleMO.a_page_url=self.page_url;
     articleMO.a_zip_url=self.zip_url;
     articleMO.a_publish_date=self.publish_date;
-    articleMO.a_is_read=[NSNumber numberWithBool:self.is_read];
+    //articleMO.a_is_read=[NSNumber numberWithBool:self.is_read];
     //articleMO.a_is_collected=[NSNumber numberWithBool:self.is_collected];
     articleMO.a_channel_id=self.channel_id;
     articleMO.a_channel_name=self.channel_name;

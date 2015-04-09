@@ -77,4 +77,9 @@
     }
     return timeString;
 }
++ (NSString *)URLEncodedStringWith:(NSString *)original_url
+{
+    NSString *encodedValue = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(nil,(CFStringRef)original_url, nil,(CFStringRef)@"!*'();:@&=+$,/ %#[]", kCFStringEncodingUTF8));
+    return encodedValue;
+}
 @end

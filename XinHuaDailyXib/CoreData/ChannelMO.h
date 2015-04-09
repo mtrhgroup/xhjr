@@ -24,5 +24,7 @@
 @property (nonatomic, retain) NSDate   * a_access_timestamp;
 @property (nonatomic, retain) NSDate   * a_receive_new_articles_timestamp;
 @property (nonatomic, retain) NSNumber * a_is_auto_cache;
+@property (nonatomic, retain) NSString * a_icon_url;
+@property (nonatomic, retain) NSString * a_channel_type;
 
 @end

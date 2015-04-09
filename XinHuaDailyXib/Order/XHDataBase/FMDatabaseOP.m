@@ -247,7 +247,7 @@ static FMDatabaseOP * instance = nil;
         case hotforecast_table_type:
             if(start==0){
                 current_date = [self getCurrentTime];
-                sql = [NSString stringWithFormat:@"select * from hotforecast_table where state!='2' and notice_date>'%@' order by notice_date desc, create_at desc limit %d,%d",current_date,start,maxcount];
+                sql = [NSString stringWithFormat:@"select * from hotforecast_table where state!='2' order by notice_date desc, create_at desc limit %d,%d",start,maxcount];
             }else{
                 sql = [NSString stringWithFormat:@"select * from hotforecast_table where state!='2'  order by notice_date desc, create_at desc limit %d,%d",start,maxcount];
             }
@@ -255,7 +255,7 @@ static FMDatabaseOP * instance = nil;
             break;
         case focus_table_type:
             current_date = [self getCurrentTime];
-            sql = [NSString stringWithFormat:@"select * from focus_table where state!='2' and notice_date>'%@' order by focus_count desc, create_at desc limit %d,%d",current_date,start,maxcount];
+            sql = [NSString stringWithFormat:@"select * from focus_table where state!='2' order by focus_count desc, create_at desc limit %d,%d",start,maxcount];
             type = 2;
             break;
         case yousay_table_type:

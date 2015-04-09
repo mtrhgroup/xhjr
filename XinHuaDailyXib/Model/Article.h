@@ -51,6 +51,8 @@
 @property(nonatomic,readonly)BOOL         is_cached;
 //是否点赞
 @property(nonatomic,assign)BOOL           is_like;
+//is Topic Channel
+@property(nonatomic,assign)BOOL           is_topic_channel;
 //关键词
 @property(nonatomic,strong)NSString *key_words;
 @property(nonatomic,strong)NSNumber *comments_number;
@@ -67,6 +69,7 @@
 @property(nonatomic,strong)NSDictionary *channel_marks;
 @property(nonatomic,strong)Article *header_article;
 @property(nonatomic,strong)NSArray *other_articles;
+@property(nonatomic,strong)NSArray *topic_channels;
 @property(readonly,assign)BOOL is_empty;
 -(NSString *)lastPublicDateInChannelWithChannelID:(NSString *)channel_id;
 

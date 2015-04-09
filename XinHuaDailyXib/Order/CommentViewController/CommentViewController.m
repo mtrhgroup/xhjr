@@ -12,7 +12,7 @@
 #import "CommentView.h"
 #import "XHRequest.h"
 #import "NSString+Addtions.h"
-#import "Deviceinfo.h"
+#import "XHDeviceinfo.h"
 
 @interface CommentViewController ()<UITextViewDelegate,UIAlertViewDelegate>
 {
@@ -109,7 +109,7 @@
 //    [request setPostValue:self.commentID    forKey:@"mid"];
 //    [request setPostValue:contentString    forKey:@"content"];
 //    [request setPostValue:@"MRCJ"    forKey:@"appid"];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[DeviceInfo udid],@"imei", APPID,@"appid",self.commentID ,@"mid",contentString,@"content",AppDelegate.user_defaults.sn,@"sn",nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[XHDeviceInfo udid],@"imei", APPID,@"appid",self.commentID ,@"mid",contentString,@"content",AppDelegate.user_defaults.sn,@"sn",nil];
     [[XHRequest shareInstance]POST_Path:@"Common_SetLiterMemoComment.ashx" params:dic completed:^(id JSON, NSString *stringData) {
         [self.navigationController popViewControllerAnimated:YES];
     } failed:^(NSError *error) {

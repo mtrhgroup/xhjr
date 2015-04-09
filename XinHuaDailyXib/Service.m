@@ -13,7 +13,7 @@
 #import "DBOperator.h"
 #import "FSManager.h"
 #import "URLDefine.h"
-#import "DeviceInfo.h"
+#import "XHDeviceInfo.h"
 #import "UserDefaults.h"
 #import "Command.h"
 #import "UserActions.h"
@@ -21,6 +21,7 @@
 #import "DefaultError.h"
 #import "ParserFailedError.h"
 #import "BindleLostError.h"
+#import "Util.h"
 @implementation Service{
     Communicator *_communicator;
     Parser *_parser;
@@ -230,9 +231,8 @@
     
 }
 #endif
-
 -(void)registerDevice:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[DeviceInfo udid],[DeviceInfo phoneModel],[DeviceInfo osVersion],AppID];
+    NSString *url=[NSString stringWithFormat:kBindleDeviceURL,[XHDeviceInfo udid],[XHDeviceInfo phoneModel],[XHDeviceInfo osVersion],AppID];
     url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OLD"].location!=NSNotFound){
@@ -271,7 +271,7 @@
     }];
 }
 -(void)registerPhoneNumberWithPhoneNumber:(NSString *)phone_number verifyCode:(NSString *)verify_code successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kBindleSNURL,phone_number,[DeviceInfo udid],verify_code,[DeviceInfo phoneModel],[DeviceInfo osVersion],AppID];
+    NSString *url=[NSString stringWithFormat:kBindleSNURL,phone_number,[XHDeviceInfo udid],verify_code,[XHDeviceInfo phoneModel],[XHDeviceInfo osVersion],AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             AppDelegate.user_defaults.sn=[NSString stringWithFormat:@"%@_%@",AppID,phone_number];
@@ -317,7 +317,7 @@
             NSString *time=[aritclesForHVC lastPublicDateInChannelWithChannelID:channel.channel_id];
             if(time==nil)return;
             
-            NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id,time,AppID];
+            NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[XHDeviceInfo udid],topN,channel.channel_id,time,AppID];
             [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
                 
                 dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -378,10 +378,44 @@
 -(ArticlesForHVC *)fetchOceanHomeArticlesFromDBWithTopN:(int)topN{
     ArticlesForHVC *articles_for_hvc=[[ArticlesForHVC alloc] init];
     DBOperator *db_operator=[_db_manager theForegroundOperator];
-    Article *header_article=[db_operator fetchHeaderArticle];
-    NSArray *other_articles=[db_operator fetchOtherArticlesWithExceptArticle:header_article topN:topN];
-    articles_for_hvc.header_article=header_article;
-    articles_for_hvc.other_articles=other_articles;
+    NSArray *topic_channels=[db_operator fetchTopicChannels];
+    if(topic_channels.count>0){
+        Channel *topic_channel=[topic_channels objectAtIndex:0];
+        NSMutableArray *other_articles;
+        if(topic_channel.sort_number==0){
+            Article *header_article=[[Article alloc] init];
+            header_article.is_topic_channel=YES;
+            header_article.thumbnail_url=topic_channel.icon_url;
+            header_article.page_url=topic_channel.description;
+            header_article.article_title=topic_channel.channel_name;
+            articles_for_hvc.header_article=header_article;
+            other_articles=[[NSMutableArray alloc] initWithArray:[db_operator fetchOtherArticlesWithExceptArticle:nil topN:topN]];
+        }else{
+            Article *header_article=[db_operator fetchHeaderArticle];
+            articles_for_hvc.header_article=header_article;
+            other_articles=[[NSMutableArray alloc] initWithArray:[db_operator fetchOtherArticlesWithExceptArticle:header_article topN:topN]];
+        }
+        for(Channel *channel in topic_channels){
+            if(channel.sort_number!=0){
+                Article *article=[[Article alloc] init];
+                article.is_topic_channel=YES;
+                article.thumbnail_url=channel.icon_url;
+                article.page_url=channel.description;
+                article.article_title=topic_channel.channel_name;
+                if(channel.sort_number-1<[other_articles count]){
+                    [other_articles insertObject:article atIndex:channel.sort_number-1];
+                }
+            }
+        }
+        articles_for_hvc.other_articles=other_articles;
+        
+    }else{
+        Article *header_article=[db_operator fetchHeaderArticle];
+        articles_for_hvc.header_article=header_article;
+        NSArray *other_articles=[db_operator fetchOtherArticlesWithExceptArticle:header_article topN:topN];
+        articles_for_hvc.other_articles=other_articles;
+    }
+    
     return articles_for_hvc;
 }
 -(void)fetchHomeArticlesFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
@@ -396,7 +430,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
         NSString *time=[formatter stringFromDate:[NSDate distantFuture]];
-        NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],topN,channel.channel_id,time,AppID];
+        NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[XHDeviceInfo udid],topN,channel.channel_id,time,AppID];
         NSLog(@"####%@ %@",channel.channel_name,url);
         [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -454,7 +488,7 @@
 }
 
 -(void)fetchAppInfo:(void (^)(AppInfo *))successBlock errorHandler:(void (^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kAppInfoURL,[DeviceInfo udid],AppID];
+    NSString *url=[NSString stringWithFormat:kAppInfoURL,[XHDeviceInfo udid],AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         AppInfo *app_info=[_parser parseAppInfo:responseStr];
         AppDelegate.user_defaults.appInfo=app_info;
@@ -489,14 +523,28 @@
     }];
 }
 -(void)fetchChannelsFromNET:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kChannelsURL,[DeviceInfo udid],AppID];
+    NSString *url=[NSString stringWithFormat:kChannelsURL,[XHDeviceInfo udid],AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *channels=[_parser parseChannels:responseStr];
+            
             DBOperator *db_operator=[_db_manager aBackgroundOperator];
-//            if([channels count]>0){
-//                [db_operator removeAllChannels];
-//            }
+            NSArray *local_channels=[db_operator fetchAllChannels];
+            NSMutableArray *toDeleteChannels=[NSMutableArray array];
+            for(Channel *local_channel in local_channels){
+                BOOL toDelete=YES;
+                for(Channel *channel in channels){
+                    if([channel.channel_id isEqualToString:local_channel.channel_id]){
+                        toDelete=NO;
+                    }
+                }
+                if(toDelete){
+                    [toDeleteChannels addObject:local_channel];
+                }
+            }
+            for(Channel *channel in toDeleteChannels){
+                [db_operator removeChannel:channel];
+            }
             for(Channel *channel in channels){
                 [db_operator addChannel:channel];
             }
@@ -547,7 +595,7 @@
 
 }
 -(void)fetchArticlesFromNETWithChannel:(Channel *)channel time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[DeviceInfo udid],20,channel.channel_id,time,AppID];
+    NSString *url=[NSString stringWithFormat:kLatestArticlesURL,[XHDeviceInfo udid],20,channel.channel_id,time,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
@@ -570,7 +618,7 @@
 }
 
 -(void)fetchDailyArticlesFromNETWithChannel:(Channel *)channel date:(NSString *)date successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kDailyArticlesURL,[DeviceInfo udid],channel.channel_id,date,AppID];
+    NSString *url=[NSString stringWithFormat:kDailyArticlesURL,[XHDeviceInfo udid],channel.channel_id,date,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *articles=[_parser parseArticles:responseStr];
@@ -631,7 +679,7 @@
     }];
 }
 -(void)fetchCommentsFromNETWithArticle:(Article *)article time:(NSString *)time successHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kCommentListURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,AppID,20,article.article_content_id,time];
+    NSString *url=[NSString stringWithFormat:kCommentListURL,[XHDeviceInfo udid],AppDelegate.user_defaults.sn,AppID,20,article.article_content_id,time];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *comments=[_parser parseComments:responseStr];
@@ -662,7 +710,7 @@
     }];
 }
 -(void)executeServerCommandsWithChannelID:(NSString *)channel_id successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kCommandsURL,[DeviceInfo udid],channel_id,@"10",AppID];
+    NSString *url=[NSString stringWithFormat:kCommandsURL,[XHDeviceInfo udid],channel_id,@"10",AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *commands=[_parser parseCommands:responseStr];
@@ -706,7 +754,7 @@
 
 -(void)fetchOneArticleWithArticleID:(NSString *)articleID successHandler:(void(^)(Article *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
     if(articleID==nil)return;
-    NSString *url=[NSString stringWithFormat:kOneArticleURL,articleID,[DeviceInfo udid],AppID];
+    NSString *url=[NSString stringWithFormat:kOneArticleURL,articleID,[XHDeviceInfo udid],AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             Article *article=[_parser parseOneArticle:responseStr];
@@ -861,7 +909,7 @@
     return AppDelegate.user_defaults.sn.length>0;
 }
 -(void)likeArticleWithArticle:(Article *)article successHandler:(void(^)(NSString *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kLikeURL,[DeviceInfo udid],article.article_id,AppID];
+    NSString *url=[NSString stringWithFormat:kLikeURL,[XHDeviceInfo udid],article.article_id,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if(successBlock){
             successBlock(responseStr);
@@ -877,8 +925,10 @@
     
 }
 -(void)feedbackArticleWithContent:(NSString *)content article:(Article *)article successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kCommentURL,[DeviceInfo udid],AppDelegate.user_defaults.sn,article.article_content_id,content,AppID];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+//    NSString *url=[NSString stringWithFormat:kCommentURL,[XHDeviceInfo udid],AppDelegate.user_defaults.sn,article.article_content_id,content,AppID];
+//    #define kCommentURL @"http://mis.xinhuanet.com/mif/Common/common_SetComment.ashx?imei=%@&sn=%@&literid=%@&content=%@&appid=%@"
+    NSDictionary *variables=[NSDictionary dictionaryWithObjectsAndKeys:[XHDeviceInfo udid],@"imei",AppDelegate.user_defaults.sn,@"sn",article.article_content_id,@"literid",content,@"content",AppID,@"appid",nil];
+    [_communicator postVariablesToURL:kCommentURL variables:variables successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             if(successBlock){
                 successBlock(YES);
@@ -895,8 +945,8 @@
     }];
 }
 -(void)feedbackAppWithContent:(NSString *)content email:(NSString *)email successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kAppFeedBack,[DeviceInfo udid],AppDelegate.user_defaults.sn,email,content,AppID,@"feedback"];
-    [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
+    NSDictionary *variables=[NSDictionary dictionaryWithObjectsAndKeys:[XHDeviceInfo udid],@"imei",AppDelegate.user_defaults.sn,@"sn",email,@"email",content,@"content",AppID,@"appid",@"feedback",@"type",nil];
+    [_communicator postVariablesToURL:kAppFeedBack  variables:variables  successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             if(successBlock){
                 successBlock(YES);
@@ -913,7 +963,7 @@
     }];
 }
 -(void)requestVerifyCodeWithPhoneNumber:(NSString *)phone_number successHandler:(void(^)(BOOL))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kMMSVeriyCodeURL,[DeviceInfo udid],phone_number,AppID];
+    NSString *url=[NSString stringWithFormat:kMMSVeriyCodeURL,[XHDeviceInfo udid],phone_number,AppID];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         if([responseStr rangeOfString:@"OK"].location!=NSNotFound){
             if(successBlock){
@@ -931,7 +981,7 @@
     }];
 }
 -(void)fetchKeywordsWithSuccessHandler:(void(^)(NSArray *))successBlock errorHandler:(void(^)(NSError *))errorBlock{
-    NSString *url=[NSString stringWithFormat:kKeywordsURL,AppID,[DeviceInfo udid]];
+    NSString *url=[NSString stringWithFormat:kKeywordsURL,AppID,[XHDeviceInfo udid]];
     [_communicator fetchStringAtURL:url successHandler:^(NSString *responseStr) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *keywords=[_parser parseKeywords:responseStr];;
